@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/File/copy.png</file>
+        <file>image/File/cut.png</file>
+        <file>image/File/paste.png</file>
+        <file>image/File/save.png</file>
+        <file>image/Term/serial.png</file>
+        <file>image/Term/ssh.png</file>
+        <file>image/Tool/add.png</file>
+        <file>image/Tool/del.png</file>
+        <file>image/Tool/down.png</file>
+        <file>image/Tool/up.png</file>
+        <file>image/Tool/dot.png</file>
+        <file>image/app.png</file>
+        <file>image/Tool/about.png</file>
+        <file>image/Tool/edit.png</file>
+        <file>image/File/connect.png</file>
+        <file>image/File/disconnect.png</file>
+        <file>image/File/print.png</file>
+        <file>image/Term/telnet.png</file>
+    </qresource>
+</RCC>

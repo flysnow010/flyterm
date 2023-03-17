@@ -1,0 +1,65 @@
+#ifndef CONSOLESCREEN_H
+#define CONSOLESCREEN_H
+#include <QVector>
+#include <QChar>
+
+#include "consolechar.h"
+class QTextEdit;
+class QTextCharFormat;
+
+class ConsoleScreen
+{
+public:
+    ConsoleScreen(int rows = 24, int cols = 100);
+    ConsoleScreen(ConsoleScreen const&) = delete;
+    void operator =(ConsoleScreen const&) = delete;
+
+    ~ConsoleScreen();
+
+    void clear();
+
+    int rows() const { return rows_; }
+    int cols() const { return cols_; }
+    int row() const { return row_ + 1; }
+    int col() const { return col_ + 1; }
+
+    void cursorPos(int row, int col);
+    void cursorRow(int row);
+    void cursorCol(int col);
+    void cursorUp(int count);
+    void cursorDown(int count);
+    void cursorRight(int count);
+    void cursorLeft(int count);
+
+    void scrollRangle(int top, int bottom);
+    void scrollUp(int lines);
+    void scrollDown(int lines);
+
+    void delCharToLineEnd();
+
+    void setForeColor(ColorRole fore) { role_.fore = fore; }
+    void setBackColor(ColorRole back) { role_.back = back; }
+
+    void setText(QString const& text);
+    void drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+                  QTextCharFormat const& text);
+
+    void setDrawLineMode(bool enable) { isDrawLineMode_ = enable; }
+private:
+    typedef QVector<ConsoleChar> ConsoleChars;
+    void scrollUp();
+    void scrollDown();
+    QChar drawChar(QChar ch);
+private:
+    QVector<ConsoleChars *> consoleCharsVec;
+    ConsolRole role_;
+    bool isDrawLineMode_ = false;
+    int top_ = 0;
+    int bottom_ = 0;
+    int row_ = 0;
+    int col_ = 0;
+    int rows_;
+    int cols_;
+};
+
+#endif // CONSOLESCREEN_H

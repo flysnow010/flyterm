@@ -1,0 +1,54 @@
+#ifndef TELNETSESSION_H
+#define TELNETSESSION_H
+
+#include "session.h"
+#include "telnetsettings.h"
+
+class TelnetWidget;
+class TelnetSession : public Session
+{
+    Q_OBJECT
+public:
+    TelnetSession(QString const& name);
+    TelnetSession(QString const& name, TelnetSettings const& settings);
+
+    QString type() const override;
+    QIcon icon() override;
+    void edit() override;
+    bool createShell(QMdiArea *midArea, bool isLog) override;
+    bool runShell() override;
+    void closeSheel(QWidget *widget) override;
+    bool isThisWidget(QWidget *widget) override;
+    int  shellSize() override;
+
+    void sendCommand(QWidget *widget, QString const& command) override;
+    void disconnect(QWidget *widget) override;
+    void save(QWidget *widget) override;
+    void print(QWidget *widget) override;
+    void copy(QWidget *widget) override;
+    void copyAll(QWidget *widget) override;
+    void paste(QWidget *widget) override;
+    void updateHightLighter(QString const& hightLighter) override;
+    void updateFontName(QString const& fontName) override;
+    void updateColorName(QString const& colorName) override;
+    void updatePaletteName(QString const& paletteName) override;
+    void updateFontSize(int fontSize) override;
+    void increaseFontSize(QWidget *widget) override;
+    void decreaseFontSize(QWidget *widget) override;
+    void clearScrollback(QWidget *widget) override;
+
+    void setObject(QJsonObject const& obj) override;
+    QJsonObject object() const override;
+
+    TelnetSettings settings() const { return settings_; }
+private slots:
+    void setHighLighter();
+private:
+    void updateTitle(QString const& name) override;
+private:
+    TelnetSettings settings_;
+    QList<TelnetWidget*> widgets_;
+    int index = 1;
+};
+
+#endif // TELNETSESSION_H
