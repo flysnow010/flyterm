@@ -59,7 +59,9 @@ protected slots:
     void onLeft(int count);
     void onRight(int count);
     void onReturn();
+    void onHome();
     void onEnd();
+    void onDelCharToLineEnd();
     void onText(QString const& text);
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);

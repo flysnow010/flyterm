@@ -45,6 +45,8 @@ void SshConsole::connectCommand()
     if(!commandParser)
         return;
     connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
+    connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
+    connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
@@ -212,11 +214,26 @@ void SshConsole::onReturn()
     }
 }
 
+void SshConsole::onHome()
+{
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::StartOfLine);
+    setTextCursor(cursor);
+}
+
 void SshConsole::onEnd()
 {
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::End);
     setTextCursor(cursor);
+}
+
+void SshConsole::onDelCharToLineEnd()
+{
+    QTextCursor cursor(textCursor());
+    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+    setTextCursor(cursor);
+    textCursor().deleteChar();
 }
 
 void SshConsole::onText(QString const& text)

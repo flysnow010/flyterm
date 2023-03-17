@@ -16,7 +16,9 @@ public:
         BEL = '\007',
         BS  = '\010',
         ESC = '\033',
-        SPACE = '\040'
+        SPACE = '\040',
+        LF = '\012',//\n
+        CR = '\015' //\r
     };
 
     enum Mode {
@@ -37,6 +39,7 @@ signals:
     void onDelCharToLineEnd();
     void onLeft(int count);
     void onRight(int count);
+    void onHome();
     void onRow(int count);
     void onCol(int count);
     void onCleanScreen();

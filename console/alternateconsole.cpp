@@ -195,10 +195,7 @@ void AlternateConsole::insertLine(int lines)
 
 void AlternateConsole::delCharToLineEnd()
 {
-    QTextCursor cursor(textCursor());
-    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-    setTextCursor(cursor);
-    textCursor().deleteChar();
+    onDelCharToLineEnd();
     screen.delCharToLineEnd();
 }
 

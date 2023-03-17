@@ -1,5 +1,5 @@
 #include "sshparser.h"
-
+#include <QDebug>
 SShParser::SShParser()
 {
 
@@ -36,6 +36,23 @@ void SShParser::parse(QByteArray const& data)
                     emit onText(QString::fromUtf8(start, ch - start));
                 start = ch + 1;
                 ch++;
+                break;
+            }
+            case CR:
+            {
+                ch++;
+//                if(ch == end || *ch != LF)
+//                {
+//                    emit onHome();
+//                    emit onDelCharToLineEnd();
+//                    qDebug() << "1: \\r";
+//                    if((ch - 1) > start)
+//                    {
+//                        qDebug() << "2: "<< QString::fromUtf8(start, ch - start - 1);
+//                        emit onText(QString::fromUtf8(start, ch - start - 1));
+//                    }
+//                    start = ch;
+//                }
                 break;
             }
             case BS:
