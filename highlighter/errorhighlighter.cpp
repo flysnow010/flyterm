@@ -81,7 +81,7 @@ void ErrorHighlighter::addCommandFormat()
     format.setFontWeight(QFont::Bold);
     rule.format = format;
 
-    QStringList keywords = QString("cd;arch;ln;pidof;sh;ash;echo;login;"
+    QStringList keywords = QString("sudo;cd;arch;ln;pidof;sh;ash;echo;login;"
                                    "ping;sleep;egrep;ls;ping6;stty;"
                                    "cat;false;lsattr;su;chattr;fdflush;"
                                    "mkdir;printenv;sync;chgrp;fgrep;mknod;"

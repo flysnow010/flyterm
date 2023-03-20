@@ -256,15 +256,13 @@ void SshConsole::putText(QString const& text)
         onReturn();
         return;
     }
-    else if(text == "\r\n")
+
+    if(text == "\r\n")
     {
-        if(isOverWrite)
-        {
-            QTextCursor tc = textCursor();
-            tc.movePosition(QTextCursor::EndOfLine);
-            setTextCursor(tc);
-            isOverWrite = false;
-        }
+        QTextCursor tc = textCursor();
+        tc.movePosition(QTextCursor::EndOfLine);
+        setTextCursor(tc);
+        isOverWrite = false;
     }
 
     QTextCursor tc = textCursor();

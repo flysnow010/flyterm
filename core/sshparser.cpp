@@ -42,13 +42,18 @@ void SShParser::parse(QByteArray const& data)
             {
                 ch++;
                 if(ch != end && *ch == LF)
-                    emit onOverWrite(false);
-                else
                 {
-                    emit onHome();
-                    emit onOverWrite(true);
                     if((ch - 1) > start)
                         emit onText(QString::fromUtf8(start, ch - start - 1));
+                    emit onOverWrite(false);
+                    start = ch - 1;
+                }
+                else
+                {
+                    if((ch - 1) > start)
+                        emit onText(QString::fromUtf8(start, ch - start - 1));
+                    emit onHome();
+                    emit onOverWrite(true);
                     start = ch;
                 }
                 break;
