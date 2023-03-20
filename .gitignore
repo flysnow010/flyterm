@@ -32,7 +32,6 @@ ui_*.h
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
 
 # Executables

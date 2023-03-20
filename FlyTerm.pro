@@ -5,7 +5,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 INCLUDEPATH += ./include
 DEFINES += CRYPTOPP_IMPORTS
-LIBS += -L$$(PWD)\lib -lQSsh -lQTelnet -lCrypto
+CONFIG(debug, debug|release){
+    LIBS += -L$$(PWD)\lib -lQSshd -lQTelnetd -lCrypto
+}
+else
+{
+    LIBS += -L$$(PWD)\lib -lQSsh -lQTelnet -lCrypto
+}
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
