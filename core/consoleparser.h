@@ -40,6 +40,7 @@ signals:
     void onLeft(int count);
     void onRight(int count);
     void onHome();
+    void onOverWrite(bool enable);
     void onRow(int count);
     void onCol(int count);
     void onCleanScreen();

@@ -41,18 +41,16 @@ void SShParser::parse(QByteArray const& data)
             case CR:
             {
                 ch++;
-//                if(ch == end || *ch != LF)
-//                {
-//                    emit onHome();
-//                    emit onDelCharToLineEnd();
-//                    qDebug() << "1: \\r";
-//                    if((ch - 1) > start)
-//                    {
-//                        qDebug() << "2: "<< QString::fromUtf8(start, ch - start - 1);
-//                        emit onText(QString::fromUtf8(start, ch - start - 1));
-//                    }
-//                    start = ch;
-//                }
+                if(ch != end && *ch == LF)
+                    emit onOverWrite(false);
+                else
+                {
+                    emit onHome();
+                    emit onOverWrite(true);
+                    if((ch - 1) > start)
+                        emit onText(QString::fromUtf8(start, ch - start - 1));
+                    start = ch;
+                }
                 break;
             }
             case BS:

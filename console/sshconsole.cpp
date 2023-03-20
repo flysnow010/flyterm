@@ -47,6 +47,7 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
     connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
+    connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
@@ -221,6 +222,11 @@ void SshConsole::onHome()
     setTextCursor(cursor);
 }
 
+void SshConsole::onOverWrite(bool enable)
+{
+    isOverWrite = enable;
+}
+
 void SshConsole::onEnd()
 {
     QTextCursor cursor = textCursor();
@@ -250,8 +256,25 @@ void SshConsole::putText(QString const& text)
         onReturn();
         return;
     }
+    else if(text == "\r\n")
+    {
+        if(isOverWrite)
+        {
+            QTextCursor tc = textCursor();
+            tc.movePosition(QTextCursor::EndOfLine);
+            setTextCursor(tc);
+            isOverWrite = false;
+        }
+    }
 
     QTextCursor tc = textCursor();
+    if(isOverWrite)
+    {
+        tc.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.size());
+        setTextCursor(tc);
+        tc = textCursor();
+    }
+
     tc.insertText(text, isUseColor ? textFormat : normalFormat);
     if(isUseColor)
     {

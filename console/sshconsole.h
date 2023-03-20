@@ -61,6 +61,7 @@ protected slots:
     void onReturn();
     void onHome();
     void onEnd();
+    void onOverWrite(bool enable);
     void onDelCharToLineEnd();
     void onText(QString const& text);
     void onForeColor(ColorRole role);
@@ -100,6 +101,7 @@ private:
     int     fontSize_ = 12;
     QList<int> standardSizes;
     bool isUseColor = false;
+    bool isOverWrite = false;
     int minCursorPos_ = -1;
     int cursorPos = 0;
     int selectStart = 0;
