@@ -188,7 +188,7 @@ void SerialPortWidget::decreaseFontSize()
 
 void SerialPortWidget::clearScrollback()
 {
-    console->clear();
+    console->clearall();
 }
 
 bool SerialPortWidget::runShell(QString const& name, int baudRate)

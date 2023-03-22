@@ -89,6 +89,7 @@ signals:
     void onGotCursorPos(int row, int col);
 public slots:
     void copyAll();
+    void clearall();
     void copyOne();
     bool increaseFontSize();
     bool decreaseFontSize();
@@ -114,6 +115,7 @@ private:
     void clearSelection();
     int selectText();
     int selectText(int start, int end);
+    void updateColors();
     void setForeColor(ColorRole role);
     void setCloseColor();
 private:

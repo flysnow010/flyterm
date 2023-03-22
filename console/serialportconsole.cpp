@@ -172,16 +172,23 @@ void SerialPortConsole::onText(QString const& text)
         logfile_->write(text);
     if(text == "\r")
         return;
+
+    QTextCursor tc = textCursor();
     if(text.startsWith("\r") && !text.startsWith("\r\n"))
     {
         removeCurrentRow();
-        mergeCurrentCharFormat(textFormat);
-        insertPlainText(text.right(text.size() - 1));
+        tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
     }
     else
+        tc.insertText(text, isUseColor ? textFormat : normalFormat);
+
+    if(isUseColor)
     {
-        mergeCurrentCharFormat(textFormat);
-        insertPlainText(text);
+        ColorRange colorRange;
+        colorRange.role = currentForeRole;
+        colorRange.end = tc.position();
+        colorRange.start = colorRange.end - text.size();
+        colorRanges << colorRange;
     }
 }
 
@@ -207,6 +214,12 @@ void SerialPortConsole::copyAll()
     clearSelection();
 }
 
+void SerialPortConsole::clearall()
+{
+    clear();
+    colorRanges.clear();
+}
+
 void SerialPortConsole::copyOne()
 {
     if(selectStart != selectEnd)
@@ -226,6 +239,7 @@ void SerialPortConsole::setFontName(QString const& name)
 {
     fontName_ = name;
     textFormat.setFontFamily(fontName_);
+    normalFormat.setFontFamily(fontName_);
     selectAll();
     setFontFamily(fontName_);
     clearSelection();
@@ -235,6 +249,7 @@ void SerialPortConsole::setFontSize(int fontSize)
 {
     fontSize_ = fontSize;
     textFormat.setFontPointSize(fontSize_);
+    normalFormat.setFontPointSize(fontSize_);
     selectAll();
     setFontPointSize(fontSize_);
     clearSelection();
@@ -413,6 +428,7 @@ void SerialPortConsole::cancelSelection()
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         setTextCursor(cursor);
+        updateColors();
         selectStart = 0;
         selectEnd = 0;
     }
@@ -438,6 +454,27 @@ int SerialPortConsole::selectText(int start, int end)
                         QTextCursor::KeepAnchor, end - start);
     setTextCursor(cursor);
     return pos;
+}
+
+void SerialPortConsole::updateColors()
+{
+    int oldPos = -1;
+    for(int i = 0; i < colorRanges.size(); i++)
+    {
+        if(!(selectStart > colorRanges[i].end || selectEnd < colorRanges[i].start))
+        {
+            int pos = selectText(colorRanges[i].start, colorRanges[i].end);
+            setTextColor(palette_->color(colorRanges[i].role).fore);
+            if(oldPos == -1)
+                oldPos = pos;
+        }
+    }
+    if(oldPos > 0)
+    {
+        QTextCursor cursor = textCursor();
+        cursor.setPosition(oldPos);
+        setTextCursor(cursor);
+    }
 }
 
 void SerialPortConsole::setForeColor(ColorRole role)
