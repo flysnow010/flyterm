@@ -1,7 +1,7 @@
 #ifndef TFTPSERVER_H
 #define TFTPSERVER_H
-#include "tftp.h"
-#include "tftpfile.h"
+#include "tftpserverfile.h"
+
 #include <QObject>
 
 class QUdpSocket;

@@ -1,5 +1,5 @@
 #include "tftpserver.h"
-#include "udpsocket.h"
+#include "serversocket.h"
 #include <QUdpSocket>
 #include <QNetworkDatagram>
 #include <QHostAddress>
@@ -37,17 +37,17 @@ void TFtpServer::readPendingDatagrams()
         QByteArray d = datagram.data();
         std::string transferId = QString("%1:%2").arg(datagram.senderAddress().toString())
                 .arg(datagram.senderPort()).toStdString();
-        TFtpFile::Ptr file = fileManager_->find(transferId);
+        TFtpServerFile::Ptr file = fileManager_->find(transferId);
         if(!file)
         {
-            UdpSocket* udp = new UdpSocket(socket, datagram.senderAddress(), datagram.senderPort());
-            file = TFtpFile::Ptr(new TFtpFile(udp, filePath_.toStdString(), transferId));
+            ServerSocket* udp = new ServerSocket(socket, datagram.senderAddress(), datagram.senderPort());
+            file = TFtpServerFile::Ptr(new TFtpServerFile(udp, filePath_.toStdString(), transferId));
             fileManager_->add(file);
         }
         file->process((uint8_t *)d.data(), d.size());
         if(!file->is_finished())
         {
-            if(file->type() == TFtpFile::Read)
+            if(file->type() == TFtpServerFile::Read)
                 emit statusText(QString("Downloding file: %1, progress: %4% blockNumber(%2/%3)")
                                 .arg(QString::fromStdString(file->filename()))
                                 .arg(file->block_number())
@@ -68,4 +68,3 @@ void TFtpServer::readPendingDatagrams()
         }
     }
 }
-

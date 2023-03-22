@@ -1,5 +1,6 @@
 #include "tftp.h"
 #include <vector>
+#include <sys/stat.h>
 
 #define MIN_PACKET_LEN 4
 
@@ -47,7 +48,7 @@ bool TFtp::process(uint8_t const *data, uint32_t size)
     }
     else if(code == DATA)
     {
-        on_data(block_num(data), &data[MIN_PACKET_LEN], size - MIN_PACKET_LEN);
+        on_data(block_num(data), &data[HEADER_SIZE], size - HEADER_SIZE);
         return true;
     }
     else if(code == ACK)
@@ -57,7 +58,7 @@ bool TFtp::process(uint8_t const *data, uint32_t size)
     }
     else if(code == ERROR)
     {
-        uint8_t const* d = data + MIN_PACKET_LEN;
+        uint8_t const* d = data + HEADER_SIZE;
         uint8_t const *e = data + size;
         uint8_t const *s = d;
 
@@ -70,14 +71,22 @@ bool TFtp::process(uint8_t const *data, uint32_t size)
     return false;
 }
 
+void TFtp::on_read_req(std::string const& , Mode)
+{
+}
+
+void TFtp::on_write_req(std::string const&, Mode)
+{
+}
+
 void TFtp::read_req(std::string const& filename, Mode mode)
 {
     std::string text = getText(mode);
-    std::vector<uint8_t> data(MIN_PACKET_LEN + filename.size() + text.size() + 2, 0);
+    std::vector<uint8_t> data(CODE_SIZE + filename.size() + text.size() + 2, 0);
 
     WITE_CODE(data, RRQ)
-    memcpy(&data[MIN_PACKET_LEN], filename.c_str(), filename.size());
-    memcpy(&data[MIN_PACKET_LEN + filename.size() + 1], text.c_str(), text.size());
+    memcpy(&data[CODE_SIZE], filename.c_str(), filename.size());
+    memcpy(&data[CODE_SIZE + filename.size() + 1], text.c_str(), text.size());
 
     write(&data[0], data.size());
 }
@@ -85,43 +94,43 @@ void TFtp::read_req(std::string const& filename, Mode mode)
 void TFtp::write_req(std::string const& filename, Mode mode)
 {
     std::string text = getText(mode);
-    std::vector<uint8_t> data(MIN_PACKET_LEN + filename.size() + text.size() + 2, 0);
+    std::vector<uint8_t> data(CODE_SIZE + filename.size() + text.size() + 2, 0);
 
     WITE_CODE(data, WRQ)
-    memcpy(&data[MIN_PACKET_LEN], filename.c_str(), filename.size());
-    memcpy(&data[MIN_PACKET_LEN + filename.size() + 1], text.c_str(), text.size());
+    memcpy(&data[CODE_SIZE], filename.c_str(), filename.size());
+    memcpy(&data[CODE_SIZE + filename.size() + 1], text.c_str(), text.size());
 
     write(&data[0], data.size());
 }
 
-void TFtp::send(uint16_t block_number, uint32_t size)
+void TFtp::send(uint16_t block_number, size_t size)
 {
    WITE_HEAD(data_, DATA, block_number)
    block_size_ = size;
-   write(data_, size + MIN_PACKET_LEN);
+   write(data_, size + HEADER_SIZE);
 }
 
 void TFtp::resend()
 {
-    write(data_, block_size_ + MIN_PACKET_LEN);
+    write(data_, block_size_ + HEADER_SIZE);
 }
 
 void TFtp::ack(uint16_t block_number)
 {
-    std::vector<uint8_t> data(MIN_PACKET_LEN);
+    std::vector<uint8_t> data(HEADER_SIZE);
     WITE_HEAD(data, ACK, block_number)
     write(&data[0], data.size());
 }
 
 void TFtp::error(Error error, std::string const& error_msg)
 {
-    std::vector<uint8_t> data(MIN_PACKET_LEN + error_msg.size() + 1);
+    std::vector<uint8_t> data(HEADER_SIZE + error_msg.size() + 1);
     error_ = error;
     error_msg_ = error_msg;
     finished();
 
     WITE_HEAD(data, ERROR, error)
-    memcpy(&data[MIN_PACKET_LEN], error_msg.c_str(), error_msg.size());
+    memcpy(&data[HEADER_SIZE], error_msg.c_str(), error_msg.size());
     data[data.size() - 1] = 0;
 
     write(&data[0], data.size());
@@ -144,4 +153,14 @@ std::string TFtp::getText(TFtp::Mode mode)
     else if(mode == ASCII)
         return std::string("netascii");
    return std::string("mail");
+}
+
+size_t TFtp::get_filesize(const char*filename)
+{
+    if(!filename)
+        return 0;
+    struct stat file_stat;
+    stat(filename, &file_stat);
+    return file_stat.st_size;
+
 }

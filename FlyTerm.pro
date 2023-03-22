@@ -59,10 +59,10 @@ SOURCES += \
     model/treeitem.cpp \
     model/treemodel.cpp \
     service/tftp/baseudp.cpp \
+    service/tftp/serversocket.cpp \
     service/tftp/tftp.cpp \
-    service/tftp/tftpfile.cpp \
     service/tftp/tftpserver.cpp \
-    service/tftp/udpsocket.cpp \
+    service/tftp/tftpserverfile.cpp \
     transfer/xyzmodem/modem.cpp \
     transfer/xyzmodem/xmodem.cpp \
     transfer/xyzmodem/xymodemfilesender.cpp \
@@ -118,10 +118,10 @@ HEADERS += \
     model/treeitem.h \
     model/treemodel.h \
     service/tftp/baseudp.h \
+    service/tftp/serversocket.h \
     service/tftp/tftp.h \
-    service/tftp/tftpfile.h \
     service/tftp/tftpserver.h \
-    service/tftp/udpsocket.h \
+    service/tftp/tftpserverfile.h \
     transfer/xyzmodem/modem.h \
     transfer/xyzmodem/xmodem.h \
     transfer/xyzmodem/xymodemfilesender.h \

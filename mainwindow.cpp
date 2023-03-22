@@ -682,16 +682,17 @@ void MainWindow::tftpServerStart()
 {
     QString filePath = QFileDialog::getExistingDirectory(
                 this, tr("Select TFTP Path"), tftpRootPath);
+
     if(filePath.isEmpty())
         return;
+
     tftpRootPath = filePath;
     tftpServer_->setFilePath(tftpRootPath);
     tftpServer_->start();
     ui->actionTFtpStart->setText(QString("Start server on %1 ").arg(tftpRootPath));
-    ui->actionTFtpStop->setText(QString("Stop server on %1 ").arg(tftpRootPath));
+    ui->actionTFtpStop->setText(QString("Stop server from %1 ").arg(tftpRootPath));
     ui->actionTFtpStart->setEnabled(false);
     ui->actionTFtpStop->setEnabled(true);
-
 }
 
 void MainWindow::tftpServerStop()

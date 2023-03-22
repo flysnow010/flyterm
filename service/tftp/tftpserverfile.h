@@ -1,5 +1,5 @@
-#ifndef TFTPFILE_H
-#define TFTPFILE_H
+#ifndef TFTPSERVERFILE_H
+#define TFTPSERVERFILE_H
 #include "tftp.h"
 
 #include <memory>
@@ -7,59 +7,56 @@
 #include <map>
 
 class BaseUdp;
-class TFtpFile : public TFtp
+class TFtpServerFile : public TFtp
 {
 public:
-    TFtpFile(BaseUdp *udp, std::string const& path, std::string const& id)
+    TFtpServerFile(BaseUdp *udp, std::string const& path, std::string const& id)
         : udp_(udp)
+        , type_(None)
         , file_path_(path)
         , transfer_id_(id)
-        , type_(None)
         , block_number_(0)
     {}
 
-    ~TFtpFile();
+    ~TFtpServerFile();
 
-    using Ptr = std::shared_ptr<TFtpFile>;
-
-    enum Type { None, Read, Write };
+    using Ptr = std::shared_ptr<TFtpServerFile>;
 
     std::string transfer_id() const { return transfer_id_; }
     Type type() const { return type_; }
     std::string filename() const { return filename_; }
     uint16_t block_number() const { return block_number_; }
-    uint16_t block_numbers() const { return (filesize_ + BLOCK_SIZE - 1) / BLOCK_SIZE; }
+    uint16_t block_numbers() const { return static_cast<uint16_t>((filesize_ + BLOCK_SIZE - 1) / BLOCK_SIZE); }
     size_t filesize() const { return filesize_; }
+    size_t file_bytes() const { return file_bytes_; }
 protected:
     void on_read_req(std::string const& filename, Mode mode) override;
     void on_write_req(std::string const& filename, Mode mode) override;
     void on_data(uint16_t block_number, uint8_t const* data, uint32_t size) override;
     void on_ack(uint16_t block_number) override;
     void on_error(uint16_t error, std::string const& error_msg) override;
-
-    uint32_t write(uint8_t const *data, uint32_t size) override;
+    uint32_t write(uint8_t const *data, size_t size) override;
 private:
     void send_data(uint16_t block_number);
     std::string full_fileaname(std::string const& filename) const {
         return file_path_ + filename;
     }
-    size_t get_filesize(const char*filename);
 
-    TFtpFile(TFtpFile const&);
-    TFtpFile(TFtpFile &&);
-    TFtpFile operator == (TFtpFile const&);
-    TFtpFile operator == (TFtpFile &&);
+    TFtpServerFile(TFtpServerFile const&);
+    TFtpServerFile(TFtpServerFile &&);
+    TFtpServerFile operator == (TFtpServerFile const&);
+    TFtpServerFile operator == (TFtpServerFile &&);
 private:
     BaseUdp* udp_;
+    Type type_;
     std::string filename_;
     std::string file_path_;
-    size_t filesize_ = 0;
     std::string transfer_id_;
-    Type type_;
     std::ifstream read_file;
     std::ofstream write_file;
     uint16_t block_number_;
-
+    size_t filesize_ = 0;
+    size_t file_bytes_ = 0;
 };
 
 class TFtpFileManager
@@ -68,16 +65,16 @@ public:
     TFtpFileManager() {}
     using Ptr = std::shared_ptr<TFtpFileManager>;
 
-    int size() const { return tftpFiles_.size(); }
-    TFtpFile::Ptr find(std::string const& transferId)
+    size_t size() const { return tftpFiles_.size(); }
+    TFtpServerFile::Ptr find(std::string const& transferId)
     {
         auto it = tftpFiles_.find(transferId);
         if(it != tftpFiles_.end())
             return it->second;
-        return TFtpFile::Ptr();
+        return TFtpServerFile::Ptr();
     }
 
-    void add(TFtpFile::Ptr const& file) { tftpFiles_[file->transfer_id()] = file; }
+    void add(TFtpServerFile::Ptr const& file) { tftpFiles_[file->transfer_id()] = file; }
     void remove(std::string const& transfer_id)
     {
         auto it = tftpFiles_.find(transfer_id);
@@ -85,7 +82,7 @@ public:
             tftpFiles_.erase(it);
     }
 private:
-    std::map<std::string, TFtpFile::Ptr> tftpFiles_;
+    std::map<std::string, TFtpServerFile::Ptr> tftpFiles_;
 };
 
-#endif // TFTPFILE_H
+#endif // TFTPSERVERFILE_H

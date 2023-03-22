@@ -1,19 +1,17 @@
-#include "tftpfile.h"
+#include "tftpserverfile.h"
 #include "baseudp.h"
 
 #include <iostream>
-#include<sys/stat.h>
 
-TFtpFile::~TFtpFile() { delete udp_; }
+TFtpServerFile::~TFtpServerFile() { delete udp_; }
 
-void TFtpFile::on_read_req(std::string const& filename, Mode mode)//read
+void TFtpServerFile::on_read_req(std::string const& filename, Mode mode)//read
 {
     if(type_ != None)
     {
         error(IllegalOperation, "Illegal TFTP Operation in RRQ");
         return;
     }
-
 
     type_ = Read;
     filename_ = full_fileaname(filename);
@@ -25,7 +23,7 @@ void TFtpFile::on_read_req(std::string const& filename, Mode mode)//read
         read_file.open(filename_.c_str());
 
     if(!read_file.is_open())
-        error(FileNotFound, "File Not Found");
+        error(FileNotFound,  std::string("File(") + filename + std::string(") Not Found"));
     else
     {
         block_number_ = 1;
@@ -34,7 +32,7 @@ void TFtpFile::on_read_req(std::string const& filename, Mode mode)//read
     }
 }
 
-void TFtpFile::on_write_req(std::string const& filename, Mode mode)//write
+void TFtpServerFile::on_write_req(std::string const& filename, Mode mode)//write
 {
     if(type_ != None)
     {
@@ -57,7 +55,7 @@ void TFtpFile::on_write_req(std::string const& filename, Mode mode)//write
         ack(block_number_);//ack(0)
 }
 
-void TFtpFile::on_data(uint16_t block_number, uint8_t const* data, uint32_t size) //write
+void TFtpServerFile::on_data(uint16_t block_number, uint8_t const* data, uint32_t size) //write
 {
     if(type_ != Write)
     {
@@ -70,14 +68,19 @@ void TFtpFile::on_data(uint16_t block_number, uint8_t const* data, uint32_t size
     else
     {
         write_file.write((char *)data, size);
+        file_bytes_ += size;
         ack(block_number);
         block_number_ = block_number;
         if(size < BLOCK_SIZE)
+        {
+            filesize_ = file_bytes_;
+            write_file.close();
             finished();
+        }
     }
 }
 
-void TFtpFile::on_ack(uint16_t block_number) // read
+void TFtpServerFile::on_ack(uint16_t block_number) // read
 {
     if(type_ != Read)
     {
@@ -87,7 +90,6 @@ void TFtpFile::on_ack(uint16_t block_number) // read
 
     if(read_file.eof())
     {
-        std::cout << "send data is finished" << std::endl;
         finished();
         return;
     }
@@ -101,31 +103,22 @@ void TFtpFile::on_ack(uint16_t block_number) // read
     }
 }
 
-void TFtpFile::send_data(uint16_t block_number)
+void TFtpServerFile::send_data(uint16_t block_number)
 {
     char* d = data();
 
     read_file.read(d, TFtp::BLOCK_SIZE);
+    file_bytes_ += read_file.gcount();
     send(block_number, read_file.gcount());
 }
 
-void TFtpFile::on_error(uint16_t error, std::string const& error_msg) //read/write
+void TFtpServerFile::on_error(uint16_t error, std::string const& error_msg) //read/write
 {
     set_error((Error)error, error_msg + std::string(" come from remote"));
     finished();
 }
 
-uint32_t TFtpFile::write(uint8_t const *data, uint32_t size)
+uint32_t TFtpServerFile::write(uint8_t const *data, size_t size)
 {
     return udp_->write((const char*)data, size);
-}
-
-size_t TFtpFile::get_filesize(const char*filename)
-{
-    if(!filename)
-        return 0;
-    struct stat file_stat;
-    stat(filename, &file_stat);
-    return file_stat.st_size;
-
 }

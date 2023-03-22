@@ -21,7 +21,7 @@ public:
         MAIL
     };
 
-    enum Error{
+    enum Error {
         NotDefined        = 0x0000,
         FileNotFound      = 0x0001,
         AccessViolation   = 0x0002,
@@ -37,6 +37,11 @@ public:
         HEADER_SIZE = 4,
         BLOCK_SIZE  = 512
     };
+    enum Type {
+        None,
+        Read,
+        Write
+    };
 
     bool process(uint8_t const *data, uint32_t size);
     bool is_finished() const { return finished_; }
@@ -44,21 +49,20 @@ public:
     Error error() const { return error_; }
     std::string error_msg() const { return error_msg_; }
 protected:
-    virtual void on_read_req(std::string const& filename, Mode mode) = 0;
-    virtual void on_write_req(std::string const& filename, Mode mode) = 0;
+    virtual void on_read_req(std::string const& filename, Mode mode);
+    virtual void on_write_req(std::string const& filename, Mode mode);
     virtual void on_data(uint16_t block_number, uint8_t const*data, uint32_t size) = 0;
     virtual void on_ack(uint16_t block_number) = 0;
     virtual void on_error(uint16_t error, std::string const& error_msg) = 0;
 
-    virtual uint32_t write(uint8_t const *data, uint32_t size) = 0;
+    virtual uint32_t write(uint8_t const *data, size_t size) = 0;
 
     void read_req(std::string const& filename, Mode mode);
     void write_req(std::string const& filename, Mode mode);
-    void send(uint16_t block_number, uint32_t size);
+    void send(uint16_t block_number, size_t size);
     void resend();
     void ack(uint16_t block_number);
     void error(Error error, std::string const& error_msg);
-
 protected:
     char *data() { return (char *)(data_ + HEADER_SIZE); }
     void set_error(Error error, std::string const& error_msg)
@@ -67,6 +71,7 @@ protected:
         error_msg_ = error_msg;
     }
     void finished() { finished_ = true; }
+    size_t get_filesize(const char*filename);
 private:
     uint16_t op_code(uint8_t const *data) { return static_cast<uint16_t>((data[0] << 8) | data[1]); }
     uint16_t block_num(uint8_t const *data) { return static_cast<uint16_t>((data[2] << 8) | data[3]); }
