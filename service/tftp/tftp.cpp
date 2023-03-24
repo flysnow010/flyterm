@@ -162,5 +162,4 @@ size_t TFtp::get_filesize(const char*filename)
     struct stat file_stat;
     stat(filename, &file_stat);
     return file_stat.st_size;
-
 }

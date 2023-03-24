@@ -55,6 +55,7 @@ private:
     std::ifstream read_file;
     std::ofstream write_file;
     uint16_t block_number_;
+    uint32_t block_size_ = 0;
     size_t filesize_ = 0;
     size_t file_bytes_ = 0;
 };
