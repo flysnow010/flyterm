@@ -9,7 +9,7 @@ public:
     SerialPortParser();
 
     void parse(QByteArray const& data) override;
-private:
+protected:
      int parseBs(const char* start, const char* end);
      int parseEsc(const char* start, const char* end);
 };

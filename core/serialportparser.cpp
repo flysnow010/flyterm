@@ -73,7 +73,6 @@ void SerialPortParser::parse(QByteArray const& data)
                 break;
             }
         }
-
     }
 
     if(ch > start)
