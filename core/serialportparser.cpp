@@ -18,7 +18,11 @@ void SerialPortParser::parse(QByteArray const& data)
     else
     {
         setEnterKeyPress(false);
-        parseData_.push_back(QString("\r\n").toUtf8());
+        int index = data.indexOf("\r\n");//ab\r\n or \r\ntext
+        if(index == 0)
+            parseData_.push_back(data);
+        else if(index > 0)
+            parseData_.push_back(data.right(data.size() - index - 1));
     }
 
     const char* start = parseData_.data();
