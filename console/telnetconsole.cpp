@@ -309,6 +309,7 @@ void TelnetConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Left:
         emit getData("\033[D");
+        commandParser->setLeftKeyPress(true);
         break;
     case Qt::Key_Right:
         emit getData("\033[C");

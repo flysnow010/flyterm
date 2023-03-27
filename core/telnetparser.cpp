@@ -44,8 +44,9 @@ void TelnetParser::parse(QByteArray const& data)
             }
             case BS:
             {
-                if(parseData_.size() == 1)
+                if(parseData_.size() == 1 && isLeftKeyPress())
                 {
+                    setLeftKeyPress(true);
                     emit onLeft(1);
                     parseData_.clear();
                     return;

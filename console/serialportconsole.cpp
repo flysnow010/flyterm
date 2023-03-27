@@ -180,7 +180,12 @@ void SerialPortConsole::onText(QString const& text)
         tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
     }
     else
-        tc.insertText(text, isUseColor ? textFormat : normalFormat);
+    {
+        if(text.endsWith("\r"))// \r 和 \n分两次来
+            tc.insertText(text.left(text.size() - 1), isUseColor ? textFormat : normalFormat);
+        else
+            tc.insertText(text, isUseColor ? textFormat : normalFormat);
+    }
 
     if(isUseColor)
     {
@@ -327,6 +332,7 @@ void SerialPortConsole::keyPressEvent(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_Left:
         emit getData("\033[D");
+        commandParser->setLeftKeyPress(true);
         break;
     case Qt::Key_Right:
         emit getData("\033[C");;
