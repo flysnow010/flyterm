@@ -47,7 +47,7 @@ void ErrorHighlighter::addSuccessFormat()
     format.setForeground(Qt::green);
     rule.format = format;
 
-    QStringList keywords = QString("[Oo][Kk];[Ss]uccess;[Ff]inished").split(";");
+    QStringList keywords = QString("[Oo][Kk];[Ss][uU][cC][cC][eE][sS][sS];[Ff]inished;").split(";");
     for(auto const& keyword : keywords)
     {
         rule.pattern = QRegularExpression(QString("\\b%1\\b").arg(keyword));
