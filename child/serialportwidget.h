@@ -69,6 +69,7 @@ private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
     void sendFileByXYModem(QString const& fileName, bool isYModem);
+    void recvFileByXYModem(QString const& fileName, bool isYModem);
 private:
     SerialPortConsole* console;
     CommandThread* commandThread_;

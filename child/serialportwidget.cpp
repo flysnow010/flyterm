@@ -31,8 +31,9 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
-    connect(commandThread_, SIGNAL(onExpandCommand(QString)), this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
-    connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int, int)));
+    connect(commandThread_, SIGNAL(onExpandCommand(QString)),
+            this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
+    connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, &QWidget::customContextMenuRequested,
             this, &SerialPortWidget::customContextMenu);
@@ -238,17 +239,26 @@ void SerialPortWidget::execCommand(QString const& command)
 
 void SerialPortWidget::execExpandCommand(QString const& command)
 {
-    if(command.startsWith("#YMODEM"))
+    QStringList cmds = command.split(' ');
+    if(command.startsWith("#xsend"))
     {
-        QStringList cmds = command.split(' ');
+        if(cmds.size() > 1)
+            sendFileByXYModem(cmds[1], false);
+    }
+    else if(command.startsWith("#ysend"))
+    {
         if(cmds.size() > 1)
             sendFileByXYModem(cmds[1], true);
     }
-    else if(command.startsWith("#XMODEM"))
+    else if(command.startsWith("#xrecv"))
     {
-        QStringList cmds = command.split(' ');
         if(cmds.size() > 1)
-            sendFileByXYModem(cmds[1], false);
+            recvFileByXYModem(cmds[1], false);
+    }
+    else if(command.startsWith("#yrecv"))
+    {
+        if(cmds.size() > 1)
+            recvFileByXYModem(cmds[1], true);
     }
 }
 
@@ -359,4 +369,10 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
     }
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+}
+
+void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
+{
+    Q_UNUSED(fileName)
+    Q_UNUSED(isYModem)
 }
