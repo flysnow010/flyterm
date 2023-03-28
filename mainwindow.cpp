@@ -412,6 +412,11 @@ void MainWindow::updateFontSize(int fontSize)
 
 void MainWindow::createShell(Session::Ptr & session)
 {
+    QObject::disconnect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
+    QObject::disconnect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
+    QObject::disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
+    QObject::disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
+
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     connect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
