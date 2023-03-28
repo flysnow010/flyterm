@@ -1,13 +1,13 @@
-#ifndef YMODERM_H
-#define YMODERM_H
+#ifndef YMODEM_H
+#define YMODEM_H
 #include "xmodem.h"
 #include <cstdint>
 #include <string>
 
-class YModerm : public XModem
+class YModem : public XModem
 {
 public:
-    YModerm();
+    YModem();
 protected:
     bool tx_start(std::string const& filename, std::string const& filesize);
     bool tx_end();
@@ -16,4 +16,4 @@ private:
     void do_end();
 };
 
-#endif // YMODERM_H
+#endif // YMODEM_H

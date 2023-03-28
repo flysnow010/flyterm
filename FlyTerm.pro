@@ -67,7 +67,7 @@ SOURCES += \
     transfer/xyzmodem/xmodem.cpp \
     transfer/xyzmodem/xymodemfilesender.cpp \
     transfer/xyzmodem/xymodemsendfile.cpp \
-    transfer/xyzmodem/ymoderm.cpp \
+    transfer/xyzmodem/ymodem.cpp \
     transfer/xyzmodem/zmodem.cpp \
     util/util.cpp
 
@@ -126,7 +126,7 @@ HEADERS += \
     transfer/xyzmodem/xmodem.h \
     transfer/xyzmodem/xymodemfilesender.h \
     transfer/xyzmodem/xymodemsendfile.h \
-    transfer/xyzmodem/ymoderm.h \
+    transfer/xyzmodem/ymodem.h \
     transfer/xyzmodem/zmodem.h \
     util/util.h
 

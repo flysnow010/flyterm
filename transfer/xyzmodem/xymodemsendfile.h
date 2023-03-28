@@ -1,12 +1,12 @@
 #ifndef XYMODEMSENDFILE_H
 #define XYMODEMSENDFILE_H
-#include "ymoderm.h"
+#include "ymodem.h"
 
 #include <QObject>
 
 class QSerialPort;
 
-class XYModemSendFile : public QObject, public YModerm
+class XYModemSendFile : public QObject, public YModem
 {
     Q_OBJECT
 public:

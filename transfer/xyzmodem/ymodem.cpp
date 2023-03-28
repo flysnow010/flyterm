@@ -1,14 +1,14 @@
-#include "ymoderm.h"
+#include "ymodem.h"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
 
-YModerm::YModerm()
+YModem::YModem()
     : XModem()
 {
 }
 
-bool YModerm::tx_end()
+bool YModem::tx_end()
 {
     do_end();
     if(get_code() == ACK)
@@ -16,7 +16,7 @@ bool YModerm::tx_end()
     return false;
 }
 
-bool YModerm::tx_start(std::string const& filename, std::string const& filesize)
+bool YModem::tx_start(std::string const& filename, std::string const& filesize)
 {
     do_start(filename, filesize);
     uint8_t code = get_code();
@@ -28,7 +28,7 @@ bool YModerm::tx_start(std::string const& filename, std::string const& filesize)
     return true;
 }
 
-void YModerm::do_start(std::string const& filename, std::string const& filesize)
+void YModem::do_start(std::string const& filename, std::string const& filesize)
 {
     uint8_t frame[FRAME_SIZE1] = { SOH, 0, not_id(0) };
     memcpy(&frame[FRAME_HEAD], filename.c_str(), filename.size());
@@ -41,7 +41,7 @@ void YModerm::do_start(std::string const& filename, std::string const& filesize)
     next_id();
 }
 
-void YModerm::do_end()
+void YModem::do_end()
 {
     uint8_t frame[FRAME_SIZE1] = { SOH, 0, not_id(0) };
     uint16_t crc = crc16(frame + FRAME_HEAD, SIZE1);
