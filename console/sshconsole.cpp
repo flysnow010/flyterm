@@ -419,7 +419,6 @@ void SshConsole::insertFromMimeData(const QMimeData *source)
 {
     if(source->hasText())
        emit getData(source->text().toUtf8());
-    QTextEdit::insertFromMimeData(source);
 }
 
 void SshConsole::copyAll()
