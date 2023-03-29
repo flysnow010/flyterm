@@ -63,6 +63,11 @@ SOURCES += \
     service/tftp/tftp.cpp \
     service/tftp/tftpserver.cpp \
     service/tftp/tftpserverfile.cpp \
+    transfer/kermit/kermit.cpp \
+    transfer/kermit/kermitfilerecver.cpp \
+    transfer/kermit/kermitfilesender.cpp \
+    transfer/kermit/kermitrecvfile.cpp \
+    transfer/kermit/kermitsendfile.cpp \
     transfer/xyzmodem/modem.cpp \
     transfer/xyzmodem/xmodem.cpp \
     transfer/xyzmodem/xymodemfilerecver.cpp \
@@ -124,6 +129,11 @@ HEADERS += \
     service/tftp/tftp.h \
     service/tftp/tftpserver.h \
     service/tftp/tftpserverfile.h \
+    transfer/kermit/kermit.h \
+    transfer/kermit/kermitfilerecver.h \
+    transfer/kermit/kermitfilesender.h \
+    transfer/kermit/kermitrecvfile.h \
+    transfer/kermit/kermitsendfile.h \
     transfer/xyzmodem/modem.h \
     transfer/xyzmodem/xmodem.h \
     transfer/xyzmodem/xymodemfilerecver.h \
