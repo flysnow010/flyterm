@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+
 class QSerialPort;
 class XYModemSendFile;
 class XYModemFileSender : public QObject

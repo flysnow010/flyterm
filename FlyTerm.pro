@@ -65,7 +65,9 @@ SOURCES += \
     service/tftp/tftpserverfile.cpp \
     transfer/xyzmodem/modem.cpp \
     transfer/xyzmodem/xmodem.cpp \
+    transfer/xyzmodem/xymodemfilerecver.cpp \
     transfer/xyzmodem/xymodemfilesender.cpp \
+    transfer/xyzmodem/xymodemrecvfile.cpp \
     transfer/xyzmodem/xymodemsendfile.cpp \
     transfer/xyzmodem/ymodem.cpp \
     transfer/xyzmodem/zmodem.cpp \
@@ -124,7 +126,9 @@ HEADERS += \
     service/tftp/tftpserverfile.h \
     transfer/xyzmodem/modem.h \
     transfer/xyzmodem/xmodem.h \
+    transfer/xyzmodem/xymodemfilerecver.h \
     transfer/xyzmodem/xymodemfilesender.h \
+    transfer/xyzmodem/xymodemrecvfile.h \
     transfer/xyzmodem/xymodemsendfile.h \
     transfer/xyzmodem/ymodem.h \
     transfer/xyzmodem/zmodem.h \

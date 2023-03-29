@@ -1,16 +1,21 @@
-#ifndef XYMODEMSENDFILE_H
-#define XYMODEMSENDFILE_H
+#ifndef XYMODEMRECVFILE_H
+#define XYMODEMRECVFILE_H
 #include "ymodem.h"
 
 #include <QObject>
 
 class QSerialPort;
-class XYModemSendFile : public QObject, public YModem
+class XYModemRecvFile : public QObject, public YModem
 {
     Q_OBJECT
 public:
-    explicit XYModemSendFile(QSerialPort *serial, QObject *parent = nullptr);
+    explicit XYModemRecvFile(QSerialPort *serial, QObject *parent = nullptr);
 
+    enum {
+        START_COUNT = 10,
+        TRY_COUNT = 5,
+        TIME_OUT_MS = 2000
+    };
 public slots:
     void startYModem(QString const& fileName);
     void startXModem(QString const& fileName);
@@ -27,12 +32,14 @@ protected:
     uint32_t read(uint8_t *data, uint32_t size) override;
     uint8_t get_code() override;
 private:
+    bool waitStart();
+    void putc(uint8_t c);
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
-    void doError(QString const& text);
 private:
      QSerialPort* serial_;
      volatile bool signal_;
+     uint8_t data_[DATA_SIZE2];
 };
 
-#endif // XYMODEMSENDFILE_H
+#endif // XYMODEMRECVFILE_H

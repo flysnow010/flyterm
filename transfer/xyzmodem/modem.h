@@ -9,7 +9,6 @@ public:
 protected:
     virtual uint32_t write(uint8_t const *data, uint32_t size) = 0;
     virtual uint32_t read(uint8_t *data, uint32_t size) = 0;
-    virtual uint8_t get_code() = 0;
     uint16_t crc16(uint8_t const *data, uint32_t size);
 };
 

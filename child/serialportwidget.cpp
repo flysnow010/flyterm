@@ -2,6 +2,7 @@
 #include "console/serialportconsole.h"
 #include "core/commandthread.h"
 #include "transfer/xyzmodem/xymodemfilesender.h"
+#include "transfer/xyzmodem/xymodemfilerecver.h"
 #include "dialog/sendfileprogressdialog.h"
 #include "highlighter/hightlightermanager.h"
 #include "util/util.h"
@@ -115,6 +116,12 @@ void SerialPortWidget::setHighLighter(QString const& hightLighter)
 
 void SerialPortWidget::receiveFileByXModem()
 {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                    filePath,                                                tr("All files (*.*)"));
+    if(fileName.isEmpty())
+        return;
+    filePath = QFileInfo(fileName).filePath();
+    recvFileByXYModem(fileName, false);
 }
 
 void SerialPortWidget::sendFileByXModem()
@@ -129,6 +136,12 @@ void SerialPortWidget::sendFileByXModem()
 
 void SerialPortWidget::receiveFileByYModem()
 {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                    filePath,                                                tr("All files (*.*)"));
+    if(fileName.isEmpty())
+        return;
+    filePath = QFileInfo(fileName).filePath();
+    recvFileByXYModem(fileName, true);
 }
 
 void SerialPortWidget::sendFileByYModem()
@@ -373,6 +386,40 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
 
 void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
 {
-    Q_UNUSED(fileName)
-    Q_UNUSED(isYModem)
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    SendFileProgressDialog dialog(this);
+    XYModemFileRecver recver(serial, isYModem);
+    connect(&recver, &XYModemFileRecver::gotFileSize, &dialog, &SendFileProgressDialog::setFileSize);
+    connect(&recver, &XYModemFileRecver::progressInfo, &dialog, &SendFileProgressDialog::setProgressInfo);
+    connect(&recver, &XYModemFileRecver::finished, &dialog, &SendFileProgressDialog::finished);
+    connect(&recver, &XYModemFileRecver::error, &dialog, &SendFileProgressDialog::error);
+
+    if(isYModem)
+    {
+        dialog.setTitle("YMODEM Recv");
+        dialog.setProtocol("YMODEM (1K)");
+    }
+    else
+    {
+        dialog.setTitle("XMODEM Recv");
+        dialog.setProtocol("XMODEM (1K)");
+    }
+
+    dialog.setFilename(QFileInfo(fileName).fileName());
+    dialog.setModal(true);
+    dialog.setVisible(true);
+
+    recver.start(fileName);
+    while(!dialog.isFinished())
+    {
+        if(dialog.isCancel())
+        {
+            recver.stop();
+            while(!dialog.isFinished())
+                QApplication::processEvents();
+            recver.cancel();
+        }
+        QApplication::processEvents();
+    }
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }
