@@ -114,7 +114,27 @@ void SerialPortWidget::setHighLighter(QString const& hightLighter)
     highLight_ = hightLighter;
 }
 
-void SerialPortWidget::receiveFileByXModem()
+void SerialPortWidget::recvFileByKermit()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                    filePath,                                                tr("All files (*.*)"));
+    if(fileName.isEmpty())
+        return;
+    filePath = QFileInfo(fileName).filePath();
+    recvFileByKermit(fileName);
+}
+
+void SerialPortWidget::sendFileByKermit()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    filePath,                                                tr("All files (*.*)"));
+    if(fileName.isEmpty())
+        return;
+    filePath = QFileInfo(fileName).filePath();
+    sendFileByKermit(fileName);
+}
+
+void SerialPortWidget::recvFileByXModem()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                                     filePath,                                                tr("All files (*.*)"));
@@ -134,7 +154,7 @@ void SerialPortWidget::sendFileByXModem()
     sendFileByXYModem(fileName, false);
 }
 
-void SerialPortWidget::receiveFileByYModem()
+void SerialPortWidget::recvFileByYModem()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                                     filePath,                                                tr("All files (*.*)"));
@@ -299,12 +319,22 @@ void SerialPortWidget::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Increase font size"), this, SLOT(increaseFontSize()));
     contextMenu.addAction(tr("Decrease font size"), this, SLOT(decreaseFontSize()));
     contextMenu.addSeparator();
-    QMenu* xModem = contextMenu.addMenu("XModem");
-    xModem->addAction(tr("Reveive..."), this, SLOT(receiveFileByXModem()));
-    xModem->addAction(tr("Send..."), this, SLOT(sendFileByXModem()));
-    QMenu* yModem = contextMenu.addMenu("YModem");
-    yModem->addAction(tr("Reveive..."), this, SLOT(receiveFileByYModem()));
-    yModem->addAction(tr("Send..."), this, SLOT(sendFileByYModem()));
+    QMenu* upload = contextMenu.addMenu("Upload");
+    upload->addAction(tr("Kermit Send..."), this, SLOT(sendFileByKermit()));
+    upload->addAction(tr("XModem Send..."), this, SLOT(sendFileByXModem()));
+    upload->addAction(tr("YModem Send..."), this, SLOT(sendFileByXModem()));
+    QMenu* download = contextMenu.addMenu("Download");
+    download->addAction(tr("Kermit Reveive..."), this, SLOT(recvFileByKermit()));
+    download->addAction(tr("XModem Reveive..."), this, SLOT(recvFileByXModem()));
+    download->addAction(tr("YModem Reveive..."), this, SLOT(recvFileByYModem()));
+
+//    QMenu* xModem = contextMenu.addMenu("XModem");
+//    xModem->addAction(tr("Reveive..."), this, SLOT(recvFileByXModem()));
+//    xModem->addAction(tr("Send..."), this, SLOT(sendFileByXModem()));
+//    QMenu* yModem = contextMenu.addMenu("YModem");
+//    yModem->addAction(tr("Reveive..."), this, SLOT(recvFileByYModem()));
+//    yModem->addAction(tr("Send..."), this, SLOT(sendFileByYModem()));
+
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu("Syntax Highlighting"));
     contextMenu.addSeparator();
@@ -340,6 +370,16 @@ void SerialPortWidget::onGotCursorPos(int row, int col)
 {
     QString cursorPos = QString("\033[%1;%2R").arg(row).arg(col);
     serial->write(cursorPos.toUtf8());
+}
+
+void SerialPortWidget::sendFileByKermit(QString const& fileName)
+{
+
+}
+
+void SerialPortWidget::recvFileByKermit(QString const& fileName)
+{
+
 }
 
 void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)

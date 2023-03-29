@@ -36,9 +36,11 @@ public:
     void setHighLighter(QString const& hightLighter);
 
 public slots:
-    void receiveFileByXModem();
+    void recvFileByKermit();
+    void sendFileByKermit();
+    void recvFileByXModem();
     void sendFileByXModem();
-    void receiveFileByYModem();
+    void recvFileByYModem();
     void sendFileByYModem();
     void save();
     void copy();
@@ -68,8 +70,11 @@ private slots:
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
+    void sendFileByKermit(QString const& fileName);
+    void recvFileByKermit(QString const& fileName);
     void sendFileByXYModem(QString const& fileName, bool isYModem);
     void recvFileByXYModem(QString const& fileName, bool isYModem);
+
 private:
     SerialPortConsole* console;
     CommandThread* commandThread_;
