@@ -90,10 +90,20 @@ void MainWindow::createConnets()
     connect(ui->actionConnect, &QAction::triggered,
             this, &MainWindow::newConnect);
     connect(ui->actionDisconnect, &QAction::triggered,
-            this, &MainWindow::disconnect);
+            this, &MainWindow::cancelconnect);
 
+    connect(ui->actionKermitReceive, &QAction::triggered,
+            [=](){ recvFile("Kermit"); });
+    connect(ui->actionKermitSend, &QAction::triggered,
+            [=](){ sendFile("Kermit"); });
+    connect(ui->actionXModemReceive, &QAction::triggered,
+            [=](){ recvFile("XMODEM"); });
+    connect(ui->actionXModemSend, &QAction::triggered,
+            [=](){ sendFile("XMODEM"); });
+    connect(ui->actionYModemReceive, &QAction::triggered,
+            [=](){ recvFile("YMODEM"); });
     connect(ui->actionYModemSend, &QAction::triggered,
-            this, &MainWindow::sendByYModem);
+            [=](){ sendFile("YMODEM"); });
 
     connect(ui->actionSave, &QAction::triggered,
             this, &MainWindow::save);
@@ -412,10 +422,10 @@ void MainWindow::updateFontSize(int fontSize)
 
 void MainWindow::createShell(Session::Ptr & session)
 {
-    QObject::disconnect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
-    QObject::disconnect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
-    QObject::disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
-    QObject::disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
+    disconnect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
+    disconnect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
+    disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
+    disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
 
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
@@ -431,7 +441,7 @@ void MainWindow::createShell(Session::Ptr & session)
     }
 }
 
-void MainWindow::disconnect()
+void MainWindow::cancelconnect()
 {
     QMdiSubWindow* subWindow = activeSubWindow();
     if(subWindow)
@@ -442,14 +452,25 @@ void MainWindow::disconnect()
     }
 }
 
-void MainWindow::sendByYModem()
+void MainWindow::sendFile(QString const& protocol)
 {
     QMdiSubWindow* subWindow = activeSubWindow();
     if(subWindow)
     {
         Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
         if(session)
-            session->sendFile(subWindow->widget(), "YMODEM");
+            session->sendFile(subWindow->widget(), protocol);
+    }
+}
+
+void MainWindow::recvFile(QString const& protocol)
+{
+    QMdiSubWindow* subWindow = activeSubWindow();
+    if(subWindow)
+    {
+        Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+        if(session)
+            session->recvFile(subWindow->widget(), protocol);
     }
 }
 

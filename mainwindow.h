@@ -42,8 +42,8 @@ private slots:
     void tileChildWindow();
     void cascadeChildWindow();
     void maximizeChildWidnow();
-    void disconnect();
-    void sendByYModem();
+    void cancelconnect();
+
     void save();
     void print();
     void copy();
@@ -69,6 +69,8 @@ private slots:
     void tftpServerStart();
     void tftpServerStop();
 private:
+    void sendFile(QString const& protocol);
+    void recvFile(QString const& protocol);
     void createConnets();
     void createDockWidgets();
     void createMenus();

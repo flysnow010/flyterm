@@ -61,6 +61,7 @@ public:
     virtual void clearScrollback(QWidget *widget) = 0;
 
     virtual void sendFile(QWidget *widget, QString const& protocol);
+    virtual void recvFile(QWidget *widget, QString const& protocol);
     virtual void setObject(QJsonObject const& obj) = 0;
     virtual QJsonObject object() const = 0;
 signals:

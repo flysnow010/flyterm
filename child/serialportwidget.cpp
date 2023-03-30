@@ -1,9 +1,11 @@
 #include "serialportwidget.h"
 #include "console/serialportconsole.h"
 #include "core/commandthread.h"
+#include "transfer/kermit/kermitfilesender.h"
+#include "transfer/kermit/kermitfilerecver.h"
 #include "transfer/xyzmodem/xymodemfilesender.h"
 #include "transfer/xyzmodem/xymodemfilerecver.h"
-#include "dialog/sendfileprogressdialog.h"
+#include "dialog/fileprogressdialog.h"
 #include "highlighter/hightlightermanager.h"
 #include "util/util.h"
 
@@ -374,25 +376,82 @@ void SerialPortWidget::onGotCursorPos(int row, int col)
 
 void SerialPortWidget::sendFileByKermit(QString const& fileName)
 {
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
+    FileProgressDialog dialog(this);
+    KermitFileSender sender(serial);
+
+    connect(&sender, &KermitFileSender::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
+    connect(&sender, &KermitFileSender::progressInfo, &dialog, &FileProgressDialog::setProgressInfo);
+    connect(&sender, &KermitFileSender::finished, &dialog, &FileProgressDialog::finished);
+    connect(&sender, &KermitFileSender::error, &dialog, &FileProgressDialog::error);
+
+    dialog.setTitle("Kermit Send");
+    dialog.setProtocol("Kermit");
+    dialog.setFilename(QFileInfo(fileName).fileName());
+    dialog.setModal(true);
+    dialog.setVisible(true);
+
+    sender.start(fileName);
+    while(!dialog.isFinished())
+    {
+        if(dialog.isCancel())
+        {
+            sender.stop();
+            while(!dialog.isFinished())
+                QApplication::processEvents();
+            sender.cancel();
+        }
+        QApplication::processEvents();
+    }
+
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 void SerialPortWidget::recvFileByKermit(QString const& fileName)
 {
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    FileProgressDialog dialog(this);
+    KermitFileRecver recver(serial);
+    connect(&recver, &KermitFileRecver::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
+    connect(&recver, &KermitFileRecver::progressInfo, &dialog, &FileProgressDialog::setProgressInfo);
+    connect(&recver, &KermitFileRecver::finished, &dialog, &FileProgressDialog::finished);
+    connect(&recver, &KermitFileRecver::error, &dialog, &FileProgressDialog::error);
 
+    dialog.setTitle("Kermit Recv");
+    dialog.setProtocol("Kermit");
+
+    dialog.setFilename(QFileInfo(fileName).fileName());
+    dialog.setModal(true);
+    dialog.setVisible(true);
+
+    recver.start(fileName);
+    while(!dialog.isFinished())
+    {
+        if(dialog.isCancel())
+        {
+            recver.stop();
+            while(!dialog.isFinished())
+                QApplication::processEvents();
+            recver.cancel();
+        }
+        QApplication::processEvents();
+    }
+
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
 {
     QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
-    SendFileProgressDialog dialog(this);
+    FileProgressDialog dialog(this);
     XYModemFileSender sender(serial, isYModem);
 
-    connect(&sender, &XYModemFileSender::gotFileSize, &dialog, &SendFileProgressDialog::setFileSize);
-    connect(&sender, &XYModemFileSender::progressInfo, &dialog, &SendFileProgressDialog::setProgressInfo);
-    connect(&sender, &XYModemFileSender::finished, &dialog, &SendFileProgressDialog::finished);
-    connect(&sender, &XYModemFileSender::error, &dialog, &SendFileProgressDialog::error);
+    connect(&sender, &XYModemFileSender::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
+    connect(&sender, &XYModemFileSender::progressInfo, &dialog, &FileProgressDialog::setProgressInfo);
+    connect(&sender, &XYModemFileSender::finished, &dialog, &FileProgressDialog::finished);
+    connect(&sender, &XYModemFileSender::error, &dialog, &FileProgressDialog::error);
 
     if(isYModem)
     {
@@ -427,12 +486,12 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
 void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
 {
     QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-    SendFileProgressDialog dialog(this);
+    FileProgressDialog dialog(this);
     XYModemFileRecver recver(serial, isYModem);
-    connect(&recver, &XYModemFileRecver::gotFileSize, &dialog, &SendFileProgressDialog::setFileSize);
-    connect(&recver, &XYModemFileRecver::progressInfo, &dialog, &SendFileProgressDialog::setProgressInfo);
-    connect(&recver, &XYModemFileRecver::finished, &dialog, &SendFileProgressDialog::finished);
-    connect(&recver, &XYModemFileRecver::error, &dialog, &SendFileProgressDialog::error);
+    connect(&recver, &XYModemFileRecver::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
+    connect(&recver, &XYModemFileRecver::progressInfo, &dialog, &FileProgressDialog::setProgressInfo);
+    connect(&recver, &XYModemFileRecver::finished, &dialog, &FileProgressDialog::finished);
+    connect(&recver, &XYModemFileRecver::error, &dialog, &FileProgressDialog::error);
 
     if(isYModem)
     {
@@ -461,5 +520,6 @@ void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
         }
         QApplication::processEvents();
     }
+
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }

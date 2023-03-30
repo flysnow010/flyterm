@@ -62,6 +62,12 @@ void Session::sendFile(QWidget *widget, QString const& protocol)
     Q_UNUSED(protocol)
 }
 
+void Session::recvFile(QWidget *widget, QString const& protocol)
+{
+    Q_UNUSED(widget)
+    Q_UNUSED(protocol)
+}
+
 SessionManager::SessionManager()
 {
 }

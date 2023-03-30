@@ -45,7 +45,17 @@
       <addaction name="actionYModemReceive"/>
       <addaction name="actionYModemSend"/>
      </widget>
+     <widget class="QMenu" name="menuXMODEM">
+      <property name="title">
+       <string>XMODEM</string>
+      </property>
+      <addaction name="separator"/>
+      <addaction name="separator"/>
+      <addaction name="actionXModemReceive"/>
+      <addaction name="actionXModemSend"/>
+     </widget>
      <addaction name="menuKermit"/>
+     <addaction name="menuXMODEM"/>
      <addaction name="menuYMODEM"/>
     </widget>
     <addaction name="actionConnect"/>
@@ -439,6 +449,16 @@
    </property>
    <property name="statusTip">
     <string>Stop a service of  TFTP server</string>
+   </property>
+  </action>
+  <action name="actionXModemReceive">
+   <property name="text">
+    <string>Receive...</string>
+   </property>
+  </action>
+  <action name="actionXModemSend">
+   <property name="text">
+    <string>Send...</string>
    </property>
   </action>
  </widget>

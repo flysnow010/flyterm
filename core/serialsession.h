@@ -37,6 +37,7 @@ public:
     void decreaseFontSize(QWidget *widget) override;
     void clearScrollback(QWidget *widget) override;
     void sendFile(QWidget *widget, QString const& protocol) override;
+    void recvFile(QWidget *widget, QString const& protocol) override;
 
     void setObject(QJsonObject const& obj) override;
     QJsonObject object() const override;

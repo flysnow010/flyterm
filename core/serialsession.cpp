@@ -208,8 +208,26 @@ void SerialSession::sendFile(QWidget *widget, QString const& protocol)
     SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
     if(theWidget)
     {
-        if(protocol == "YMODEM")
+        if(protocol == "Kermit")
+            theWidget->sendFileByKermit();
+        else if(protocol == "XMODEM")
+            theWidget->sendFileByXModem();
+        else if(protocol == "YMODEM")
             theWidget->sendFileByYModem();
+    }
+}
+
+void SerialSession::recvFile(QWidget *widget, QString const& protocol)
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+    {
+        if(protocol == "Kermit")
+            theWidget->recvFileByKermit();
+        else if(protocol == "XMODEM")
+            theWidget->recvFileByXModem();
+        else if(protocol == "YMODEM")
+            theWidget->recvFileByYModem();
     }
 }
 
