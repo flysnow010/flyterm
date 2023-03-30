@@ -269,13 +269,19 @@ void SerialPortWidget::sendCommands(QStringList const& commands)
 
 void SerialPortWidget::execCommand(QString const& command)
 {
-    serial->write(QString("%1\n").arg(command).toUtf8());
+    serial->write(QString("%1\r").arg(command).toUtf8());
 }
 
 void SerialPortWidget::execExpandCommand(QString const& command)
 {
     QStringList cmds = command.split(' ');
-    if(command.startsWith("#xsend"))
+
+    if(command.startsWith("#ksend"))
+    {
+        if(cmds.size() > 1)
+            sendFileByKermit(cmds[1]);
+    }
+    else if(command.startsWith("#xsend"))
     {
         if(cmds.size() > 1)
             sendFileByXYModem(cmds[1], false);
@@ -284,6 +290,11 @@ void SerialPortWidget::execExpandCommand(QString const& command)
     {
         if(cmds.size() > 1)
             sendFileByXYModem(cmds[1], true);
+    }
+    else if(command.startsWith("#krecv"))
+    {
+        if(cmds.size() > 1)
+            recvFileByKermit(cmds[1]);
     }
     else if(command.startsWith("#xrecv"))
     {
@@ -329,13 +340,6 @@ void SerialPortWidget::customContextMenu(const QPoint &)
     download->addAction(tr("Kermit Reveive..."), this, SLOT(recvFileByKermit()));
     download->addAction(tr("XModem Reveive..."), this, SLOT(recvFileByXModem()));
     download->addAction(tr("YModem Reveive..."), this, SLOT(recvFileByYModem()));
-
-//    QMenu* xModem = contextMenu.addMenu("XModem");
-//    xModem->addAction(tr("Reveive..."), this, SLOT(recvFileByXModem()));
-//    xModem->addAction(tr("Send..."), this, SLOT(sendFileByXModem()));
-//    QMenu* yModem = contextMenu.addMenu("YModem");
-//    yModem->addAction(tr("Reveive..."), this, SLOT(recvFileByYModem()));
-//    yModem->addAction(tr("Send..."), this, SLOT(sendFileByYModem()));
 
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu("Syntax Highlighting"));
