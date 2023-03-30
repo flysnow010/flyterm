@@ -45,8 +45,8 @@ SOURCES += \
     dialog/aboutdialog.cpp \
     dialog/commanddialog.cpp \
     dialog/connectdialog.cpp \
+    dialog/fileprogressdialog.cpp \
     dialog/passworddialog.cpp \
-    dialog/sendfileprogressdialog.cpp \
     dock/buttonsdockwidget.cpp \
     dock/commanddockwidget.cpp \
     dock/sessiondockwidget.cpp \
@@ -112,8 +112,8 @@ HEADERS += \
     dialog/aboutdialog.h \
     dialog/commanddialog.h \
     dialog/connectdialog.h \
+    dialog/fileprogressdialog.h \
     dialog/passworddialog.h \
-    dialog/sendfileprogressdialog.h \
     dock/buttonsdockwidget.h \
     dock/commanddockwidget.h \
     dock/sessiondockwidget.h \
@@ -148,8 +148,8 @@ FORMS += \
     dialog/aboutdialog.ui \
     dialog/commanddialog.ui \
     dialog/connectdialog.ui \
+    dialog/fileprogressdialog.ui \
     dialog/passworddialog.ui \
-    dialog/sendfileprogressdialog.ui \
     dock/buttonsdockwidget.ui \
     dock/commanddockwidget.ui \
     dock/sessiondockwidget.ui \
