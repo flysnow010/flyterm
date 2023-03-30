@@ -23,8 +23,11 @@ signals:
     void finished();
 
 protected:
-    uint32_t write(uint8_t const *data, uint32_t size) override;
-    uint32_t read(uint8_t *data, uint32_t size) override;
+    uint32_t write(char const *data, uint32_t size) override;
+    uint32_t read(char *data, uint32_t size) override;
+private:
+    bool getAck();
+    int getc(char *c);
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
