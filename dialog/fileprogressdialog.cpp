@@ -1,11 +1,11 @@
-#include "sendfileprogressdialog.h"
-#include "ui_sendfileprogressdialog.h"
+#include "fileprogressdialog.h"
+#include "ui_fileprogressdialog.h"
 #include <QApplication>
 #include <QDebug>
 
-SendFileProgressDialog::SendFileProgressDialog(QWidget *parent) :
+FileProgressDialog::FileProgressDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SendFileProgressDialog),
+    ui(new Ui::FileProgressDialog),
     filesize_(0),
     bytesOfSend_(0),
     isCancel_(false),
@@ -19,33 +19,33 @@ SendFileProgressDialog::SendFileProgressDialog(QWidget *parent) :
     connect(ui->cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
 }
 
-SendFileProgressDialog::~SendFileProgressDialog()
+FileProgressDialog::~FileProgressDialog()
 {
     delete ui;
 }
 
-void SendFileProgressDialog::setTitle(QString const& title)
+void FileProgressDialog::setTitle(QString const& title)
 {
     setWindowTitle(QString("%1: %2")
                    .arg(QApplication::applicationName(), title));
 }
 
-void SendFileProgressDialog::setFilename(QString const& filename)
+void FileProgressDialog::setFilename(QString const& filename)
 {
     ui->fileNameEdit->setText(filename);
 }
 
-void SendFileProgressDialog::setProtocol(QString const& protocol)
+void FileProgressDialog::setProtocol(QString const& protocol)
 {
     ui->protocolLabel->setText(protocol);
 }
 
-void SendFileProgressDialog::setFileSize(uint64_t filesize)
+void FileProgressDialog::setFileSize(uint64_t filesize)
 {
     filesize_ = filesize;
 }
 
-void SendFileProgressDialog::setProgressInfo(quint32 blockNumber, quint64 bytesOfSend)
+void FileProgressDialog::setProgressInfo(quint32 blockNumber, quint64 bytesOfSend)
 {
     ui->packetLabel->setText(QString::number(blockNumber));
     ui->bytesLabel->setText(QString::number(bytesOfSend));
@@ -70,19 +70,19 @@ void SendFileProgressDialog::setProgressInfo(quint32 blockNumber, quint64 bytesO
     }
 }
 
-void SendFileProgressDialog::finished()
+void FileProgressDialog::finished()
 {
     isFinished_ = true;
 }
 
-void SendFileProgressDialog::error(QString const& e)
+void FileProgressDialog::error(QString const& e)
 {
     ui->errorLabel->setText(e);
     ui->errorLabel->show();
     qDebug() << e;
 }
 
-void SendFileProgressDialog::cancel()
+void FileProgressDialog::cancel()
 {
     isCancel_ = true;
     reject();

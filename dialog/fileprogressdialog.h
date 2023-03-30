@@ -1,20 +1,20 @@
-#ifndef SENDFILEPROGRESSDIALOG_H
-#define SENDFILEPROGRESSDIALOG_H
+#ifndef FILEPROGRESSDIALOG_H
+#define FILEPROGRESSDIALOG_H
 
 #include <QDialog>
 #include <QTime>
 
 namespace Ui {
-class SendFileProgressDialog;
+class FileProgressDialog;
 }
 
-class SendFileProgressDialog : public QDialog
+class FileProgressDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SendFileProgressDialog(QWidget *parent = nullptr);
-    ~SendFileProgressDialog();
+    explicit FileProgressDialog(QWidget *parent = nullptr);
+    ~FileProgressDialog();
 
     void setTitle(QString const& title);
     void setFilename(QString const& filename);
@@ -31,7 +31,7 @@ public slots:
 private slots:
     void cancel();
 private:
-    Ui::SendFileProgressDialog *ui;
+    Ui::FileProgressDialog *ui;
     quint64 filesize_;
     quint64 bytesOfSend_;
     volatile bool isCancel_;
@@ -39,4 +39,4 @@ private:
     QTime time_;
 };
 
-#endif // SENDFILEPROGRESSDIALOG_H
+#endif // FILEPROGRESSDIALOG_H

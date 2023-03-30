@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SendFileProgressDialog</class>
- <widget class="QDialog" name="SendFileProgressDialog">
+ <class>FileProgressDialog</class>
+ <widget class="QDialog" name="FileProgressDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>313</width>
-    <height>186</height>
+    <height>188</height>
    </rect>
   </property>
   <property name="windowTitle">
