@@ -340,6 +340,7 @@ void SshConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Left:
         emit getData("\033[D");
+        commandParser->setLeftKeyPress(true);
         break;
     case Qt::Key_Right:
         emit getData("\033[C");
@@ -352,6 +353,7 @@ void SshConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Home:
         emit getData("\033[H");
+        commandParser->setHomePress(true);
         break;
     case Qt::Key_End:
         emit getData("\033[F");

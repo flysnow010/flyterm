@@ -35,6 +35,8 @@ public:
     bool isRightKeyPress() const { return isRightKeyPress_; }
     void setEnterKeyPress(bool enable) { isEnterKeyPress_ = enable; }
     bool isEnterKeyPress() const { return isEnterKeyPress_; }
+    void setHomePress(bool enable) { isHomeKeyPress_ = enable; }
+    bool isHomeKeyPress() const { return isHomeKeyPress_; }
 signals:
     void onBeep();
     void onBackspace(int count);
@@ -80,6 +82,7 @@ private:
     bool isLeftKeyPress_ = false;
     bool isRightKeyPress_ = false;
     bool isEnterKeyPress_ = false;
+    bool isHomeKeyPress_ = false;
 };
 
 #endif // CONSOLEPARSER_H

@@ -7,13 +7,6 @@ SShParser::SShParser()
 
 void SShParser::parse(QByteArray const& data)
 {
-    if(isRightKeyPress())
-    {
-        setRightKeyPress(false);
-        emit onRight(1);
-        return;
-    }
-
     if(!isEnterKeyPress())
         parseData_.push_back(data);
     else
@@ -60,8 +53,9 @@ void SShParser::parse(QByteArray const& data)
             }
             case BS:
             {
-                if(parseData_.size() == 1)
+                if(parseData_.size() == 1 && isLeftKeyPress())
                 {
+                    setLeftKeyPress(false);
                     emit onLeft(1);
                     parseData_.clear();
                     return;
@@ -114,7 +108,13 @@ int SShParser::parseBs(const char* start, const char* end)
     }
 
     int size = ch - start;
-    emit onBackspace(size);
+    if(!isHomeKeyPress())
+        emit onBackspace(size);
+    else
+    {
+        setHomePress(false);
+        emit onLeft(size);
+    }
     return size;
 }
 
