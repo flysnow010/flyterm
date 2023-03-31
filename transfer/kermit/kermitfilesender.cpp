@@ -12,13 +12,12 @@ KermitFileSender::KermitFileSender(QSerialPort *serial, QObject *parent)
 
     connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
     connect(this, &KermitFileSender::start_send, worker, &KermitSendFile::start);
-    connect(this, &KermitFileSender::stop_send, worker, &KermitSendFile::stop);
     connect(this, &KermitFileSender::cancel_send, worker, &KermitSendFile::cancel);
     connect(worker, &KermitSendFile::gotFileSize, this, &KermitFileSender::gotFileSize);
     connect(worker, &KermitSendFile::progressInfo, this, &KermitFileSender::progressInfo);
     connect(worker, &KermitSendFile::finished, this, &KermitFileSender::finished);
     connect(worker, &KermitSendFile::error, this, &KermitFileSender::error);
-
+    worker_ = worker;
     workerThread.start();
 }
 
@@ -35,7 +34,7 @@ void KermitFileSender::start(QString const& fileName)
 
 void KermitFileSender::stop()
 {
-    emit stop_send();
+    worker_->stop();
 }
 
 void KermitFileSender::cancel()

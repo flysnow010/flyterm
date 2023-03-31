@@ -25,9 +25,8 @@ signals:
 protected:
     uint32_t write(char const *data, uint32_t size) override;
     uint32_t read(char *data, uint32_t size) override;
-private:
-    bool getAck();
-    int getc(char *c);
+    char getch() override;
+
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };

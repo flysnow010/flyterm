@@ -5,6 +5,7 @@
 #include <QThread>
 
 class QSerialPort;
+class KermitSendFile;
 class KermitFileSender : public QObject
 {
     Q_OBJECT
@@ -14,7 +15,6 @@ public:
 
 signals:
     void start_send(QString const& fileName);
-    void stop_send();
     void cancel_send();
 
     void gotFileSize(quint64 filesize);
@@ -27,6 +27,7 @@ public:
     void cancel();
 private:
    QThread workerThread;
+   KermitSendFile* worker_;
 };
 
 #endif // KERMITFILESENDER_H

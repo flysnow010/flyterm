@@ -14,7 +14,6 @@ KermitRecvFile::KermitRecvFile(QSerialPort *serial, QObject *parent)
 void KermitRecvFile::start(QString const& fileName)
 {
     Q_UNUSED(fileName)
-    start_send();
     emit finished();
     serial_->moveToThread(QApplication::instance()->thread());
 }
@@ -37,4 +36,18 @@ uint32_t KermitRecvFile::write(char const *data, uint32_t size)
 uint32_t KermitRecvFile::read(char *data, uint32_t size)
 {
     return serial_->read(data, size);
+}
+
+char KermitRecvFile::getch()
+{
+    while(!singled())
+    {
+        if(serial_->waitForReadyRead(10))
+        {
+            char c;
+            serial_->read(&c, sizeof(c));
+            return c;
+        }
+    }
+    return NUL;
 }

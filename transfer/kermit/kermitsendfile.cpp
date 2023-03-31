@@ -10,15 +10,13 @@ KermitSendFile::KermitSendFile(QSerialPort *serial, QObject *parent)
     , serial_(serial)
     , signal_(false)
 {
-
 }
 
 void KermitSendFile::start(QString const& fileName)
 {
     Q_UNUSED(fileName)
-    qDebug() << "readBufferSize:" << serial_->readBufferSize();
-    start_send();
-    getAck();
+    send_init();
+    recv_packet();
     emit finished();
     serial_->moveToThread(QApplication::instance()->thread());
 }
@@ -33,38 +31,16 @@ void KermitSendFile::cancel()
 
 }
 
-bool KermitSendFile::getAck()
+char KermitSendFile::getch()
 {
-    char c;
-
-    if(!getc(&c))
-        return false;
-    if(c != MARK)
-        return false;
-    if(!getc(&c))
-        return false;
-    int length = unchar(c);
-    int i = 0;
-    QByteArray data(length + 2, 0);
-    while(!singled() && i < length) {
-        if(getc(&c))
-        {
-           data[i] = c;
-           i++;
+    char c = NUL;
+    while(!singled()) {
+        if(serial_->waitForReadyRead(10)) {
+            serial_->read(&c, sizeof(c));
+            break;
         }
     }
-    qDebug() << data;
-    return true;
-}
-
-int KermitSendFile::getc(char *c)
-{
-    while(!singled())
-    {
-        if(serial_->waitForReadyRead(10))
-            return read(c, 1);
-    }
-    return 0;
+    return c;
 }
 
 uint32_t KermitSendFile::write(char const *data, uint32_t size)
@@ -74,5 +50,10 @@ uint32_t KermitSendFile::write(char const *data, uint32_t size)
 
 uint32_t KermitSendFile::read(char *data, uint32_t size)
 {
-    return serial_->read(data, size);
+    uint32_t read_size = 0;
+    while(!singled() && read_size < size) {
+        if(serial_->waitForReadyRead(10))
+            read_size += serial_->read(data + read_size, size - read_size);
+    }
+    return read_size;
 }

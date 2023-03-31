@@ -24,9 +24,11 @@ public:
     Kermit();
 
     enum Code {
+        NUL = 0x00,
         SOH  = 0x01,
         MARK = SOH,
-        END_CHAR = 0x0D
+        END_CHAR = 0x0D,
+        MAX = 0xFF
     };
 
     enum Type {
@@ -41,30 +43,46 @@ public:
     };
 
     enum Size {
+        MinSize = 3,
         Size1 = 24
     };
 
 protected:
+    virtual void on_init(int seq, const char* data, uint32_t size);
+    virtual void on_file_header(int seq, const char* data, uint32_t size);
+    virtual void on_data(int seq, const char* data, uint32_t size);
+    virtual void on_end(int seq, const char* data, uint32_t size);
+    virtual void on_ack(int seq, const char* data, uint32_t size);
+    virtual void on_nack(int seq, const char* data, uint32_t size);
+    virtual void on_error(int seq, const char* data, uint32_t size);
+
     virtual uint32_t write(char const *data, uint32_t size) = 0;
     virtual uint32_t read(char *data, uint32_t size) = 0;
+    virtual char getch() = 0;
+
 protected:
-    void start_send();
-    void ack(int n);
-    void nack(int n);
-    void send_packe(const char* data, uint32_t size);
-    uint8_t tochar(uint8_t x) { return x + 32; }
-    uint8_t unchar(uint8_t x) { return x - 32; }
-    uint8_t ctl(uint8_t x) { return x^64; }
+    void send_init();
+    void send_data(const char* data, uint32_t size);
+    void send_ack(int n);
+    void send_nack(int n);
+
+    bool send_packet(const char* data, uint32_t size);
+    bool recv_packet();
+
+    uint8_t tochar(char x) { return x + 32; }
+    int unchar(char x) { return int(x - 32); }
+    uint8_t ctl(char x) { return x^64; }
     uint16_t check(const char* p);
-    uint16_t checksum(const char* p);
+    uint16_t check(uint16_t sum, const char* begin, const char* end);
+
+    char ktrans(char in);
 private:
     char data_[Size1];
-    char his_eol = END_CHAR;
-    char maxl = 94;
-    char time = 10;
-    char npad = 0;
-    char padc = 64;
-    char eol = 13;
+    int maxl = 94;
+    int time = 10;
+    int npad = 0;
+    int padc = 64;
+    int eol = END_CHAR;
     char qctl = '#';
 };
 
