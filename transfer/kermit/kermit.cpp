@@ -7,29 +7,29 @@ Kermit::Kermit()
 {
 }
 
-void Kermit::on_init(int seq, const char* data, uint32_t size)
+void Kermit::on_init(int seq, const char* data, int size)
 {
     std::cout << "on_init(" << seq << "," << std::string(data, size) << std::endl;
 }
 
-void Kermit::on_file_header(int seq, const char* data, uint32_t size)
+void Kermit::on_file_header(int seq, const char* data, int size)
 {
     std::cout << "on_file_header(" << seq << "," << std::string(data, size) << std::endl;
 }
 
-void Kermit::on_data(int seq, const char* data, uint32_t size)
+void Kermit::on_data(int seq, const char* data, int size)
 {
     std::cout << "on_data(" << seq << "," << std::string(data, size) << std::endl;
 }
 
-void Kermit::on_end(int seq, const char* data, uint32_t size)
+void Kermit::on_end(int seq, const char* data, int size)
 {
     std::cout << "on_end(" << seq << "," << std::string(data, size) << std::endl;
 }
 
-void Kermit::on_ack(int seq, const char* data, uint32_t size)
+void Kermit::on_ack(int seq, const char* data, int size)
 {
-    std::cout << "on_ack(" << seq << "," << std::string(data, size) << std::endl;
+    //std::cout << "on_ack(" << seq << "," << std::string(data, size) << std::endl;
     if(size > 0)
         maxl  = unchar(data[0]);
     if(size > 1)
@@ -42,94 +42,115 @@ void Kermit::on_ack(int seq, const char* data, uint32_t size)
         eol  = unchar(data[4]);
     if(size > 5)
         qctl  = data[5];
-    std::cout << "maxl: " << maxl << std::endl;
-    std::cout << "time: " << time << std::endl;
-    std::cout << "npad: " << npad << std::endl;
-    std::cout << "padc: " << padc << std::endl;
-    std::cout << "eol: " << (int)eol << std::endl;
-    std::cout << "qctl: " << qctl << std::endl;
+//    std::cout << "maxl: " << maxl << std::endl;
+//    std::cout << "time: " << time << std::endl;
+//    std::cout << "npad: " << npad << std::endl;
+//    std::cout << "padc: " << padc << std::endl;
+//    std::cout << "eol: " << (int)eol << std::endl;
+//    std::cout << "qctl: " << qctl << std::endl;
 }
 
-void Kermit::on_nack(int seq, const char* data, uint32_t size)
+void Kermit::on_nack(int seq, const char* data, int size)
 {
     std::cout << "on_nack(" << seq << "," << std::string(data, size) << std::endl;
 }
 
-void Kermit::on_error(int seq, const char* data, uint32_t size)
+void Kermit::on_error(int seq, const char* data, int size)
 {
     std::cout << "on_error(" << seq << "," << std::string(data, size) << std::endl;
 }
 
 void Kermit::send_init()
 {
-    uint32_t length = 3;
-    data_[++length] = tochar(maxl);
-    data_[++length] = tochar(time);
-    data_[++length] = tochar(npad);
-    data_[++length] = tochar(padc);
-    data_[++length] = tochar(eol);
-    data_[++length] = qctl;
-
-    data_[0] = MARK;
-    data_[1] = tochar(length);
-    data_[2] = tochar(0);
-    data_[3] = S;
-    data_[++length] = '\0';
-    data_[length] = tochar(check(&data_[1]));
-    data_[++length] = eol;
-    send_packet(data_, length + 1);
+    char data[6];
+    data[0] = tochar(maxl);
+    data[1] = tochar(time);
+    data[2] = tochar(npad);
+    data[3] = tochar(padc);
+    data[4] = tochar(eol);
+    data[5] = qctl;
+    spack(S, 0, data, sizeof (data));
 }
 
-void Kermit::send_data(const char* data, uint32_t size)
+void Kermit::send_data(int n, const char* data, int len)
 {
-
+    spack(D, n, data, len);
 }
+
+void Kermit::send_end(int n)
+{
+    spack(Z, n, nullptr, 0);
+}
+
+void Kermit::send_break(int n)
+{
+    spack(B, n, nullptr, 0);
+}
+
+int Kermit::encode(char a, char* data)
+{
+    int a7 = a & 127;
+    int size = 0;
+    if (a7 < 32 || a7 == 127)
+    {
+        data[size++] = qctl;
+        a = ctl(a);
+    }
+    else if (a7 == qctl)
+    {
+        data[size++] = qctl;
+    }
+    data[size++] = a;
+    data[size] = '\0';
+    return size;
+}
+
+int Kermit::decode(const char* data, char &b)
+{
+    const char *d = data;
+    int a = *d++;
+    if(a == qctl) {
+        a = *d++;
+        int a7 = a & 127;
+        if(a7 < 62 && a7 < 96)
+            a = ctl(a);
+    }
+    b = a;
+    return d - data;
+}
+
+int decode(char* data, char a);
 
 void Kermit::send_ack(int n)
 {
-    uint32_t i = 0;
-    data_[i++] = MARK;
-    data_[i++] = tochar(3);
-    data_[i++] = tochar(n);
-    data_[i++] = Y;
-    data_[i] = '\0';
-    data_[i++] = tochar(check(&data_[1]));
-    data_[i++] = eol;
-    send_packet(data_, i);
+    spack(Y, n, nullptr, 0);
 }
 
 void Kermit::send_nack(int n)
 {
-    uint32_t i = 0;
-    data_[i++] = MARK;
-    data_[i++] = tochar(3);
-    data_[i++] = tochar(n);
-    data_[i++] = N;
-    data_[i] = '\0';
-    data_[i++] = tochar(check(&data_[1]));
-    data_[i++] = eol;
-    send_packet(data_, i);
+    spack(N, n, nullptr, 0);
 }
 
-bool  Kermit::send_packet(const char* data, uint32_t size)
+bool  Kermit::send_packet(const char* data, int size)
 {
+    last_size = size;
     return write(data, size) == size;
 }
 
 bool Kermit::recv_packet()
 {
-    char ch = getch();
+    char ch = getc();
     if(ch != MARK)
         return false;
 
-    ch = getch();
+    ch = getc();
     int length = unchar(ch);
-    if(length < MinSize)
+    if(length < MinLen)
         return false;
 
     //SEQ  TYPE DATA CHECK <terminator>
     std::vector<char> data(length + 1, 0);
-    if(read(data.data(), data.size()) != data.size())
+    if(read(data.data(), data.size()) != static_cast<int>(data.size()))
         return false;
 
     if(data.back() != eol)
@@ -158,28 +179,39 @@ bool Kermit::recv_packet()
     return true;
 }
 
-char Kermit::ktrans(char in)
+void Kermit::resend()
 {
-    if ((in & 0x60) == 0x40)
-        return (char) (in & ~0x40);
-    else if ((in & 0x7f) == 0x3f)
-        return (char) (in | 0x40);
-    else
-        return in;
+    send_packet(data_, last_size);
 }
 
-uint16_t Kermit::check(const char* p)
+int Kermit::check(const char* p)
 {
-    uint16_t s = 0;
+    int s = 0;
     while(*p)
          s += *p++;
 
     return (s + ((s >> 6) & 0x03)) & 0x3F;
 }
 
-uint16_t Kermit::check(uint16_t s, const char* begin, const char* end)
+int Kermit::check(int s, const char* begin, const char* end)
 {
     while(begin != end)
         s += *begin++;
     return (s + ((s >> 6) & 0x03)) & 0x3F;
+}
+
+int Kermit::spack(char type, int n, const char* data, int len)
+{
+    int i = 0;
+    data_[i++] = MARK;
+    data_[i++] = tochar(len + 3);
+    data_[i++] = tochar(n);
+    data_[i++] = type;
+    for(int j = 0; j < len; j++)
+        data_[i++] = *data++;
+    data_[i] = '\0';
+    data_[i++] = tochar(check(data_ + 1));
+    data_[i++] = eol;
+    send_packet(data_, i);
+    return i;
 }

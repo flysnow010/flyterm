@@ -22,9 +22,9 @@ signals:
     void error(QString const& e);
     void finished();
 protected:
-    uint32_t write(char const *data, uint32_t size) override;
-    uint32_t read(char *data, uint32_t size) override;
-    char getch() override;
+    int write(char const *data, int size) override;
+    int read(char *data, int size) override;
+    char getc() override;
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };

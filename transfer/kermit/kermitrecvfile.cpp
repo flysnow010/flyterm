@@ -28,26 +28,26 @@ void KermitRecvFile::cancel()
 
 }
 
-uint32_t KermitRecvFile::write(char const *data, uint32_t size)
+int KermitRecvFile::write(char const *data, int size)
 {
     return serial_->write(data, size);
 }
 
-uint32_t KermitRecvFile::read(char *data, uint32_t size)
+int KermitRecvFile::read(char *data, int size)
 {
     return serial_->read(data, size);
 }
 
-char KermitRecvFile::getch()
+char KermitRecvFile::getc()
 {
+    char c = NUL;
     while(!singled())
     {
         if(serial_->waitForReadyRead(10))
         {
-            char c;
             serial_->read(&c, sizeof(c));
-            return c;
+            break;
         }
     }
-    return NUL;
+    return c;
 }

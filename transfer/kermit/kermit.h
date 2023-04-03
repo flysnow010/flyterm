@@ -16,7 +16,6 @@
     CHECK One, two, or three characters, as negotiated.
     <terminator> Any control character required for reading the packet.
 */
-#include <cstdint>
 
 class Kermit
 {
@@ -25,10 +24,8 @@ public:
 
     enum Code {
         NUL = 0x00,
-        SOH  = 0x01,
-        MARK = SOH,
-        END_CHAR = 0x0D,
-        MAX = 0xFF
+        MARK = 0x01,
+        END_CHAR = 0x0D
     };
 
     enum Type {
@@ -43,47 +40,54 @@ public:
     };
 
     enum Size {
-        MinSize = 3,
-        Size1 = 24
+        MinLen = 3,
+        MaxLen = 94,
+        MaxSize = MaxLen + 6
     };
 
 protected:
-    virtual void on_init(int seq, const char* data, uint32_t size);
-    virtual void on_file_header(int seq, const char* data, uint32_t size);
-    virtual void on_data(int seq, const char* data, uint32_t size);
-    virtual void on_end(int seq, const char* data, uint32_t size);
-    virtual void on_ack(int seq, const char* data, uint32_t size);
-    virtual void on_nack(int seq, const char* data, uint32_t size);
-    virtual void on_error(int seq, const char* data, uint32_t size);
+    virtual void on_init(int seq, const char* data, int size);
+    virtual void on_file_header(int seq, const char* data, int size);
+    virtual void on_data(int seq, const char* data, int size);
+    virtual void on_end(int seq, const char* data, int size);
+    virtual void on_ack(int seq, const char* data, int size);
+    virtual void on_nack(int seq, const char* data, int size);
+    virtual void on_error(int seq, const char* data, int size);
 
-    virtual uint32_t write(char const *data, uint32_t size) = 0;
-    virtual uint32_t read(char *data, uint32_t size) = 0;
-    virtual char getch() = 0;
+    virtual int write(char const *data, int size) = 0;
+    virtual int read(char *data, int size) = 0;
+    virtual char getc() = 0;
 
 protected:
     void send_init();
-    void send_data(const char* data, uint32_t size);
+    void send_data(int n, const char* data, int len);
+    void send_end(int n);
+    void send_break(int n);
     void send_ack(int n);
     void send_nack(int n);
 
-    bool send_packet(const char* data, uint32_t size);
     bool recv_packet();
+    void resend();
 
-    uint8_t tochar(char x) { return x + 32; }
-    int unchar(char x) { return int(x - 32); }
-    uint8_t ctl(char x) { return x^64; }
-    uint16_t check(const char* p);
-    uint16_t check(uint16_t sum, const char* begin, const char* end);
-
-    char ktrans(char in);
+    int encode(char a, char* data);
+    int decode(const char* data, char& a);
 private:
-    char data_[Size1];
-    int maxl = 94;
+    int tochar(int x) { return x + 32; }
+    int unchar(int x) { return int(x - 32); }
+    int ctl(int x) { return x^64; }
+    int check(const char* p);
+    int check(int sum, const char* begin, const char* end);
+    int spack(char type, int n, const char* data, int len);
+    bool send_packet(const char* data, int size);
+private:
+    char data_[MaxSize];
+    int maxl = MaxLen;
     int time = 10;
     int npad = 0;
     int padc = 64;
     int eol = END_CHAR;
     char qctl = '#';
+    int last_size = 0;
 };
 
 #endif // KERMIT_H
