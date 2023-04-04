@@ -11,16 +11,6 @@ class KermitSendFile : public QObject, public Kermit
     Q_OBJECT
 public:
     explicit KermitSendFile(QSerialPort *serial, QObject *parent = nullptr);
-
-    enum State {
-        SSNUL = 0,
-        SSINT = 1,
-        SSFIL = 2,
-        SSDAT = 3,
-        SSEND = 4,
-        SSBRK = 5
-    };
-
 public slots:
     void start(QString const& fileName);
     void stop();
@@ -51,6 +41,7 @@ private:
      volatile bool signal_;
      State state_ = SSNUL;
      QFile file_;
+     int timeMs = 0;
      quint32 blockNumber = 0;
      quint64 bytesOfSend_ = 0;
 };

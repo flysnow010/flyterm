@@ -45,11 +45,21 @@ public:
         MaxSize = MaxLen + 6
     };
 
+    enum State {
+        SSNUL = 0,
+        SSINT = 1,
+        SSFIL = 2,
+        SSDAT = 3,
+        SSEND = 4,
+        SSBRK = 5
+    };
+
 protected:
     virtual void on_init(int seq, const char* data, int size);
     virtual void on_file_header(int seq, const char* data, int size);
     virtual void on_data(int seq, const char* data, int size);
     virtual void on_end(int seq, const char* data, int size);
+    virtual void on_break(int seq, const char* data, int size);
     virtual void on_ack(int seq, const char* data, int size);
     virtual void on_nack(int seq, const char* data, int size);
     virtual void on_error(int seq, const char* data, int size);

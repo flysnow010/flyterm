@@ -9,7 +9,28 @@ Kermit::Kermit()
 
 void Kermit::on_init(int seq, const char* data, int size)
 {
-    std::cout << "on_init(" << seq << "," << std::string(data, size) << std::endl;
+    if(size > 0)
+        maxl  = unchar(data[0]);
+    if(size > 1)
+        time  = unchar(data[1]);
+    if(size > 2)
+        npad  = unchar(data[2]);
+    if(size > 3)
+        padc  = unchar(data[3]);
+    if(size > 4)
+        eol  = unchar(data[4]);
+    if(size > 5)
+        qctl  = data[5];
+
+    char d[6];
+    d[0] = tochar(maxl);
+    d[1] = tochar(time);
+    d[2] = tochar(npad);
+    d[3] = tochar(padc);
+    d[4] = tochar(eol);
+    d[5] = qctl;
+
+    spack(Y, 0, d, sizeof (d));
 }
 
 void Kermit::on_file_header(int seq, const char* data, int size)
@@ -27,9 +48,16 @@ void Kermit::on_end(int seq, const char* data, int size)
     std::cout << "on_end(" << seq << "," << std::string(data, size) << std::endl;
 }
 
+void Kermit::on_break(int seq, const char* data, int size)
+{
+    std::cout << "on_break(" << seq << "," << std::string(data, size) << std::endl;
+}
+
 void Kermit::on_ack(int seq, const char* data, int size)
 {
-    //std::cout << "on_ack(" << seq << "," << std::string(data, size) << std::endl;
+    if(seq != 0)
+        return;
+
     if(size > 0)
         maxl  = unchar(data[0]);
     if(size > 1)
@@ -42,12 +70,6 @@ void Kermit::on_ack(int seq, const char* data, int size)
         eol  = unchar(data[4]);
     if(size > 5)
         qctl  = data[5];
-//    std::cout << "maxl: " << maxl << std::endl;
-//    std::cout << "time: " << time << std::endl;
-//    std::cout << "npad: " << npad << std::endl;
-//    std::cout << "padc: " << padc << std::endl;
-//    std::cout << "eol: " << (int)eol << std::endl;
-//    std::cout << "qctl: " << qctl << std::endl;
 }
 
 void Kermit::on_nack(int seq, const char* data, int size)
@@ -118,8 +140,6 @@ int Kermit::decode(const char* data, char &b)
     b = a;
     return d - data;
 }
-
-int decode(char* data, char a);
 
 void Kermit::send_ack(int n)
 {
