@@ -60,6 +60,8 @@ void CommandThread::run()
             execCommand(c);
         else if(c.startsWith("#"))
             emit onExpandCommand(c);
+        else if(c.startsWith("!"))
+            emit onTestCommand(c);
         else
             emit onCommand(c);
     }

@@ -36,6 +36,8 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
+    connect(commandThread_, SIGNAL(onTestCommand(QString)),
+            this, SLOT(execTestCommand(QString)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, &QWidget::customContextMenuRequested,
@@ -119,7 +121,7 @@ void SerialPortWidget::setHighLighter(QString const& hightLighter)
 void SerialPortWidget::recvFileByKermit()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -129,7 +131,7 @@ void SerialPortWidget::recvFileByKermit()
 void SerialPortWidget::sendFileByKermit()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -139,7 +141,7 @@ void SerialPortWidget::sendFileByKermit()
 void SerialPortWidget::recvFileByXModem()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -149,7 +151,7 @@ void SerialPortWidget::recvFileByXModem()
 void SerialPortWidget::sendFileByXModem()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -159,7 +161,7 @@ void SerialPortWidget::sendFileByXModem()
 void SerialPortWidget::recvFileByYModem()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -169,7 +171,7 @@ void SerialPortWidget::recvFileByYModem()
 void SerialPortWidget::sendFileByYModem()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    filePath,                                                tr("All files (*.*)"));
+                                                    filePath, tr("All files (*.*)"));
     if(fileName.isEmpty())
         return;
     filePath = QFileInfo(fileName).filePath();
@@ -272,6 +274,22 @@ void SerialPortWidget::execCommand(QString const& command)
     serial->write(QString("%1\r").arg(command).toUtf8());
 }
 
+void SerialPortWidget::execTestCommand(QString const& command)
+{
+    QString testCommand = command.right(command.size() - 1);
+    if(!testCommand.startsWith("start"))
+        testCommands_.push_back(testCommand);
+    else
+    {
+        QStringList cmds = testCommand.split(' ');
+        if(cmds.size() > 1)
+            testParam_ = cmds[1].toUtf8();
+        isTest_ = true;
+        execCommand(getTestCommand());
+    }
+
+}
+
 void SerialPortWidget::execExpandCommand(QString const& command)
 {
     QStringList cmds = command.split(' ');
@@ -311,6 +329,19 @@ void SerialPortWidget::execExpandCommand(QString const& command)
 void SerialPortWidget::readData()
 {
     QByteArray data = serial->readAll();
+    if(isTest_)
+    {
+        testData_.push_back(data);
+        if(testData_.contains(testParam_))
+        {
+            QString command = getTestCommand();
+            if(command == "end")
+                isTest_ = false;
+            else
+                execCommand(command);
+            testData_.clear();
+        }
+    }
     if(logfile_)
         logfile_->write(data);
     console->putData(data);
@@ -526,4 +557,13 @@ void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
     }
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+}
+
+QString SerialPortWidget::getTestCommand()
+{
+    if(testCommands_.isEmpty())
+        return QString();
+    QString command = testCommands_.front();
+    testCommands_.pop_front();
+    return command;
 }

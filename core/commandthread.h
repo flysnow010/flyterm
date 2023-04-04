@@ -17,6 +17,7 @@ public:
 signals:
     void onCommand(QString const& command);
     void onExpandCommand(QString const& command);
+    void onTestCommand(QString const& command);
     void onAllCommand(QString const& command);
 protected:
     virtual void run();

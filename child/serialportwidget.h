@@ -66,6 +66,7 @@ private slots:
     void setHighLighter();
     void onGotCursorPos(int row, int col);
     void execCommand(QString const& command);
+    void execTestCommand(QString const& command);
     void execExpandCommand(QString const& command);
 private:
     void createHighLightMenu(QMenu* menu);
@@ -75,6 +76,7 @@ private:
     void sendFileByXYModem(QString const& fileName, bool isYModem);
     void recvFileByXYModem(QString const& fileName, bool isYModem);
 
+    QString getTestCommand();
 private:
     SerialPortConsole* console;
     CommandThread* commandThread_;
@@ -82,6 +84,10 @@ private:
     LogFile::Ptr logfile_;
     QString highLight_;
     QString filePath;
+    QStringList testCommands_;
+    QByteArray testParam_;
+    bool isTest_ = false;
+    QByteArray testData_;
 };
 
 #endif // SERIALPORTWIDGET_H
