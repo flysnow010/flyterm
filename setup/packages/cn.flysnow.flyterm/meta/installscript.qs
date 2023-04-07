@@ -47,7 +47,7 @@ Component.prototype.createOperations = function()
             component.addOperation("CreateShortcut", "@TargetDir@/FlyTerm.exe", "@UserStartMenuProgramsPath@/FlyTerm1.0/FlyTerm1.0.lnk",
                 "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/FlyTerm.exe",
             "iconId=0", "description=Run FlyTerm1.0");
-            component.addOperation("CreateShortcut", "@TargetDir@/uninstall.exe", "@UserStartMenuProgramsPath@/FlyTerm1.0/卸载FlyTerm1.0.lnk",
+            component.addOperation("CreateShortcut", "@TargetDir@/uninstall.exe", "@UserStartMenuProgramsPath@/FlyTerm1.0/uninstall FlyTerm1.0.lnk",
                 "workingDirectory=@TargetDir@", "iconPath=@TargetDir@/uninstall.exe",
             "iconId=0", "description=Uninstall FlyTerm1.0");
             component.addOperation("CreateShortcut", "@TargetDir@/FlyTerm.exe", "@DesktopDir@/FlyTerm1.0.lnk",

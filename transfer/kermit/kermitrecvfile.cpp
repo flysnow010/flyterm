@@ -38,6 +38,7 @@ void KermitRecvFile::on_init(int seq, const char* data, int size)
 
 void KermitRecvFile::on_data(int seq, const char* data, int size)
 {
+    Q_UNUSED(seq)
     if(state_ == SSINT)
     {
         file_.open(QIODevice::WriteOnly);
