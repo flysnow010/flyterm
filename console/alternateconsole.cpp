@@ -88,12 +88,16 @@ void AlternateConsole::putText(QString const& text)
     if(text == "\r\n")
     {
         if(!isPutText)
+        {
             down();
-        else
+            return;
+        }
+        else if(screen.isBottom())
         {
             screen.scrollUp(1);
+            return;
         }
-        return;
+
     }
     if(isPutText)
     {
@@ -160,26 +164,26 @@ void AlternateConsole::onDECLineDrawingMode()
 
 void AlternateConsole::onRowRangle(int top, int bottom)
 {
-    qDebug() << "top:" << top << "bottom: " << bottom;
+    //qDebug() << "top:" << top << "bottom: " << bottom;
     topRow = top;
     bottomRow = bottom;
     screen.scrollRangle(top, bottom);
 }
 void AlternateConsole::hideCursor()
 {
-    qDebug() << "hideCursor";
+    //qDebug() << "hideCursor";
     isPutText = true;
 }
 
 void AlternateConsole::showCursor()
 {
-    qDebug() << "showCursor";
+    //qDebug() << "showCursor";
     isPutText = false;
 }
 
 void AlternateConsole::onCursorPos(int row, int col)
 {
-    qDebug() << "row:" << row << "col: " << col;
+    //qDebug() << "row:" << row << "col: " << col;
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::Start);
     cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row - 1);

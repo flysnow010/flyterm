@@ -149,7 +149,7 @@ void ConsoleScreen::setText(QString const& text)
         for(int i = 0; i < col; i++)
         {
             if((*rowData)[i].value == QChar::Null)
-            (*rowData)[i].value = QChar(' ');
+                (*rowData)[i].value = QChar(' ');
         }
     }
     for(int i = 0; i < text.size(); i++)

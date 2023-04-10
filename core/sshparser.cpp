@@ -249,12 +249,12 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == '>')
-        {
-            isEnd = true;
-            ch++;
-            break;
-        }
+//        else if(*ch == '>')
+//        {
+//            isEnd = true;
+//            ch++;
+//            break;
+//        }
         else if(*ch == 'u')
         {
             isEnd = true;
