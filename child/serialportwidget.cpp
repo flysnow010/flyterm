@@ -29,6 +29,9 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     {
         logfile_ = LogFile::Ptr(new LogFile());
         logfile_->open(QString("%1/serial.log").arg(Util::logoPath()));
+        logfile_->open(QString("%1/%2_serial.log")
+                       .arg(Util::logoPath())
+                       .arg(uint64_t(this), 8, 16));
     }
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));

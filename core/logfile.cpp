@@ -15,11 +15,13 @@ bool LogFile::open(QString const& fileName)
 bool LogFile::write(QString  const& text)
 {
     file.write(text.toUtf8());
+    file.flush();
     return true;
 }
 
 bool LogFile::write(QByteArray  const& data)
 {
     file.write(data);
+    file.flush();
     return true;
 }

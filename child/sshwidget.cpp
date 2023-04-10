@@ -29,7 +29,9 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     if(isLog)
     {
         logfile_ = LogFile::Ptr(new LogFile());
-        logfile_->open(QString("%1/ssh.log").arg(Util::logoPath()));
+        logfile_->open(QString("%1/%2_ssh.log")
+                       .arg(Util::logoPath())
+                       .arg(uint64_t(this), 8, 16));
     }
 
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
