@@ -23,7 +23,7 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     if(isLog)
     {
         logfile_ = LogFile::Ptr(new LogFile());
-        logfile_->open(QString("%1/%2_telnet.log")
+        logfile_->open(QString("%1/telnet_%2.txt")
                        .arg(Util::logoPath())
                        .arg(uint64_t(this), 8, 16));
     }
