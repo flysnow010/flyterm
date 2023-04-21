@@ -156,10 +156,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
                         else
                             command->name = dialog.name();
                     }
-                    else
-                    {
-                        command->script = dialog.script();
-                    }
+                    command->script = dialog.script();
                     action->setText(command->name);
                     action->setToolTip(command->script);
                 }
