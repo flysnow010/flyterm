@@ -7,7 +7,7 @@ Kermit::Kermit()
 {
 }
 
-void Kermit::on_init(int seq, const char* data, int size)
+void Kermit::on_init(int /*seq*/, const char* data, int size)
 {
     if(size > 0)
         maxl  = unchar(data[0]);
