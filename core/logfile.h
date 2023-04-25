@@ -12,7 +12,7 @@ public:
     LogFile &operator =(LogFile const&) = delete;
 
     using Ptr = std::shared_ptr<LogFile>;
-    bool open(QString const& fileName);
+    bool open(QString const& fileName, bool isAppend = true);
     bool write(QString  const& text);
     bool write(QByteArray  const& data);
 private:

@@ -287,9 +287,15 @@ void SerialPortWidget::execTestCommand(QString const& command)
         if(cmds.size() > 1)
             testParam_ = cmds[1].toUtf8();
         isTest_ = true;
-        execCommand(getTestCommand());
+        QString cmd = getTestCommand();
+        if(!cmd.startsWith("#"))
+            execCommand(cmd);
+        else
+        {
+            execExpandCommand(cmd);
+            execCommand(QString());
+        }
     }
-
 }
 
 void SerialPortWidget::execExpandCommand(QString const& command)
@@ -326,6 +332,19 @@ void SerialPortWidget::execExpandCommand(QString const& command)
         if(cmds.size() > 1)
             recvFileByXYModem(cmds[1], true);
     }
+    else if(command.startsWith("#bsave"))
+    {
+        if(cmds.size() > 1)
+        {
+            LogFile::Ptr logfile(new LogFile());
+            if(logfile->open(cmds[1], false))
+                console->setLogFile(logfile);
+        }
+    }
+    else if(command.startsWith("#esave"))
+    {
+        console->setLogFile(LogFile::Ptr());
+    }
 }
 
 void SerialPortWidget::readData()
@@ -337,10 +356,19 @@ void SerialPortWidget::readData()
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(command == "end")
-                isTest_ = false;
+            if(command.startsWith("#"))
+            {
+                execExpandCommand(command);
+                execCommand(QString());
+            }
             else
-                execCommand(command);
+            {
+                if(command == "end")
+                    isTest_ = false;
+                else
+                    execCommand(command);
+
+            }
             testData_.clear();
         }
     }

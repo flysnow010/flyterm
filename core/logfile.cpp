@@ -4,10 +4,14 @@ LogFile::LogFile()
 {
 }
 
-bool LogFile::open(QString const& fileName)
+bool LogFile::open(QString const& fileName, bool isAppend)
 {
+    quint32 openFlag =  QIODevice::WriteOnly;
+    if(isAppend)
+        openFlag |= QIODevice::Append;
+
     file.setFileName(fileName);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Append))
+    if(!file.open((QIODevice::OpenModeFlag)openFlag))
         return false;
     return true;
 }
