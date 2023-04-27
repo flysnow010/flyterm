@@ -27,12 +27,11 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     if(isLog)
     {
-        logfile_ = LogFile::Ptr(new LogFile());
-        logfile_->open(QString("%1/serial_%2.txt")
+        beforeLogfile_ = LogFile::SharedPtr(new LogFile());
+        beforeLogfile_->open(QString("%1/serial_%2.txt")
                        .arg(Util::logoPath())
                        .arg(uint64_t(this), 8, 16));
     }
-
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
@@ -336,14 +335,17 @@ void SerialPortWidget::execExpandCommand(QString const& command)
     {
         if(cmds.size() > 1)
         {
-            LogFile::Ptr logfile(new LogFile());
+            LogFile::SharedPtr logfile(new LogFile());
             if(logfile->open(cmds[1], false))
-                console->setLogFile(logfile);
+            {
+                afterLogfile_ = logfile;
+                console->setLogFile(afterLogfile_);
+            }
         }
     }
     else if(command.startsWith("#esave"))
     {
-        console->setLogFile(LogFile::Ptr());
+        afterLogfile_ = LogFile::SharedPtr();
     }
 }
 
@@ -372,8 +374,8 @@ void SerialPortWidget::readData()
             testData_.clear();
         }
     }
-    if(logfile_)
-        logfile_->write(data);
+    if(beforeLogfile_)
+        beforeLogfile_->write(data);
     console->putData(data);
 }
 

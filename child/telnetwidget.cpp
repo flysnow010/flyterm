@@ -22,13 +22,15 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     if(isLog)
     {
-        logfile_ = LogFile::Ptr(new LogFile());
-        logfile_->open(QString("%1/telnet_%2.txt")
+        beforeLogfile_ = LogFile::SharedPtr(new LogFile());
+        beforeLogfile_->open(QString("%1/telnet_%2.txt")
                        .arg(Util::logoPath())
                        .arg(uint64_t(this), 8, 16));
     }
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
+    connect(commandThread_, SIGNAL(onExpandCommand(QString)),
+            this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
     connect(telnet, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
     connect(telnet, SIGNAL(loginRequired()), this, SLOT(loginRequired()));
     connect(telnet, SIGNAL(loginFailed()), this, SLOT(loginFailed()));
@@ -189,8 +191,31 @@ void TelnetWidget::execCommand(QString const& command)
     telnet->sendData(command + QString("\r\n"));
 }
 
+void TelnetWidget::execExpandCommand(QString const& command)
+{
+    QStringList cmds = command.split(' ');
+    if(command.startsWith("#bsave"))
+    {
+        if(cmds.size() > 1)
+        {
+            LogFile::SharedPtr logfile(new LogFile());
+            if(logfile->open(cmds[1], false))
+            {
+                afterLogfile_ = logfile;
+                console->setLogFile(afterLogfile_);
+            }
+        }
+    }
+    else if(command.startsWith("#esave"))
+    {
+        afterLogfile_ = LogFile::SharedPtr();
+    }
+}
+
 void TelnetWidget::onMessage(QString const& data)
 {
+    if(beforeLogfile_)
+        beforeLogfile_->write(data);
     console->putData(data.toUtf8());
 }
 

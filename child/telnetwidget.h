@@ -64,6 +64,7 @@ private slots:
     void setHighLighter();
     void onGotCursorPos(int row, int col);
     void execCommand(QString const& command);
+    void execExpandCommand(QString const& command);
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
@@ -71,7 +72,8 @@ private:
     TelnetConsole* console;
     CommandThread* commandThread_;
     QtTelnet* telnet;
-    LogFile::Ptr logfile_;
+    LogFile::SharedPtr beforeLogfile_;
+    LogFile::SharedPtr afterLogfile_;
     QString highLight_;
 };
 

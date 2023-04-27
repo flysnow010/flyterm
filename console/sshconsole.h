@@ -21,7 +21,7 @@ public:
     void setCommandParser(ConsoleParser* parser);
     void connectCommand();
     void disconnectCommand();
-    void setLogFile(LogFile::Ptr const& logfile) { logfile_ = logfile; }
+    void setLogFile(LogFile::SharedPtr const& logfile) { logfile_ = logfile; }
     void setFontName(QString const& fontName);
     void setFontSize(int fontSize);
     void setConsoleColor(ConsoleColor const& color);
@@ -93,7 +93,7 @@ protected:
     QTextCharFormat normalFormat;
 private:
     QSyntaxHighlighter *highlighter = nullptr;
-    LogFile::Ptr logfile_;
+    LogFile::WeakPtr logfile_;
     ColorRole currentForeRole;
     ColorRole currentBackRole;
     QString fontName_ = "Courier New";

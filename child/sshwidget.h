@@ -67,6 +67,7 @@ private slots:
     void switchToAlternateScreen();
     void switchToMainScreen();
     void execCommand(QString const& command);
+    void execExpandCommand(QString const& command);
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
@@ -76,7 +77,8 @@ private:
     CommandThread* commandThread_;
     ConsoleParser* commandParser;
     QSsh::SshRemoteProcessRunner * shell;
-    LogFile::Ptr logfile_;
+    LogFile::SharedPtr beforeLogfile_;
+    LogFile::SharedPtr afterLogfile_;
     bool sheelIsClose = true;
     bool isMainScreen = true;
     QString highLight_;

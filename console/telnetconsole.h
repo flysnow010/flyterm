@@ -18,7 +18,7 @@ public:
 
     void putData(const QByteArray &data);
     void setLocalEchoEnabled(bool set);
-    void setLogFile(LogFile::Ptr const& logfile) { logfile_ = logfile; }
+    void setLogFile(LogFile::SharedPtr const& logfile) { logfile_ = logfile; }
     void setFontName(QString const& name);
     void setFontSize(int fontSize);
     void setConsoleColor(ConsoleColor const& color);
@@ -74,7 +74,7 @@ private:
     ConsoleParser *commandParser;
     ConsolePalette::Ptr palette_;
     QSyntaxHighlighter *highlighter = nullptr;
-    LogFile::Ptr logfile_;
+    LogFile::WeakPtr logfile_;
     ColorRole currentForeRole;
     ColorRole currentBackRole;
     QString fontName_ = "Courier New";

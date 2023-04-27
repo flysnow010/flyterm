@@ -28,14 +28,16 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     alternateConsole->connectAppCommand();
     if(isLog)
     {
-        logfile_ = LogFile::Ptr(new LogFile());
-        logfile_->open(QString("%1/ssh_%2.txt")
+        beforeLogfile_ = LogFile::SharedPtr(new LogFile());
+        beforeLogfile_->open(QString("%1/ssh_%2.txt")
                        .arg(Util::logoPath())
                        .arg(uint64_t(this), 8, 16));
     }
 
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
+    connect(commandThread_, SIGNAL(onExpandCommand(QString)),
+            this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
     connect(shell, SIGNAL(connectionError()), this, SLOT(connectionError()));
     connect(shell, SIGNAL(processStarted()), this, SLOT(processStarted()));
     connect(shell, SIGNAL(readyReadStandardOutput()), this, SLOT(readyReadStandardOutput()));
@@ -223,8 +225,8 @@ void SShWidget::processStarted()
 void SShWidget::readyReadStandardOutput()
 {
     QByteArray data = shell->readAllStandardOutput();
-    if(logfile_)
-        logfile_->write(data);
+    if(beforeLogfile_)
+        beforeLogfile_->write(data);
     if(isMainScreen)
         console->putData(data);
     else
@@ -295,6 +297,27 @@ void SShWidget::execCommand(QString const& command)
 {
     if(!sheelIsClose)
         shell->writeDataToProcess(QString("%1\n").arg(command).toUtf8());
+}
+
+void SShWidget::execExpandCommand(QString const& command)
+{
+    QStringList cmds = command.split(' ');
+    if(command.startsWith("#bsave"))
+    {
+        if(cmds.size() > 1)
+        {
+            LogFile::SharedPtr logfile(new LogFile());
+            if(logfile->open(cmds[1], false))
+            {
+                afterLogfile_ = logfile;
+                console->setLogFile(afterLogfile_);
+            }
+        }
+    }
+    else if(command.startsWith("#esave"))
+    {
+        afterLogfile_ = LogFile::SharedPtr();
+    }
 }
 
 void SShWidget::createHighLightMenu(QMenu* menu)

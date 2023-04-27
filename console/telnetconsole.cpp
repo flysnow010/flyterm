@@ -118,8 +118,9 @@ void TelnetConsole::onEnd()
 
 void TelnetConsole::onText(QString const& text)
 {
-    if(logfile_)
-        logfile_->write(text);
+    LogFile::SharedPtr loginfile = logfile_.lock();
+    if(loginfile)
+        loginfile->write(text);
     if(text == "\r")
         return;
 

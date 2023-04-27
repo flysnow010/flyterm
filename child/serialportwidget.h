@@ -81,7 +81,8 @@ private:
     SerialPortConsole* console;
     CommandThread* commandThread_;
     QSerialPort* serial;
-    LogFile::Ptr logfile_;
+    LogFile::SharedPtr beforeLogfile_;
+    LogFile::SharedPtr afterLogfile_;
     QString highLight_;
     QString filePath;
     QStringList testCommands_;

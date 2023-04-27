@@ -244,8 +244,9 @@ void SshConsole::onDelCharToLineEnd()
 
 void SshConsole::onText(QString const& text)
 {
-    if(logfile_)
-        logfile_->write(text);
+    LogFile::SharedPtr logfile = logfile_.lock();
+    if(logfile)
+        logfile->write(text);
     putText(text);
 }
 
