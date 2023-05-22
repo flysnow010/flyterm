@@ -50,7 +50,7 @@ void ButtonsDockWidget::createLayout()
 void ButtonsDockWidget::createToolBar()
 {
     toolBar = new QToolBar();
-    toolBar->setIconSize(QSize(20, 20));
+    toolBar->setIconSize(QSize(8, 20));
     toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolBar->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(toolBar, &QWidget::customContextMenuRequested,
