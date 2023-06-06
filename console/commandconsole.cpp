@@ -7,6 +7,7 @@ CommandConsole::CommandConsole(QWidget *parent)
     textFormat.setFontFamily(fontName_);
     textFormat.setFontPointSize(fontSize_);
     mergeCurrentCharFormat(textFormat);
+    setFrameShape(QFrame::Shape::Box);
 }
 
 void CommandConsole::keyPressEvent(QKeyEvent *e)

@@ -10,6 +10,7 @@ HistoryConsole::HistoryConsole(QWidget *parent)
     textFormat.setFontPointSize(fontSize_);
     mergeCurrentCharFormat(textFormat);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setFrameShape(QFrame::Shape::Box);
 }
 
 void HistoryConsole::saveToFile(QString const& fileName)
