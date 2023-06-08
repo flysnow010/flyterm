@@ -26,6 +26,7 @@ private slots:
     void sendCommand();
     void customContextMenu(const QPoint &pos);
     void newButton();
+    void newButtons();
     void load();
     void save();
 private:

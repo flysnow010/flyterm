@@ -97,6 +97,11 @@ void ButtonsDockWidget::newButton()
     }
 }
 
+void ButtonsDockWidget::newButtons()
+{
+    ;
+}
+
 void ButtonsDockWidget::load()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Buttons from ..."),
@@ -132,6 +137,8 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     QAction* leftAction = contextMenu.addAction(tr("Move Button Left"));
     QAction* rightAction = contextMenu.addAction(tr("Move Button Right"));
     QAction* deleteAction = contextMenu.addAction(tr("Delete Button"));
+    contextMenu.addSeparator();
+    contextMenu.addAction("New Buttons", this, SLOT(newButtons()));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Load Buttons ..."), this, SLOT(load()));
     contextMenu.addAction(tr("Save Buttons ..."), this, SLOT(save()));

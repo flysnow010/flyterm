@@ -6,9 +6,18 @@
 #include <memory>
 struct Command
 {
+    using Ptr = std::shared_ptr<Command>;
     QString name;
     QString script;
-    using Ptr = std::shared_ptr<Command>;
+
+};
+
+struct Commands
+{
+    using Ptr = std::shared_ptr<Commands>;
+    QString name;
+    QList<Command::Ptr> commands;
+    int size() const { return commands.size(); }
 };
 
 class CommandManager
@@ -30,6 +39,8 @@ public:
     bool load(QString const& fileName);
 private:
     QList<Command::Ptr> commands_;
+    QList<Commands::Ptr> commandsList_;
+    Commands::Ptr currentCommands_;
 };
 
 #endif // COMMANDMANAGER_H
