@@ -27,12 +27,15 @@ private slots:
     void customContextMenu(const QPoint &pos);
     void newButton();
     void newButtons();
+    void renameButtons();
+    void deleteButtons();
     void load();
     void save();
 private:
    void createLayout();
    void createToolBar();
    void createActions();
+   void updateActions();
    void addCommand(Command::Ptr const& command);
 private:
     Ui::ButtonsDockWidget *ui;

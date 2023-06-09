@@ -67,6 +67,12 @@ void ButtonsDockWidget::createActions()
     }
 }
 
+void ButtonsDockWidget::updateActions()
+{
+    toolBar->clear();
+    createActions();
+}
+
 void ButtonsDockWidget::addCommand(Command::Ptr const& command)
 {
     QAction* action = new QAction(QIcon(":image/Tool/dot.png"), command->name);
@@ -99,7 +105,27 @@ void ButtonsDockWidget::newButton()
 
 void ButtonsDockWidget::newButtons()
 {
-    ;
+    QString name = Util::getText("New Buttons");
+    if(!name.isEmpty())
+    {
+        if(commandManger->newCommands(name))
+            updateActions();
+    }
+}
+
+void ButtonsDockWidget::renameButtons()
+{
+    QString name = commandManger->currenCommandsName();
+    QString newName = Util::getText("New Name", name);
+    if(!newName.isEmpty() && name != newName)
+        commandManger->renameCommands(name, newName);
+}
+
+void ButtonsDockWidget::deleteButtons()
+{
+    QString name = commandManger->currenCommandsName();
+    if(commandManger->removeCommands(name))
+         updateActions();
 }
 
 void ButtonsDockWidget::load()
@@ -112,8 +138,7 @@ void ButtonsDockWidget::load()
    filePath = QFileInfo(fileName).path();
 
    commandManger->load(fileName);
-   toolBar->clear();
-   createActions();
+   updateActions();
 }
 
 void ButtonsDockWidget::save()
@@ -138,7 +163,24 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     QAction* rightAction = contextMenu.addAction(tr("Move Button Right"));
     QAction* deleteAction = contextMenu.addAction(tr("Delete Button"));
     contextMenu.addSeparator();
+    QStringList names = commandManger->names();
+    QString currentName = commandManger->currenCommandsName();
+    foreach(auto name, names)
+    {
+        QAction* action = contextMenu.addAction(name, this, [=](){
+            commandManger->setCurrentCommands(name);
+            updateActions();
+        });
+        if(name == currentName)
+        {
+            action->setCheckable(true);
+            action->setChecked(true);
+        }
+    }
+    contextMenu.addSeparator();
     contextMenu.addAction("New Buttons", this, SLOT(newButtons()));
+    contextMenu.addAction("Rename Buttons", this, SLOT(renameButtons()));
+    contextMenu.addAction("Delete Buttons", this, SLOT(deleteButtons()));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Load Buttons ..."), this, SLOT(load()));
     contextMenu.addAction(tr("Save Buttons ..."), this, SLOT(save()));

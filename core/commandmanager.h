@@ -35,10 +35,18 @@ public:
     bool leftCommand(Command::Ptr const& command);
     bool rightCommand(Command::Ptr const& command);
 
+    bool newCommands(QString const& name);
+    bool removeCommands(QString const& name);
+    bool setCurrentCommands(QString const& name);
+    bool renameCommands(QString const& name, QString const& newName);
+    QString currenCommandsName();
+    QStringList names() const;
+
     bool save(QString const& fileName);
     bool load(QString const& fileName);
 private:
-    QList<Command::Ptr> commands_;
+    int findCommands(QString const& name);
+private:
     QList<Commands::Ptr> commandsList_;
     Commands::Ptr currentCommands_;
 };
