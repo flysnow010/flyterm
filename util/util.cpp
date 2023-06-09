@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QUuid>
 #include <QApplication>
+#include <QInputDialog>
 
 #include <cstring>
 #include <cstdio>
@@ -163,4 +164,18 @@ QString Util::formatFileSizeB(qint64 byte)
 QString Util::formatFileSizeKB(qint64 byte)
 {
     return QString("%1 KB").arg(formatFileSizeB((byte +SIZE_KB - 1) / SIZE_KB));
+}
+
+
+QString Util::getText(QString const& label, QString const& value)
+{
+    QInputDialog dialog;
+    dialog.setInputMode(QInputDialog::TextInput);
+    dialog.setWindowTitle(QApplication::applicationName());
+    dialog.setLabelText(label);
+    dialog.setTextValue(value);
+    dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    if(dialog.exec() == QDialog::Accepted)
+        return dialog.textValue();
+    return QString();
 }

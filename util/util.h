@@ -95,6 +95,7 @@ public:
     static QString formatFileSizeB(qint64 byte);
     static QString formatFileSizeKB(qint64 byte);
     static QString formatFileSizeMB(qint64 byte);
+    static QString getText(QString const& label, QString const& value = QString());
 };
 
 #endif // UTILS_H
