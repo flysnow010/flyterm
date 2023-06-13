@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="FlyTerm 1.00"
+BeginPrompt="Do you want to install the FlyTerm 1.00?"
+RunProgram="FlyTerm1.0-win-x64.exe"
+;!@InstallEnd@!
