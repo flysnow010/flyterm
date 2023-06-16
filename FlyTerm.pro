@@ -53,6 +53,7 @@ SOURCES += \
     highlighter/defaulthightlighter.cpp \
     highlighter/errorhighlighter.cpp \
     highlighter/hightlightermanager.cpp \
+    highlighter/scripthighlighter.cpp \
     main.cpp \
     mainwindow.cpp \
     model/sessionmodel.cpp \
@@ -120,6 +121,7 @@ HEADERS += \
     highlighter/defaulthightlighter.h \
     highlighter/errorhighlighter.h \
     highlighter/hightlightermanager.h \
+    highlighter/scripthighlighter.h \
     mainwindow.h \
     model/sessionmodel.h \
     model/treeitem.h \
