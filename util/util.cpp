@@ -4,7 +4,7 @@
 #include <QUuid>
 #include <QApplication>
 #include <QInputDialog>
-
+#include <QFileDialog>
 #include <cstring>
 #include <cstdio>
 namespace
@@ -166,6 +166,15 @@ QString Util::formatFileSizeKB(qint64 byte)
     return QString("%1 KB").arg(formatFileSizeB((byte +SIZE_KB - 1) / SIZE_KB));
 }
 
+QString Util::getOpenFileName(QString const& caption)
+{
+    return QFileDialog::getOpenFileName(0, caption);
+}
+
+QString getSaveFileName(QString const& caption)
+{
+    return QFileDialog::getSaveFileName(0, caption);
+}
 
 QString Util::getText(QString const& label, QString const& value)
 {

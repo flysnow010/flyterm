@@ -95,6 +95,8 @@ public:
     static QString formatFileSizeB(qint64 byte);
     static QString formatFileSizeKB(qint64 byte);
     static QString formatFileSizeMB(qint64 byte);
+    static QString getOpenFileName(QString const& caption);
+    static QString getSaveFileName(QString const& caption);
     static QString getText(QString const& label, QString const& value = QString());
 };
 
