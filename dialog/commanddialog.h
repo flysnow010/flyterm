@@ -6,7 +6,7 @@
 namespace Ui {
 class CommandDialog;
 }
-
+class QSyntaxHighlighter;
 class CommandDialog : public QDialog
 {
     Q_OBJECT
@@ -20,8 +20,16 @@ public:
 
     QString name() const;
     QString script() const;
+private slots:
+    void highlightCurrentLine();
+private:
+    void createConnect();
+    void updateCommands();
+    void updateCommand();
+    void updateCommand(QString const& command);
 private:
     Ui::CommandDialog *ui;
+    QSyntaxHighlighter *highlighter;
 };
 
 #endif // COMMANDDIALOG_H
