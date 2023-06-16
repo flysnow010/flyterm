@@ -34,6 +34,7 @@ public slots:
 private slots:
     void onClose(QWidget *widget);
     void createSheel(const QModelIndex &index);
+    void customContextMenu(QPoint const& p);
     void delSession();
     void renameSession();
     void upSession();

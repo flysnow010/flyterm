@@ -9,6 +9,7 @@
 
 #include <QToolBar>
 #include <QTreeView>
+#include <QMenu>
 #include <QHeaderView>
 
 SessionDockWidget::SessionDockWidget(QWidget *parent) :
@@ -173,14 +174,28 @@ void SessionDockWidget::createTreeView()
 {
     treeView = new QTreeView();
     ui->dockWidgetContents->layout()->addWidget(treeView);
-    treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
+    treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenu(QPoint)));
+}
 
-    treeView->addAction(addAction);
-    treeView->addAction(delAction);
-    treeView->addAction(renameAction);
-    treeView->addAction(editAction);
-    treeView->addAction(upAction);
-    treeView->addAction(downAction);
+void SessionDockWidget::customContextMenu(QPoint const& p)
+{
+    QModelIndex index = treeView->indexAt(p);
+    QMenu menu;
+    if(!index.isValid() || !index.parent().isValid())
+        menu.addAction(addAction);
+    else
+    {
+        menu.addAction(addAction);
+        menu.addAction(delAction);
+        menu.addAction(renameAction);
+        menu.addAction(editAction);
+        menu.addSeparator();
+        menu.addAction(upAction);
+        menu.addAction(downAction);
+    }
+
+    menu.exec(QCursor::pos());
 }
 
 void SessionDockWidget::createConnects()
