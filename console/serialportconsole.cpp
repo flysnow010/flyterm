@@ -64,7 +64,7 @@ SerialPortConsole::SerialPortConsole(QWidget *parent)
     : QTextEdit(parent)
     , commandParser(new SerialPortParser())
 {
-    document()->setMaximumBlockCount(1000);
+    document()->setMaximumBlockCount(0);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     standardSizes = QFontDatabase::standardSizes();

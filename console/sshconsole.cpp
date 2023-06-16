@@ -17,7 +17,7 @@ SshConsole::SshConsole(QWidget *parent)
     , currentForeRole(ColorRole::NullRole)
     , currentBackRole(ColorRole::NullRole)
 {
-    document()->setMaximumBlockCount(100);
+    document()->setMaximumBlockCount(0);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     standardSizes = QFontDatabase::standardSizes();
