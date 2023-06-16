@@ -3,6 +3,7 @@
 
 #include "console/commandconsole.h"
 #include "console/historyconsole.h"
+#include "highlighter/scripthighlighter.h"
 #include "util/util.h"
 
 #include <QScrollBar>
@@ -10,11 +11,12 @@
 #include <QFileDialog>
 #include <QMenu>
 
-CommandDockWidget::CommandDockWidget(QWidget *parent) :
-    QDockWidget(parent),
-    ui(new Ui::CommandDockWidget),
-    console(0),
-    history(0)
+CommandDockWidget::CommandDockWidget(QWidget *parent)
+    : QDockWidget(parent)
+    , ui(new Ui::CommandDockWidget)
+    , highlighter(new ScriptHighlighter(this))
+    , console(0)
+    , history(0)
 {
     ui->setupUi(this);
     setTitleBarWidget(new QWidget());
@@ -32,7 +34,7 @@ CommandDockWidget::~CommandDockWidget()
 void CommandDockWidget::createLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout();
-    layout->setMargin(1);
+    layout->setContentsMargins(0 ,1, 0, 0);
     layout->setSpacing(0);
     ui->dockWidgetContents->setLayout(layout);
 }
@@ -49,6 +51,8 @@ void CommandDockWidget::createHistory()
     history = new HistoryConsole();
     connect(history, &QWidget::customContextMenuRequested, this, &CommandDockWidget::customContextMenu);
     ui->dockWidgetContents->layout()->addWidget(history);
+    highlighter->setDocument(history->document());
+    highlighter->rehighlight();
 }
 
 void CommandDockWidget::addToHistory(QString const& command)

@@ -9,6 +9,7 @@ class CommandDockWidget;
 
 class CommandConsole;
 class HistoryConsole;
+class QSyntaxHighlighter;
 class CommandDockWidget : public QDockWidget
 {
     Q_OBJECT
@@ -32,6 +33,7 @@ private:
    void createHistory();
 private:
     Ui::CommandDockWidget *ui;
+    QSyntaxHighlighter *highlighter;
     CommandConsole* console;
     HistoryConsole*   history;
     QString filePath;
