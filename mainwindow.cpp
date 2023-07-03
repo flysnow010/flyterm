@@ -208,7 +208,7 @@ void MainWindow::createMenus()
 {
     ui->menuView->addAction(ui->toolBar->toggleViewAction());
 
-    QAction* action = ui->menuView->addAction("Status Bar");
+    QAction* action = ui->menuView->addAction(tr("Status Bar"));
     action->setCheckable(true);
     action->setMenuRole(QAction::NoRole);
     action->setChecked(ui->statusBar->isVisible());
@@ -715,8 +715,8 @@ void MainWindow::tftpServerStart()
     tftpRootPath = filePath;
     tftpServer_->setFilePath(tftpRootPath);
     tftpServer_->start();
-    ui->actionTFtpStart->setText(QString("Start server on %1 ").arg(tftpRootPath));
-    ui->actionTFtpStop->setText(QString("Stop server from %1 ").arg(tftpRootPath));
+    ui->actionTFtpStart->setText(QString(tr("Start server on %1 ")).arg(tftpRootPath));
+    ui->actionTFtpStop->setText(QString(tr("Stop server from %1 ")).arg(tftpRootPath));
     ui->actionTFtpStart->setEnabled(false);
     ui->actionTFtpStop->setEnabled(true);
 }

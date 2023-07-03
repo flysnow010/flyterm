@@ -98,7 +98,7 @@ bool CommandManager::removeCommands(QString const& name)
                 else
                 {
                     currentCommands_ = Commands::Ptr(new Commands);
-                    currentCommands_->name = "Default";
+                    currentCommands_->name = QObject::tr("Default");
                     commandsList_ << currentCommands_;
                 }
             }
@@ -249,7 +249,7 @@ bool CommandManager::load(QString const& fileName)
     if(commandsList_.isEmpty())
     {
         currentCommands_ = Commands::Ptr(new Commands());
-        currentCommands_->name = "Default";
+        currentCommands_->name = QObject::tr("Default");
         commandsList_ << currentCommands_;
     }
     else

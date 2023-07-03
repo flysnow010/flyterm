@@ -105,7 +105,7 @@ void ButtonsDockWidget::newButton()
 
 void ButtonsDockWidget::newButtons()
 {
-    QString name = Util::getText("New Buttons");
+    QString name = Util::getText(tr("New Buttons"));
     if(!name.isEmpty())
     {
         if(commandManger->newCommands(name))
@@ -116,7 +116,7 @@ void ButtonsDockWidget::newButtons()
 void ButtonsDockWidget::renameButtons()
 {
     QString name = commandManger->currenCommandsName();
-    QString newName = Util::getText("New Name", name);
+    QString newName = Util::getText(tr("New Name"), name);
     if(!newName.isEmpty() && name != newName)
         commandManger->renameCommands(name, newName);
 }
@@ -178,9 +178,9 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
         }
     }
     contextMenu.addSeparator();
-    contextMenu.addAction("New Buttons", this, SLOT(newButtons()));
-    contextMenu.addAction("Rename Buttons", this, SLOT(renameButtons()));
-    contextMenu.addAction("Delete Buttons", this, SLOT(deleteButtons()));
+    contextMenu.addAction(tr("New Buttons"), this, SLOT(newButtons()));
+    contextMenu.addAction(tr("Rename Buttons"), this, SLOT(renameButtons()));
+    contextMenu.addAction(tr("Delete Buttons"), this, SLOT(deleteButtons()));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Load Buttons ..."), this, SLOT(load()));
     contextMenu.addAction(tr("Save Buttons ..."), this, SLOT(save()));

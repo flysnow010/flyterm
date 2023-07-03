@@ -51,7 +51,7 @@ void SessionModel::setupModelData(TreeItem *parent)
     if(!sessionManager_)
         return;
 
-    TreeItem* root = new TreeItem(QList<QVariant>() << "Sessions" << "", parent);
+    TreeItem* root = new TreeItem(QList<QVariant>() << tr("Sessions") << "", parent);
     for(int i = 0; i < sessionManager_->size(); i++)
     {
         Session::Ptr session = sessionManager_->session(i);

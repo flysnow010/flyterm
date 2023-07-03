@@ -260,7 +260,7 @@ void TelnetWidget::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Increase font size"), this, SLOT(increaseFontSize()));
     contextMenu.addAction(tr("Decrease font size"), this, SLOT(decreaseFontSize()));
     contextMenu.addSeparator();
-    createHighLightMenu(contextMenu.addMenu("Syntax Highlighting"));
+    createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Save to file"), this, SLOT(save()));
     contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));

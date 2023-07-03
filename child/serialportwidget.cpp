@@ -75,9 +75,9 @@ QString SerialPortWidget::errorString()
     QString errorText;
     QSerialPort::SerialPortError error = serial->error();
     if(error == QSerialPort::DeviceNotFoundError)
-        errorText = QString("Unable to open serial port %1").arg(serial->portName());
+        errorText = QString(tr("Unable to open serial port %1")).arg(serial->portName());
     else if(error == QSerialPort::OpenError)
-        errorText = QString("%1 have be opened").arg(serial->portName());
+        errorText = QString(tr("%1 have be opened")).arg(serial->portName());
     return QString("%1\n%2")
             .arg(errorText, serial->errorString());
 }
@@ -355,6 +355,7 @@ void SerialPortWidget::readData()
     if(isTest_)
     {
         testData_.push_back(data);
+        //qDebug() << data;
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
@@ -453,7 +454,7 @@ void SerialPortWidget::sendFileByKermit(QString const& fileName)
     connect(&sender, &KermitFileSender::finished, &dialog, &FileProgressDialog::finished);
     connect(&sender, &KermitFileSender::error, &dialog, &FileProgressDialog::error);
 
-    dialog.setTitle("Kermit Send");
+    dialog.setTitle(tr("Kermit Send"));
     dialog.setProtocol("Kermit");
     dialog.setFilename(QFileInfo(fileName).fileName());
     dialog.setModal(true);
@@ -485,7 +486,7 @@ void SerialPortWidget::recvFileByKermit(QString const& fileName)
     connect(&recver, &KermitFileRecver::finished, &dialog, &FileProgressDialog::finished);
     connect(&recver, &KermitFileRecver::error, &dialog, &FileProgressDialog::error);
 
-    dialog.setTitle("Kermit Recv");
+    dialog.setTitle(tr("Kermit Recv"));
     dialog.setProtocol("Kermit");
 
     dialog.setFilename(QFileInfo(fileName).fileName());
@@ -522,12 +523,12 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
 
     if(isYModem)
     {
-        dialog.setTitle("YMODEM Send");
-        dialog.setProtocol("YMODEM (1K)");
+        dialog.setTitle(tr("YMODEM Send"));
+        dialog.setProtocol(tr("YMODEM (1K)"));
     }
     else
     {
-        dialog.setTitle("XMODEM Send");
+        dialog.setTitle(tr("XMODEM Send"));
         dialog.setProtocol("XMODEM (1K)");
     }
     dialog.setFilename(QFileInfo(fileName).fileName());
@@ -562,12 +563,12 @@ void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
 
     if(isYModem)
     {
-        dialog.setTitle("YMODEM Recv");
+        dialog.setTitle(tr("YMODEM Recv"));
         dialog.setProtocol("YMODEM (1K)");
     }
     else
     {
-        dialog.setTitle("XMODEM Recv");
+        dialog.setTitle(tr("XMODEM Recv"));
         dialog.setProtocol("XMODEM (1K)");
     }
 

@@ -48,13 +48,13 @@ void TFtpServer::readPendingDatagrams()
         if(!file->is_finished())
         {
             if(file->type() == TFtpServerFile::Read)
-                emit statusText(QString("Downloding file: %1, progress: %4% blockNumber(%2/%3)")
+                emit statusText(QString(tr("Downloding file: %1, progress: %4% blockNumber(%2/%3)"))
                                 .arg(QString::fromStdString(file->filename()))
                                 .arg(file->block_number())
                                 .arg(file->block_numbers())
                                 .arg(file->block_number() * 100 / file->block_numbers()));
             else
-                emit statusText(QString("Uploading file: %1, blockNumber(%2)")
+                emit statusText(QString(tr("Uploading file: %1, blockNumber(%2)"))
                                 .arg(QString::fromStdString(file->filename()))
                                 .arg(file->block_number()));
         }
