@@ -33,6 +33,7 @@ SOURCES += \
     core/commandmanager.cpp \
     core/commandthread.cpp \
     core/consoleparser.cpp \
+    core/languagemanager.cpp \
     core/logfile.cpp \
     core/passwordserver.cpp \
     core/serialportparser.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     core/commandthread.h \
     core/connecttype.h \
     core/consoleparser.h \
+    core/languagemanager.h \
     core/logfile.h \
     core/passwordserver.h \
     core/serialportparser.h \
