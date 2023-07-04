@@ -187,6 +187,9 @@ void SessionDockWidget::createTreeView()
 {
     treeView = new QTreeView();
     treeView->setRootIsDecorated(false);
+    treeView->setAlternatingRowColors(true);
+    treeView->setAllColumnsShowFocus(true);
+
     ui->dockWidgetContents->layout()->addWidget(treeView);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(treeView, SIGNAL(customContextMenuRequested(QPoint)),

@@ -820,42 +820,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="274"/>
+        <location filename="mainwindow.cpp" line="275"/>
         <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="338"/>
+        <location filename="mainwindow.cpp" line="339"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="340"/>
         <source>Paletee of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="340"/>
+        <location filename="mainwindow.cpp" line="341"/>
         <source>Font name of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="341"/>
+        <location filename="mainwindow.cpp" line="342"/>
         <source>Font size of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="794"/>
+        <location filename="mainwindow.cpp" line="802"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="802"/>
+        <location filename="mainwindow.cpp" line="810"/>
         <source>Start server on %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="803"/>
+        <location filename="mainwindow.cpp" line="811"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1167,38 +1167,54 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="165"/>
+        <location filename="dock/sessiondockwidget.cpp" line="63"/>
+        <location filename="dock/sessiondockwidget.cpp" line="173"/>
         <source>New Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="166"/>
+        <location filename="dock/sessiondockwidget.cpp" line="64"/>
+        <location filename="dock/sessiondockwidget.cpp" line="174"/>
         <source>Delete Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="167"/>
+        <location filename="dock/sessiondockwidget.cpp" line="65"/>
+        <location filename="dock/sessiondockwidget.cpp" line="175"/>
         <source>Rename Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="168"/>
+        <location filename="dock/sessiondockwidget.cpp" line="66"/>
+        <location filename="dock/sessiondockwidget.cpp" line="176"/>
         <source>Up Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="169"/>
+        <location filename="dock/sessiondockwidget.cpp" line="67"/>
+        <location filename="dock/sessiondockwidget.cpp" line="177"/>
         <source>Down Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/sessiondockwidget.cpp" line="170"/>
+        <location filename="dock/sessiondockwidget.cpp" line="68"/>
+        <location filename="dock/sessiondockwidget.cpp" line="178"/>
         <source>Edit Session</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SessionModel</name>
+    <message>
+        <location filename="model/sessionmodel.cpp" line="27"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="model/sessionmodel.cpp" line="27"/>
+        <source>Count</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="model/sessionmodel.cpp" line="53"/>
         <source>Sessions</source>
