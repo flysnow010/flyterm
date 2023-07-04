@@ -60,6 +60,11 @@ QString Util::passwordPath()
     return path;
 }
 
+QString Util::languagePath()
+{
+    return QString("%1/languages").arg(QApplication::applicationDirPath());
+}
+
 QString Util::logoPath()
 {
     QString path = QString("%1/Logs").arg(currentPath());

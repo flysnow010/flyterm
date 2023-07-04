@@ -18,6 +18,8 @@ public:
     explicit CommandDockWidget(QWidget *parent = nullptr);
     ~CommandDockWidget();
 
+    void retranslateUi();
+
 signals:
     void getCommand(QString const& command);
 public slots:

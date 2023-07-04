@@ -24,7 +24,7 @@ public:
     void removeSession(Session::Ptr const& session);
     Session::Ptr findSession(QWidget *widget) { return sessionManager->findSession(widget); }
     void loadSessions();
-
+    void retranslateUi();
 signals:
     void onCreateShell(Session::Ptr & session);
     void onCreateSession();

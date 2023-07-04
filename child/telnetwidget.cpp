@@ -262,7 +262,7 @@ void TelnetWidget::customContextMenu(const QPoint &)
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save to file"), this, SLOT(save()));
+    contextMenu.addAction(tr("Save to file..."), this, SLOT(save()));
     contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));
 
     contextMenu.exec(QCursor::pos());

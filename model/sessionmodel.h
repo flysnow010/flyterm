@@ -6,6 +6,7 @@
 
 class SessionModel : public TreeModel
 {
+    Q_OBJECT
 public:
     explicit SessionModel(QObject *parent = nullptr);
 

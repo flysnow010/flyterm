@@ -13,6 +13,7 @@
 #include "core/telnetsession.h"
 #include "core/serialsession.h"
 #include "core/passwordserver.h"
+#include "core/languagemanager.h"
 #include "service/tftp/tftpserver.h"
 #include "color/consolepalette.h"
 #include "highlighter/hightlightermanager.h"
@@ -26,6 +27,50 @@
 #include <QLocalSocket>
 #include <QActionGroup>
 #include <QFileDialog>
+#include <QStyleFactory>
+
+QTranslator MainWindow::appTranslator;
+QTranslator MainWindow::sysTranslator;
+QString MainWindow::language;
+QString MainWindow::showStyle;
+
+void MainWindow::InstallTranstoirs(bool isInited)
+{
+    Language lang;
+    LanguageManager().find(language, lang);
+
+    if(isInited)
+    {
+        qApp->removeTranslator(&appTranslator);
+        qApp->removeTranslator(&sysTranslator);
+    }
+
+    if(!lang.isDefault())
+    {
+        appTranslator.load(QString("%1/%2.qm").arg(Util::languagePath(), lang.file));
+        sysTranslator.load(QString("%1/qt_%2.qm").arg(Util::languagePath(), lang.file));
+        qApp->installTranslator(&appTranslator);
+        qApp->installTranslator(&sysTranslator);
+    }
+}
+
+void MainWindow::LoadSettings()
+{
+    QSettings settings(QCoreApplication::applicationName(),
+                       QCoreApplication::applicationVersion());
+    language = settings.value("language", "English").toString();
+    showStyle = settings.value("showStyle", "WindowsVista").toString();
+    QApplication::setStyle(QStyleFactory::create(showStyle));
+}
+
+void MainWindow::SaveSettings()
+{
+    QSettings settings(QCoreApplication::applicationName(),
+                       QCoreApplication::applicationVersion());
+
+    settings.setValue("language", language);
+    settings.setValue("showStyle", showStyle);
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent)
     , tftpServer_(new TFtpServer(this))
     , windowGroup(new QActionGroup(this))
     , hightlightGroup(new QActionGroup(this))
+    , languageGroup(new QActionGroup(this))
+    , showstyleGroup(new QActionGroup(this))
     , passServer(new PasswordServer(this))
 {
     ui->setupUi(this);
@@ -125,7 +172,6 @@ void MainWindow::createConnets()
     connect(ui->actionClearScrollBack, &QAction::triggered,
             this, &MainWindow::clearScrollback);
 
-
     connect(ui->actionTFtpStart, &QAction::triggered,
             this, &MainWindow::tftpServerStart);
     connect(ui->actionTFtpStop, &QAction::triggered,
@@ -133,6 +179,21 @@ void MainWindow::createConnets()
 
     connect(ui->actionLog, &QAction::toggled,
         this, &MainWindow::logToggle);
+    connect(ui->actionEnglish, &QAction::triggered, this, [=](){
+        setLanguage(ui->actionEnglish->text());
+    });
+    connect(ui->actionChinese, &QAction::triggered, this, [=](){
+        setLanguage(ui->actionChinese->text());
+    });
+    connect(ui->actionWindowsVista, &QAction::triggered, this, [=](){
+        setShowStyle(ui->actionWindowsVista->text());
+    });
+    connect(ui->actionWindows, &QAction::triggered, this, [=](){
+        setShowStyle(ui->actionWindows->text());
+    });
+    connect(ui->actionFusion, &QAction::triggered, this, [=](){
+        setShowStyle(ui->actionFusion->text());
+    });
 
     connect(ui->actionTab, &QAction::triggered,
             this, &MainWindow::midViewMode);
@@ -169,11 +230,13 @@ void MainWindow::createConnets()
     ui->actionNext->setShortcuts(QKeySequence::NextChild);
     ui->actionPrevious->setShortcuts(QKeySequence::PreviousChild);
 
+    connect(tftpServer_, &TFtpServer::statusText,
+            this, &MainWindow::showStatusText);
+    connect(passServer, &PasswordServer::newClient,
+            this, &MainWindow::newClient);
 
-    connect(tftpServer_, &TFtpServer::statusText, this, &MainWindow::showStatusText);
-    connect(passServer, &PasswordServer::newClient, this, &MainWindow::newClient);
-
-    connect(this, &QWidget::windowTitleChanged, this, &MainWindow::windowTitleChanged);
+    connect(this, &QWidget::windowTitleChanged,
+            this, &MainWindow::windowTitleChanged);
 }
 
 void MainWindow::tileChildWindow()
@@ -227,6 +290,22 @@ void MainWindow::createMenus()
     windowGroup->addAction(ui->actionCascade);
     windowGroup->addAction(ui->actionMaximize);
     ui->actionLog->setChecked(isLog);
+    languageGroup->addAction(ui->actionEnglish);
+    languageGroup->addAction(ui->actionChinese);
+    showstyleGroup->addAction(ui->actionWindowsVista);
+    showstyleGroup->addAction(ui->actionWindows);
+    showstyleGroup->addAction(ui->actionFusion);
+    if(language == ui->actionEnglish->text())
+        ui->actionEnglish->setChecked(true);
+    else if(language == ui->actionChinese->text())
+        ui->actionChinese->setChecked(true);
+
+    if(showStyle == ui->actionWindowsVista->text())
+        ui->actionWindowsVista->setChecked(true);
+    else if(showStyle == ui->actionWindows->text())
+        ui->actionWindows->setChecked(true);
+    else if(showStyle == ui->actionFusion->text())
+        ui->actionFusion->setChecked(true);
 
     createHighLighterMenu();
 }
@@ -332,9 +411,11 @@ void MainWindow::updateWindowState()
 
 void MainWindow::readSettings()
 {
-    QSettings settings(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
+    QSettings settings(QCoreApplication::applicationName(),
+                       QCoreApplication::applicationVersion());
     const QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
     const QByteArray windowState = settings.value("windowState", QByteArray()).toByteArray();
+
     if (geometry.isEmpty()) {
         const QRect availableGeometry = QApplication::desktop()->availableGeometry(this);
         resize(availableGeometry.width() / 3, availableGeometry.height() / 2);
@@ -343,8 +424,10 @@ void MainWindow::readSettings()
     } else {
         restoreGeometry(geometry);
     }
+
     if(!windowState.isEmpty())
         restoreState(windowState);
+
     uint viewMode = settings.value("viewMode", QMdiArea::SubWindowView).toUInt();
     if(viewMode == 0)
         mdiArea->setViewMode(QMdiArea::SubWindowView);
@@ -365,7 +448,8 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
+    QSettings settings(QCoreApplication::applicationName(),
+                       QCoreApplication::applicationVersion());
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("viewMode", mdiArea->viewMode());
@@ -726,4 +810,22 @@ void MainWindow::tftpServerStop()
     tftpServer_->stop();
     ui->actionTFtpStop->setEnabled(false);
     ui->actionTFtpStart->setEnabled(true);
+}
+
+void MainWindow::setShowStyle(QString const& style)
+{
+    showStyle = style;
+    QApplication::setStyle(QStyleFactory::create(showStyle));
+    SaveSettings();
+}
+
+void MainWindow::setLanguage(QString const& lang)
+{
+    language = lang;
+    InstallTranstoirs(true);
+    ui->retranslateUi(this);
+    sessionDockWidget->retranslateUi();
+    buttonsDockWidget->retranslateUi();
+    commandDockWidget->retranslateUi();
+    SaveSettings();
 }

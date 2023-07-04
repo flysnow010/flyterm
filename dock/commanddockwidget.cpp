@@ -71,15 +71,20 @@ void CommandDockWidget::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Execue command"), this, SLOT(exec()))->setEnabled(
                 !history->textCursor().selectedText().isEmpty());
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save to file"), this, SLOT(save()));
-    contextMenu.addAction(tr("Load from file"), this, SLOT(load()));
+    contextMenu.addAction(tr("Save to file..."), this, SLOT(save()));
+    contextMenu.addAction(tr("Load from file..."), this, SLOT(load()));
     contextMenu.addAction(tr("Select All"), history, SLOT(selectAll()), QKeySequence::fromString("Ctrl+A"));
     contextMenu.exec(QCursor::pos());
 }
 
+void CommandDockWidget::retranslateUi()
+{
+    ui->retranslateUi(this);
+}
+
 void CommandDockWidget::save()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save history to ..."),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save to"),
                                filePath,
                                tr("History file (*.txt)"));
     if(fileName.isEmpty())
@@ -91,7 +96,7 @@ void CommandDockWidget::save()
 
 void CommandDockWidget::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load history from ..."),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load from"),
                                                     filePath,
                                                     tr("History file (*.txt)"));
     if(fileName.isEmpty())

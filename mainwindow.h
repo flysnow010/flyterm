@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
+
 #include "core/session.h"
 #include "core/connecttype.h"
 
@@ -29,6 +31,9 @@ public:
     ~MainWindow();
 
     enum WindowMode { Max, Tile, Cascade };
+
+    static void LoadSettings();
+    static void InstallTranstoirs(bool isInited = false);
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -81,17 +86,26 @@ private:
     void updateWindowState();
     void readSettings();
     void writeSettings();
+    static void SaveSettings();
     QMdiSubWindow* activeSubWindow();
     Session::Ptr activeSession();
+    void setShowStyle(QString const& style);
+    void setLanguage(QString const& lang);
 private:
     Ui::MainWindow *ui;
     QMdiArea *mdiArea;
+    static QTranslator appTranslator;
+    static QTranslator sysTranslator;
+    static QString     language;
+    static QString     showStyle;
     SessionDockWidget* sessionDockWidget;
     ButtonsDockWidget* buttonsDockWidget;
     CommandDockWidget* commandDockWidget;
     TFtpServer* tftpServer_;
     QActionGroup* windowGroup;
     QActionGroup* hightlightGroup;
+    QActionGroup* languageGroup;
+    QActionGroup* showstyleGroup;
     QComboBox* comboColor;
     QComboBox* comboPalette;
     QFontComboBox* comboFont;

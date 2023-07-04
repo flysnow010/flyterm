@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
 
     QApplication::setApplicationName("FlyTerm");
     QApplication::setApplicationVersion("V1.0.0");
+    MainWindow::LoadSettings();
+    MainWindow::InstallTranstoirs();
     MainWindow w;
     w.show();
     return a.exec();

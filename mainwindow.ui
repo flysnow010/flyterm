@@ -120,12 +120,29 @@
       <string>Syntax highlighting</string>
      </property>
     </widget>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionEnglish"/>
+     <addaction name="actionChinese"/>
+    </widget>
+    <widget class="QMenu" name="menuShow_style">
+     <property name="title">
+      <string>Show style</string>
+     </property>
+     <addaction name="actionWindowsVista"/>
+     <addaction name="actionWindows"/>
+     <addaction name="actionFusion"/>
+    </widget>
     <addaction name="actionLog"/>
     <addaction name="menuSyntaxHighlighting"/>
+    <addaction name="menuLanguage"/>
+    <addaction name="menuShow_style"/>
    </widget>
    <widget class="QMenu" name="menuService">
     <property name="title">
-     <string>Service</string>
+     <string>&amp;Service</string>
     </property>
     <widget class="QMenu" name="menuTFTP">
      <property name="title">
@@ -310,7 +327,7 @@
   </action>
   <action name="actionPrevious">
    <property name="text">
-    <string>Pre&amp;vious</string>
+    <string>Previous</string>
    </property>
    <property name="statusTip">
     <string>Previous a window</string>
@@ -459,6 +476,57 @@
   <action name="actionXModemSend">
    <property name="text">
     <string>Send...</string>
+   </property>
+  </action>
+  <action name="actionWindowVista">
+   <property name="text">
+    <string>WindowVista</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionChinese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>简体中文</string>
+   </property>
+  </action>
+  <action name="actionWindowsVista">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>WindowsVista</string>
+   </property>
+  </action>
+  <action name="actionWindows">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Windows</string>
+   </property>
+  </action>
+  <action name="actionFusion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fusion</string>
    </property>
   </action>
  </widget>

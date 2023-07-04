@@ -19,6 +19,8 @@ public:
 
     void loadCommands();
     void saveCommands();
+
+    void retranslateUi();
 signals:
     void getCommand(QString const& command);
 

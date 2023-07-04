@@ -109,9 +109,9 @@ void ConnectDialog::setSerialSettings(SerialSettings const& settings)
 void ConnectDialog::selectPrivateKeyFileName()
 {
     static QString filePath;
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Add Private Key File"),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Private Key File"),
                                                     filePath,
-                                                    tr("KeyFile (*.*)"));
+                                                    tr("Private Key File (*.*)"));
     if(!fileName.isEmpty())
     {
         filePath = QFileInfo(fileName).filePath();

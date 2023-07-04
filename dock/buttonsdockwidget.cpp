@@ -39,6 +39,11 @@ void ButtonsDockWidget::saveCommands()
     commandManger->save(fileName);
 }
 
+void ButtonsDockWidget::retranslateUi()
+{
+    ui->retranslateUi(this);
+}
+
 void ButtonsDockWidget::createLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout();
@@ -105,7 +110,7 @@ void ButtonsDockWidget::newButton()
 
 void ButtonsDockWidget::newButtons()
 {
-    QString name = Util::getText(tr("New Buttons"));
+    QString name = Util::getText(tr("Buttons Name"));
     if(!name.isEmpty())
     {
         if(commandManger->newCommands(name))
@@ -130,7 +135,7 @@ void ButtonsDockWidget::deleteButtons()
 
 void ButtonsDockWidget::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load Buttons from ..."),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load from"),
                                                     filePath,
                                                     tr("Buttons (*.json)"));
     if(fileName.isEmpty())
@@ -143,7 +148,7 @@ void ButtonsDockWidget::load()
 
 void ButtonsDockWidget::save()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Buttons to ..."),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save to"),
                                filePath,
                                tr("Buttons (*.json)"));
     if(fileName.isEmpty())
@@ -182,8 +187,8 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     contextMenu.addAction(tr("Rename Buttons"), this, SLOT(renameButtons()));
     contextMenu.addAction(tr("Delete Buttons"), this, SLOT(deleteButtons()));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Load Buttons ..."), this, SLOT(load()));
-    contextMenu.addAction(tr("Save Buttons ..."), this, SLOT(save()));
+    contextMenu.addAction(tr("Load Buttons..."), this, SLOT(load()));
+    contextMenu.addAction(tr("Save Buttons..."), this, SLOT(save()));
     if(action)
     {
         connect(editAction, &QAction::triggered, [=](bool)

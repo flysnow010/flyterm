@@ -19,6 +19,7 @@ public:
     static QString sessionPath();
     static QString commandPath();
     static QString passwordPath();
+    static QString languagePath();
     static QString logoPath();
     static QString cachePath();
     static void setCachePath(QString const& path);

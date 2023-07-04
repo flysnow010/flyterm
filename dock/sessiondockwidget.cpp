@@ -57,6 +57,19 @@ void SessionDockWidget::saveSessions()
     sessionManager->save(fileName);
 }
 
+void SessionDockWidget::retranslateUi()
+{
+    ui->retranslateUi(this);
+    addAction->setText(tr("New Session"));
+    delAction->setText(tr("Delete Session"));
+    renameAction->setText(tr("Rename Session"));
+    upAction->setText(tr("Up Session"));
+    downAction->setText(tr("Down Session"));
+    editAction->setText(tr("Edit Session"));
+    sessionModel->update();
+    treeView->expandAll();
+}
+
 void SessionDockWidget::onClose(QWidget *widget)
 {
     Session::Ptr session = sessionManager->findSession(widget);
@@ -158,11 +171,11 @@ void SessionDockWidget::createToolBar()
     toolBar->setIconSize(QSize(20, 20));
     ui->dockWidgetContents->layout()->addWidget(toolBar);
     addAction = new QAction(QIcon(":image/Tool/add.png"), tr("New Session"));
-    delAction = new QAction(QIcon(":image/Tool/del.png"), "Delete Session");
-    renameAction = new  QAction(QIcon(":image/Tool/edit.png"), "Rename Session");
-    upAction = new  QAction(QIcon(":image/Tool/up.png"), "Up Session");
-    downAction = new  QAction(QIcon(":image/Tool/down.png"), "Down Session");
-    editAction = new  QAction("Edit Session");
+    delAction = new QAction(QIcon(":image/Tool/del.png"), tr("Delete Session"));
+    renameAction = new  QAction(QIcon(":image/Tool/edit.png"), tr("Rename Session"));
+    upAction = new  QAction(QIcon(":image/Tool/up.png"), tr("Up Session"));
+    downAction = new  QAction(QIcon(":image/Tool/down.png"), tr("Down Session"));
+    editAction = new  QAction(tr("Edit Session"));
 
     toolBar->addAction(addAction);
     toolBar->addAction(delAction);
@@ -175,7 +188,8 @@ void SessionDockWidget::createTreeView()
     treeView = new QTreeView();
     ui->dockWidgetContents->layout()->addWidget(treeView);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenu(QPoint)));
+    connect(treeView, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(customContextMenu(QPoint)));
 }
 
 void SessionDockWidget::customContextMenu(QPoint const& p)

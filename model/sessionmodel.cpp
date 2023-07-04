@@ -15,7 +15,6 @@ void SessionModel::setSessionManger(SessionManager::Ptr const& sessionManager)
 void SessionModel::update()
 {
     reset();
-    //emit dataChanged(index(0, 0), index(sessionManager_->size(), 1));
 }
 
 void SessionModel::update(int row, int col)
