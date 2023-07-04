@@ -384,6 +384,9 @@ void MainWindow::midViewMode()
     if(mdiArea->viewMode() == QMdiArea::SubWindowView){
         mdiArea->setViewMode(QMdiArea::TabbedView);
         windowMode = Max;
+        QTabBar* tabBar = dynamic_cast<QTabBar*>(mdiArea->findChild<QTabBar *>());
+        if(tabBar)
+            tabBar->setExpanding(false);
     }
     else
         mdiArea->setViewMode(QMdiArea::SubWindowView);
@@ -432,7 +435,12 @@ void MainWindow::readSettings()
     if(viewMode == 0)
         mdiArea->setViewMode(QMdiArea::SubWindowView);
     else
+    {
         mdiArea->setViewMode(QMdiArea::TabbedView);
+        QTabBar* tabBar = dynamic_cast<QTabBar*>(mdiArea->findChild<QTabBar *>());
+        if(tabBar)
+            tabBar->setExpanding(false);
+    }
     ui->actionTab->setChecked(mdiArea->viewMode() == QMdiArea::TabbedView);
 
     bool isVisible = settings.value("statusBarIsVisable", true).toBool();
