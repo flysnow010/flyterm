@@ -226,7 +226,7 @@
     <message>
         <location filename="dock/commanddockwidget.cpp" line="76"/>
         <source>Select All</source>
-        <translation type="unfinished">全部选中</translation>
+        <translation type="unfinished">全选</translation>
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="87"/>
