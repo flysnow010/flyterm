@@ -89,6 +89,7 @@ private:
     static void SaveSettings();
     QMdiSubWindow* activeSubWindow();
     Session::Ptr activeSession();
+    void loadStyleSheet();
     void setShowStyle(QString const& style);
     void setLanguage(QString const& lang);
 private:

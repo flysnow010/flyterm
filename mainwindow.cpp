@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
     createToolButtons();
     sessionDockWidget->loadSessions();
     buttonsDockWidget->loadCommands();
+    loadStyleSheet();
 }
 
 MainWindow::~MainWindow()
@@ -344,7 +345,6 @@ void MainWindow::createToolButtons()
     connect(comboPalette, SIGNAL(activated(QString)), this, SLOT(setPaletteName(QString)));
     connect(comboFont, SIGNAL(activated(QString)), this, SLOT(setFontName(QString)));
     connect(comboSize, SIGNAL(activated(QString)), this, SLOT(setFontSize(QString)));
-    ui->toolBar->addAction(ui->actionAbout);
 }
 
 void MainWindow::addSession(bool isCreateSheel)
@@ -818,6 +818,34 @@ void MainWindow::tftpServerStop()
     tftpServer_->stop();
     ui->actionTFtpStop->setEnabled(false);
     ui->actionTFtpStart->setEnabled(true);
+}
+
+
+
+
+void MainWindow::loadStyleSheet()
+{
+    setStyleSheet(
+                  "QTabBar::tab{"
+                  "padding: 6px;"
+                  "background: #F3F3F3;"
+                  "border: 1px solid #E5E5E5;"
+                  "border-top-left-radius: 16px;"
+                  "border-top-right-radius: 16px;}"
+                  "QTabBar::tab:hover{"
+                  "background: #EDEDED;}"
+                  "QTabBar::tab:selected{"
+                  "margin-left: -4px;"
+                  "margin-right: -4px;"
+                  "background: #FAFAFA;}"
+                  "QTabBar::tab:first:selected {"
+                  "margin-left: 0px;}"
+                  "QTabBar::tab:last:selected {"
+                  "margin-right: 0px;}"
+                  "QTabBar::close-button {"
+                  "image: url(:/image/Term/close.png);}"
+                  "QTabBar::close-button:hover {"
+                  "image: url(:/image/Term/close-hover.png);}");
 }
 
 void MainWindow::setShowStyle(QString const& style)
