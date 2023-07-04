@@ -44,7 +44,7 @@ void SessionDockWidget::loadSessions()
         connect(session.get(), &Session::onClose, this, &SessionDockWidget::onClose);
     }
     sessionModel->setSessionManger(sessionManager);
-    treeView->setHeaderHidden(true);
+    treeView->setHeaderHidden(false);
     treeView->setModel(sessionModel);
     treeView->header()->resizeSection(0, 255);
     treeView->header()->resizeSection(1, 40);
@@ -186,6 +186,7 @@ void SessionDockWidget::createToolBar()
 void SessionDockWidget::createTreeView()
 {
     treeView = new QTreeView();
+    treeView->setRootIsDecorated(false);
     ui->dockWidgetContents->layout()->addWidget(treeView);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(treeView, SIGNAL(customContextMenuRequested(QPoint)),

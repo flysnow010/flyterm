@@ -24,7 +24,7 @@ void SessionModel::update(int row, int col)
 
 TreeItem *SessionModel::createRootItem()
 {
-    return new TreeItem(QList<QVariant>() << "" << "");
+    return new TreeItem(QList<QVariant>() << tr("Name") << tr("Count"));
 }
 
 bool SessionModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -64,10 +64,17 @@ void SessionModel::setupModelData(TreeItem *parent)
 
 QVariant SessionModel::decoration(const QModelIndex &index) const
 {
-    if(index.column() == 0 && index.parent().isValid())
+    if(index.column() == 0)
     {
-        Session::Ptr session = sessionManager_->session(index.row());
-        return session->icon();
+        if(index.parent().isValid())
+        {
+            Session::Ptr session = sessionManager_->session(index.row());
+            return session->icon();
+        }
+        else
+        {
+            return QIcon(":/image/Tool/list.png");
+        }
     }
     return QVariant();
 }

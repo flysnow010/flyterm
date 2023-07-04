@@ -20,5 +20,6 @@
         <file>image/Term/telnet.png</file>
         <file>image/Term/close.png</file>
         <file>image/Term/close-hover.png</file>
+        <file>image/Tool/list.png</file>
     </qresource>
 </RCC>
