@@ -257,12 +257,12 @@ void TelnetWidget::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Copy All"), this, SLOT(copyAll()));
     contextMenu.addAction(tr("Paste"), this, SLOT(paste()));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Increase font size"), this, SLOT(increaseFontSize()));
-    contextMenu.addAction(tr("Decrease font size"), this, SLOT(decreaseFontSize()));
+    contextMenu.addAction(tr("Increase Font Size"), this, SLOT(increaseFontSize()));
+    contextMenu.addAction(tr("Decrease Font Size"), this, SLOT(decreaseFontSize()));
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save to file..."), this, SLOT(save()));
+    contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
     contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));
 
     contextMenu.exec(QCursor::pos());

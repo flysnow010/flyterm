@@ -117,7 +117,7 @@
     </property>
     <widget class="QMenu" name="menuSyntaxHighlighting">
      <property name="title">
-      <string>Syntax highlighting</string>
+      <string>Syntax Highlighting</string>
      </property>
     </widget>
     <widget class="QMenu" name="menuLanguage">
@@ -129,7 +129,7 @@
     </widget>
     <widget class="QMenu" name="menuShow_style">
      <property name="title">
-      <string>Show style</string>
+      <string>Show Style</string>
      </property>
      <addaction name="actionWindowsVista"/>
      <addaction name="actionWindows"/>
@@ -163,7 +163,7 @@
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
-    <string>Tool bar</string>
+    <string>Tool Bar</string>
    </property>
    <property name="iconSize">
     <size>
@@ -385,7 +385,7 @@
   </action>
   <action name="actionFontIncrease">
    <property name="text">
-    <string>Increase font size</string>
+    <string>Increase Font Size</string>
    </property>
    <property name="toolTip">
     <string>Increase font size</string>
@@ -396,7 +396,7 @@
   </action>
   <action name="actionFontDecrease">
    <property name="text">
-    <string>Decrease font size</string>
+    <string>Decrease Font Size</string>
    </property>
    <property name="statusTip">
     <string>Decrease font size of console text</string>
@@ -404,7 +404,7 @@
   </action>
   <action name="actionClearScrollBack">
    <property name="text">
-    <string>Clear scroll back</string>
+    <string>Clear ScrollBack</string>
    </property>
    <property name="statusTip">
     <string>Clear text of console</string>

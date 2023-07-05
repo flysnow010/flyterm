@@ -168,7 +168,7 @@ void SessionDockWidget::createLayout()
 void SessionDockWidget::createToolBar()
 {
     toolBar = new QToolBar();
-    toolBar->setIconSize(QSize(20, 20));
+    toolBar->setIconSize(QSize(16, 16));
     ui->dockWidgetContents->layout()->addWidget(toolBar);
     addAction = new QAction(QIcon(":image/Tool/add.png"), tr("New Session"));
     delAction = new QAction(QIcon(":image/Tool/del.png"), tr("Delete Session"));

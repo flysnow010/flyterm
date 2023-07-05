@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     , hightlightGroup(new QActionGroup(this))
     , languageGroup(new QActionGroup(this))
     , showstyleGroup(new QActionGroup(this))
+    , statusBarAction(0)
     , passServer(new PasswordServer(this))
 {
     ui->setupUi(this);
@@ -98,9 +99,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(mdiArea);
     createDockWidgets();
     createConnets();
-    readSettings();
     createMenus();
     createToolButtons();
+    readSettings();
     sessionDockWidget->loadSessions();
     buttonsDockWidget->loadCommands();
     loadStyleSheet();
@@ -271,12 +272,11 @@ void MainWindow::createDockWidgets()
 void MainWindow::createMenus()
 {
     ui->menuView->addAction(ui->toolBar->toggleViewAction());
-
-    QAction* action = ui->menuView->addAction(tr("Status Bar"));
-    action->setCheckable(true);
-    action->setMenuRole(QAction::NoRole);
-    action->setChecked(ui->statusBar->isVisible());
-    connect(action, SIGNAL(triggered(bool)), ui->statusBar, SLOT(setVisible(bool)));
+    statusBarAction = ui->menuView->addAction(tr("Status Bar"));
+    statusBarAction->setCheckable(true);
+    statusBarAction->setMenuRole(QAction::NoRole);
+    statusBarAction->setChecked(ui->statusBar->isVisible());
+    connect(statusBarAction, SIGNAL(triggered(bool)), ui->statusBar, SLOT(setVisible(bool)));
 
     ui->menuView->addSeparator();
     QAction* sessionAction = sessionDockWidget->toggleViewAction();
@@ -445,7 +445,6 @@ void MainWindow::readSettings()
 
     bool isVisible = settings.value("statusBarIsVisable", true).toBool();
     ui->statusBar->setVisible(isVisible);
-    ui->actionStatusBar->setChecked(isVisible);
 
     windowMode = static_cast<WindowMode>(settings.value("windowMode", windowMode).toUInt());
     updateWindowState();
@@ -743,7 +742,8 @@ void MainWindow::createHighLighterMenu()
     for(int i = 0; i < highLighterManager->size(); i++)
     {
         HighLighterManager::HighLighter const& lighter = highLighterManager->highLighter(i);
-        QAction *action = ui->menuSyntaxHighlighting->addAction(lighter.text, this, SLOT(setHighLighter()));
+        QAction *action = ui->menuSyntaxHighlighting->addAction(lighter.text,
+                                                                this, SLOT(setHighLighter()));
         action->setData(lighter.name);
         hightlightGroup->addAction(action);
         action->setCheckable(true);
@@ -827,11 +827,11 @@ void MainWindow::loadStyleSheet()
 {
     setStyleSheet(
                   "QTabBar::tab{"
-                  "padding: 6px;"
+                  "padding: 4px;"
                   "background: #F3F3F3;"
                   "border: 1px solid #E5E5E5;"
-                  "border-top-left-radius: 16px;"
-                  "border-top-right-radius: 16px;}"
+                  "border-top-left-radius: 8px;"
+                  "border-top-right-radius: 8px;}"
                   "QTabBar::tab:hover{"
                   "background: #EDEDED;}"
                   "QTabBar::tab:selected{"
@@ -860,6 +860,7 @@ void MainWindow::setLanguage(QString const& lang)
     language = lang;
     InstallTranstoirs(true);
     ui->retranslateUi(this);
+    statusBarAction->setText(tr("Status Bar"));
     sessionDockWidget->retranslateUi();
     buttonsDockWidget->retranslateUi();
     commandDockWidget->retranslateUi();

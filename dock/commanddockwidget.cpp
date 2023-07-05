@@ -68,11 +68,11 @@ void CommandDockWidget::customContextMenu(const QPoint &)
 
     contextMenu.addAction(tr("Copy"), history, SLOT(copy()), QKeySequence::fromString("Ctrl+C"));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Execue command"), this, SLOT(exec()))->setEnabled(
+    contextMenu.addAction(tr("Execue Command"), this, SLOT(exec()))->setEnabled(
                 !history->textCursor().selectedText().isEmpty());
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save to file..."), this, SLOT(save()));
-    contextMenu.addAction(tr("Load from file..."), this, SLOT(load()));
+    contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
+    contextMenu.addAction(tr("Load From File..."), this, SLOT(load()));
     contextMenu.addAction(tr("Select All"), history, SLOT(selectAll()), QKeySequence::fromString("Ctrl+A"));
     contextMenu.exec(QCursor::pos());
 }
@@ -84,7 +84,7 @@ void CommandDockWidget::retranslateUi()
 
 void CommandDockWidget::save()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save to"),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save To"),
                                filePath,
                                tr("History file (*.txt)"));
     if(fileName.isEmpty())
@@ -96,7 +96,7 @@ void CommandDockWidget::save()
 
 void CommandDockWidget::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load from"),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load From"),
                                                     filePath,
                                                     tr("History file (*.txt)"));
     if(fileName.isEmpty())

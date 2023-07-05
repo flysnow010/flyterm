@@ -54,8 +54,8 @@
     </message>
     <message>
         <location filename="dock/buttonsdockwidget.cpp" line="138"/>
-        <source>Load from</source>
-        <oldsource>Load Buttons from</oldsource>
+        <source>Load From</source>
+        <oldsource>Load from</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -66,8 +66,8 @@
     </message>
     <message>
         <location filename="dock/buttonsdockwidget.cpp" line="151"/>
-        <source>Save to</source>
-        <oldsource>Save Buttons to</oldsource>
+        <source>Save To</source>
+        <oldsource>Save to</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -208,19 +208,20 @@
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="71"/>
-        <source>Execue command</source>
+        <source>Execue Command</source>
+        <oldsource>Execue command</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="74"/>
-        <source>Save to file...</source>
-        <oldsource>Save to file</oldsource>
+        <source>Save To File...</source>
+        <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="75"/>
-        <source>Load from file...</source>
-        <oldsource>Load from file</oldsource>
+        <source>Load From File...</source>
+        <oldsource>Load from file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -230,8 +231,8 @@
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="87"/>
-        <source>Save to</source>
-        <oldsource>Save history to ...</oldsource>
+        <source>Save To</source>
+        <oldsource>Save to</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -242,8 +243,8 @@
     </message>
     <message>
         <location filename="dock/commanddockwidget.cpp" line="99"/>
-        <source>Load from</source>
-        <oldsource>Load history from ...</oldsource>
+        <source>Load From</source>
+        <oldsource>Load from</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -485,7 +486,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="120"/>
-        <source>Syntax highlighting</source>
+        <source>Syntax Highlighting</source>
+        <oldsource>Syntax highlighting</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -495,7 +497,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="132"/>
-        <source>Show style</source>
+        <source>Show Style</source>
+        <oldsource>Show style</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -510,7 +513,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="166"/>
-        <source>Tool bar</source>
+        <source>Tool Bar</source>
+        <oldsource>Tool bar</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -711,6 +715,10 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="388"/>
+        <source>Increase Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="mainwindow.ui" line="391"/>
         <source>Increase font size</source>
         <translation type="unfinished"></translation>
@@ -722,7 +730,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="399"/>
-        <source>Decrease font size</source>
+        <source>Decrease Font Size</source>
+        <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -732,7 +741,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="407"/>
-        <source>Clear scroll back</source>
+        <source>Clear ScrollBack</source>
+        <oldsource>Clear scroll back</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -820,42 +830,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="275"/>
+        <location filename="mainwindow.cpp" line="274"/>
         <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="338"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="340"/>
+        <location filename="mainwindow.cpp" line="339"/>
         <source>Paletee of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="341"/>
+        <location filename="mainwindow.cpp" line="340"/>
         <source>Font name of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="342"/>
+        <location filename="mainwindow.cpp" line="341"/>
         <source>Font size of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="802"/>
+        <location filename="mainwindow.cpp" line="801"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="810"/>
+        <location filename="mainwindow.cpp" line="809"/>
         <source>Start server on %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="811"/>
+        <location filename="mainwindow.cpp" line="810"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -938,7 +948,13 @@
     <message>
         <location filename="core/commandmanager.cpp" line="101"/>
         <location filename="core/commandmanager.cpp" line="252"/>
+        <location filename="highlighter/hightlightermanager.cpp" line="13"/>
         <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="highlighter/hightlightermanager.cpp" line="14"/>
+        <source>Error/Warning/Sucess</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -966,12 +982,14 @@
     </message>
     <message>
         <location filename="child/sshwidget.cpp" line="263"/>
-        <source>Increase font size</source>
+        <source>Increase Font Size</source>
+        <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="child/sshwidget.cpp" line="264"/>
-        <source>Decrease font size</source>
+        <source>Decrease Font Size</source>
+        <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -981,8 +999,8 @@
     </message>
     <message>
         <location filename="child/sshwidget.cpp" line="268"/>
-        <source>Save to file...</source>
-        <oldsource>Save to file</oldsource>
+        <source>Save To File...</source>
+        <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1057,12 +1075,14 @@
     </message>
     <message>
         <location filename="child/serialportwidget.cpp" line="396"/>
-        <source>Increase font size</source>
+        <source>Increase Font Size</source>
+        <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="child/serialportwidget.cpp" line="397"/>
-        <source>Decrease font size</source>
+        <source>Decrease Font Size</source>
+        <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1107,8 +1127,8 @@
     </message>
     <message>
         <location filename="child/serialportwidget.cpp" line="411"/>
-        <source>Save to file...</source>
-        <oldsource>Save to file</oldsource>
+        <source>Save To File...</source>
+        <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1134,7 +1154,8 @@
     <message>
         <location filename="child/serialportwidget.cpp" line="527"/>
         <location filename="child/serialportwidget.cpp" line="567"/>
-        <source>YMODEM (1K)</source>
+        <source>1K YMODEM</source>
+        <oldsource>YMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1145,7 +1166,8 @@
     <message>
         <location filename="child/serialportwidget.cpp" line="532"/>
         <location filename="child/serialportwidget.cpp" line="572"/>
-        <source>XMODEM (1K)</source>
+        <source>1K XMODEM</source>
+        <oldsource>XMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1274,12 +1296,14 @@
     </message>
     <message>
         <location filename="child/telnetwidget.cpp" line="260"/>
-        <source>Increase font size</source>
+        <source>Increase Font Size</source>
+        <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="child/telnetwidget.cpp" line="261"/>
-        <source>Decrease font size</source>
+        <source>Decrease Font Size</source>
+        <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1289,8 +1313,8 @@
     </message>
     <message>
         <location filename="child/telnetwidget.cpp" line="265"/>
-        <source>Save to file...</source>
-        <oldsource>Save to file</oldsource>
+        <source>Save To File...</source>
+        <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

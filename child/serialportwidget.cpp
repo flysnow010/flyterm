@@ -393,8 +393,8 @@ void SerialPortWidget::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Copy All"), this, SLOT(copyAll()));
     contextMenu.addAction(tr("Paste"), this, SLOT(paste()));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Increase font size"), this, SLOT(increaseFontSize()));
-    contextMenu.addAction(tr("Decrease font size"), this, SLOT(decreaseFontSize()));
+    contextMenu.addAction(tr("Increase Font Size"), this, SLOT(increaseFontSize()));
+    contextMenu.addAction(tr("Decrease Font Size"), this, SLOT(decreaseFontSize()));
     contextMenu.addSeparator();
     QMenu* upload = contextMenu.addMenu(tr("Upload"));
     upload->addAction(tr("Kermit Send..."), this, SLOT(sendFileByKermit()));
@@ -408,7 +408,7 @@ void SerialPortWidget::customContextMenu(const QPoint &)
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu("Syntax Highlighting"));
     contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save to file..."), this, SLOT(save()));
+    contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
     contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));
 
     contextMenu.exec(QCursor::pos());
@@ -524,12 +524,12 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
     if(isYModem)
     {
         dialog.setTitle(tr("YMODEM Send"));
-        dialog.setProtocol(tr("YMODEM (1K)"));
+        dialog.setProtocol(tr("1K YMODEM"));
     }
     else
     {
         dialog.setTitle(tr("XMODEM Send"));
-        dialog.setProtocol(tr("XMODEM (1K)"));
+        dialog.setProtocol(tr("1K XMODEM"));
     }
     dialog.setFilename(QFileInfo(fileName).fileName());
     dialog.setModal(true);
@@ -564,12 +564,12 @@ void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
     if(isYModem)
     {
         dialog.setTitle(tr("YMODEM Recv"));
-        dialog.setProtocol(tr("YMODEM (1K)"));
+        dialog.setProtocol(tr("1K YMODEM"));
     }
     else
     {
         dialog.setTitle(tr("XMODEM Recv"));
-        dialog.setProtocol(tr("XMODEM (1K)"));
+        dialog.setProtocol(tr("1K XMODEM"));
     }
 
     dialog.setFilename(QFileInfo(fileName).fileName());

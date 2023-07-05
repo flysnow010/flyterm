@@ -135,7 +135,7 @@ void ButtonsDockWidget::deleteButtons()
 
 void ButtonsDockWidget::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load from"),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load From"),
                                                     filePath,
                                                     tr("Buttons (*.json)"));
     if(fileName.isEmpty())
@@ -148,7 +148,7 @@ void ButtonsDockWidget::load()
 
 void ButtonsDockWidget::save()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save to"),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save To"),
                                filePath,
                                tr("Buttons (*.json)"));
     if(fileName.isEmpty())

@@ -10,8 +10,8 @@ HighLighterManager* HighLighterManager::Instance()
 
 void HighLighterManager::init()
 {
-    add(HighLighter{ "default", "Default" });
-    add(HighLighter{ "errorHighLighter", "Error/Warning/Sucess" });
+    add(HighLighter{ "default", QObject::tr("Default") });
+    add(HighLighter{ "errorHighLighter", QObject::tr("Error/Warning/Sucess") });
 
 }
 

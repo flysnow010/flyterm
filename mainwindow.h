@@ -107,6 +107,7 @@ private:
     QActionGroup* hightlightGroup;
     QActionGroup* languageGroup;
     QActionGroup* showstyleGroup;
+    QAction* statusBarAction;
     QComboBox* comboColor;
     QComboBox* comboPalette;
     QFontComboBox* comboFont;
