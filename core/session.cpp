@@ -10,7 +10,7 @@ Session::Session(QString const& name)
     : name_(name)
     , hightLighter_("errorHighLighter")
     , fontName_("Courier New")
-    , colorName_("Black White")
+    , colorIndex_(4)//"Black White
     , paletteName_("XTerm")
 
     , fontSize_(12)
@@ -44,10 +44,10 @@ void Session::setFontSize(int fontSize)
     updateFontSize(fontSize);
 }
 
-void Session::setColorName(QString const& name)
+void Session::setColorIndex(int index)
 {
-    colorName_ = name;
-    updateColorName(colorName_);
+    colorIndex_ = index;
+    updateColorIndex(index);
 }
 
 void Session::setPaletteName(QString const& name)
@@ -146,7 +146,7 @@ bool SessionManager::save(QString const& fileName)
         session.insert("hightLighter", sessions_[i]->hightLighter());
         session.insert("fontName", sessions_[i]->fontName());
         session.insert("fontSize", sessions_[i]->fontSize());
-        session.insert("colorName", sessions_[i]->colorName());
+        session.insert("colorIndex", sessions_[i]->colorIndex());
         session.insert("paletteName", sessions_[i]->paletteName());
         session.insert("shellSize", sessions_[i]->shellSize());
         session.insert("session", sessions_[i]->object());
@@ -197,7 +197,7 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
     QString type = obj.value("type").toString();
     QString name = obj.value("name").toString();
     QString hightLighter = obj.value("hightLighter").toString();
-    QString colorName = obj.value("colorName").toString();
+    int colorIndex = obj.value("colorIndex").toInt();
     QString paletteName = obj.value("paletteName").toString();
     QString fontName = obj.value("fontName").toString();
     int fontSize = obj.value("fontSize").toInt();
@@ -208,8 +208,7 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
         session->setHightLighter(hightLighter);
         session->setFontName(fontName);
         session->setFontSize(fontSize);
-        if(!colorName.isEmpty())
-            session->setColorName(colorName);
+        session->setColorIndex(colorIndex);
         if(!paletteName.isEmpty())
             session->setPaletteName(paletteName);
         session->setObject(obj.value("session").toObject());
@@ -220,8 +219,7 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
         session->setHightLighter(hightLighter);
         session->setFontName(fontName);
         session->setFontSize(fontSize);
-        if(!colorName.isEmpty())
-            session->setColorName(colorName);
+        session->setColorIndex(colorIndex);
         if(!paletteName.isEmpty())
             session->setPaletteName(paletteName);
         session->setObject(obj.value("session").toObject());
@@ -232,8 +230,7 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
         session->setHightLighter(hightLighter);
         session->setFontName(fontName);
         session->setFontSize(fontSize);
-        if(!colorName.isEmpty())
-            session->setColorName(colorName);
+        session->setColorIndex(colorIndex);
         if(!paletteName.isEmpty())
             session->setPaletteName(paletteName);
         session->setObject(obj.value("session").toObject());

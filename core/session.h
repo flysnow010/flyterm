@@ -29,8 +29,8 @@ public:
     int fontSize() const { return fontSize_; }
     void setFontSize(int fontSize);
 
-    QString colorName() const { return colorName_; }
-    void setColorName(QString const& name);
+    int colorIndex() const { return colorIndex_; }
+    void setColorIndex(int index);
 
     QString paletteName() const { return paletteName_; }
     void setPaletteName(QString const& name);
@@ -54,7 +54,7 @@ public:
     virtual void updateHightLighter(QString const& hightLighter) = 0;
     virtual void updateFontName(QString const& fontName) = 0;
     virtual void updateFontSize(int fontSize) = 0;
-    virtual void updateColorName(QString const& colorName) = 0;
+    virtual void updateColorIndex(int index) = 0;
     virtual void updatePaletteName(QString const& colorName) = 0;
     virtual void increaseFontSize(QWidget *widget) = 0;
     virtual void decreaseFontSize(QWidget *widget) = 0;
@@ -76,7 +76,7 @@ private:
     QString name_;
     QString hightLighter_;
     QString fontName_;
-    QString colorName_;
+    int  colorIndex_;
     QString paletteName_;
     int fontSize_;
 };

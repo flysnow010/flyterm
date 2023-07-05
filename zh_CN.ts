@@ -932,22 +932,22 @@
     <message>
         <location filename="color/consolecolor.cpp" line="19"/>
         <source>Solarized light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">浅色的 Solarized</translation>
     </message>
     <message>
         <location filename="color/consolecolor.cpp" line="21"/>
         <source>Solarized dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">深色的 Solarized</translation>
     </message>
     <message>
         <location filename="color/consolecolor.cpp" line="23"/>
         <source>Gruvbox light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">浅色的 Gruvbox</translation>
     </message>
     <message>
         <location filename="color/consolecolor.cpp" line="25"/>
         <source>Gruvbox dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">深色的 Gruvbox</translation>
     </message>
     <message>
         <location filename="core/commandmanager.cpp" line="101"/>

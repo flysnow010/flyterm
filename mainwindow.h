@@ -56,7 +56,7 @@ private slots:
     void udpateHighLighter(QString const& lighter);
     void setFontName(QString const& name);
     void setFontSize(QString const& fontSize);
-    void setColorName(QString const& name);
+    void setColorIndex(int index);
     void setPaletteName(QString const& name);
     void increaseFontSize();
     void decreaseFontSize();
@@ -92,6 +92,7 @@ private:
     void loadStyleSheet();
     void setShowStyle(QString const& style);
     void setLanguage(QString const& lang);
+    void retranslateUi();
 private:
     Ui::MainWindow *ui;
     QMdiArea *mdiArea;

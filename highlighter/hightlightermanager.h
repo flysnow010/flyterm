@@ -11,6 +11,10 @@ struct HighLighterManager
     {
         QString name;
         QString text;
+        QString showText() const
+        {
+            return QObject::tr(text.toStdString().c_str());
+        }
     };
 
     void init();

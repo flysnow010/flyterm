@@ -14,9 +14,8 @@ class ConsoleColorManager
 public:
     static ConsoleColorManager * Instance();
 
-    QStringList colorNames() const { return colorNames_; }
-    bool hasColor(QString const& name) const;
-    ConsoleColor color(QString const& name) const;
+    QStringList colorNames() const;
+    ConsoleColor color(int index) const;
 private:
     ConsoleColorManager();
     QStringList colorNames_;

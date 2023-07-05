@@ -3,6 +3,11 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QFileDialog>
 
+namespace  {
+    int const SSH_TAB = 0;
+    int const Telnet_Tab = 1;
+    int const Serial_Tab = 2;
+}
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConnectDialog)
@@ -11,7 +16,8 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     fillPortsParameters();
     fillPortsInfo();
-    connect(ui->toolButtonAddFile, SIGNAL(clicked()), this, SLOT(selectPrivateKeyFileName()));
+    connect(ui->toolButtonAddFile, SIGNAL(clicked()),
+            this, SLOT(selectPrivateKeyFileName()));
 }
 
 ConnectDialog::~ConnectDialog()
@@ -22,11 +28,11 @@ ConnectDialog::~ConnectDialog()
 ConnectType ConnectDialog::type() const
 {
     int currentIndex = ui->tabWidget->currentIndex();
-    if(ui->tabWidget->tabText(currentIndex) == "SSH")
+    if(currentIndex == SSH_TAB)
         return SSH;
-    if(ui->tabWidget->tabText(currentIndex) == "Telnet")
+    if(currentIndex == Telnet_Tab)
         return Telnet;
-    else if(ui->tabWidget->tabText(currentIndex) == "Serial")
+    else if(currentIndex == Serial_Tab)
         return Serial;
     else
         return None;

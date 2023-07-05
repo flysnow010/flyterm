@@ -56,7 +56,7 @@ bool SerialSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
 
-    ConsoleColor color = ConsoleColorManager::Instance()->color(colorName());
+    ConsoleColor color = ConsoleColorManager::Instance()->color(colorIndex());
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();
     ConsolePalette::Ptr palette = manager->findPalette(paletteName());
 
@@ -159,9 +159,9 @@ void SerialSession::updateFontName(QString const& name)
         widget_->setFontName(name);
 }
 
-void SerialSession::updateColorName(QString const& colorName)
+void SerialSession::updateColorIndex(int index)
 {
-    ConsoleColor color = ConsoleColorManager::Instance()->color(colorName);
+    ConsoleColor color = ConsoleColorManager::Instance()->color(index);
     if(widget_)
         widget_->setConsoleColor(color);
 }

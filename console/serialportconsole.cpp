@@ -19,10 +19,6 @@ SerialPortConsole::SerialPortConsole(QWidget *parent)
 
     standardSizes = QFontDatabase::standardSizes();
 
-    QPalette p = palette();
-    p.setColor(QPalette::Base, Qt::black);
-    p.setColor(QPalette::Text, Qt::white);
-    setPalette(p);
 
     textFormat.setFontFamily(fontName_);
     textFormat.setFontPointSize(fontSize_);
@@ -213,10 +209,8 @@ void SerialPortConsole::setFontSize(int fontSize)
 
 void SerialPortConsole::setConsoleColor(ConsoleColor const& color)
 {
-    QPalette p = palette();
-    p.setColor(QPalette::Base, color.back);
-    p.setColor(QPalette::Text, color.fore);
-    setPalette(p);
+    setStyleSheet(QString("QTextEdit { color: %1; background: %2; }")
+                  .arg(color.fore.name(), color.back.name()));
 }
 
 void SerialPortConsole::setConsolePalette(ConsolePalette::Ptr palette)

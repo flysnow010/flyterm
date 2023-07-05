@@ -52,7 +52,7 @@ bool TelnetSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
 
-    ConsoleColor color = ConsoleColorManager::Instance()->color(colorName());
+    ConsoleColor color = ConsoleColorManager::Instance()->color(colorIndex());
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();
     ConsolePalette::Ptr palette = manager->findPalette(paletteName());
 
@@ -159,9 +159,9 @@ void TelnetSession::updateFontName(QString const& fontName)
         widgets_[i]->setFontName(fontName);
 }
 
-void TelnetSession::updateColorName(QString const& colorName)
+void TelnetSession::updateColorIndex(int index)
 {
-    ConsoleColor color = ConsoleColorManager::Instance()->color(colorName);
+    ConsoleColor color = ConsoleColorManager::Instance()->color(index);
     for(int i = 0; i < widgets_.size(); i++)
         widgets_[i]->setConsoleColor(color);
 }

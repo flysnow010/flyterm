@@ -341,7 +341,7 @@ void MainWindow::createToolButtons()
     comboFont->setToolTip(tr("Font name of Console"));
     comboSize->setToolTip(tr("Font size of Console"));
 
-    connect(comboColor, SIGNAL(activated(QString)), this, SLOT(setColorName(QString)));
+    connect(comboColor, SIGNAL(activated(int)), this, SLOT(setColorIndex(int)));
     connect(comboPalette, SIGNAL(activated(QString)), this, SLOT(setPaletteName(QString)));
     connect(comboFont, SIGNAL(activated(QString)), this, SLOT(setFontName(QString)));
     connect(comboSize, SIGNAL(activated(QString)), this, SLOT(setFontSize(QString)));
@@ -497,7 +497,7 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
         Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
         if(session)
         {
-            comboColor->setCurrentText(session->colorName());
+            comboColor->setCurrentIndex(session->colorIndex());
             comboPalette->setCurrentText(session->paletteName());
             comboFont->setCurrentText(session->fontName());
             comboSize->setCurrentText(QString::number(session->fontSize()));
@@ -626,11 +626,11 @@ void MainWindow::setFontName(QString const& name)
         session->setFontName(name);
 }
 
-void MainWindow::setColorName(QString const& name)
+void MainWindow::setColorIndex(int index)
 {
     Session::Ptr session = activeSession();
     if(session)
-        session->setColorName(name);
+        session->setColorIndex(index);
 }
 
 void MainWindow::setPaletteName(QString const& name)
@@ -742,7 +742,7 @@ void MainWindow::createHighLighterMenu()
     for(int i = 0; i < highLighterManager->size(); i++)
     {
         HighLighterManager::HighLighter const& lighter = highLighterManager->highLighter(i);
-        QAction *action = ui->menuSyntaxHighlighting->addAction(lighter.text,
+        QAction *action = ui->menuSyntaxHighlighting->addAction(lighter.showText(),
                                                                 this, SLOT(setHighLighter()));
         action->setData(lighter.name);
         hightlightGroup->addAction(action);
@@ -820,9 +820,6 @@ void MainWindow::tftpServerStop()
     ui->actionTFtpStart->setEnabled(true);
 }
 
-
-
-
 void MainWindow::loadStyleSheet()
 {
     setStyleSheet(
@@ -859,10 +856,28 @@ void MainWindow::setLanguage(QString const& lang)
 {
     language = lang;
     InstallTranstoirs(true);
-    ui->retranslateUi(this);
-    statusBarAction->setText(tr("Status Bar"));
+    retranslateUi();
     sessionDockWidget->retranslateUi();
     buttonsDockWidget->retranslateUi();
     commandDockWidget->retranslateUi();
     SaveSettings();
+}
+
+void MainWindow::retranslateUi()
+{
+    ui->retranslateUi(this);
+    statusBarAction->setText(tr("Status Bar"));
+
+    int currentindex = comboColor->currentIndex();
+    comboColor->clear();
+    comboColor->addItems(ConsoleColorManager::Instance()->colorNames());
+    comboColor->setCurrentIndex(currentindex);
+
+
+    QList<QAction *> actions = ui->menuSyntaxHighlighting->actions();
+    for(int i = 0; i < highLighterManager->size() && i < actions.size(); i++)
+    {
+        HighLighterManager::HighLighter const& lighter = highLighterManager->highLighter(i);
+        actions[i]->setText(lighter.showText());
+    }
 }
