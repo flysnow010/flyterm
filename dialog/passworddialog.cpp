@@ -6,6 +6,7 @@ PasswordDialog::PasswordDialog(QWidget *parent) :
     ui(new Ui::PasswordDialog)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 PasswordDialog::~PasswordDialog()
