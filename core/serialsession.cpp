@@ -4,6 +4,7 @@
 #include "color/consolecolor.h"
 #include <QMdiArea>
 #include <QMdiSubWindow>
+#include <QStyleFactory>
 
 SerialSession::SerialSession(QString const& name)
     : Session(name)
@@ -55,6 +56,7 @@ bool SerialSession::createShell(QMdiArea *midArea, bool isLog)
     connect(subWindow, &QMdiSubWindow::windowStateChanged, this, &Session::windowStateChanged);
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
+    subWindow->setStyle(QStyleFactory::create("Fusion"));
 
     ConsoleColor color = ConsoleColorManager::Instance()->color(colorIndex());
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();

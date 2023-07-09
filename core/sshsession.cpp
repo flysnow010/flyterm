@@ -5,6 +5,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QApplication>
+#include <QStyleFactory>
 
 SshSession::SshSession(QString const& name)
     : Session(name)
@@ -49,6 +50,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     widget->setAskpassFilePath(askPassFilePath);
     subWindow->setWindowTitle(QString("%1.%2").arg(index++).arg(name()));
     subWindow->setWindowIcon(icon());
+    subWindow->setStyle(QStyleFactory::create("Fusion"));
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
     connect(widget, &SShWidget::onClose, this, &Session::onClose);
