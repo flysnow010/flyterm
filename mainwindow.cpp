@@ -823,6 +823,7 @@ void MainWindow::tftpServerStop()
 void MainWindow::loadStyleSheet()
 {
     setStyleSheet(
+                  "QMdiSubWindow { border: 2px; }"
                   "QTabBar::tab{"
                   "padding: 4px;"
                   "background: #F3F3F3;"
