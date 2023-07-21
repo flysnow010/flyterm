@@ -60,6 +60,7 @@ private slots:
     void readyReadStandardError();
     void processClosed(const QString &error);
     void writeData(QByteArray const&data);
+    void onGotCursorPos(int row, int col);
 
     void customContextMenu(const QPoint &);
     void setHighLighter();

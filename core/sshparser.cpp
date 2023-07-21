@@ -1,5 +1,6 @@
 #include "sshparser.h"
 #include <QDebug>
+
 SShParser::SShParser()
 {
 
@@ -12,7 +13,11 @@ void SShParser::parse(QByteArray const& data)
     else
     {
         setEnterKeyPress(false);
-        parseData_.push_back(QString("\r\n").toUtf8());
+        int index = data.indexOf("\r\n");//ab\r\n or \r\ntext
+        if(index == 0)
+            parseData_.push_back(data);
+        else if(index > 0)
+            parseData_.push_back(data.right(data.size() - index - 1));
     }
 
     const char* start = parseData_.data();
@@ -49,6 +54,7 @@ void SShParser::parse(QByteArray const& data)
                     emit onOverWrite(true);
                     start = ch;
                 }
+
                 break;
             }
             case BS:
@@ -280,7 +286,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == 'n')//??
+        else if(*ch == 'n')//[6n
         {
             parse_n(QString::fromUtf8(start + 1, ch - start));
             isEnd = true;
@@ -400,7 +406,7 @@ void SShParser::parse_J(QString const& j)
 
 void SShParser::parse_K(QString const& k)
 {
-    if(k == "[K")
+    if(k == "[K" || k == "[0K")
         emit onDelCharToLineEnd();
 }
 

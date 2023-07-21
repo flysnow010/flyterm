@@ -4,6 +4,7 @@
 #include "core/logfile.h"
 #include "color/consolecolor.h"
 #include "color/consolepalette.h"
+#include "console/consolescreen.h"
 
 class ConsoleParser;
 class QSyntaxHighlighter;
@@ -42,6 +43,7 @@ public:
 
 signals:
     void getData(const QByteArray &data);
+    void onGotCursorPos(int row, int col);
     void onSwitchToAlternateScreen();
     void onSwitchToMainScreen();
 
@@ -55,6 +57,7 @@ public slots:
 
 protected slots:
     void onBeep();
+    void onGetCursorPos();
     void onBackspace(int count);
     void onLeft(int count);
     void onRight(int count);
@@ -106,6 +109,7 @@ private:
     int cursorPos = 0;
     int selectStart = 0;
     int selectEnd = 0;
+    ConsoleScreen screen;
 };
 
 #endif // SSHCONSOLE_H

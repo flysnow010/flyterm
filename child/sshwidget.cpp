@@ -45,6 +45,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(shell, SIGNAL(processClosed(QString)), this, SLOT(processClosed(QString)));
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
+    connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
     connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
@@ -250,6 +251,12 @@ void SShWidget::processClosed(const QString &error)
 void SShWidget::writeData(QByteArray const&data)
 {
     shell->writeDataToProcess(data);
+}
+
+void SShWidget::onGotCursorPos(int row, int col)
+{
+    QString cursorPos = QString("\033[%1;%2R").arg(row).arg(col);
+    writeData(cursorPos.toUtf8());
 }
 
 void SShWidget::customContextMenu(const QPoint &)

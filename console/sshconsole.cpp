@@ -40,6 +40,7 @@ void SshConsole::connectCommand()
     if(!commandParser)
         return;
     connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
+    connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
@@ -166,6 +167,11 @@ void SshConsole::onBeep()
     QApplication::beep();
 }
 
+void SshConsole::onGetCursorPos()
+{
+    emit onGotCursorPos(screen.row(), screen.col());
+}
+
 void SshConsole::onBackspace(int count)
 {
     QTextCursor cursor = textCursor();
@@ -194,7 +200,19 @@ void SshConsole::cursorLeft(int count)
 void SshConsole::onRight(int count)
 {
     QTextCursor cursor = textCursor();
-    cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
+    if(count + screen.col() < screen.cols())
+    {
+        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
+        screen.cursorRight(count);
+    }
+    else
+    {
+        screen.cursorRight(screen.cols() - screen.col());
+        cursor.movePosition(QTextCursor::Right,
+                            QTextCursor::MoveAnchor,
+                            screen.cols() - screen.col());
+    }
+    //cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
     setTextCursor(cursor);
 }
 
@@ -213,6 +231,7 @@ void SshConsole::onHome()
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::StartOfLine);
     setTextCursor(cursor);
+    screen.cursorCol(1);
 }
 
 void SshConsole::onOverWrite(bool enable)
@@ -251,7 +270,7 @@ void SshConsole::putText(QString const& text)
         return;
     }
 
-    if(text == "\r\n")
+    if(text.startsWith("\r\n"))//if(text == "\r\n")
     {
         QTextCursor tc = textCursor();
         tc.movePosition(QTextCursor::EndOfLine);
@@ -356,6 +375,7 @@ void SshConsole::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter:
         onEnd();
         emit getData(e->text().toLocal8Bit());
+        commandParser->setEnterKeyPress(true);
         break;
     default:
         emit getData(e->text().toLocal8Bit());
