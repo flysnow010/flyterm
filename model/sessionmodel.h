@@ -2,7 +2,7 @@
 #define SESSIONMODEL_H
 
 #include "treemodel.h"
-#include "core/session.h"
+#include "core/basesession.h"
 
 class SessionModel : public TreeModel
 {

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTranslator>
 
-#include "core/session.h"
+#include "core/basesession.h"
 #include "core/connecttype.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,7 +21,6 @@ class SessionDockWidget;
 class ButtonsDockWidget;
 class CommandDockWidget;
 class TFtpServer;
-class PasswordServer;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -113,7 +112,6 @@ private:
     QComboBox* comboPalette;
     QFontComboBox* comboFont;
     QComboBox* comboSize;
-    PasswordServer* passServer;
     WindowMode windowMode = Max;
     ConnectType connectType = ConnectType::SSH;
     QString tftpRootPath;

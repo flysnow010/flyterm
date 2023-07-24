@@ -1,4 +1,4 @@
-#include "session.h"
+#include "basesession.h"
 #include "sshsession.h"
 #include "telnetsession.h"
 #include "serialsession.h"

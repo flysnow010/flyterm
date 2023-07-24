@@ -12,7 +12,6 @@
 #include "core/sshsession.h"
 #include "core/telnetsession.h"
 #include "core/serialsession.h"
-#include "core/passwordserver.h"
 #include "core/languagemanager.h"
 #include "service/tftp/tftpserver.h"
 #include "color/consolepalette.h"
@@ -85,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent)
     , languageGroup(new QActionGroup(this))
     , showstyleGroup(new QActionGroup(this))
     , statusBarAction(0)
-    , passServer(new PasswordServer(this))
 {
     ui->setupUi(this);
     highLighterManager->init();
@@ -93,8 +91,6 @@ MainWindow::MainWindow(QWidget *parent)
     mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     mdiArea->setDocumentMode(true);
     mdiArea->setTabsClosable(true);
-    passServer->load();
-    passServer->run(Util::serverName());
 
     setCentralWidget(mdiArea);
     createDockWidgets();
@@ -116,7 +112,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     sessionDockWidget->saveSessions();
     buttonsDockWidget->saveCommands();
-    passServer->save();
+    //passServer->save();
     mdiArea->closeAllSubWindows();
     if (mdiArea->currentSubWindow()) {
         event->ignore();
@@ -234,8 +230,8 @@ void MainWindow::createConnets()
 
     connect(tftpServer_, &TFtpServer::statusText,
             this, &MainWindow::showStatusText);
-    connect(passServer, &PasswordServer::newClient,
-            this, &MainWindow::newClient);
+//    connect(passServer, &PasswordServer::newClient,
+//            this, &MainWindow::newClient);
 
     connect(this, &QWidget::windowTitleChanged,
             this, &MainWindow::windowTitleChanged);
@@ -704,32 +700,32 @@ void MainWindow::sendCommand(QString const& command)
 
 void MainWindow::newClient(QLocalSocket *client)
 {
-    QString prompt = QString::fromUtf8(client->readAll());
-    QString cryptPrompt = Password::hash(prompt);
+//    QString prompt = QString::fromUtf8(client->readAll());
+//    QString cryptPrompt = Password::hash(prompt);
 
-    Password::Ptr password = passServer->findPassword(cryptPrompt);
-    if(password)
-        client->write(password->password.toUtf8());
-    else
-    {
-        PasswordDialog dialog;
-        dialog.setPromptText(prompt);
-        if(dialog.exec() != QDialog::Accepted)
-            client->write(QByteArray());
-        else
-        {
-            QString cryptPassWord = Password::encrypt(dialog.password());
-            client->write(cryptPassWord.toUtf8());
-            if(dialog.isSavePassword())
-            {
-                Password::Ptr password(new Password);
-                password->password = cryptPassWord;
-                password->prompt = cryptPrompt;
-                passServer->addPassword(password);
-            }
-        }
-    }
-    client->disconnectFromServer();
+//    Password::Ptr password = passServer->findPassword(cryptPrompt);
+//    if(password)
+//        client->write(password->password.toUtf8());
+//    else
+//    {
+//        PasswordDialog dialog;
+//        dialog.setPromptText(prompt);
+//        if(dialog.exec() != QDialog::Accepted)
+//            client->write(QByteArray());
+//        else
+//        {
+//            QString cryptPassWord = Password::encrypt(dialog.password());
+//            client->write(cryptPassWord.toUtf8());
+//            if(dialog.isSavePassword())
+//            {
+//                Password::Ptr password(new Password);
+//                password->password = cryptPassWord;
+//                password->prompt = cryptPrompt;
+//                passServer->addPassword(password);
+//            }
+//        }
+//    }
+//    client->disconnectFromServer();
 }
 
 void MainWindow::logToggle(bool isChecked)

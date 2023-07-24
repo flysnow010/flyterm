@@ -1,5 +1,5 @@
-#ifndef SESSION_H
-#define SESSION_H
+#ifndef BASESESSION_H
+#define BASESESSION_H
 #include <QString>
 
 #include <memory>
@@ -106,4 +106,4 @@ private:
     QList<int> shellSizes_;
 };
 
-#endif // SESSION_H
+#endif // BASESESSION_H

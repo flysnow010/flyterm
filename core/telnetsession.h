@@ -1,7 +1,7 @@
 #ifndef TELNETSESSION_H
 #define TELNETSESSION_H
 
-#include "session.h"
+#include "basesession.h"
 #include "telnetsettings.h"
 
 class TelnetWidget;

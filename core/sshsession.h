@@ -1,7 +1,7 @@
 #ifndef SSHSESSION_H
 #define SSHSESSION_H
 
-#include "session.h"
+#include "basesession.h"
 #include "sshsettings.h"
 
 class SShWidget;

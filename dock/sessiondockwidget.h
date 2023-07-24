@@ -2,7 +2,7 @@
 #define SESSIONDOCKWIDGET_H
 
 #include <QDockWidget>
-#include "core/session.h"
+#include "core/basesession.h"
 
 namespace Ui {
 class SessionDockWidget;

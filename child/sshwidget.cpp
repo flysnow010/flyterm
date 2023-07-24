@@ -7,10 +7,10 @@
 #include "highlighter/hightlightermanager.h"
 #include "util/util.h"
 
-#include <sshsettings.h>
 #include <QPrinter>
 #include <QMenu>
 #include <QPrintDialog>
+#include <QDebug>
 
 SShWidget::SShWidget(bool isLog, QWidget *parent)
     : QWidget(parent)
@@ -18,7 +18,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     , alternateConsole(new AlternateConsole(this))
     , commandThread_(new CommandThread(this))
     , commandParser(new SShParser())
-    , shell(new QSsh::SshRemoteProcessRunner(this))
+    , shell(new SshShell(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
     alternateConsole->hide();
@@ -38,11 +38,11 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
-    connect(shell, SIGNAL(connectionError()), this, SLOT(connectionError()));
-    connect(shell, SIGNAL(processStarted()), this, SLOT(processStarted()));
-    connect(shell, SIGNAL(readyReadStandardOutput()), this, SLOT(readyReadStandardOutput()));
-    connect(shell, SIGNAL(readyReadStandardError()), this, SLOT(readyReadStandardError()));
-    connect(shell, SIGNAL(processClosed(QString)), this, SLOT(processClosed(QString)));
+
+    connect(shell, SIGNAL(connected()), this, SLOT(connected()));
+    connect(shell, SIGNAL(connectionError(QString)), this, SLOT(connectionError(QString)));
+    connect(shell, SIGNAL(onData(QByteArray)), this, SLOT(onData(QByteArray)));
+    connect(shell, SIGNAL(onError(QByteArray)), this, SLOT(onError(QByteArray)));
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
@@ -59,35 +59,13 @@ SShWidget::~SShWidget()
 {
     delete commandParser;
 }
-void SShWidget::setAskpassFilePath(QString const& filePath)
-{
-    QSsh::SshSettings::setAskpassFilePath(Utils::FilePath::fromString(filePath));
-}
-
-void SShWidget::setSshFilePath(QString const& filePath)
-{
-    QSsh::SshSettings::setSshFilePath(Utils::FilePath::fromString(filePath));
-}
-
-QString SShWidget::sshFilePath()
-{
-    return QSsh::SshSettings::sshFilePath().toString();
-}
 
 bool SShWidget::runShell(SSHSettings const& settings)
 {
-    QSsh::SshConnectionParameters paramters;
-
-    paramters.setHost(settings.hostName);
-    paramters.setUserName(settings.userName);
-    paramters.setPort(settings.port);
-    if(settings.usePrivateKey)
-    {
-        paramters.authenticationType = QSsh::SshConnectionParameters::AuthenticationTypeSpecificKey;
-        paramters.privateKeyFile = settings.privateKeyFileName;
-    }
-
-    shell->runInTerminal(QString(), paramters);
+    SSHSettings newSettings = settings;
+    newSettings.passWord = "james010";
+    shell->connectTo(newSettings);
+    shell->run(80, 24);
     return true;
 }
 
@@ -214,18 +192,18 @@ void SShWidget::closeEvent(QCloseEvent *event)
     commandThread_->quit();
 }
 
-void SShWidget::connectionError()
+void SShWidget::connected()
 {
-    qDebug() << "connectionError: " << shell->lastConnectionErrorString();
+    ;
 }
 
-void SShWidget::processStarted()
+void SShWidget::connectionError(QString const& error)
 {
+    qDebug() << "connectionError: " << error;
 }
 
-void SShWidget::readyReadStandardOutput()
+void SShWidget::onData(QByteArray const& data)
 {
-    QByteArray data = shell->readAllStandardOutput();
     if(beforeLogfile_)
         beforeLogfile_->write(data);
     if(isMainScreen)
@@ -236,21 +214,14 @@ void SShWidget::readyReadStandardOutput()
         sheelIsClose = false;
 }
 
-void SShWidget::readyReadStandardError()
+void SShWidget::onError(QByteArray const& data)
 {
-    qDebug() << "readyReadStandardError:"
-             <<  QString::fromUtf8(shell->readAllStandardError());
-}
-
-void SShWidget::processClosed(const QString &error)
-{
-    sheelIsClose = true;
-    console->insertPlainText(error);
+    qDebug() << "readyReadStandardError:" << data;
 }
 
 void SShWidget::writeData(QByteArray const&data)
 {
-    shell->writeDataToProcess(data);
+    shell->write(data);
 }
 
 void SShWidget::onGotCursorPos(int row, int col)
@@ -303,7 +274,7 @@ void SShWidget::switchToMainScreen()
 void SShWidget::execCommand(QString const& command)
 {
     if(!sheelIsClose)
-        shell->writeDataToProcess(QString("%1\n").arg(command).toUtf8());
+        shell->write(QString("%1\n").arg(command).toUtf8());
 }
 
 void SShWidget::execExpandCommand(QString const& command)

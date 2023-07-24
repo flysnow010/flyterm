@@ -41,13 +41,6 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
 {
     SShWidget* widget = new SShWidget(isLog);
     QMdiSubWindow* subWindow = midArea->addSubWindow(widget);
-    QString askPassFilePath = QString("%1/AskPass.exe %2")
-            .arg(QApplication::applicationDirPath(), Util::serverName());
-
-    QString sshFilePath = QString("%1/ssh.exe")
-            .arg(QApplication::applicationDirPath());
-    widget->setSshFilePath(sshFilePath);
-    widget->setAskpassFilePath(askPassFilePath);
     subWindow->setWindowTitle(QString("%1.%2").arg(index++).arg(name()));
     subWindow->setWindowIcon(icon());
     subWindow->setStyle(QStyleFactory::create("Fusion"));
