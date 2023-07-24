@@ -13,7 +13,6 @@ QT_END_NAMESPACE
 
 class QMdiArea;
 class QMdiSubWindow;
-class QLocalSocket;
 class QFontComboBox;
 class QComboBox;
 class QActionGroup;
@@ -62,7 +61,6 @@ private slots:
     void clearScrollback();
     void paste();
     void sendCommand(QString const& command);
-    void newClient(QLocalSocket *client);
 
     void logToggle(bool isChecked);
     void setHighLighter();

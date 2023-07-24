@@ -12,6 +12,7 @@ struct SSHSettings
     bool usePrivateKey = false;
 
     QString name() const { return QString("%1 (%2)").arg(hostName).arg(userName); }
+    QString key() const { return QString("%1@%2:%3").arg(userName, hostName).arg(port); }
 };
 
 #endif // SSHSETTINGS_H

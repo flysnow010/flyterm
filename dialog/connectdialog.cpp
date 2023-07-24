@@ -54,7 +54,7 @@ SSHSettings ConnectDialog::sshSettings() const
     settings.hostName = ui->sshHostname->text();
     settings.userName = ui->sshUsername->text();
     settings.port = ui->sshPort->value();
-    if(ui->usePrivateKey)
+    if(ui->usePrivateKey->isChecked())
     {
         settings.privateKeyFileName = ui->privateKeyFileName->text();
         if(!settings.privateKeyFileName.isEmpty())

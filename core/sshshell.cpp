@@ -17,13 +17,13 @@ SshShell::SshShell(QObject *parent)
     connect(worker, &SSHChannel::onData, this, &SshShell::onData);
     connect(worker, &SSHChannel::onError, this, &SshShell::onError);
 
-
     worker_ = worker;
     workerThread.start();
 }
 
 SshShell::~SshShell()
 {
+    stop();
     workerThread.quit();
     workerThread.wait();
 }

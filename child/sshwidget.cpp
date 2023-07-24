@@ -4,6 +4,8 @@
 #include "core/sshsettings.h"
 #include "core/sshparser.h"
 #include "core/commandthread.h"
+#include "core/userauth.h"
+#include "dialog/passworddialog.h"
 #include "highlighter/hightlightermanager.h"
 #include "util/util.h"
 
@@ -62,10 +64,41 @@ SShWidget::~SShWidget()
 
 bool SShWidget::runShell(SSHSettings const& settings)
 {
-    SSHSettings newSettings = settings;
-    newSettings.passWord = "james010";
-    shell->connectTo(newSettings);
-    shell->run(80, 24);
+    if(settings.usePrivateKey)
+        shell->connectTo(settings);
+    else
+    {
+        SSHSettings newSettings = settings;
+        QString key = UserAuth::hash(settings.key());
+        UserAuth::Ptr userAuth = UserAuthManager::Instance()->findUserAuth(key);
+
+        bool isSavePassword  = false;
+        if(userAuth)
+            newSettings.passWord = userAuth->auth;
+        else
+        {
+            PasswordDialog dialog;
+            dialog.setPromptText(QString(tr("Password for %1"))
+                                 .arg(newSettings.name()));
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                newSettings.passWord = dialog.password();
+                if(newSettings.passWord.isEmpty())
+                    return false;
+                isSavePassword = dialog.isSavePassword();
+            }
+        }
+        if(isSavePassword)
+        {
+            connect(shell, &SshShell::connected, this, [=](){
+                    UserAuth::Ptr userAuth(new UserAuth());
+                    userAuth->key = UserAuth::hash(newSettings.key());
+                    userAuth->auth = newSettings.passWord;
+                    UserAuthManager::Instance()->addUserAuth(userAuth);
+            });
+        }
+        shell->connectTo(newSettings);
+    }
     return true;
 }
 
@@ -88,8 +121,9 @@ void SShWidget::sendCommands(QStringList const& commands)
 
 void SShWidget::disconnect()
 {
-
+    shell->stop();
 }
+
 void SShWidget::save()
 {
     console->saveToFile();
@@ -194,7 +228,7 @@ void SShWidget::closeEvent(QCloseEvent *event)
 
 void SShWidget::connected()
 {
-    ;
+    shell->run(80, 24);
 }
 
 void SShWidget::connectionError(QString const& error)

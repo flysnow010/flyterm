@@ -44,6 +44,7 @@ SOURCES += \
     core/sshshell.cpp \
     core/telnetparser.cpp \
     core/telnetsession.cpp \
+    core/userauth.cpp \
     dialog/aboutdialog.cpp \
     dialog/commanddialog.cpp \
     dialog/connectdialog.cpp \
@@ -110,6 +111,8 @@ HEADERS += \
     core/consoleparser.h \
     core/languagemanager.h \
     core/logfile.h \
+    core/prikey.h \
+    core/pubkey.h \
     core/serialportparser.h \
     core/serialsession.h \
     core/serialsettings.h \
@@ -121,6 +124,7 @@ HEADERS += \
     core/telnetparser.h \
     core/telnetsession.h \
     core/telnetsettings.h \
+    core/userauth.h \
     dialog/aboutdialog.h \
     dialog/commanddialog.h \
     dialog/connectdialog.h \
