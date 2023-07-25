@@ -13,6 +13,7 @@ public:
     void connectAppCommand();
     void putData(const QByteArray &data) override;
     void clearScreen() override;
+    void shellSize(int cols, int rows);
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void putText(QString const& text) override;

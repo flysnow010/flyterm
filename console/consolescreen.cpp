@@ -2,9 +2,9 @@
 #include <QTextEdit>
 #include <QTextCharFormat>
 
-ConsoleScreen::ConsoleScreen(int rows, int cols)
-    : rows_(rows)
-    , cols_(cols)
+ConsoleScreen::ConsoleScreen(int cols, int rows)
+    : cols_(cols)
+    , rows_(rows)
 {
     consoleCharsVec.resize(rows);
     for(int i = 0; i < rows; i++)
@@ -26,6 +26,18 @@ void ConsoleScreen::clear()
     bottom_ = 0;
     row_ = 0;
     col_ = 0;
+}
+
+void ConsoleScreen::setSize(int cols, int rows)
+{
+    for(int i = 0; i < consoleCharsVec.size(); i++)
+        delete consoleCharsVec[i];
+
+    consoleCharsVec.resize(rows);
+    for(int i = 0; i < rows; i++)
+        consoleCharsVec[i] = new ConsoleChars(cols);
+    cols_ = cols;
+    rows_ = rows;
 }
 
 void ConsoleScreen::scrollRangle(int top, int bottom)

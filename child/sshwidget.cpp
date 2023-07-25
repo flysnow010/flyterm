@@ -119,6 +119,16 @@ void SShWidget::sendCommands(QStringList const& commands)
     }
 }
 
+void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
+{
+    QFont font(console->fontName(), console->fontSize());
+    QFontMetricsF fontmetrics(font);
+    int w = fontmetrics.width('W');
+    int h = fontmetrics.height();
+    cols = size.width() / w;
+    rows = size.height() / h;
+}
+
 void SShWidget::disconnect()
 {
     shell->stop();
@@ -213,8 +223,14 @@ QSize SShWidget::sizeHint() const
 
 void SShWidget::resizeEvent(QResizeEvent *event)
 {
-    console->resize(event->size());
-    alternateConsole->resize(event->size());
+    QSize size = event->size();
+    int cols, rows;
+    getShellSize(size, cols, rows);
+    shell->shellSize(cols, rows);
+
+    console->resize(size);
+    alternateConsole->resize(size);
+    alternateConsole->shellSize(cols, rows);
 }
 
 void SShWidget::closeEvent(QCloseEvent *event)
@@ -228,7 +244,7 @@ void SShWidget::closeEvent(QCloseEvent *event)
 
 void SShWidget::connected()
 {
-    shell->run(80, 24);
+    shell->run();
 }
 
 void SShWidget::connectionError(QString const& error)

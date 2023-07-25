@@ -10,14 +10,14 @@ class QTextCharFormat;
 class ConsoleScreen
 {
 public:
-    ConsoleScreen(int rows = 24, int cols = 100);
+    ConsoleScreen(int cols = 100, int rows = 24);
     ConsoleScreen(ConsoleScreen const&) = delete;
     void operator =(ConsoleScreen const&) = delete;
 
     ~ConsoleScreen();
 
     void clear();
-
+    void setSize(int cols, int rows);
     int rows() const { return rows_; }
     int cols() const { return cols_; }
     int row() const { return row_ + 1; }
@@ -58,10 +58,10 @@ private:
     bool isDrawLineMode_ = false;
     int top_ = 0;
     int bottom_ = 0;
-    int row_ = 0;
     int col_ = 0;
-    int rows_;
+    int row_ = 0;
     int cols_;
+    int rows_;
 };
 
 #endif // CONSOLESCREEN_H

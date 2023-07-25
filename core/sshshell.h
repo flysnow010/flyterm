@@ -15,13 +15,14 @@ public:
 
     void connectTo(SSHSettings const& settings);
     int write(QByteArray const& data);
-    void run(int cols, int rows);
+    void shellSize(int cols, int rows);
+    void run();
     void stop();
 
 signals:
     void connectReq(SSHSettings const& settings);
-    void runReq(int cols, int rows);
-    void stopReq();
+    void runReq();
+    void shellSizeReq(int cols, int rows);
 
     void connected();
     void unconnected();

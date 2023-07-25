@@ -16,7 +16,8 @@ public:
     int write(QByteArray const& data);
 public slots:
     void connectTo(SSHSettings const& settings);
-    bool run(int cols, int rows);
+    bool run();
+    void shellSize(int cols, int rows);
     void stop();
 signals:
     void connected();
@@ -31,6 +32,9 @@ private:
     ssh::Session::Ptr sessioin_;
     ssh::Channel* channel_;
     volatile bool signal_;
+    volatile bool shellSizeChanged_;
+    int cols_;
+    int rows_;
 };
 
 #endif // SSHCHANNEL_H

@@ -1,17 +1,30 @@
 #include "sshchannel.h"
+#include <QDebug>
+
+int const DEFAULT_COLS = 80;
+int const DEFAULT_ROWS = 24;
 
 SSHChannel::SSHChannel(QObject *parent)
     : QObject(parent)
     , sessioin_(new ssh::Session())
     , channel_(0)
     , signal_(false)
+    , shellSizeChanged_(false)
+    , cols_(DEFAULT_COLS)
+    , rows_(DEFAULT_ROWS)
 {
-
 }
 
 int SSHChannel::write(QByteArray const& data)
 {
     return channel_->write((void *)data.data(), data.size());
+}
+
+void SSHChannel::shellSize(int cols, int rows)
+{
+    cols_ = cols;
+    rows_ =  rows;
+    shellSizeChanged_ = true;
 }
 
 void SSHChannel::connectTo(SSHSettings const& settings)
@@ -50,25 +63,29 @@ void SSHChannel::connectTo(SSHSettings const& settings)
         }
     }
     channel_ = new ssh::Channel(*sessioin_);
+    channel_->open();
+    channel_->run_shell(cols_, rows_);
+
     emit connected();
 }
 
-bool SSHChannel::run(int cols, int rows)
+bool SSHChannel::run()
 {
-    if(!channel_->open())
-        return false;
-
-   if(!channel_->run_shell(cols, rows))
-       return false;
-
-    char buffer[256];
     while(!singled())
     {
-        int nbytes = channel_->read(buffer, sizeof(buffer));
+        int nbytes = channel_->poll();
+        if(shellSizeChanged_)
+        {
+            channel_->shell_size(cols_, rows_);
+            shellSizeChanged_ = false;
+        }
         if(nbytes == 0)
             continue;
 
-        emit onData(QByteArray(buffer, nbytes));
+        QByteArray bytes(nbytes, Qt::Uninitialized);
+        channel_->read(bytes.data(), bytes.size());
+
+        emit onData(bytes);
     }
     return true;
 }

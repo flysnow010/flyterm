@@ -10,7 +10,6 @@
 AlternateConsole::AlternateConsole(QWidget *parent)
     : SshConsole(parent)
 {
-    document()->setMaximumBlockCount(24);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
@@ -68,6 +67,7 @@ void AlternateConsole::connectAppCommand()
 void AlternateConsole::putData(const QByteArray &data)
 {
     commandParser->parse(data);
+
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(0);
 }
@@ -75,6 +75,12 @@ void AlternateConsole::putData(const QByteArray &data)
 void AlternateConsole::clearScreen()
 {
     screen.clear();
+}
+
+void AlternateConsole::shellSize(int cols, int rows)
+{
+    screen.setSize(cols, rows);
+    document()->setMaximumBlockCount(rows);
 }
 
 void AlternateConsole::putText(QString const& text)
@@ -100,10 +106,7 @@ void AlternateConsole::putText(QString const& text)
 
     }
     if(isPutText)
-    {
         screen.setText(text);
-        screen.drawText(this, palette_, normalFormat);
-    }
     else
     {
         onRight(text.size());
@@ -171,14 +174,16 @@ void AlternateConsole::onRowRangle(int top, int bottom)
 }
 void AlternateConsole::hideCursor()
 {
-    //qDebug() << "hideCursor";
+    qDebug() << "hideCursor";
     isPutText = true;
 }
 
 void AlternateConsole::showCursor()
 {
-    //qDebug() << "showCursor";
+    qDebug() << "showCursor";
     isPutText = false;
+    screen.drawText(this, palette_, normalFormat);
+    onCursorPos(screen.row(), screen.col());
 }
 
 void AlternateConsole::onCursorPos(int row, int col)

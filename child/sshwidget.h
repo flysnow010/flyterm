@@ -68,6 +68,7 @@ private slots:
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
+    void getShellSize(QSize const& size, int &cols, int &rows);
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
