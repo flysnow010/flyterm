@@ -40,7 +40,9 @@ public:
     void setForeColor(ColorRole fore) { role_.fore = fore; }
     void setBackColor(ColorRole back) { role_.back = back; }
 
-    void setText(QString const& text);
+    bool setText(QString const& text);
+    void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+                 QTextCharFormat const& text);
     void drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                   QTextCharFormat const& text);
 

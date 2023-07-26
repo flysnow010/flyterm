@@ -50,6 +50,8 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
     connect(commandParser, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
+    connect(commandParser, SIGNAL(onBackColor(ColorRole)),
+            this, SLOT(onBackColor(ColorRole)));
     connect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
     connect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
@@ -67,6 +69,8 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
     disconnect(commandParser, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
+    disconnect(commandParser, SIGNAL(onBackColor(ColorRole)),
+            this, SLOT(onBackColor(ColorRole)));
     disconnect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
     disconnect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
@@ -174,12 +178,7 @@ void SshConsole::onGetCursorPos()
 
 void SshConsole::onBackspace(int count)
 {
-    QTextCursor cursor = textCursor();
-    int pos = cursor.position();
-    if(pos - count < minCursorPos_)
-        count = pos - minCursorPos_;
-    for(int i = 0; i < count; i++)
-        textCursor().deletePreviousChar();
+    backspace(count);
 }
 
 void SshConsole::onLeft(int count)
@@ -197,6 +196,28 @@ void SshConsole::cursorLeft(int count)
     setTextCursor(cursor);
 }
 
+void SshConsole::cursorRight(int)
+{
+}
+
+void SshConsole::home()
+{
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::StartOfLine);
+    setTextCursor(cursor);
+    screen.cursorCol(1);
+}
+
+void SshConsole::backspace(int count)
+{
+    QTextCursor cursor = textCursor();
+    int pos = cursor.position();
+    if(pos - count < minCursorPos_)
+        count = pos - minCursorPos_;
+    for(int i = 0; i < count; i++)
+        textCursor().deletePreviousChar();
+}
+
 void SshConsole::onRight(int count)
 {
     QTextCursor cursor = textCursor();
@@ -212,8 +233,8 @@ void SshConsole::onRight(int count)
                             QTextCursor::MoveAnchor,
                             screen.cols() - screen.col());
     }
-    //cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
     setTextCursor(cursor);
+    cursorRight(count);
 }
 
 void SshConsole::onReturn()
@@ -228,10 +249,7 @@ void SshConsole::onReturn()
 
 void SshConsole::onHome()
 {
-    QTextCursor cursor = textCursor();
-    cursor.movePosition(QTextCursor::StartOfLine);
-    setTextCursor(cursor);
-    screen.cursorCol(1);
+    home();
 }
 
 void SshConsole::onOverWrite(bool enable)
@@ -281,7 +299,8 @@ void SshConsole::putText(QString const& text)
     QTextCursor tc = textCursor();
     if(isOverWrite)
     {
-        tc.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, text.size());
+        tc.movePosition(QTextCursor::Right,
+                        QTextCursor::KeepAnchor, text.size());
         setTextCursor(tc);
         tc = textCursor();
     }

@@ -168,7 +168,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == 'C')//??
+        else if(*ch == 'C')//22C
         {
             parse_C(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;

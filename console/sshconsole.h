@@ -80,7 +80,10 @@ protected:
     void insertFromMimeData(const QMimeData *source) override;
 
     virtual void putText(QString const& text);
+    virtual void home();
+    virtual void backspace(int count);
     virtual void cursorLeft(int count);
+    virtual void cursorRight(int count);
     virtual void setForeColor(ColorRole role);
     virtual void setBackColor(ColorRole role);
     virtual void setCloseColor();

@@ -125,7 +125,7 @@ void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
     QFontMetricsF fontmetrics(font);
     int w = fontmetrics.width('W');
     int h = fontmetrics.height();
-    cols = size.width() / w;
+    cols = size.width() / w - 2;
     rows = size.height() / h;
 }
 
@@ -307,6 +307,7 @@ void SShWidget::switchToAlternateScreen()
     alternateConsole->connectCommand();
     alternateConsole->clearScreen();
     console->hide();
+    alternateConsole->reset();
     alternateConsole->show();
     alternateConsole->setFocus();
 }

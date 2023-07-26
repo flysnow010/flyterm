@@ -115,7 +115,9 @@ void ConsoleScreen::delCharToLineEnd()
         (*rowChars)[i].value = QChar::Null;
 }
 
-void ConsoleScreen::drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& palette, const QTextCharFormat &text)
+void ConsoleScreen::drawText(QTextEdit* textEdit,
+                             ConsolePalette::Ptr const& palette,
+                             const QTextCharFormat &text)
 {
     textEdit->clear();
     QTextCursor tc = textEdit->textCursor();
@@ -151,10 +153,11 @@ void ConsoleScreen::drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& pal
     }
 }
 
-void ConsoleScreen::setText(QString const& text)
+bool ConsoleScreen::setText(QString const& text)
 {
     int row = row_;
     int col = col_;
+    bool isMuliLine = false;
     ConsoleChars* rowData = consoleCharsVec[row];
     if(col > 1)
     {
@@ -178,12 +181,55 @@ void ConsoleScreen::setText(QString const& text)
         }
         else
         {
-            rowData = consoleCharsVec[++row];
+            if(row + 1 < consoleCharsVec.size())
+                rowData = consoleCharsVec[++row];
+            else
+                scrollUp();
+            isMuliLine = true;
             col = 0;
         }
     }
     row_ = row;
     col_ = col;
+    return isMuliLine;
+}
+
+void ConsoleScreen::drawRow(int row,
+                            QTextEdit* textEdit,
+                            const ConsolePalette::Ptr &palette,
+                            const QTextCharFormat &text)
+{
+    QTextCursor tc = textEdit->textCursor();
+    tc.movePosition(QTextCursor::Start);
+    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row - 1);
+    tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+    tc.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+
+    ConsoleChars* rowData = consoleCharsVec[row - 1];
+    ConsoleText consoleText;
+    consoleText.role = (*rowData)[0].role;
+    int index = 0;
+    for(int j = 1; j < rowData->size(); j++)
+    {
+        ConsoleChar const& consoleChar = (*rowData)[j];
+
+        if(consoleChar.role != consoleText.role
+            || j == rowData->size() - 1)
+        {
+            consoleText.text.resize(j-index);
+            for(int k = 0; k < consoleText.text.size(); k++)
+                consoleText.text[k] = (*rowData)[index + k].value;
+            QTextCharFormat colorFormat = text;
+            if(consoleText.role.fore != ColorRole::NullRole)
+                colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
+            if(consoleText.role.back != ColorRole::NullRole)
+                colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+            tc.insertText(consoleText.text, colorFormat);
+            consoleText.role = consoleChar.role;
+            index = j;
+        }
+    }
+    textEdit->setTextCursor(tc);
 }
 
 QChar ConsoleScreen::drawChar(QChar ch)
