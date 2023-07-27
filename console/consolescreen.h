@@ -40,10 +40,10 @@ public:
     void setForeColor(ColorRole fore) { role_.fore = fore; }
     void setBackColor(ColorRole back) { role_.back = back; }
 
-    bool setText(QString const& text);
-    void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
-                 QTextCharFormat const& text);
-    void drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+    void setText(QString const& text);
+    void updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+                  QTextCharFormat const& text);
+    void update(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                   QTextCharFormat const& text);
 
     void setDrawLineMode(bool enable) { isDrawLineMode_ = enable; }
@@ -54,9 +54,14 @@ private:
     void scrollUp();
     void scrollDown();
     QChar drawChar(QChar ch);
+    int getCols(ConsoleChars * rowData);
+    void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+                 QTextCharFormat const& text);
+    void addUpdateRow(int row);
 private:
     QVector<ConsoleChars *> consoleCharsVec;
     ConsolRole role_;
+    QList<int> updateRows_;
     bool isDrawLineMode_ = false;
     int top_ = 0;
     int bottom_ = 0;

@@ -118,19 +118,7 @@ void AlternateConsole::putText(QString const& text)
         }
     }
     if(isPutText)
-    {
-        bool isMultiLine = screen.setText(text);
-        if(isUpdate)
-        {
-           if(isMultiLine)
-                screen.drawText(this, palette_, normalFormat);
-           else
-               screen.drawRow(screen.row(),
-                          this,
-                          palette_,
-                          normalFormat);
-        }
-    }
+        screen.setText(text);
     else
     {
         onRight(text.size());
@@ -214,13 +202,14 @@ void AlternateConsole::showCursor()
 {
     qDebug() << "showCursor";
     isPutText = false;
-    if(isUpdate)
-        isUpdate = false;
+    if(!isUpdate)
+        screen.update(this, palette_, normalFormat);
     else
     {
-        screen.drawText(this, palette_, normalFormat);
-        onCursorPos(screen.row(), screen.col());
+        isUpdate = false;
+        screen.updateRows(this, palette_, normalFormat);
     }
+    onCursorPos(screen.row(), screen.col());
 }
 
 void AlternateConsole::onCursorPos(int row, int col)
@@ -245,7 +234,6 @@ void AlternateConsole::insertLine(int lines)
 
 void AlternateConsole::delCharToLineEnd()
 {
-    onDelCharToLineEnd();
     screen.delCharToLineEnd();
 }
 

@@ -86,12 +86,16 @@ void ConsoleScreen::scrollUp(int lines)
 {
     for(int i = 0; i < lines; i++)
         scrollUp();
+    for(int i = top_; i < bottom_; i++)
+        addUpdateRow(i);
 }
 
 void ConsoleScreen::scrollDown(int lines)
 {
     for(int i = 0; i < lines; i++)
         scrollDown();
+    for(int i = top_; i < bottom_; i++)
+        addUpdateRow(i);
 }
 
 void ConsoleScreen::scrollUp()
@@ -111,15 +115,16 @@ void ConsoleScreen::scrollDown()
 void ConsoleScreen::delCharToLineEnd()
 {
     ConsoleChars* rowChars = consoleCharsVec[row_];
-    for(int i = col_; i < rowChars->size(); i++)
+   for(int i = col_; i < rowChars->size(); i++)
         (*rowChars)[i].value = QChar::Null;
 }
 
-void ConsoleScreen::drawText(QTextEdit* textEdit,
+void ConsoleScreen::update(QTextEdit* textEdit,
                              ConsolePalette::Ptr const& palette,
                              const QTextCharFormat &text)
 {
     textEdit->clear();
+    updateRows_.clear();
     QTextCursor tc = textEdit->textCursor();
 
     for(int i = 0; i < consoleCharsVec.size(); i++)
@@ -153,12 +158,12 @@ void ConsoleScreen::drawText(QTextEdit* textEdit,
     }
 }
 
-bool ConsoleScreen::setText(QString const& text)
+void ConsoleScreen::setText(QString const& text)
 {
     int row = row_;
     int col = col_;
-    bool isMuliLine = false;
     ConsoleChars* rowData = consoleCharsVec[row];
+    addUpdateRow(row);
     if(col > 1)
     {
         for(int i = 0; i < col; i++)
@@ -182,16 +187,21 @@ bool ConsoleScreen::setText(QString const& text)
         else
         {
             if(row + 1 < consoleCharsVec.size())
+            {
                 rowData = consoleCharsVec[++row];
+                addUpdateRow(row);
+            }
             else
+            {
+                if(row > 1)
+                    addUpdateRow(row - 1);
                 scrollUp();
-            isMuliLine = true;
+            }
             col = 0;
         }
     }
     row_ = row;
     col_ = col;
-    return isMuliLine;
 }
 
 void ConsoleScreen::drawRow(int row,
@@ -201,11 +211,11 @@ void ConsoleScreen::drawRow(int row,
 {
     QTextCursor tc = textEdit->textCursor();
     tc.movePosition(QTextCursor::Start);
-    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row - 1);
+    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
     tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
     tc.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
 
-    ConsoleChars* rowData = consoleCharsVec[row - 1];
+    ConsoleChars* rowData = consoleCharsVec[row];
     ConsoleText consoleText;
     consoleText.role = (*rowData)[0].role;
     int index = 0;
@@ -229,7 +239,31 @@ void ConsoleScreen::drawRow(int row,
             index = j;
         }
     }
-    textEdit->setTextCursor(tc);
+}
+
+void ConsoleScreen::updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+              QTextCharFormat const& text)
+{
+    foreach(auto row, updateRows_)
+        drawRow(row, textEdit, palette, text);
+    updateRows_.clear();
+}
+
+void ConsoleScreen::addUpdateRow(int row)
+{
+    if(!updateRows_.contains(row))
+        updateRows_ << row;
+}
+
+int ConsoleScreen::getCols(ConsoleChars * rowData)
+{
+    int cols = 0;
+    for(int j = 1; j < rowData->size(); j++)
+    {
+        if((*rowData)[j].value != QChar::Null)
+            cols++;
+    }
+    return cols;
 }
 
 QChar ConsoleScreen::drawChar(QChar ch)
