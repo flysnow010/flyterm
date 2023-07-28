@@ -17,7 +17,6 @@ public:
     ~SshConsole();
 
     virtual void putData(const QByteArray &data);
-    virtual void clearScreen();
 
     void setCommandParser(ConsoleParser* parser);
     void connectCommand();
@@ -88,6 +87,7 @@ protected:
     virtual void setForeColor(ColorRole role);
     virtual void setBackColor(ColorRole role);
     virtual void setCloseColor();
+    virtual void clearScreen();
 private:
     void clearSelection();
     int selectText();

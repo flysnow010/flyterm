@@ -306,7 +306,7 @@ void SShWidget::switchToAlternateScreen()
     isMainScreen = false;
     console->disconnectCommand();
     alternateConsole->connectCommand();
-    alternateConsole->clearScreen();
+    alternateConsole->reset();
     console->hide();
     alternateConsole->show();
     alternateConsole->setFocus();

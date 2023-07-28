@@ -12,7 +12,7 @@ public:
 
     void connectAppCommand();
     void putData(const QByteArray &data) override;
-    void clearScreen() override;
+    void reset();
     void shellSize(int cols, int rows);
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -24,6 +24,7 @@ protected:
     void backspace(int count) override;
     void cursorLeft(int count) override;
     void cursorRight(int count) override;
+    void clearScreen() override;
 private slots:
     void onSwitchToAppKeypadMode();
     void onSwitchToNormalKeypadMode();

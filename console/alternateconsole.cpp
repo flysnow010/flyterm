@@ -57,11 +57,11 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_PageUp:
         emit getData("\033[5~");
-        isUpdate = true;
+        //isUpdate = true;
         break;
     case Qt::Key_PageDown:
         emit getData("\033[6~");
-        isUpdate = true;
+        //isUpdate = true;
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
@@ -104,7 +104,12 @@ void AlternateConsole::putData(const QByteArray &data)
 
 void AlternateConsole::clearScreen()
 {
-    screen.clear();
+    screen.clear(false);
+}
+
+void AlternateConsole::reset()
+{
+    screen.clear(true);
     isUpdate = false;
 }
 

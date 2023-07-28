@@ -17,15 +17,18 @@ ConsoleScreen::~ConsoleScreen()
         delete consoleCharsVec[i];
 }
 
-void ConsoleScreen::clear()
+void ConsoleScreen::clear(bool isAll)
 {
     for(int i = 0; i < consoleCharsVec.size(); i++)
         *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[i]->size());
 
-    top_ = 0;
-    bottom_ = 0;
-    row_ = 0;
-    col_ = 0;
+    if(isAll)
+    {
+        top_ = 0;
+        bottom_ = 0;
+        row_ = 0;
+        col_ = 0;
+    }
 }
 
 void ConsoleScreen::setSize(int cols, int rows)

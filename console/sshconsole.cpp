@@ -319,7 +319,7 @@ void SshConsole::putText(QString const& text)
 
 void SshConsole::clearScreen()
 {
-
+    clear();
 }
 
 void SshConsole::onForeColor(ColorRole role)
@@ -357,7 +357,7 @@ void SshConsole::setCloseColor()
 }
 void SshConsole::onCleanScreen()
 {
-    clear();
+    clearScreen();
 }
 
 void SshConsole::onColorClose()
