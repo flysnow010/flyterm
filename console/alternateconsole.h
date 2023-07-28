@@ -14,7 +14,6 @@ public:
     void putData(const QByteArray &data) override;
     void clearScreen() override;
     void shellSize(int cols, int rows);
-    void reset();
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void putText(QString const& text) override;

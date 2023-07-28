@@ -7,6 +7,10 @@
 #include <QScrollBar>
 #include <QRect>
 
+#ifdef DEBUG
+#define SHOW_INFO
+#endif
+
 AlternateConsole::AlternateConsole(QWidget *parent)
     : SshConsole(parent)
 {
@@ -73,8 +77,10 @@ void AlternateConsole::connectAppCommand()
 
 void AlternateConsole::putData(const QByteArray &data)
 {
+#ifdef SHOW_INFO
     if(isUpdate)
         qDebug() << "putData:" << data;
+#endif
     commandParser->parse(data);
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(bar->maximum());
@@ -83,6 +89,7 @@ void AlternateConsole::putData(const QByteArray &data)
 void AlternateConsole::clearScreen()
 {
     screen.clear();
+    isUpdate = false;
 }
 
 void AlternateConsole::shellSize(int cols, int rows)
@@ -93,8 +100,10 @@ void AlternateConsole::shellSize(int cols, int rows)
 
 void AlternateConsole::putText(QString const& text)
 {
+#ifdef SHOW_INFO
     if(isUpdate)
         qDebug() << "putText:" << text;
+#endif
     if(text == "\r")
     {
         if(!isPutText || isUpdate)
@@ -111,9 +120,6 @@ void AlternateConsole::putText(QString const& text)
         else if(screen.isBottom())
         {
             screen.scrollUp(1);
-            if(isUpdate)
-                qDebug() << "scrollUp:" << 1;
-            isUpdate = false;
             return;
         }
     }
@@ -194,13 +200,17 @@ void AlternateConsole::onRowRangle(int top, int bottom)
 }
 void AlternateConsole::hideCursor()
 {
+#ifdef SHOW_INFO
     qDebug() << "hideCursor";
+#endif
     isPutText = true;
 }
 
 void AlternateConsole::showCursor()
 {
+#ifdef SHOW_INFO
     qDebug() << "showCursor";
+#endif
     isPutText = false;
     if(!isUpdate)
         screen.update(this, palette_, normalFormat);
@@ -214,8 +224,10 @@ void AlternateConsole::showCursor()
 
 void AlternateConsole::onCursorPos(int row, int col)
 {
+#ifdef SHOW_INFO
     if(isUpdate)
         qDebug() << "pos:" << row << "," << col;
+#endif
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::Start);
     cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row - 1);
@@ -226,8 +238,10 @@ void AlternateConsole::onCursorPos(int row, int col)
 
 void AlternateConsole::insertLine(int lines)
 {
+#ifdef SHOW_INFO
     if(isUpdate)
         qDebug() << "scrollDown:" << lines;
+#endif
     screen.scrollDown(lines);
     isUpdate = false;
 }
@@ -256,10 +270,4 @@ void AlternateConsole::down()
     cursor.movePosition(QTextCursor::Down);
     setTextCursor(cursor);
     screen.cursorDown(1);
-}
-
-void AlternateConsole::reset()
-{
-    screen.clear();
-    isUpdate = false;
 }
