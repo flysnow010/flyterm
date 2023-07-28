@@ -23,9 +23,10 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
-        beforeLogfile_->open(QString("%1/telnet_%2.txt")
+        beforeLogfile_->open(QString("%1/ssh_%2_%3.txt")
                        .arg(Util::logoPath())
-                       .arg(uint64_t(this), 8, 16));
+                       .arg(uint64_t(this), 8, 16)
+                       .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
