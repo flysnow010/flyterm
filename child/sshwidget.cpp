@@ -125,7 +125,7 @@ void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
     QFontMetricsF fontmetrics(font);
     int w = fontmetrics.width('W');
     int h = fontmetrics.height();
-    cols = size.width() / w - 2;
+    cols = size.width() / w;
     rows = size.height() / h;
 }
 
