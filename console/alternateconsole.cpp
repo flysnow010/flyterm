@@ -47,6 +47,22 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         emit getData("\033OF");
         isUpdate = true;
         break;
+    case Qt::Key_Insert:
+        emit getData("\033[2~");
+        isUpdate = true;
+        break;
+    case Qt::Key_Delete:
+        emit getData("\033[3~");
+        isUpdate = true;
+        break;
+    case Qt::Key_PageUp:
+        emit getData("\033[5~");
+        isUpdate = true;
+        break;
+    case Qt::Key_PageDown:
+        emit getData("\033[6~");
+        isUpdate = true;
+        break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
         emit getData(e->text().toLocal8Bit());//"\x1B[?25l\x1B[16;23r\x1B[16;1H\x1B[L\x1B[1;24r\x1B[16;1H\x1B[?12l\x1B[?25h"
