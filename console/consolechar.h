@@ -2,17 +2,24 @@
 #define CONSOLECHAR_H
 #include <QChar>
 #include <QString>
+#include <QByteArray>
 #include <color/consolepalette.h>
 
 struct ConsoleChar
 {
-    QChar value;
+    char value = 0;
+    bool isDrawLineMode_ = false;
     ConsolRole role;
+    inline void reset()
+    {
+      value = 0;
+      isDrawLineMode_ = false;
+    }
 };
 
 struct ConsoleText
 {
-    QString text;
+    QByteArray text;
     ConsolRole role;
 };
 

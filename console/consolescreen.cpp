@@ -7,8 +7,8 @@ ConsoleScreen::ConsoleScreen(int cols, int rows)
     , rows_(rows)
 {
     consoleCharsVec.resize(rows);
-    for(int i = 0; i < rows; i++)
-        consoleCharsVec[i] = new ConsoleChars(cols);
+    for(int i = 0; i < rows_; i++)
+        consoleCharsVec[i] = new ConsoleChars(cols_);
 }
 
 ConsoleScreen::~ConsoleScreen()
@@ -114,9 +114,9 @@ void ConsoleScreen::scrollDown()
 
 void ConsoleScreen::delCharToLineEnd()
 {
-    ConsoleChars* rowChars = consoleCharsVec[row_];
+   ConsoleChars* rowChars = consoleCharsVec[row_];
    for(int i = col_; i < rowChars->size(); i++)
-        (*rowChars)[i].value = QChar::Null;
+        (*rowChars)[i].reset();
 }
 
 void ConsoleScreen::update(QTextEdit* textEdit,
@@ -148,7 +148,7 @@ void ConsoleScreen::update(QTextEdit* textEdit,
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
                 if(consoleText.role.back != ColorRole::NullRole)
                     colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
-                tc.insertText(consoleText.text, colorFormat);
+                tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
                 consoleText.role = consoleChar.role;
                 index = j;
             }
@@ -162,26 +162,26 @@ void ConsoleScreen::setText(QString const& text)
 {
     int row = row_;
     int col = col_;
+    QByteArray localText = text.toLocal8Bit();
     ConsoleChars* rowData = consoleCharsVec[row];
     addUpdateRow(row);
     if(col > 1)
     {
         for(int i = 0; i < col; i++)
         {
-            if((*rowData)[i].value == QChar::Null)
-                (*rowData)[i].value = QChar(' ');
+            if((*rowData)[i].value == 0)
+                (*rowData)[i].value = ' ';
         }
     }
-    for(int i = 0; i < text.size(); i++)
+    for(int i = 0; i < localText.size(); i++)
     {
-        if(text[i] == QChar('\r'))
+        if(localText[i] == '\r')
             continue;
-        if(col < rowData->size() && text[i] != QChar('\n'))
+        if(col < rowData->size() && localText[i] != '\n')
         {
             if(isDrawLineMode_)
-                (*rowData)[col].value = drawChar(text[i]);
-            else
-                (*rowData)[col].value = text[i];
+                (*rowData)[col].isDrawLineMode_ = true;
+            (*rowData)[col].value = localText[i];
             (*rowData)[col++].role = role_;
         }
         else
@@ -234,7 +234,7 @@ void ConsoleScreen::drawRow(int row,
                 colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
             if(consoleText.role.back != ColorRole::NullRole)
                 colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
-            tc.insertText(consoleText.text, colorFormat);
+            tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
             consoleText.role = consoleChar.role;
             index = j;
         }
@@ -255,40 +255,29 @@ void ConsoleScreen::addUpdateRow(int row)
         updateRows_ << row;
 }
 
-int ConsoleScreen::getCols(ConsoleChars * rowData)
+QChar ConsoleScreen::drawChar(char ch)
 {
-    int cols = 0;
-    for(int j = 1; j < rowData->size(); j++)
-    {
-        if((*rowData)[j].value != QChar::Null)
-            cols++;
-    }
-    return cols;
-}
-
-QChar ConsoleScreen::drawChar(QChar ch)
-{
-    if(ch == QChar('j'))
+    if(ch == 'j')
         return QString("┘").at(0);
-    if(ch == QChar('k'))
+    if(ch == 'k')
         return QString("┐").at(0);
-    if(ch == QChar('l'))
+    if(ch == 'l')
         return QString("┌").at(0);
-    if(ch == QChar('m'))
+    if(ch == 'm')
         return QString("└").at(0);
-    if(ch == QChar('n'))
+    if(ch == 'n')
         return QString("┼").at(0);
-    if(ch == QChar('q'))
+    if(ch == 'q')
         return QString("─").at(0);
-    if(ch == QChar('t'))
+    if(ch == 't')
         return QString("├").at(0);
-    if(ch == QChar('u'))
+    if(ch == 'u')
         return QString("┤").at(0);
-    if(ch == QChar('v'))
+    if(ch == 'v')
         return QString("┴").at(0);
-    if(ch == QChar('w'))
+    if(ch == 'w')
         return QString("┬").at(0);
-    if(ch == QChar('x'))
+    if(ch == 'x')
         return QString("│").at(0);
     return ch;
 }

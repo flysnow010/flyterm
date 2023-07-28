@@ -53,8 +53,7 @@ private:
     typedef QVector<ConsoleChar> ConsoleChars;
     void scrollUp();
     void scrollDown();
-    QChar drawChar(QChar ch);
-    int getCols(ConsoleChars * rowData);
+    QChar drawChar(char ch);
     void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                  QTextCharFormat const& text);
     void addUpdateRow(int row);
