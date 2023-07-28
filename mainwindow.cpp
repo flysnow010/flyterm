@@ -446,6 +446,7 @@ void MainWindow::readSettings()
     connectType = static_cast<ConnectType>(settings.value("connectType", connectType).toUInt());
     tftpRootPath = settings.value("tftpRootPath", tftpRootPath).toString();
     isLog = settings.value("isLog", false).toBool();
+    ui->actionLog->setChecked(isLog);
 }
 
 void MainWindow::writeSettings()
