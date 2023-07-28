@@ -6,6 +6,7 @@ CONFIG += c++17
 INCLUDEPATH += ./include
 DEFINES += CRYPTOPP_IMPORTS
 CONFIG(debug, debug|release){
+DEFINES += DEBUG
     LIBS += -L$$(PWD)\lib -lssh.dll -lrsa -lQTelnetd
 }
 else
