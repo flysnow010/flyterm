@@ -1,4 +1,5 @@
 #include "sshchannel.h"
+#include <QThread>
 #include <QDebug>
 
 int const DEFAULT_COLS = 80;
@@ -79,8 +80,11 @@ bool SSHChannel::run()
             channel_->shell_size(cols_, rows_);
             shellSizeChanged_ = false;
         }
-        if(nbytes == 0)
+        if(nbytes <= 0)
+        {
+            QThread::msleep(1);
             continue;
+        }
 
         QByteArray bytes(nbytes, Qt::Uninitialized);
         channel_->read(bytes.data(), bytes.size());
