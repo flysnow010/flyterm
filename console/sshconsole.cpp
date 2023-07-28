@@ -10,6 +10,7 @@
 #include <QApplication>
 #include <QTextBlock>
 #include <QMimeData>
+#include <QInputMethodEvent>
 #include <QDebug>
 
 SshConsole::SshConsole(QWidget *parent)
@@ -403,6 +404,13 @@ void SshConsole::keyPressEvent(QKeyEvent *e)
     int pos = textCursor().position();
     if(minCursorPos_ < 0 || pos < minCursorPos_)
         minCursorPos_ = pos;
+}
+
+void SshConsole::inputMethodEvent(QInputMethodEvent *e)
+{
+    QString commitString = e->commitString();
+    if(!commitString.isEmpty())
+        emit getData(commitString.toUtf8());
 }
 
 void SshConsole::mousePressEvent(QMouseEvent *e)

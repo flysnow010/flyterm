@@ -74,6 +74,7 @@ protected slots:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    void inputMethodEvent(QInputMethodEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
