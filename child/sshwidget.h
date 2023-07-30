@@ -2,7 +2,7 @@
 #define SSHWIDGET_H
 
 #include <QWidget>
-#include <sshremoteprocessrunner.h>
+#include "core/sshshell.h"
 #include "core/logfile.h"
 #include "color/consolecolor.h"
 #include "color/consolepalette.h"
@@ -20,9 +20,6 @@ public:
     explicit SShWidget(bool isLog, QWidget *parent = nullptr);
     ~SShWidget();
 
-    void setAskpassFilePath(QString const& filePath);
-    void setSshFilePath(QString const& filePath);
-    QString sshFilePath();
     bool runShell(SSHSettings const& settings);
     void sendCommand(QString const& command);
 
@@ -54,11 +51,10 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
 private slots:
-    void connectionError();
-    void processStarted();
-    void readyReadStandardOutput();
-    void readyReadStandardError();
-    void processClosed(const QString &error);
+    void connected();
+    void connectionError(QString const& error);
+    void onData(QByteArray const& data);
+    void onError(QByteArray const& data);
     void writeData(QByteArray const&data);
     void onGotCursorPos(int row, int col);
 
@@ -72,12 +68,13 @@ private slots:
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
+    void getShellSize(QSize const& size, int &cols, int &rows);
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
     CommandThread* commandThread_;
     ConsoleParser* commandParser;
-    QSsh::SshRemoteProcessRunner * shell;
+    SshShell * shell;
     LogFile::SharedPtr beforeLogfile_;
     LogFile::SharedPtr afterLogfile_;
     bool sheelIsClose = true;

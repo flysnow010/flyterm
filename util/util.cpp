@@ -51,9 +51,9 @@ QString Util::commandPath()
     return path;
 }
 
-QString Util::passwordPath()
+QString Util::sshUserAuthPath()
 {
-    QString path = QString("%1/Passwords").arg(currentPath());
+    QString path = QString("%1/sshUserAuth").arg(currentPath());
     QDir dir(path);
     if(!dir.exists(path))
         dir.mkpath(path);

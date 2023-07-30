@@ -6,11 +6,12 @@ CONFIG += c++17
 INCLUDEPATH += ./include
 DEFINES += CRYPTOPP_IMPORTS
 CONFIG(debug, debug|release){
-    LIBS += -L$$(PWD)\lib -lQSshd -lQTelnetd -lCrypto
+DEFINES += DEBUG
+    LIBS += -L$$(PWD)\lib -lssh.dll -lrsa -lQTelnetd
 }
 else
 {
-    LIBS += -L$$(PWD)\lib -lQSsh -lQTelnet -lCrypto
+    LIBS += -L$$(PWD)\lib -lssh.dll -lrsa -lQTelnet
 }
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -30,19 +31,21 @@ SOURCES += \
     console/serialportconsole.cpp \
     console/sshconsole.cpp \
     console/telnetconsole.cpp \
+    core/basesession.cpp \
     core/commandmanager.cpp \
     core/commandthread.cpp \
     core/consoleparser.cpp \
     core/languagemanager.cpp \
     core/logfile.cpp \
-    core/passwordserver.cpp \
     core/serialportparser.cpp \
     core/serialsession.cpp \
-    core/session.cpp \
+    core/sshchannel.cpp \
     core/sshparser.cpp \
     core/sshsession.cpp \
+    core/sshshell.cpp \
     core/telnetparser.cpp \
     core/telnetsession.cpp \
+    core/userauth.cpp \
     dialog/aboutdialog.cpp \
     dialog/commanddialog.cpp \
     dialog/connectdialog.cpp \
@@ -65,6 +68,13 @@ SOURCES += \
     service/tftp/tftp.cpp \
     service/tftp/tftpserver.cpp \
     service/tftp/tftpserverfile.cpp \
+    ssh/channel.cpp \
+    ssh/dir.cpp \
+    ssh/file.cpp \
+    ssh/fileinfo.cpp \
+    ssh/scp.cpp \
+    ssh/session.cpp \
+    ssh/sftp.cpp \
     transfer/kermit/kermit.cpp \
     transfer/kermit/kermitfilerecver.cpp \
     transfer/kermit/kermitfilesender.cpp \
@@ -95,23 +105,27 @@ HEADERS += \
     console/serialportconsole.h \
     console/sshconsole.h \
     console/telnetconsole.h \
+    core/basesession.h \
     core/commandmanager.h \
     core/commandthread.h \
     core/connecttype.h \
     core/consoleparser.h \
     core/languagemanager.h \
     core/logfile.h \
-    core/passwordserver.h \
+    core/prikey.h \
+    core/pubkey.h \
     core/serialportparser.h \
     core/serialsession.h \
     core/serialsettings.h \
-    core/session.h \
+    core/sshchannel.h \
     core/sshparser.h \
     core/sshsession.h \
     core/sshsettings.h \
+    core/sshshell.h \
     core/telnetparser.h \
     core/telnetsession.h \
     core/telnetsettings.h \
+    core/userauth.h \
     dialog/aboutdialog.h \
     dialog/commanddialog.h \
     dialog/connectdialog.h \
@@ -133,6 +147,14 @@ HEADERS += \
     service/tftp/tftp.h \
     service/tftp/tftpserver.h \
     service/tftp/tftpserverfile.h \
+    ssh/channel.h \
+    ssh/dir.h \
+    ssh/file.h \
+    ssh/fileinfo.h \
+    ssh/scp.h \
+    ssh/session.h \
+    ssh/sftp.h \
+    ssh/sshprivate.h \
     transfer/kermit/kermit.h \
     transfer/kermit/kermitfilerecver.h \
     transfer/kermit/kermitfilesender.h \

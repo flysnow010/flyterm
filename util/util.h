@@ -18,7 +18,7 @@ public:
     static QString homePath();
     static QString sessionPath();
     static QString commandPath();
-    static QString passwordPath();
+    static QString sshUserAuthPath();
     static QString languagePath();
     static QString logoPath();
     static QString cachePath();

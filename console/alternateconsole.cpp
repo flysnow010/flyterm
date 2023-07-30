@@ -7,10 +7,13 @@
 #include <QScrollBar>
 #include <QRect>
 
+#ifdef DEBUG
+#define SHOW_INFO
+#endif
+
 AlternateConsole::AlternateConsole(QWidget *parent)
     : SshConsole(parent)
 {
-    document()->setMaximumBlockCount(24);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
@@ -22,21 +25,43 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Up:
         emit getData("\033OA"); //"\x1B[?25l\x1B[1;23r\x1B[1;1H\x1B[L\x1B[1;24r\x1B[1;1H#ifndef VIDEO_WORKS_FEATURE_H\r\x1B[?12l\x1B[?25h"
+        isUpdate = true;
         break;
     case Qt::Key_Down:
         emit getData("\033OB"); //"\x1B[?25l\x1B[1;23r\x1B[23;1H\r\n\x1B[1;24r\x1B[23;1H#endif\x1B[24;1H\x1B[K\x1B[23;1H\x1B[?12l\x1B[?25h"
+        isUpdate = true;
         break;
     case Qt::Key_Right:
         emit getData("\033OC");
+        isUpdate = true;
         break;
     case Qt::Key_Left:
         emit getData("\033OD");
+        isUpdate = true;
         break;
     case Qt::Key_Home:
         emit getData("\033OH");
+        isUpdate = true;
         break;
     case Qt::Key_End:
         emit getData("\033OF");
+        isUpdate = true;
+        break;
+    case Qt::Key_Insert:
+        emit getData("\033[2~");
+        isUpdate = true;
+        break;
+    case Qt::Key_Delete:
+        emit getData("\033[3~");
+        isUpdate = true;
+        break;
+    case Qt::Key_PageUp:
+        emit getData("\033[5~");
+        //isUpdate = true;
+        break;
+    case Qt::Key_PageDown:
+        emit getData("\033[6~");
+        //isUpdate = true;
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
@@ -44,6 +69,7 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     default:
         emit getData(e->text().toLocal8Bit());
+        isUpdate = true;
         break;
     }
 }
@@ -67,21 +93,41 @@ void AlternateConsole::connectAppCommand()
 
 void AlternateConsole::putData(const QByteArray &data)
 {
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "putData:" << data;
+#endif
     commandParser->parse(data);
     QScrollBar *bar = verticalScrollBar();
-    bar->setValue(0);
+    bar->setValue(bar->maximum());
 }
 
 void AlternateConsole::clearScreen()
 {
-    screen.clear();
+    screen.clear(false);
+}
+
+void AlternateConsole::reset()
+{
+    screen.clear(true);
+    isUpdate = false;
+}
+
+void AlternateConsole::shellSize(int cols, int rows)
+{
+    screen.setSize(cols, rows);
+    document()->setMaximumBlockCount(rows);
 }
 
 void AlternateConsole::putText(QString const& text)
 {
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "putText:" << text;
+#endif
     if(text == "\r")
     {
-        if(!isPutText)
+        if(!isPutText || isUpdate)
             home();
         return;
     }
@@ -97,13 +143,9 @@ void AlternateConsole::putText(QString const& text)
             screen.scrollUp(1);
             return;
         }
-
     }
     if(isPutText)
-    {
         screen.setText(text);
-        screen.drawText(this, palette_, normalFormat);
-    }
     else
     {
         onRight(text.size());
@@ -135,13 +177,21 @@ void AlternateConsole::cursorLeft(int count)
     screen.cursorLeft(count);
 }
 
+void AlternateConsole::cursorRight(int count)
+{
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
+    setTextCursor(cursor);
+    screen.cursorRight(count);
+}
+
 void AlternateConsole::onSwitchToAppKeypadMode()
 {
     qDebug() << "onSwitchToAppKeypadMode";
     int w =  QFontMetrics(QFont(fontFamily(),
                                 fontPointSize(),
                                 fontWeight())).horizontalAdvance("W");
-    setCursorWidth(w + 2);
+    setCursorWidth(w + 1);
 }
 
 void AlternateConsole::onSwitchToNormalKeypadMode()
@@ -171,19 +221,34 @@ void AlternateConsole::onRowRangle(int top, int bottom)
 }
 void AlternateConsole::hideCursor()
 {
-    //qDebug() << "hideCursor";
+#ifdef SHOW_INFO
+    qDebug() << "hideCursor";
+#endif
     isPutText = true;
 }
 
 void AlternateConsole::showCursor()
 {
-    //qDebug() << "showCursor";
+#ifdef SHOW_INFO
+    qDebug() << "showCursor";
+#endif
     isPutText = false;
+    if(!isUpdate)
+        screen.update(this, palette_, normalFormat);
+    else
+    {
+        isUpdate = false;
+        screen.updateRows(this, palette_, normalFormat);
+    }
+    onCursorPos(screen.row(), screen.col());
 }
 
 void AlternateConsole::onCursorPos(int row, int col)
 {
-    //qDebug() << "row:" << row << "col: " << col;
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "pos:" << row << "," << col;
+#endif
     QTextCursor cursor = textCursor();
     cursor.movePosition(QTextCursor::Start);
     cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row - 1);
@@ -194,12 +259,16 @@ void AlternateConsole::onCursorPos(int row, int col)
 
 void AlternateConsole::insertLine(int lines)
 {
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "scrollDown:" << lines;
+#endif
     screen.scrollDown(lines);
+    isUpdate = false;
 }
 
 void AlternateConsole::delCharToLineEnd()
 {
-    onDelCharToLineEnd();
     screen.delCharToLineEnd();
 }
 
@@ -210,6 +279,12 @@ void AlternateConsole::home()
     setTextCursor(cursor);
     screen.cursorCol(1);
 }
+
+void AlternateConsole::backspace(int count)
+{
+    screen.cursorLeft(count);
+}
+
 void AlternateConsole::down()
 {
     QTextCursor cursor = textCursor();

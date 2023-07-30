@@ -1,7 +1,7 @@
 #ifndef SERIALSESSION_H
 #define SERIALSESSION_H
 
-#include "session.h"
+#include "basesession.h"
 #include "serialsettings.h"
 
 class SerialPortWidget;

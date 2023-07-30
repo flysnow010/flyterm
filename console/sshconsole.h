@@ -17,7 +17,6 @@ public:
     ~SshConsole();
 
     virtual void putData(const QByteArray &data);
-    virtual void clearScreen();
 
     void setCommandParser(ConsoleParser* parser);
     void connectCommand();
@@ -74,16 +73,21 @@ protected slots:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    void inputMethodEvent(QInputMethodEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
 
     virtual void putText(QString const& text);
+    virtual void home();
+    virtual void backspace(int count);
     virtual void cursorLeft(int count);
+    virtual void cursorRight(int count);
     virtual void setForeColor(ColorRole role);
     virtual void setBackColor(ColorRole role);
     virtual void setCloseColor();
+    virtual void clearScreen();
 private:
     void clearSelection();
     int selectText();

@@ -168,7 +168,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == 'C')//??
+        else if(*ch == 'C')//22C
         {
             parse_C(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
@@ -237,7 +237,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == 'c')
+        else if(*ch == 'c')//>c
         {
             isEnd = true;
             ch++;
@@ -255,7 +255,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-//        else if(*ch == '>')
+//        else if(*ch == '>') //??
 //        {
 //            isEnd = true;
 //            ch++;
@@ -318,6 +318,15 @@ int SShParser::parseEsc(const char* start, const char* end)
             isEnd = true;
             ch++;
             break;
+        }
+        else if(*ch == '?')//]10;? ]11;?
+        {
+            if(isRight)
+            {
+                isEnd = true;
+                ch++;
+                break;
+            }
         }
         ch++;
     }

@@ -2,13 +2,13 @@
 #include <QTextEdit>
 #include <QTextCharFormat>
 
-ConsoleScreen::ConsoleScreen(int rows, int cols)
-    : rows_(rows)
-    , cols_(cols)
+ConsoleScreen::ConsoleScreen(int cols, int rows)
+    : cols_(cols)
+    , rows_(rows)
 {
     consoleCharsVec.resize(rows);
-    for(int i = 0; i < rows; i++)
-        consoleCharsVec[i] = new ConsoleChars(cols);
+    for(int i = 0; i < rows_; i++)
+        consoleCharsVec[i] = new ConsoleChars(cols_);
 }
 
 ConsoleScreen::~ConsoleScreen()
@@ -17,15 +17,30 @@ ConsoleScreen::~ConsoleScreen()
         delete consoleCharsVec[i];
 }
 
-void ConsoleScreen::clear()
+void ConsoleScreen::clear(bool isAll)
 {
     for(int i = 0; i < consoleCharsVec.size(); i++)
         *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[i]->size());
 
-    top_ = 0;
-    bottom_ = 0;
-    row_ = 0;
-    col_ = 0;
+    if(isAll)
+    {
+        top_ = 0;
+        bottom_ = 0;
+        row_ = 0;
+        col_ = 0;
+    }
+}
+
+void ConsoleScreen::setSize(int cols, int rows)
+{
+    for(int i = 0; i < consoleCharsVec.size(); i++)
+        delete consoleCharsVec[i];
+
+    consoleCharsVec.resize(rows);
+    for(int i = 0; i < rows; i++)
+        consoleCharsVec[i] = new ConsoleChars(cols);
+    cols_ = cols;
+    rows_ = rows;
 }
 
 void ConsoleScreen::scrollRangle(int top, int bottom)
@@ -74,12 +89,16 @@ void ConsoleScreen::scrollUp(int lines)
 {
     for(int i = 0; i < lines; i++)
         scrollUp();
+    for(int i = top_; i < bottom_; i++)
+        addUpdateRow(i);
 }
 
 void ConsoleScreen::scrollDown(int lines)
 {
     for(int i = 0; i < lines; i++)
         scrollDown();
+    for(int i = top_; i < bottom_; i++)
+        addUpdateRow(i);
 }
 
 void ConsoleScreen::scrollUp()
@@ -98,14 +117,17 @@ void ConsoleScreen::scrollDown()
 
 void ConsoleScreen::delCharToLineEnd()
 {
-    ConsoleChars* rowChars = consoleCharsVec[row_];
-    for(int i = col_; i < rowChars->size(); i++)
-        (*rowChars)[i].value = QChar::Null;
+   ConsoleChars* rowChars = consoleCharsVec[row_];
+   for(int i = col_; i < rowChars->size(); i++)
+        (*rowChars)[i].reset();
 }
 
-void ConsoleScreen::drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& palette, const QTextCharFormat &text)
+void ConsoleScreen::update(QTextEdit* textEdit,
+                             ConsolePalette::Ptr const& palette,
+                             const QTextCharFormat &text)
 {
     textEdit->clear();
+    updateRows_.clear();
     QTextCursor tc = textEdit->textCursor();
 
     for(int i = 0; i < consoleCharsVec.size(); i++)
@@ -129,7 +151,7 @@ void ConsoleScreen::drawText(QTextEdit* textEdit, ConsolePalette::Ptr const& pal
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
                 if(consoleText.role.back != ColorRole::NullRole)
                     colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
-                tc.insertText(consoleText.text, colorFormat);
+                tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
                 consoleText.role = consoleChar.role;
                 index = j;
             }
@@ -143,30 +165,41 @@ void ConsoleScreen::setText(QString const& text)
 {
     int row = row_;
     int col = col_;
+    QByteArray localText = text.toLocal8Bit();
     ConsoleChars* rowData = consoleCharsVec[row];
+    addUpdateRow(row);
     if(col > 1)
     {
         for(int i = 0; i < col; i++)
         {
-            if((*rowData)[i].value == QChar::Null)
-                (*rowData)[i].value = QChar(' ');
+            if((*rowData)[i].value == 0)
+                (*rowData)[i].value = ' ';
         }
     }
-    for(int i = 0; i < text.size(); i++)
+    for(int i = 0; i < localText.size(); i++)
     {
-        if(text[i] == QChar('\r'))
+        if(localText[i] == '\r')
             continue;
-        if(col < rowData->size() && text[i] != QChar('\n'))
+        if(col < rowData->size() && localText[i] != '\n')
         {
             if(isDrawLineMode_)
-                (*rowData)[col].value = drawChar(text[i]);
-            else
-                (*rowData)[col].value = text[i];
+                (*rowData)[col].isDrawLineMode_ = true;
+            (*rowData)[col].value = localText[i];
             (*rowData)[col++].role = role_;
         }
         else
         {
-            rowData = consoleCharsVec[++row];
+            if(row + 1 < consoleCharsVec.size())
+            {
+                rowData = consoleCharsVec[++row];
+                addUpdateRow(row);
+            }
+            else
+            {
+                if(row > 1)
+                    addUpdateRow(row - 1);
+                scrollUp();
+            }
             col = 0;
         }
     }
@@ -174,29 +207,80 @@ void ConsoleScreen::setText(QString const& text)
     col_ = col;
 }
 
-QChar ConsoleScreen::drawChar(QChar ch)
+void ConsoleScreen::drawRow(int row,
+                            QTextEdit* textEdit,
+                            const ConsolePalette::Ptr &palette,
+                            const QTextCharFormat &text)
 {
-    if(ch == QChar('j'))
+    QTextCursor tc = textEdit->textCursor();
+    tc.movePosition(QTextCursor::Start);
+    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
+    tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+    tc.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+
+    ConsoleChars* rowData = consoleCharsVec[row];
+    ConsoleText consoleText;
+    consoleText.role = (*rowData)[0].role;
+    int index = 0;
+    for(int j = 1; j < rowData->size(); j++)
+    {
+        ConsoleChar const& consoleChar = (*rowData)[j];
+
+        if(consoleChar.role != consoleText.role
+            || j == rowData->size() - 1)
+        {
+            consoleText.text.resize(j-index);
+            for(int k = 0; k < consoleText.text.size(); k++)
+                consoleText.text[k] = (*rowData)[index + k].value;
+            QTextCharFormat colorFormat = text;
+            if(consoleText.role.fore != ColorRole::NullRole)
+                colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
+            if(consoleText.role.back != ColorRole::NullRole)
+                colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+            tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
+            consoleText.role = consoleChar.role;
+            index = j;
+        }
+    }
+}
+
+void ConsoleScreen::updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+              QTextCharFormat const& text)
+{
+    foreach(auto row, updateRows_)
+        drawRow(row, textEdit, palette, text);
+    updateRows_.clear();
+}
+
+void ConsoleScreen::addUpdateRow(int row)
+{
+    if(!updateRows_.contains(row))
+        updateRows_ << row;
+}
+
+QChar ConsoleScreen::drawChar(char ch)
+{
+    if(ch == 'j')
         return QString("┘").at(0);
-    if(ch == QChar('k'))
+    if(ch == 'k')
         return QString("┐").at(0);
-    if(ch == QChar('l'))
+    if(ch == 'l')
         return QString("┌").at(0);
-    if(ch == QChar('m'))
+    if(ch == 'm')
         return QString("└").at(0);
-    if(ch == QChar('n'))
+    if(ch == 'n')
         return QString("┼").at(0);
-    if(ch == QChar('q'))
+    if(ch == 'q')
         return QString("─").at(0);
-    if(ch == QChar('t'))
+    if(ch == 't')
         return QString("├").at(0);
-    if(ch == QChar('u'))
+    if(ch == 'u')
         return QString("┤").at(0);
-    if(ch == QChar('v'))
+    if(ch == 'v')
         return QString("┴").at(0);
-    if(ch == QChar('w'))
+    if(ch == 'w')
         return QString("┬").at(0);
-    if(ch == QChar('x'))
+    if(ch == 'x')
         return QString("│").at(0);
     return ch;
 }
