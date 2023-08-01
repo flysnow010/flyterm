@@ -87,7 +87,8 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onShowCursor()), this, SLOT(showCursor()));
     connect(commandParser, SIGNAL(onRowRangle(int,int)), this, SLOT(onRowRangle(int,int)));
     connect(commandParser, SIGNAL(onCursorPos(int,int)), this, SLOT(onCursorPos(int,int)));
-    connect(commandParser, SIGNAL(onInsertLine(int)), this, SLOT(insertLine(int)));
+    connect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
+    connect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
 }
 
@@ -257,13 +258,23 @@ void AlternateConsole::onCursorPos(int row, int col)
     screen.cursorPos(row, col);
 }
 
-void AlternateConsole::insertLine(int lines)
+void AlternateConsole::scrollDown(int rows)
 {
 #ifdef SHOW_INFO
     if(isUpdate)
-        qDebug() << "scrollDown:" << lines;
+        qDebug() << "scrollDown:" << rows;
 #endif
-    screen.scrollDown(lines);
+    screen.scrollDown(rows);
+    isUpdate = false;
+}
+
+void AlternateConsole::scrollUp(int rows)
+{
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "scrollUp:" << rows;
+#endif
+    screen.scrollUp(rows);
     isUpdate = false;
 }
 

@@ -34,7 +34,8 @@ private slots:
     void onCursorPos(int row, int col);
     void showCursor();
     void hideCursor();
-    void insertLine(int lines);
+    void scrollDown(int rows);
+    void scrollUp(int rows);
     void delCharToLineEnd();
 private:
     void down();

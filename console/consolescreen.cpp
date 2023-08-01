@@ -85,17 +85,17 @@ void ConsoleScreen::cursorLeft(int count)
     col_ -= count;
 }
 
-void ConsoleScreen::scrollUp(int lines)
+void ConsoleScreen::scrollUp(int rows)
 {
-    for(int i = 0; i < lines; i++)
+    for(int i = 0; i < rows; i++)
         scrollUp();
     for(int i = top_; i < bottom_; i++)
         addUpdateRow(i);
 }
 
-void ConsoleScreen::scrollDown(int lines)
+void ConsoleScreen::scrollDown(int rows)
 {
-    for(int i = 0; i < lines; i++)
+    for(int i = 0; i < rows; i++)
         scrollDown();
     for(int i = top_; i < bottom_; i++)
         addUpdateRow(i);
