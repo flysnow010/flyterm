@@ -32,8 +32,8 @@ public:
     void cursorLeft(int count);
 
     void scrollRangle(int top, int bottom);
-    void scrollUp(int lines);
-    void scrollDown(int lines);
+    void scrollUp(int rows);
+    void scrollDown(int rows);
 
     void delCharToLineEnd();
 
