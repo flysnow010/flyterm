@@ -155,6 +155,13 @@ int SShParser::parseEsc(const char* start, const char* end)
             isEnd = true;
             break;
         }
+        else if(*ch == 'M')//[36M
+        {
+            parse_M(QString::fromUtf8(start + 2, ch - start - 2));
+            ch++;
+            isEnd = true;
+            break;
+        }
         else if(*ch == 'A')
         {
             isEnd = true;
@@ -371,6 +378,11 @@ void SShParser::parse_H(QString const& h)
         emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
 }
 
+void SShParser::parse_M(QString const& m)
+{
+    emit onScrollUp(m.toInt());
+}
+
 void SShParser::parse_h(QString const& h)
 {
     if(h == "[?1049h")
@@ -388,9 +400,9 @@ void SShParser::parse_h(QString const& h)
 void SShParser::parse_L(QString const& l)
 {
     if(l.isEmpty())
-        emit onInsertLine(1);
+        emit onScrollDown(1);
     else
-        emit onInsertLine(l.toInt());
+        emit onScrollDown(l.toInt());
 }
 
 void SShParser::parse_l(QString const& l)

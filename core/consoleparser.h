@@ -67,7 +67,8 @@ signals:
     void onCursorPos(int row, int col);
     void onGetCursorPos();
     void onRowRangle(int top, int bottom);
-    void onInsertLine(int lines);
+    void onScrollDown(int rows);
+    void onScrollUp(int rows);
     void onSRMOff();
     void onSRMOn();
 protected:
