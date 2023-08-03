@@ -31,6 +31,18 @@ void ConsoleScreen::clear(bool isAll)
     }
 }
 
+void ConsoleScreen::clearScreen()
+{
+    for(int i = 0; i < consoleCharsVec.size(); i++)
+    {
+        ConsoleChars* rowData = consoleCharsVec[i];
+        for(int j = 1; j < rowData->size(); j++)
+        {
+            (*rowData)[j].reset(' ');
+        }
+    }
+}
+
 void ConsoleScreen::setSize(int cols, int rows)
 {
     for(int i = 0; i < consoleCharsVec.size(); i++)
@@ -53,10 +65,6 @@ void ConsoleScreen::cursorPos(int row, int col)
 {
     row_ = row - 1;
     col_ = col - 1;
-    if(col == 46)
-    {
-        col = col_;
-    }
 }
 
 void ConsoleScreen::cursorRow(int row)
@@ -86,13 +94,8 @@ void ConsoleScreen::cursorRight(int count)
 
 void ConsoleScreen::cursorLeft(int count)
 {
-    if(col_ > count)//0 40
+    if(col_ > count)
         col_ -= count;
-    else
-    {
-        col_++;
-        col_--;
-    };
 }
 
 void ConsoleScreen::scrollUp(int rows)
@@ -254,6 +257,7 @@ void ConsoleScreen::drawRow(int row,
     ConsoleText consoleText;
     consoleText.role = (*rowData)[0].role;
     int index = 0;
+    int charCount = ((*rowData)[0].isDrawLineMode ? 2 : 1);
     for(int j = 1; j < rowData->size(); j++)
     {
         ConsoleChar const& consoleChar = (*rowData)[j];
@@ -261,9 +265,23 @@ void ConsoleScreen::drawRow(int row,
         if(consoleChar.role != consoleText.role
             || j == rowData->size() - 1)
         {
-            consoleText.text.resize(j-index);
+            consoleText.text.resize(charCount);
             for(int k = 0; k < consoleText.text.size(); k++)
-                consoleText.text[k] = (*rowData)[index + k].value;
+            {
+                if(!(*rowData)[index].isDrawLineMode)
+                    consoleText.text[k] = (*rowData)[index].value;
+                else
+                {
+                    QByteArray bytes = drawChar((*rowData)[index].value);
+                    if(!bytes.isEmpty())
+                    {
+                        consoleText.text[k] = bytes[0];
+                        consoleText.text[k+1] = bytes[1];
+                    }
+                    k++;
+                }
+                index++;
+            }
             QTextCharFormat colorFormat = text;
             if(consoleText.role.fore != ColorRole::NullRole)
                 colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
@@ -272,7 +290,10 @@ void ConsoleScreen::drawRow(int row,
             tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
             consoleText.role = consoleChar.role;
             index = j;
+            charCount = (consoleChar.isDrawLineMode ? 2 : 1);
+            continue;
         }
+        charCount += (consoleChar.isDrawLineMode ? 2 : 1);
     }
 }
 

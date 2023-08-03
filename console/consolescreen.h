@@ -17,6 +17,7 @@ public:
     ~ConsoleScreen();
 
     void clear(bool isAll);
+    void clearScreen();
     void setSize(int cols, int rows);
     int rows() const { return rows_; }
     int cols() const { return cols_; }

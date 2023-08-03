@@ -111,9 +111,15 @@ void AlternateConsole::clearScreen()
 
 void AlternateConsole::reset(bool video)
 {
-    screen.clear(true);
-    isUpdate = false;
     isVideo = video;
+    isUpdate = false;
+    if(!isVideo)
+        screen.clear(true);
+    else
+    {
+        screen.clearScreen();
+        screen.update(this, palette_, normalFormat);
+    }
 }
 
 void AlternateConsole::shellSize(int cols, int rows)
@@ -151,7 +157,7 @@ void AlternateConsole::putText(QString const& text)
     {
         screen.setText(text);
         if(isVideo)
-            screen.update(this, palette_, normalFormat);
+            screen.updateRows(this, palette_, normalFormat);
     }
     else
     {
