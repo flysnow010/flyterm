@@ -15,6 +15,8 @@ public:
     enum Code {
         BEL = '\007',
         BS  = '\010',
+        SO  = '\016',
+        SI  = '\017',
         ESC = '\033',
         SPACE = '\040',
         LF = '\012',//\n
@@ -43,6 +45,7 @@ signals:
     void onDelCharToLineEnd();
     void onLeft(int count);
     void onRight(int count);
+    void onScreenHome();
     void onHome();
     void onOverWrite(bool enable);
     void onRow(int count);
@@ -52,9 +55,13 @@ signals:
     void onTitle(QString const& title);
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);
+    void onBold();//1m
+    void onUnderLine();//4m
+    void onBlink();//5m
+    void onReverse(); //7m
     void onASCIIMode();
     void onDECLineDrawingMode();
-    void onColorClose();
+    void onColorClose();//onCloseCharAttriutes
 
     void onSwitchToAlternateScreen();
     void onSwitchToMainScreen();
@@ -64,9 +71,13 @@ signals:
     void onCursorStopBlinking();
     void onShowCursor();
     void onHideCursor();
+    void onSaveCursorPos();
+    void onRestoreCursorPos();
     void onCursorPos(int row, int col);
     void onGetCursorPos();
     void onRowRangle(int top, int bottom);
+    void onInsertLine(int rows);//[1P
+    void onDeleteLine(int rows);//[1L
     void onScrollDown(int rows);
     void onScrollUp(int rows);
     void onSRMOff();

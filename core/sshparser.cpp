@@ -36,6 +36,24 @@ void SShParser::parse(QByteArray const& data)
                 ch++;
                 break;
             }
+            case SO:
+            {
+                if(ch > start)
+                    emit onText(QString::fromUtf8(start, ch - start));
+                emit onDECLineDrawingMode();
+                start = ch + 1;
+                ch++;
+                break;
+            }
+            case SI:
+            {
+                if(ch > start)
+                    emit onText(QString::fromUtf8(start, ch - start));
+                emit onASCIIMode();
+                start = ch + 1;
+                ch++;
+                break;
+            }
             case CR:
             {
                 ch++;
@@ -300,7 +318,7 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == '(')
+        else if(*ch == '(' || *ch == ')')
         {
             isBrackets = true;
         }
@@ -325,6 +343,24 @@ int SShParser::parseEsc(const char* start, const char* end)
             isEnd = true;
             ch++;
             break;
+        }
+        else if(*ch == '7')
+        {
+            isEnd = parse_7(QString::fromUtf8(start + 1, ch - start));
+            if(isEnd)
+            {
+                ch++;
+                break;
+            }
+        }
+        else if(*ch == '8')
+        {
+            isEnd = parse_8(QString::fromUtf8(start + 1, ch - start));
+            if(isEnd)
+            {
+                ch++;
+                break;
+            }
         }
         else if(*ch == '?')//]10;? ]11;?
         {
@@ -363,6 +399,8 @@ void SShParser::parse_0(QString const& c)
 {
     if(c == "(0")
         emit onDECLineDrawingMode();
+    else if(c == ")0")
+        ;
 }
 
 void SShParser::parse_B(QString const& b)
@@ -376,6 +414,8 @@ void SShParser::parse_H(QString const& h)
     QStringList tokens = h.split(";");
     if(tokens.size() == 2)
         emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
+    else
+        emit onScreenHome();
 }
 
 void SShParser::parse_M(QString const& m)
@@ -383,7 +423,7 @@ void SShParser::parse_M(QString const& m)
     emit onScrollUp(m.toInt());
 }
 
-void SShParser::parse_h(QString const& h)
+void SShParser::parse_h(QString const& h)//4h
 {
     if(h == "[?1049h")
         emit onSwitchToAlternateScreen();
@@ -405,7 +445,7 @@ void SShParser::parse_L(QString const& l)
         emit onScrollDown(l.toInt());
 }
 
-void SShParser::parse_l(QString const& l)
+void SShParser::parse_l(QString const& l)//4l
 {
     if(l == "[?1049l")
         emit onSwitchToMainScreen();
@@ -436,4 +476,24 @@ void SShParser::parse_r(QString const& r)
     QStringList tokens = r.split(";");
     if(tokens.size() == 2)
         emit onRowRangle(tokens[0].toInt(), tokens[1].toInt());
+}
+
+bool SShParser::parse_7(QString const& v)
+{
+    if(v == "7")
+    {
+        emit onSaveCursorPos();
+        return true;
+    }
+    return false;
+}
+
+bool SShParser::parse_8(QString const& v)
+{
+    if(v == "8")
+    {
+        emit onRestoreCursorPos();
+        return true;
+    }
+    return false;
 }

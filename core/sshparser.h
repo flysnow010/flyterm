@@ -22,6 +22,8 @@ private:
      void parse_J(QString const& j);
      void parse_K(QString const& k);
      void parse_r(QString const& r);
+     bool parse_7(QString const& v);
+     bool parse_8(QString const& v);
 };
 
 #endif // SSHPARSER_H
