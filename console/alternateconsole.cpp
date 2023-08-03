@@ -81,6 +81,7 @@ void AlternateConsole::connectAppCommand()
 
     connect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SLOT(onSwitchToAppKeypadMode()));
     connect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SLOT(onSwitchToNormalKeypadMode()));
+    connect(commandParser, SIGNAL(onScreenHome()), this, SLOT(onScreenHome()));
     connect(commandParser, SIGNAL(onASCIIMode()), this, SLOT(onASCIIMode()));
     connect(commandParser, SIGNAL(onDECLineDrawingMode()), this, SLOT(onDECLineDrawingMode()));
     connect(commandParser, SIGNAL(onHideCursor()), this, SLOT(hideCursor()));
@@ -108,10 +109,11 @@ void AlternateConsole::clearScreen()
     screen.clear(false);
 }
 
-void AlternateConsole::reset()
+void AlternateConsole::reset(bool video)
 {
     screen.clear(true);
     isUpdate = false;
+    isVideo = video;
 }
 
 void AlternateConsole::shellSize(int cols, int rows)
@@ -146,7 +148,11 @@ void AlternateConsole::putText(QString const& text)
         }
     }
     if(isPutText)
+    {
         screen.setText(text);
+        if(isVideo)
+            screen.update(this, palette_, normalFormat);
+    }
     else
     {
         onRight(text.size());
@@ -202,14 +208,15 @@ void AlternateConsole::onSwitchToNormalKeypadMode()
 
 void AlternateConsole::onASCIIMode()
 {
-    qDebug() << "onASCIIMode";
+    //qDebug() << "onASCIIMode";
     isPutText = true;
     screen.setDrawLineMode(false);
 }
 
 void AlternateConsole::onDECLineDrawingMode()
 {
-    qDebug() << "onDECLineDrawingMode";
+    //qDebug() << "onDECLineDrawingMode";
+    isPutText = true;
     screen.setDrawLineMode(true);
 }
 
@@ -242,6 +249,11 @@ void AlternateConsole::showCursor()
         screen.updateRows(this, palette_, normalFormat);
     }
     onCursorPos(screen.row(), screen.col());
+}
+
+void AlternateConsole::onScreenHome()
+{
+    onCursorPos(1, 1);
 }
 
 void AlternateConsole::onCursorPos(int row, int col)

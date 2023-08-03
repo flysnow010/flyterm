@@ -12,7 +12,7 @@ public:
 
     void connectAppCommand();
     void putData(const QByteArray &data) override;
-    void reset();
+    void reset(bool video);
     void shellSize(int cols, int rows);
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -31,6 +31,7 @@ private slots:
     void onASCIIMode();
     void onDECLineDrawingMode();
     void onRowRangle(int top, int bottom);
+    void onScreenHome();
     void onCursorPos(int row, int col);
     void showCursor();
     void hideCursor();
@@ -42,8 +43,9 @@ private:
 private:
     int topRow = -1;
     int bottomRow = -1;
-    bool isPutText = false;
+    bool isPutText = true;
     bool isUpdate = false;
+    bool isVideo = false;
     ConsoleScreen screen;
 };
 

@@ -61,13 +61,15 @@ private slots:
     void customContextMenu(const QPoint &);
     void setHighLighter();
 
-    void switchToAlternateScreen();
+    void switchToAlternateCharScreen();
+    void switchToAlternateVideoScreen();
     void switchToMainScreen();
     void execCommand(QString const& command);
     void execExpandCommand(QString const& command);
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
+    void switchToAlternateScreen(bool isVideo);
     void getShellSize(QSize const& size, int &cols, int &rows);
 private:
     SshConsole* console;

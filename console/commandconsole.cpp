@@ -39,8 +39,8 @@ void CommandConsole::keyPressEvent(QKeyEvent *e)
 
 void CommandConsole::sendCommand()
 {
-    QString command = QString("%1").arg(toPlainText());
-    commands << toPlainText();
+    QString command = toPlainText();
+    commands << command;
     command_index = commands.size();
     setPlainText(QString());
     emit getCommand(command);

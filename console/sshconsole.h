@@ -44,6 +44,7 @@ signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
     void onSwitchToAlternateScreen();
+    void onSwitchToAlternateVideoScreen();
     void onSwitchToMainScreen();
 
 public slots:

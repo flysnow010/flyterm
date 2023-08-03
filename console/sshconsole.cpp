@@ -56,7 +56,9 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
     connect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
+    connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
+    connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onSwitchToMainScreen()));
 }
 
 void SshConsole::disconnectCommand()
@@ -76,6 +78,8 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
     disconnect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
+    disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onSwitchToMainScreen()));
 }
 
 void SshConsole::setFontName(QString const& fontName)

@@ -53,6 +53,10 @@ void ConsoleScreen::cursorPos(int row, int col)
 {
     row_ = row - 1;
     col_ = col - 1;
+    if(col == 46)
+    {
+        col = col_;
+    }
 }
 
 void ConsoleScreen::cursorRow(int row)
@@ -82,7 +86,13 @@ void ConsoleScreen::cursorRight(int count)
 
 void ConsoleScreen::cursorLeft(int count)
 {
-    col_ -= count;
+    if(col_ > count)//0 40
+        col_ -= count;
+    else
+    {
+        col_++;
+        col_--;
+    };
 }
 
 void ConsoleScreen::scrollUp(int rows)
@@ -136,6 +146,7 @@ void ConsoleScreen::update(QTextEdit* textEdit,
         ConsoleText consoleText;
         consoleText.role = (*rowData)[0].role;
         int index = 0;
+        int charCount = ((*rowData)[0].isDrawLineMode ? 2 : 1);
         for(int j = 1; j < rowData->size(); j++)
         {
             ConsoleChar const& consoleChar = (*rowData)[j];
@@ -143,9 +154,23 @@ void ConsoleScreen::update(QTextEdit* textEdit,
             if(consoleChar.role != consoleText.role
                 || j == rowData->size() - 1)
             {
-                consoleText.text.resize(j-index);
+                consoleText.text.resize(charCount);
                 for(int k = 0; k < consoleText.text.size(); k++)
-                    consoleText.text[k] = (*rowData)[index + k].value;
+                {
+                    if(!(*rowData)[index].isDrawLineMode)
+                        consoleText.text[k] = (*rowData)[index].value;
+                    else
+                    {
+                        QByteArray bytes = drawChar((*rowData)[index].value);
+                        if(!bytes.isEmpty())
+                        {
+                            consoleText.text[k] = bytes[0];
+                            consoleText.text[k+1] = bytes[1];
+                        }
+                        k++;
+                    }
+                    index++;
+                }
                 QTextCharFormat colorFormat = text;
                 if(consoleText.role.fore != ColorRole::NullRole)
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
@@ -154,7 +179,10 @@ void ConsoleScreen::update(QTextEdit* textEdit,
                 tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
                 consoleText.role = consoleChar.role;
                 index = j;
+                charCount = (consoleChar.isDrawLineMode ? 2 : 1);
+                continue;
             }
+            charCount += (consoleChar.isDrawLineMode ? 2 : 1);
         }
         if(i != consoleCharsVec.size() - 1)
             tc.insertText("\n", text);
@@ -182,8 +210,7 @@ void ConsoleScreen::setText(QString const& text)
             continue;
         if(col < rowData->size() && localText[i] != '\n')
         {
-            if(isDrawLineMode_)
-                (*rowData)[col].isDrawLineMode_ = true;
+            (*rowData)[col].isDrawLineMode = isDrawLineMode_;
             (*rowData)[col].value = localText[i];
             (*rowData)[col++].role = role_;
         }
@@ -199,6 +226,11 @@ void ConsoleScreen::setText(QString const& text)
                 if(row > 1)
                     addUpdateRow(row - 1);
                 scrollUp();
+            }
+            if(localText[i] == '\n')
+            {
+                if(i == 0 || localText[i - 1] != '\r')
+                    continue;
             }
             col = 0;
         }
@@ -258,29 +290,29 @@ void ConsoleScreen::addUpdateRow(int row)
         updateRows_ << row;
 }
 
-QChar ConsoleScreen::drawChar(char ch)
+QByteArray ConsoleScreen::drawChar(char ch)
 {
     if(ch == 'j')
-        return QString("┘").at(0);
+        return QString("┘").toLocal8Bit();
     if(ch == 'k')
-        return QString("┐").at(0);
+        return QString("┐").toLocal8Bit();
     if(ch == 'l')
-        return QString("┌").at(0);
+        return QString("┌").toLocal8Bit();
     if(ch == 'm')
-        return QString("└").at(0);
+        return QString("└").toLocal8Bit();
     if(ch == 'n')
-        return QString("┼").at(0);
+        return QString("┼").toLocal8Bit();
     if(ch == 'q')
-        return QString("─").at(0);
+        return QString("─").toLocal8Bit();
     if(ch == 't')
-        return QString("├").at(0);
+        return QString("├").toLocal8Bit();
     if(ch == 'u')
-        return QString("┤").at(0);
+        return QString("┤").toLocal8Bit();
     if(ch == 'v')
-        return QString("┴").at(0);
+        return QString("┴").toLocal8Bit();
     if(ch == 'w')
-        return QString("┬").at(0);
+        return QString("┬").toLocal8Bit();
     if(ch == 'x')
-        return QString("│").at(0);
-    return ch;
+        return QString("│").toLocal8Bit();
+    return QByteArray();
 }

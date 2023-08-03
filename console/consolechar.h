@@ -8,12 +8,12 @@
 struct ConsoleChar
 {
     char value = 0;
-    bool isDrawLineMode_ = false;
+    bool isDrawLineMode = false;
     ConsolRole role;
     inline void reset()
     {
       value = 0;
-      isDrawLineMode_ = false;
+      isDrawLineMode = false;
     }
 };
 

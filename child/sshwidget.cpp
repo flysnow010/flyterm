@@ -49,7 +49,8 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
-    connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
+    connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateCharScreen()));
+    connect(console, SIGNAL(onSwitchToAlternateVideoScreen()), this, SLOT(switchToAlternateVideoScreen()));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     connect(alternateConsole, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
@@ -301,15 +302,25 @@ void SShWidget::customContextMenu(const QPoint &)
     console->cancelSelection();
 }
 
-void SShWidget::switchToAlternateScreen()
+void SShWidget::switchToAlternateScreen(bool isVideo)
 {
     isMainScreen = false;
     console->disconnectCommand();
     alternateConsole->connectCommand();
-    alternateConsole->reset();
+    alternateConsole->reset(isVideo);
     console->hide();
     alternateConsole->show();
     alternateConsole->setFocus();
+}
+
+void SShWidget::switchToAlternateCharScreen()
+{
+    switchToAlternateScreen(false);
+}
+
+void SShWidget::switchToAlternateVideoScreen()
+{
+    switchToAlternateScreen(true);
 }
 
 void SShWidget::switchToMainScreen()
