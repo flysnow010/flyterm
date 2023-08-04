@@ -121,7 +121,9 @@ void SerialPortConsole::onText(QString const& text)
         return;
 
     QTextCursor tc = textCursor();
-    if(text.startsWith("\r") && !text.startsWith("\r\n"))
+    if(text.startsWith("\r")
+            && text[1] != QChar('\r')
+            && text[1] != QChar('\n'))
     {
         removeCurrentRow();
         tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
@@ -130,6 +132,8 @@ void SerialPortConsole::onText(QString const& text)
     {
         if(text.endsWith("\r"))// \r 和 \n分两次来
             tc.insertText(text.left(text.size() - 1), isUseColor ? textFormat : normalFormat);
+        else if(text.startsWith("\r\r\n"))
+            tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
         else
             tc.insertText(text, isUseColor ? textFormat : normalFormat);
     }
