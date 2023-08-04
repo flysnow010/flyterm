@@ -146,6 +146,7 @@ int SShParser::parseEsc(const char* start, const char* end)
 {
     const char* ch = start + 1;
     bool isRight = false;
+    bool isLeft = false;
     bool isBrackets = false;
     bool isEnd = false;
     while(ch != end)
@@ -153,6 +154,10 @@ int SShParser::parseEsc(const char* start, const char* end)
         if(*ch == ']')
         {
            isRight = true;
+        }
+        else if(*ch == '[')
+        {
+            isLeft = true;
         }
         else if(*ch == ';')
         {
@@ -168,7 +173,10 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'm')
         {
-            parseColor(QString::fromUtf8(start + 1, ch - start));
+            if(isLeft)
+                parseSGR(QString::fromUtf8(start + 2, ch - start - 2));
+            else
+                parseSGR(QString::fromUtf8(start + 1, ch - start -1));
             ch++;
             isEnd = true;
             break;

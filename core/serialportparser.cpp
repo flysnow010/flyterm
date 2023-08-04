@@ -104,11 +104,19 @@ int SerialPortParser::parseBs(const char* start, const char* end)
 int SerialPortParser::parseEsc(const char* start, const char* end)
 {
     const char* ch = start + 1;
+    bool isLeft = false;
     while(ch != end)
     {
-        if(*ch == 'm')
+        if(*ch == '[')
         {
-            parseColor(QString::fromUtf8(start + 1, ch - start));
+            isLeft = true;
+        }
+        else if(*ch == 'm')
+        {
+            if(isLeft)
+                parseSGR(QString::fromUtf8(start + 2, ch - start - 2));
+            else
+                parseSGR(QString::fromUtf8(start + 1, ch - start -1));
             return ch - start + 1;
         }
         else if(*ch == 'n')//[6n
