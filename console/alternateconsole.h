@@ -11,6 +11,7 @@ public:
     AlternateConsole(QWidget *parent = nullptr);
 
     void connectAppCommand();
+    void disconnectAppCommand();
     void putData(const QByteArray &data) override;
     void reset(bool video);
     void shellSize(int cols, int rows);

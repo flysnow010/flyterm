@@ -93,6 +93,25 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
 }
 
+void AlternateConsole::disconnectAppCommand()
+{
+    if(!commandParser)
+        return;
+
+    disconnect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SLOT(onSwitchToAppKeypadMode()));
+    disconnect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SLOT(onSwitchToNormalKeypadMode()));
+    disconnect(commandParser, SIGNAL(onScreenHome()), this, SLOT(onScreenHome()));
+    disconnect(commandParser, SIGNAL(onASCIIMode()), this, SLOT(onASCIIMode()));
+    disconnect(commandParser, SIGNAL(onDECLineDrawingMode()), this, SLOT(onDECLineDrawingMode()));
+    disconnect(commandParser, SIGNAL(onHideCursor()), this, SLOT(hideCursor()));
+    disconnect(commandParser, SIGNAL(onShowCursor()), this, SLOT(showCursor()));
+    disconnect(commandParser, SIGNAL(onRowRangle(int,int)), this, SLOT(onRowRangle(int,int)));
+    disconnect(commandParser, SIGNAL(onCursorPos(int,int)), this, SLOT(onCursorPos(int,int)));
+    disconnect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
+    disconnect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
+    disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
+}
+
 void AlternateConsole::putData(const QByteArray &data)
 {
 #ifdef SHOW_INFO
