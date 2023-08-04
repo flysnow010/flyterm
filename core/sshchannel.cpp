@@ -18,6 +18,9 @@ SSHChannel::SSHChannel(QObject *parent)
 
 int SSHChannel::write(QByteArray const& data)
 {
+    if(!isConnected)
+        return 0;
+
     return channel_->write((void *)data.data(), data.size());
 }
 
@@ -68,6 +71,7 @@ void SSHChannel::connectTo(SSHSettings const& settings)
     channel_->run_shell(cols_, rows_);
 
     emit connected();
+    isConnected = true;
 }
 
 bool SSHChannel::run()

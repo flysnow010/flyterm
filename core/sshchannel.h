@@ -33,6 +33,7 @@ private:
     ssh::Channel* channel_;
     volatile bool signal_;
     volatile bool shellSizeChanged_;
+    bool isConnected = false;
     int cols_;
     int rows_;
 };
