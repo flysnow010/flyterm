@@ -251,7 +251,7 @@ void SerialSession::setObject(QJsonObject const& obj)
     settings_.parity = static_cast<QSerialPort::Parity>(obj.value("parity").toInt());
     settings_.stopBits = static_cast<QSerialPort::StopBits>(obj.value("stopBits").toInt());
     settings_.flowControl = static_cast<QSerialPort::FlowControl>(obj.value("flowControl").toInt());
-    settings_.localEchoEnabled = obj.value("flowControl").toBool();
+    settings_.localEchoEnabled = obj.value("localEchoEnabled").toBool();
 }
 
 QJsonObject SerialSession::object() const
