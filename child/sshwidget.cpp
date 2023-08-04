@@ -27,7 +27,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     console->setCommandParser(commandParser);
     console->connectCommand();
     alternateConsole->setCommandParser(commandParser);
-    alternateConsole->connectAppCommand();
+    //alternateConsole->connectAppCommand();
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
@@ -307,6 +307,7 @@ void SShWidget::switchToAlternateScreen(bool isVideo)
     isMainScreen = false;
     console->disconnectCommand();
     alternateConsole->connectCommand();
+    alternateConsole->connectAppCommand();
     alternateConsole->reset(isVideo);
     console->hide();
     alternateConsole->show();
@@ -327,6 +328,7 @@ void SShWidget::switchToMainScreen()
 {
     isMainScreen = true;
     alternateConsole->disconnectCommand();
+    alternateConsole->disconnectAppCommand();
     console->connectCommand();
     alternateConsole->hide();
     console->show();
