@@ -117,33 +117,60 @@ void SerialPortConsole::onText(QString const& text)
     LogFile::SharedPtr logfile = logfile_.lock();
     if(logfile)
         logfile->write(text);
-    if(text == "\r")
-        return;
+    putText(text);
+}
 
+void SerialPortConsole::putText(QString const& text)
+{
     QTextCursor tc = textCursor();
-    if(text.startsWith("\r")
-            && text[1] != QChar('\r')
-            && text[1] != QChar('\n'))
+    int start = tc.position();
+    QTextCharFormat* format = isUseColor ? &textFormat : &normalFormat;
+    int index = -1;
+    for(int i = 0; i < text.size(); i++)
     {
-        removeCurrentRow();
-        tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
-    }
-    else
-    {
-        if(text.endsWith("\r"))// \r 和 \n分两次来
-            tc.insertText(text.left(text.size() - 1), isUseColor ? textFormat : normalFormat);
-        else if(text.startsWith("\r\r\n"))
-            tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
+        if(text[i] == '\r')
+        {
+            if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index), *format);
+                index = -1;
+            }
+            isReturn = true;
+        }
+        else if(text[i] == '\n')
+        {
+            if(isReturn)
+            {
+                isReturn = false;
+                tc.insertText(text[i], *format);
+            }
+            else if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index + 1), *format);
+                index = -1;
+            }
+        }
         else
-            tc.insertText(text, isUseColor ? textFormat : normalFormat);
+        {
+            if(index < 0)
+                index = i;
+            if(isReturn)
+            {
+                removeCurrentRow();
+                if(tc.position() < start)
+                    start = tc.position();
+                isReturn = false;
+            }
+            if(i == text.size() - 1)
+                tc.insertText(text.mid(index, i - index + 1), *format);
+        }
     }
-
     if(isUseColor)
     {
         ColorRange colorRange;
         colorRange.role = currentForeRole;
         colorRange.end = tc.position();
-        colorRange.start = colorRange.end - text.size();
+        colorRange.start = start;
         colorRanges << colorRange;
     }
 }

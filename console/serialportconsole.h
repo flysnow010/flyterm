@@ -67,6 +67,7 @@ private:
     void updateColors();
     void setForeColor(ColorRole role);
     void setCloseColor();
+    void putText(QString const& text);
 private:
     ConsoleParser *commandParser;
     ConsolePalette::Ptr palette_;
@@ -82,6 +83,7 @@ private:
     QTextCharFormat textFormat;
     QTextCharFormat normalFormat;
     bool m_localEchoEnabled = false;
+    bool isReturn = false;
     int cursorPos = 0;
     int selectStart = 0;
     int selectEnd = 0;

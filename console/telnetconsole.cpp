@@ -116,23 +116,60 @@ void TelnetConsole::onText(QString const& text)
     LogFile::SharedPtr loginfile = logfile_.lock();
     if(loginfile)
         loginfile->write(text);
-    if(text == "\r")
-        return;
+    putText(text);
+}
 
+void TelnetConsole::putText(QString const& text)
+{
     QTextCursor tc = textCursor();
-    if(text.startsWith("\r") && !text.startsWith("\r\n"))
+    int start = tc.position();
+    QTextCharFormat* format = isUseColor ? &textFormat : &normalFormat;
+    int index = -1;
+    for(int i = 0; i < text.size(); i++)
     {
-        removeCurrentRow();
-        tc.insertText(text.right(text.size() - 1), isUseColor ? textFormat : normalFormat);
+        if(text[i] == '\r')
+        {
+            if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index), *format);
+                index = -1;
+            }
+            isReturn = true;
+        }
+        else if(text[i] == '\n')
+        {
+            if(isReturn)
+            {
+                isReturn = false;
+                tc.insertText(text[i], *format);
+            }
+            else if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index + 1), *format);
+                index = -1;
+            }
+        }
+        else
+        {
+            if(index < 0)
+                index = i;
+            if(isReturn)
+            {
+                removeCurrentRow();
+                if(tc.position() < start)
+                    start = tc.position();
+                isReturn = false;
+            }
+            if(i == text.size() - 1)
+                tc.insertText(text.mid(index, i - index + 1), *format);
+        }
     }
-    else
-        tc.insertText(text, isUseColor ? textFormat : normalFormat);
     if(isUseColor)
     {
         ColorRange colorRange;
         colorRange.role = currentForeRole;
         colorRange.end = tc.position();
-        colorRange.start = colorRange.end - text.size();
+        colorRange.start = start;
         colorRanges << colorRange;
     }
 }
