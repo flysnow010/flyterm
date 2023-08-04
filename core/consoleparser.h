@@ -55,10 +55,17 @@ signals:
     void onTitle(QString const& title);
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);
-    void onBold();//1m
-    void onUnderLine();//4m
-    void onBlink();//5m
-    void onReverse(); //7m
+    void onForeRgbColor();
+    void onBackRgbColor();
+    void onBold();
+    void onNoBold();
+    void onUnderLine();
+    void onNoUnderLine();
+    void onBlink();
+    void onReverse();
+    void onNormalColor();
+    void onNormalForeColor();
+    void onNormalBackColor();
     void onASCIIMode();
     void onDECLineDrawingMode();
     void onColorClose();//onCloseCharAttriutes
@@ -76,14 +83,16 @@ signals:
     void onCursorPos(int row, int col);
     void onGetCursorPos();
     void onRowRangle(int top, int bottom);
-    void onInsertLine(int rows);//[1P
-    void onDeleteLine(int rows);//[1L
-    void onScrollDown(int rows);
-    void onScrollUp(int rows);
+    void onInsertLine(int lines);//[1P
+    void onDeleteLine(int lines);//[1L
+    void onScrollDown(int rows);//[1S
+    void onScrollUp(int rows);//[1T
     void onSRMOff();
     void onSRMOn();
 protected:
     void parseColor(QString const& color);
+    void parseSGR(QString const& sgr);
+    void parseOneSGR(QString const& sgr);
     void parse_n(QString const& n);
     void parse_C(QString const& c);
     void parse_D(QString const& c);
