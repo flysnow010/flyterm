@@ -41,10 +41,6 @@ void SshConsole::connectCommand()
     if(!commandParser)
         return;
     connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
-    connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
-    connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
-    connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
-    connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
@@ -55,6 +51,13 @@ void SshConsole::connectCommand()
             this, SLOT(onBackColor(ColorRole)));
     connect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+
+    connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
+    connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
+    connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
+    connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
+
+
     connect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
     connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
@@ -76,6 +79,10 @@ void SshConsole::disconnectCommand()
             this, SLOT(onBackColor(ColorRole)));
     disconnect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    disconnect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
+    disconnect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
+    disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
+    disconnect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
     disconnect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
