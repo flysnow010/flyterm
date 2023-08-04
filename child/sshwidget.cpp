@@ -252,6 +252,7 @@ void SShWidget::connected()
 void SShWidget::connectionError(QString const& error)
 {
     qDebug() << "connectionError: " << error;
+    onData(error.toUtf8());
 }
 
 void SShWidget::onData(QByteArray const& data)
