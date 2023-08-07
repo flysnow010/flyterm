@@ -216,6 +216,18 @@ int  SshSession::shellSize()
     return widgets_.size();
 }
 
+void SshSession::activeWidget(QWidget *widget)
+{
+    for(int i = 0; i < widgets_.size(); i++)
+    {
+        if(widgets_[i] == widget)
+        {
+            widgets_[i]->activedWidget();
+            break;
+        }
+    }
+}
+
 void SshSession::setObject(QJsonObject const& obj)
 {
     settings_.hostName = obj.value("hostName").toString();

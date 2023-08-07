@@ -36,6 +36,7 @@ public:
     void increaseFontSize(QWidget *widget) override;
     void decreaseFontSize(QWidget *widget) override;
     void clearScrollback(QWidget *widget) override;
+    void activeWidget(QWidget *widget) override;
 
     void setObject(QJsonObject const& obj) override;
     QJsonObject object() const override;

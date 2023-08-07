@@ -59,6 +59,7 @@ public:
     virtual void increaseFontSize(QWidget *widget) = 0;
     virtual void decreaseFontSize(QWidget *widget) = 0;
     virtual void clearScrollback(QWidget *widget) = 0;
+    virtual void activeWidget(QWidget*) {}
 
     virtual void sendFile(QWidget *widget, QString const& protocol);
     virtual void recvFile(QWidget *widget, QString const& protocol);
