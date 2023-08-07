@@ -225,14 +225,17 @@ QSize SShWidget::sizeHint() const
 
 void SShWidget::resizeEvent(QResizeEvent *event)
 {
-    QSize size = event->size();
-    int cols, rows;
-    getShellSize(size, cols, rows);
-    shell->shellSize(cols, rows);
+    consoleSize = event->size();
+    console->resize(consoleSize);
+    alternateConsole->resize(consoleSize);
+}
 
-    console->resize(size);
-    alternateConsole->resize(size);
-    alternateConsole->shellSize(cols, rows);
+void SShWidget::activedWidget()
+{
+    getShellSize(consoleSize, shellCols, shellRows);
+    shell->shellSize(shellCols, shellRows);
+    if(!isMainScreen)
+        alternateConsole->shellSize(shellCols, shellRows);
 }
 
 void SShWidget::closeEvent(QCloseEvent *event)
@@ -311,6 +314,7 @@ void SShWidget::switchToAlternateScreen(bool isVideo)
     alternateConsole->connectAppCommand();
     alternateConsole->reset(isVideo);
     console->hide();
+    alternateConsole->shellSize(shellCols, shellRows);
     alternateConsole->show();
     alternateConsole->setFocus();
 }

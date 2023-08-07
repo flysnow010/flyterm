@@ -22,6 +22,7 @@ public:
 
     bool runShell(SSHSettings const& settings);
     void sendCommand(QString const& command);
+    void activedWidget();
 
     QSize sizeHint() const override;
 
@@ -77,6 +78,9 @@ private:
     CommandThread* commandThread_;
     ConsoleParser* commandParser;
     SshShell * shell;
+    QSize consoleSize;
+    int shellRows = 0;
+    int shellCols = 0;
     LogFile::SharedPtr beforeLogfile_;
     LogFile::SharedPtr afterLogfile_;
     bool sheelIsClose = true;
