@@ -498,6 +498,7 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
             comboFont->setCurrentText(session->fontName());
             comboSize->setCurrentText(QString::number(session->fontSize()));
             udpateHighLighterMenuStatus(session->hightLighter());
+            session->activeWidget(subWindow->widget());
         }
     }
 }
