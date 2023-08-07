@@ -228,11 +228,11 @@ void SShWidget::resizeEvent(QResizeEvent *event)
     consoleSize = event->size();
     console->resize(consoleSize);
     alternateConsole->resize(consoleSize);
+    getShellSize(consoleSize, shellCols, shellRows);
 }
 
 void SShWidget::activedWidget()
 {
-    getShellSize(consoleSize, shellCols, shellRows);
     shell->shellSize(shellCols, shellRows);
     if(!isMainScreen)
         alternateConsole->shellSize(shellCols, shellRows);
@@ -249,6 +249,7 @@ void SShWidget::closeEvent(QCloseEvent *event)
 
 void SShWidget::connected()
 {
+    activedWidget();
     shell->run();
 }
 
