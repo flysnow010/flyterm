@@ -43,8 +43,10 @@ public:
 signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
-    void onSwitchToAlternateScreen();
+    void onSwitchToAlternateCharScreen();
     void onSwitchToAlternateVideoScreen();
+    void onSaveCursorPos();
+    void onRestoreCursorPos();
     void onSwitchToMainScreen();
 
 public slots:
@@ -71,6 +73,7 @@ protected slots:
     void onBackColor(ColorRole role);
     void onCleanScreen();
     void onColorClose();
+    void onRestoreState();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -90,6 +93,7 @@ protected:
     virtual void setCloseColor();
     virtual void clearScreen();
 private:
+    void removeCurrentRow();
     void clearSelection();
     int selectText();
     int selectText(int start, int end);
@@ -111,6 +115,7 @@ private:
     bool isUseColor = false;
     bool isOverWrite = false;
     int minCursorPos_ = -1;
+    bool isReturn = false;
     int cursorPos = 0;
     int selectStart = 0;
     int selectEnd = 0;

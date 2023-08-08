@@ -51,17 +51,16 @@ void SshConsole::connectCommand()
             this, SLOT(onBackColor(ColorRole)));
     connect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
-
+    connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SLOT(onRestoreState()));
     connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
-
-
-    connect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
-    connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    connect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
+    connect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
-    connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onSwitchToMainScreen()));
+    connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
+    connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
 }
 
 void SshConsole::disconnectCommand()
@@ -79,14 +78,16 @@ void SshConsole::disconnectCommand()
             this, SLOT(onBackColor(ColorRole)));
     disconnect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
     disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SLOT(onRestoreState()));
     disconnect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     disconnect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     disconnect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
-    disconnect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SIGNAL(onSwitchToAlternateScreen()));
+    disconnect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
+    disconnect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
-    disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
-    disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onSwitchToMainScreen()));
+    disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
+    disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
 }
 
 void SshConsole::setFontName(QString const& fontName)
@@ -232,6 +233,11 @@ void SshConsole::backspace(int count)
 
 void SshConsole::onRight(int count)
 {
+    if(isReturn)
+    {
+        home();
+        isReturn = false;
+    }
     QTextCursor cursor = textCursor();
     if(count + screen.col() < screen.cols())
     {
@@ -294,38 +300,89 @@ void SshConsole::onText(QString const& text)
 
 void SshConsole::putText(QString const& text)
 {
-    if(text == "\r")
-    {
-        onReturn();
-        return;
-    }
-
-    if(text.startsWith("\r\n"))//if(text == "\r\n")
-    {
-        QTextCursor tc = textCursor();
-        tc.movePosition(QTextCursor::EndOfLine);
-        setTextCursor(tc);
-        isOverWrite = false;
-    }
-
     QTextCursor tc = textCursor();
-    if(isOverWrite)
+    int start = tc.position();
+    QTextCharFormat* format = isUseColor ? &textFormat : &normalFormat;
+    int index = -1;
+    for(int i = 0; i < text.size(); i++)
     {
-        tc.movePosition(QTextCursor::Right,
-                        QTextCursor::KeepAnchor, text.size());
-        setTextCursor(tc);
-        tc = textCursor();
+        if(text[i] == '\r')
+        {
+            if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index), *format);
+                index = -1;
+            }
+            isReturn = true;
+        }
+        else if(text[i] == '\n')
+        {
+            if(isReturn)
+            {
+                isReturn = false;
+                tc.insertText(text[i], *format);
+            }
+            else if(index >= 0)
+            {
+                tc.insertText(text.mid(index, i - index + 1), *format);
+                index = -1;
+            }
+        }
+        else
+        {
+            if(index < 0)
+                index = i;
+            if(isReturn)
+            {
+                removeCurrentRow();
+                if(tc.position() < start)
+                    start = tc.position();
+                isReturn = false;
+            }
+            if(i == text.size() - 1)
+                tc.insertText(text.mid(index, i - index + 1), *format);
+        }
     }
-
-    tc.insertText(text, isUseColor ? textFormat : normalFormat);
     if(isUseColor)
     {
         ColorRange colorRange;
         colorRange.role = currentForeRole;
         colorRange.end = tc.position();
-        colorRange.start = colorRange.end - text.size();
+        colorRange.start = start;
         colorRanges << colorRange;
     }
+//    if(text == "\r")
+//    {
+//        onReturn();
+//        return;
+//    }
+
+//    if(text.startsWith("\r\n"))//if(text == "\r\n")
+//    {
+//        QTextCursor tc = textCursor();
+//        tc.movePosition(QTextCursor::EndOfLine);
+//        setTextCursor(tc);
+//        isOverWrite = false;
+//    }
+
+//    QTextCursor tc = textCursor();
+//    if(isOverWrite)
+//    {
+//        tc.movePosition(QTextCursor::Right,
+//                        QTextCursor::KeepAnchor, text.size());
+//        setTextCursor(tc);
+//        tc = textCursor();
+//    }
+
+//    tc.insertText(text, isUseColor ? textFormat : normalFormat);
+//    if(isUseColor)
+//    {
+//        ColorRange colorRange;
+//        colorRange.role = currentForeRole;
+//        colorRange.end = tc.position();
+//        colorRange.start = colorRange.end - text.size();
+//        colorRanges << colorRange;
+//    }
 }
 
 void SshConsole::clearScreen()
@@ -365,6 +422,7 @@ void SshConsole::setCloseColor()
     currentBackRole = ColorRole::NullRole;
     currentForeRole = ColorRole::NullRole;
     textFormat.setForeground(palette().color(QPalette::Text));
+    textFormat.setBackground(palette().color(QPalette::Base));
 }
 void SshConsole::onCleanScreen()
 {
@@ -374,6 +432,12 @@ void SshConsole::onCleanScreen()
 void SshConsole::onColorClose()
 {
     setCloseColor();
+}
+
+void SshConsole::onRestoreState()
+{
+    setCloseColor();
+    isReturn = true;
 }
 
 void SshConsole::keyPressEvent(QKeyEvent *e)
@@ -542,6 +606,14 @@ void SshConsole::saveToFile()
 
    QTextDocumentWriter writer(fileName);
    writer.write(document());
+}
+
+void SshConsole::removeCurrentRow()
+{
+    QTextCursor cursor = textCursor();
+    cursor.select(QTextCursor::LineUnderCursor);
+    cursor.removeSelectedText();
+    setTextCursor(cursor);
 }
 
 void SshConsole::clearSelection()

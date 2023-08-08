@@ -57,14 +57,30 @@ void ConsoleScreen::setSize(int cols, int rows)
 
 void ConsoleScreen::scrollRangle(int top, int bottom)
 {
-    top_ = top - 1;
-    bottom_ = bottom - 1;
+    if(top >= 1 && bottom >= 1)
+    {
+        top_ = top - 1;
+        bottom_ = bottom - 1;
+    }
+    else
+    {
+        top_ = top;
+        bottom_ = bottom;
+    }
 }
 
 void ConsoleScreen::cursorPos(int row, int col)
 {
-    row_ = row - 1;
-    col_ = col - 1;
+    if(row >= 1 && col >= 1)
+    {
+        row_ = row - 1;
+        col_ = col - 1;
+    }
+    else
+    {
+        row_ = row;
+        col_ = col;
+    }
 }
 
 void ConsoleScreen::cursorRow(int row)
