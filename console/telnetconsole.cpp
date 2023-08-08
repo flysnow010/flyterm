@@ -211,6 +211,7 @@ void TelnetConsole::setCloseColor()
     currentBackRole = ColorRole::NullRole;
     currentForeRole = ColorRole::NullRole;
     textFormat.setForeground(palette().color(QPalette::Text));
+    textFormat.setBackground(palette().color(QPalette::Base));
 }
 
 void TelnetConsole::setLocalEchoEnabled(bool set)
