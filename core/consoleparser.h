@@ -31,8 +31,9 @@ public:
     virtual void parse(QByteArray const& data) = 0;
     void setKeyMode(Mode mode) { keyMode_ = mode; }
     Mode keyMode() const { return keyMode_; }
-    void setLeftKeyPress(bool enable) { isLeftKeyPress_ = enable; }
-    bool isLeftKeyPress() const { return isLeftKeyPress_; }
+    void setLeftKeyPress(bool enable) { leftKeyPressCount += (enable ? 1 : -1); }
+    void setLeftKeyPressCount(int count) {leftKeyPressCount += count; }
+    bool isLeftKeyPress() const { return leftKeyPressCount > 0; }
     void setRightKeyPress(bool enable) { isRightKeyPress_ = enable; }
     bool isRightKeyPress() const { return isRightKeyPress_; }
     void setEnterKeyPress(bool enable) { isEnterKeyPress_ = enable; }
@@ -70,7 +71,8 @@ signals:
     void onDECLineDrawingMode();
     void onColorClose();//onCloseCharAttriutes
 
-    void onSwitchToAlternateScreen();
+    void onSwitchToAlternateCharScreen();
+    void onSwitchToAlternateVideoScreen();
     void onSwitchToMainScreen();
     void onSwitchToAppKeypadMode();
     void onSwitchToNormalKeypadMode();
@@ -100,7 +102,7 @@ protected:
     QByteArray parseData_;
 private:
     Mode keyMode_ = Mode_Insert;
-    bool isLeftKeyPress_ = false;
+    int leftKeyPressCount = 0;
     bool isRightKeyPress_ = false;
     bool isEnterKeyPress_ = false;
     bool isHomeKeyPress_ = false;
