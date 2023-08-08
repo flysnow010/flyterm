@@ -54,27 +54,27 @@ void SShParser::parse(QByteArray const& data)
                 ch++;
                 break;
             }
-            case CR:
-            {
-                ch++;
-                if(ch != end && *ch == LF)
-                {
-                    if((ch - 1) > start)
-                        emit onText(QString::fromUtf8(start, ch - start - 1));
-                    emit onOverWrite(false);
-                    start = ch - 1;
-                }
-                else
-                {
-                    if((ch - 1) > start)
-                        emit onText(QString::fromUtf8(start, ch - start - 1));
-                    emit onHome();
-                    emit onOverWrite(true);
-                    start = ch;
-                }
+//            case CR:
+//            {
+//                ch++;
+//                if(ch != end && *ch == LF)
+//                {
+//                    if((ch - 1) > start)
+//                        emit onText(QString::fromUtf8(start, ch - start - 1));
+//                    emit onOverWrite(false);
+//                    start = ch - 1;
+//                }
+//                else
+//                {
+//                    if((ch - 1) > start)
+//                        emit onText(QString::fromUtf8(start, ch - start - 1));
+//                    emit onHome();
+//                    emit onOverWrite(true);
+//                    start = ch;
+//                }
 
-                break;
-            }
+//                break;
+//            }
             case BS:
             {
                 if(parseData_.size() == 1 && isLeftKeyPress())
@@ -132,13 +132,18 @@ int SShParser::parseBs(const char* start, const char* end)
     }
 
     int size = ch - start;
-    if(!isHomeKeyPress())
-        emit onBackspace(size);
-    else
+    if(isHomeKeyPress())
     {
         setHomePress(false);
         emit onLeft(size);
     }
+    else if(isLeftKeyPress())
+    {
+        setLeftKeyPressCount(-size);
+        emit onLeft(size);
+    }
+    else
+        emit onBackspace(size);
     return size;
 }
 
@@ -225,6 +230,13 @@ int SShParser::parseEsc(const char* start, const char* end)
         else if(*ch == 'h')
         {
             parse_h(QString::fromUtf8(start + 1, ch - start));
+            isEnd = true;
+            ch++;
+            break;
+        }
+        else if(*ch == 'f')
+        {
+            parse_f(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -426,6 +438,13 @@ void SShParser::parse_H(QString const& h)
         emit onScreenHome();
 }
 
+void SShParser::parse_f(QString const& f)
+{
+    QStringList tokens = f.split(";");
+    if(tokens.size() == 2)
+        emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
+}
+
 void SShParser::parse_M(QString const& m)
 {
     emit onScrollUp(m.toInt());
@@ -434,7 +453,9 @@ void SShParser::parse_M(QString const& m)
 void SShParser::parse_h(QString const& h)//4h
 {
     if(h == "[?1049h")
-        emit onSwitchToAlternateScreen();
+        emit onSwitchToAlternateCharScreen();
+    else if(h == "[?47h")
+        emit onSwitchToAlternateVideoScreen();
     else if(h == "[?1h")
         emit onSwitchToAppKeypadMode();
     else if(h == "[?12h")
@@ -455,7 +476,7 @@ void SShParser::parse_L(QString const& l)
 
 void SShParser::parse_l(QString const& l)//4l
 {
-    if(l == "[?1049l")
+    if(l == "[?1049l" || l == "[?47l")
         emit onSwitchToMainScreen();
     else if(l == "[?1l")
         emit onSwitchToNormalKeypadMode();
@@ -485,7 +506,6 @@ void SShParser::parse_r(QString const& r)
     if(tokens.size() == 2)
         emit onRowRangle(tokens[0].toInt(), tokens[1].toInt());
 }
-
 bool SShParser::parse_7(QString const& v)
 {
     if(v == "7")
