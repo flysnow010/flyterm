@@ -49,7 +49,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
-    connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateCharScreen()));
+    connect(console, SIGNAL(onSwitchToAlternateCharScreen()), this, SLOT(switchToAlternateCharScreen()));
     connect(console, SIGNAL(onSwitchToAlternateVideoScreen()), this, SLOT(switchToAlternateVideoScreen()));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
@@ -310,12 +310,12 @@ void SShWidget::customContextMenu(const QPoint &)
 void SShWidget::switchToAlternateScreen(bool isVideo)
 {
     isMainScreen = false;
+    console->hide();
     console->disconnectCommand();
     alternateConsole->connectCommand();
     alternateConsole->connectAppCommand();
-    alternateConsole->reset(isVideo);
-    console->hide();
     alternateConsole->shellSize(shellCols, shellRows);
+    alternateConsole->reset(isVideo);
     alternateConsole->show();
     alternateConsole->setFocus();
 }
