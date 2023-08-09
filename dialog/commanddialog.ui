@@ -53,7 +53,7 @@
       </spacer>
      </item>
      <item row="3" column="1" colspan="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <layout class="QHBoxLayout" name="horizontalLayoutKermit">
        <item>
         <widget class="QPushButton" name="btnSendByKermit">
          <property name="text">
@@ -78,7 +78,7 @@
       </layout>
      </item>
      <item row="4" column="1" colspan="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayoutXModem">
        <item>
         <widget class="QPushButton" name="btnSendByXModem">
          <property name="text">
@@ -103,7 +103,7 @@
       </layout>
      </item>
      <item row="5" column="1" colspan="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="horizontalLayoutYModem">
        <item>
         <widget class="QPushButton" name="btnSendByYModem">
          <property name="text">
@@ -128,7 +128,7 @@
       </layout>
      </item>
      <item row="6" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayoutSleep">
        <item>
         <widget class="QPushButton" name="btnSleep">
          <property name="text">
@@ -156,7 +156,7 @@
       </layout>
      </item>
      <item row="6" column="2">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayoutMSleep">
        <item>
         <widget class="QPushButton" name="btnMSleep">
          <property name="text">
@@ -200,7 +200,7 @@
       </spacer>
      </item>
      <item row="7" column="1" colspan="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <layout class="QHBoxLayout" name="horizontalLayoutSave">
        <item>
         <widget class="QPushButton" name="btnBeginSave">
          <property name="text">
@@ -228,7 +228,7 @@
       </layout>
      </item>
      <item row="8" column="1" colspan="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <layout class="QHBoxLayout" name="horizontalLayoutRun">
        <item>
         <widget class="QPushButton" name="btnOrderRun">
          <property name="text">
