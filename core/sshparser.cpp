@@ -312,8 +312,9 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
-        else if(*ch == 'P')
+        else if(*ch == 'P')//[2P
         {
+            parse_P(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -443,6 +444,11 @@ void SShParser::parse_f(QString const& f)
     QStringList tokens = f.split(";");
     if(tokens.size() == 2)
         emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
+}
+
+void SShParser::parse_P(QString const& p)
+{
+    //emit onBackspace(p.toInt());
 }
 
 void SShParser::parse_M(QString const& m)
