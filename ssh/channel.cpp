@@ -80,10 +80,16 @@ int Channel::write(void *dest, uint32_t count)
 
 bool Channel::run_shell(int cols, int rows)
 {
-    if (ssh_channel_request_pty(d->channel) != SSH_OK)
-        return false;
-
-    if (ssh_channel_change_pty_size(d->channel, cols, rows) != SSH_OK)
+    /*
+        "VT200" as VT220/VT240,
+        "VT300" as VT320/VT340,
+        "VT400" as VT420, and
+        "VT500" as VT510/VT520/VT525.
+        xterm
+        xterm-256color
+    */
+    const char* term = "xterm";
+    if (ssh_channel_request_pty_size(d->channel, term, cols, rows) != SSH_OK)
         return false;
 
     if (ssh_channel_request_shell(d->channel))
