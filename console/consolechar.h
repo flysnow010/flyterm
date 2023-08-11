@@ -10,6 +10,12 @@ struct ConsoleChar
     char value = 0;
     bool isDrawLineMode = false;
     ConsolRole role;
+    inline void clear(char v, ConsolRole r)
+    {
+        value = v;
+        role = r;
+        isDrawLineMode = false;
+    }
     inline void reset(char v = 0)
     {
       value = v;

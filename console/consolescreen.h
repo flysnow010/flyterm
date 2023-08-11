@@ -18,6 +18,7 @@ public:
 
     void clear(bool isAll);
     void clearScreen();
+    void onCleanToScreenEnd();
     void setSize(int cols, int rows);
     int rows() const { return rows_; }
     int cols() const { return cols_; }
@@ -37,6 +38,8 @@ public:
     void scrollDown(int rows);
 
     void delCharToLineEnd();
+    void delCharToLineHome();
+    void onEraseChars(int count);
 
     void setForeColor(ColorRole fore) { role_.fore = fore; }
     void setBackColor(ColorRole back) { role_.back = back; }
@@ -69,6 +72,7 @@ private:
     int row_ = 0;
     int cols_;
     int rows_;
+    int drawCount = 0;
 };
 
 #endif // CONSOLESCREEN_H

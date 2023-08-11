@@ -88,9 +88,14 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onShowCursor()), this, SLOT(showCursor()));
     connect(commandParser, SIGNAL(onRowRangle(int,int)), this, SLOT(onRowRangle(int,int)));
     connect(commandParser, SIGNAL(onCursorPos(int,int)), this, SLOT(onCursorPos(int,int)));
+    connect(commandParser, SIGNAL(onRow(int)), this, SLOT(onRow(int)));
+    connect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     connect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     connect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
+    connect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
+    connect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
+    connect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
 }
 
 void AlternateConsole::disconnectAppCommand()
@@ -107,9 +112,14 @@ void AlternateConsole::disconnectAppCommand()
     disconnect(commandParser, SIGNAL(onShowCursor()), this, SLOT(showCursor()));
     disconnect(commandParser, SIGNAL(onRowRangle(int,int)), this, SLOT(onRowRangle(int,int)));
     disconnect(commandParser, SIGNAL(onCursorPos(int,int)), this, SLOT(onCursorPos(int,int)));
+    disconnect(commandParser, SIGNAL(onRow(int)), this, SLOT(onRow(int)));
+    disconnect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     disconnect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     disconnect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
     disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
+    disconnect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
+    disconnect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
+    disconnect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
 }
 
 void AlternateConsole::putData(const QByteArray &data)
@@ -125,16 +135,19 @@ void AlternateConsole::putData(const QByteArray &data)
 
 void AlternateConsole::clearScreen()
 {
-    screen.clear(false);
+    //screen.clear(false);
+    screen.clearScreen();
 }
 
 void AlternateConsole::reset(bool video)
 {
     isVideo = video;
     isUpdate = false;
-    if(!isVideo)
-        screen.clear(true);
-    else
+    screen.clear(true);
+//    if(!isVideo)
+//        screen.clear(true);
+//    else
+    if(isVideo)
     {
         screen.clearScreen();
         screen.update(this, palette_, normalFormat);
@@ -151,7 +164,8 @@ void AlternateConsole::putText(QString const& text)
 {
 #ifdef SHOW_INFO
     if(isUpdate)
-        qDebug() << "putText:" << text;
+        //qDebug() << "cursor pos:" << screen.row() << "," << screen.col();
+        //qDebug() << "putText:" << text;
 #endif
     if(text == "\r")
     {
@@ -188,15 +202,19 @@ void AlternateConsole::putText(QString const& text)
 void AlternateConsole::setForeColor(ColorRole role)
 {
     screen.setForeColor(role);
+//    qDebug() << "fore: " << role;
 }
 
 void AlternateConsole::setBackColor(ColorRole role)
 {
     screen.setBackColor(role);
+//    qDebug() << "back: " << role;
 }
 
 void  AlternateConsole::setCloseColor()
 {
+//    qDebug() << "fore: " << ColorRole::NullRole;
+//    qDebug() << "back: " << ColorRole::NullRole;
     screen.setForeColor(ColorRole::NullRole);
     screen.setBackColor(ColorRole::NullRole);
 }
@@ -295,6 +313,24 @@ void AlternateConsole::onCursorPos(int row, int col)
     screen.cursorPos(row, col);
 }
 
+void AlternateConsole::onRow(int row)
+{
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "row:" << row;
+#endif
+    screen.cursorRow(row);
+}
+
+void AlternateConsole::onCol(int col)
+{
+#ifdef SHOW_INFO
+    if(isUpdate)
+        qDebug() << "col:" << col;
+#endif
+     screen.cursorCol(col);
+}
+
 void AlternateConsole::scrollDown(int rows)
 {
 #ifdef SHOW_INFO
@@ -318,6 +354,24 @@ void AlternateConsole::scrollUp(int rows)
 void AlternateConsole::delCharToLineEnd()
 {
     screen.delCharToLineEnd();
+    screen.updateRows(this, palette_, normalFormat);
+}
+
+void AlternateConsole::delCharToLineHome()
+{
+    screen.delCharToLineHome();
+    screen.updateRows(this, palette_, normalFormat);
+}
+
+void AlternateConsole::onEraseChars(int count)
+{
+    screen.onEraseChars(count);
+    screen.updateRows(this, palette_, normalFormat);
+}
+
+void AlternateConsole::onCleanToScreenEnd()
+{
+    screen.onCleanToScreenEnd();
 }
 
 void AlternateConsole::home()

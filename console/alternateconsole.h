@@ -34,11 +34,16 @@ private slots:
     void onRowRangle(int top, int bottom);
     void onScreenHome();
     void onCursorPos(int row, int col);
+    void onRow(int row);
+    void onCol(int col);
     void showCursor();
     void hideCursor();
     void scrollDown(int rows);
     void scrollUp(int rows);
     void delCharToLineEnd();
+    void delCharToLineHome();
+    void onEraseChars(int count);
+    void onCleanToScreenEnd();
 private:
     void down();
 private:

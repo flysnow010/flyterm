@@ -45,6 +45,8 @@ signals:
     void onGotCursorPos(int row, int col);
     void onSwitchToAlternateCharScreen();
     void onSwitchToAlternateVideoScreen();
+    void onSwitchToAppKeypadMode();
+    void onSwitchToNormalKeypadMode();
     void onSaveCursorPos();
     void onRestoreCursorPos();
     void onSwitchToMainScreen();

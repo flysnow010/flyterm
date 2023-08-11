@@ -1,6 +1,7 @@
 #include "consolescreen.h"
 #include <QTextEdit>
 #include <QTextCharFormat>
+#include <iostream>
 
 ConsoleScreen::ConsoleScreen(int cols, int rows)
     : cols_(cols)
@@ -22,6 +23,7 @@ void ConsoleScreen::clear(bool isAll)
     for(int i = 0; i < consoleCharsVec.size(); i++)
         *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[i]->size());
 
+    drawCount  = 0;
     if(isAll)
     {
         top_ = 0;
@@ -36,10 +38,19 @@ void ConsoleScreen::clearScreen()
     for(int i = 0; i < consoleCharsVec.size(); i++)
     {
         ConsoleChars* rowData = consoleCharsVec[i];
-        for(int j = 1; j < rowData->size(); j++)
-        {
-            (*rowData)[j].reset(' ');
-        }
+        for(int j = 0; j < rowData->size(); j++)
+            (*rowData)[j].clear(' ', role_);
+    }
+}
+
+void ConsoleScreen::onCleanToScreenEnd()
+{
+    for(int i = row_; i < consoleCharsVec.size(); i++)
+    {
+        ConsoleChars* rowData = consoleCharsVec[i];
+        int col = i == row_ ? col_ : 0;
+        for(int j = col; j < rowData->size(); j++)
+            (*rowData)[j].clear(' ', role_);
     }
 }
 
@@ -148,7 +159,26 @@ void ConsoleScreen::delCharToLineEnd()
 {
    ConsoleChars* rowChars = consoleCharsVec[row_];
    for(int i = col_; i < rowChars->size(); i++)
-        (*rowChars)[i].reset();
+        (*rowChars)[i].clear(' ', role_);
+   addUpdateRow(row_);
+}
+
+void ConsoleScreen::delCharToLineHome()
+{
+    ConsoleChars* rowChars = consoleCharsVec[row_];
+    for(int i = 0; i < col_; i++)
+        (*rowChars)[i].clear(' ', role_);
+    addUpdateRow(row_);
+}
+
+void ConsoleScreen::onEraseChars(int count)
+{
+    ConsoleChars* rowChars = consoleCharsVec[row_];
+    for(int i = col_; i < col_ + count && i < rowChars->size(); i++)
+    {
+        (*rowChars)[i].clear(' ', role_);
+    }
+    addUpdateRow(row_);
 }
 
 void ConsoleScreen::update(QTextEdit* textEdit,
@@ -195,6 +225,7 @@ void ConsoleScreen::update(QTextEdit* textEdit,
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
                 if(consoleText.role.back != ColorRole::NullRole)
                     colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+                //qDebug() << i << ": " << QString::fromLocal8Bit(consoleText.text);
                 tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
                 consoleText.role = consoleChar.role;
                 index = j;
@@ -266,9 +297,9 @@ void ConsoleScreen::drawRow(int row,
     QTextCursor tc = textEdit->textCursor();
     tc.movePosition(QTextCursor::Start);
     tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
-    tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
-    tc.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-
+    tc.select(QTextCursor::LineUnderCursor);
+    QString selectText = tc.selectedText();
+    std::cerr << "selectText: " << selectText.toLocal8Bit().toStdString().size() << std::endl;
     ConsoleChars* rowData = consoleCharsVec[row];
     ConsoleText consoleText;
     consoleText.role = (*rowData)[0].role;
@@ -303,6 +334,7 @@ void ConsoleScreen::drawRow(int row,
                 colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
             if(consoleText.role.back != ColorRole::NullRole)
                 colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+            std::cerr << row << ": " << consoleText.text.toStdString() << consoleText.text.toStdString().size() << std::endl;
             tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
             consoleText.role = consoleChar.role;
             index = j;
@@ -310,6 +342,15 @@ void ConsoleScreen::drawRow(int row,
             continue;
         }
         charCount += (consoleChar.isDrawLineMode ? 2 : 1);
+    }
+    textEdit->setTextCursor(tc);
+    {
+        std::cerr << "all:" << drawCount++ << std::endl;
+        QStringList texts = textEdit->toPlainText().split("\n");
+        for(int i = 0; i < texts.size(); i++)
+        {
+            std::cerr << i << texts[i].toLocal8Bit().toStdString() << std::endl;
+        }
     }
 }
 

@@ -58,6 +58,8 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
     connect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
     connect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    connect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SIGNAL(onSwitchToAppKeypadMode()));
+    connect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SIGNAL(onSwitchToNormalKeypadMode()));
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
@@ -85,6 +87,8 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
     disconnect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
     disconnect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    disconnect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SIGNAL(onSwitchToAppKeypadMode()));
+    disconnect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SIGNAL(onSwitchToNormalKeypadMode()));
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
@@ -295,6 +299,7 @@ void SshConsole::onText(QString const& text)
     LogFile::SharedPtr logfile = logfile_.lock();
     if(logfile)
         logfile->write(text);
+
     putText(text);
 }
 
