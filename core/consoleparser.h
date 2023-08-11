@@ -44,6 +44,9 @@ signals:
     void onBeep();
     void onBackspace(int count);
     void onDelCharToLineEnd();
+    void onDelCharToLineHome();
+    void onDelCharOfLine();
+    void onEraseChars(int count);
     void onLeft(int count);
     void onRight(int count);
     void onScreenHome();
@@ -51,6 +54,8 @@ signals:
     void onOverWrite(bool enable);
     void onRow(int count);
     void onCol(int count);
+    void onCleanToScreenEnd();
+    void onCleanToScreenHome();
     void onCleanScreen();
     void onText(QString const& text);
     void onTitle(QString const& title);

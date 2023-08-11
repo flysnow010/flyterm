@@ -243,6 +243,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'G')
         {
+            parse_G(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -264,14 +265,14 @@ int SShParser::parseEsc(const char* start, const char* end)
         else if(*ch == 'J')
         {
             //emit onDelCharToLineEnd();
-            parse_J(QString::fromUtf8(start + 1, ch - start));
+            parse_J(QString::fromUtf8(start + 2, ch - start - 2));
             ch++;
             isEnd = true;
             break;
         }
         else if(*ch == 'K')
         {
-            parse_K(QString::fromUtf8(start + 1, ch - start));
+            parse_K(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -284,6 +285,13 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'c')//>c
         {
+            isEnd = true;
+            ch++;
+            break;
+        }
+        else if(*ch == 'd')
+        {
+            parse_d(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -328,6 +336,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'X')
         {
+            parse_X(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -430,6 +439,22 @@ void SShParser::parse_B(QString const& b)
         emit onASCIIMode();
 }
 
+void SShParser::parse_d(QString const& d)
+{
+    if(d.isEmpty())
+        emit onRow(1);
+    else
+        emit onRow(d.toInt());
+}
+
+void SShParser::parse_G(QString const& g)
+{
+    if(g.isEmpty())
+        emit onCol(1);
+    else
+        emit onCol(g.toInt());
+}
+
 void SShParser::parse_H(QString const& h)
 {
     QStringList tokens = h.split(";");
@@ -460,7 +485,14 @@ void SShParser::parse_M(QString const& m)
 void SShParser::parse_h(QString const& h)//4h
 {
     if(h == "[?1049h")
-        emit onSwitchToAlternateCharScreen();
+    {
+        if(isBracketedPasteMode)
+            emit onSwitchToAlternateCharScreen();
+        else
+            emit onSwitchToAlternateVideoScreen();
+    }
+    else if(h == "[?2004h")
+        isBracketedPasteMode = true;
     else if(h == "[?47h")
         emit onSwitchToAlternateVideoScreen();
     else if(h == "[?1h")
@@ -485,6 +517,8 @@ void SShParser::parse_l(QString const& l)//4l
 {
     if(l == "[?1049l" || l == "[?47l")
         emit onSwitchToMainScreen();
+    if(l == "[?2004l")
+        isBracketedPasteMode = false;
     else if(l == "[?1l")
         emit onSwitchToNormalKeypadMode();
     else if(l == "[?12l")
@@ -497,14 +531,30 @@ void SShParser::parse_l(QString const& l)//4l
 
 void SShParser::parse_J(QString const& j)
 {
-    if(j == "[2J")
+    if(j.isEmpty() || j == "0")
+        emit onCleanToScreenEnd();
+    else if(j == "1")
+        emit onCleanToScreenHome();
+    else if(j == "2")
         emit onCleanScreen();
 }
 
 void SShParser::parse_K(QString const& k)
 {
-    if(k == "[K" || k == "[0K")
+    if(k.isEmpty() || k == "0")
         emit onDelCharToLineEnd();
+    else if(k == "1")
+        emit onDelCharToLineHome();
+    else if(k == "2")
+        emit onDelCharOfLine();
+}
+
+void SShParser::parse_X(QString const& x)
+{
+    if(x.isEmpty())
+        emit onEraseChars(1);
+    else
+        emit onEraseChars(x.toInt());
 }
 
 void SShParser::parse_r(QString const& r)
