@@ -64,6 +64,8 @@ private slots:
 
     void switchToAlternateCharScreen();
     void switchToAlternateVideoScreen();
+    void switchToAppKeypadMode();
+    void switchToNormalKeypadMode();
     void switchToMainScreen();
     void execCommand(QString const& command);
     void execExpandCommand(QString const& command);

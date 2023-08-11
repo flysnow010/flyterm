@@ -51,10 +51,12 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
     connect(console, SIGNAL(onSwitchToAlternateCharScreen()), this, SLOT(switchToAlternateCharScreen()));
     connect(console, SIGNAL(onSwitchToAlternateVideoScreen()), this, SLOT(switchToAlternateVideoScreen()));
+    connect(console, SIGNAL(onSwitchToAppKeypadMode()), this, SLOT(switchToAppKeypadMode()));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     connect(alternateConsole, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(alternateConsole, SIGNAL(onSwitchToMainScreen()), this, SLOT(switchToMainScreen()));
+    connect(alternateConsole, SIGNAL(onSwitchToNormalKeypadMode()), this, SLOT(switchToNormalKeypadMode()));
     connect(alternateConsole, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
     commandThread_->start();
 }
@@ -328,6 +330,17 @@ void SShWidget::switchToAlternateCharScreen()
 void SShWidget::switchToAlternateVideoScreen()
 {
     switchToAlternateScreen(true);
+}
+
+void SShWidget::switchToAppKeypadMode()
+{
+    switchToAlternateScreen(true);//for vt100
+}
+
+void SShWidget::switchToNormalKeypadMode()
+{
+    if(!isMainScreen)
+        switchToMainScreen();
 }
 
 void SShWidget::switchToMainScreen()
