@@ -18,10 +18,13 @@ struct ConsolRole
 {
     ColorRole back = NullRole;
     ColorRole fore = NullRole;
+    bool isReverse = false;
 
     bool operator == (ConsolRole const& r) const
     {
-        return this->back == r.back && this->fore == r.fore;
+        return this->back == r.back
+                && this->fore == r.fore
+                && this->isReverse == r.isReverse;
     }
     bool operator != (ConsolRole const& r) const
     {
