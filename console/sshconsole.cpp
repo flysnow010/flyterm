@@ -63,6 +63,7 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
+    connect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
 }
 
 void SshConsole::disconnectCommand()
@@ -92,6 +93,7 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
+    disconnect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
 }
 
 void SshConsole::setFontName(QString const& fontName)
@@ -288,6 +290,11 @@ void SshConsole::onEnd()
 
 void SshConsole::onDelCharToLineEnd()
 {
+    delCharToLineEnd();
+}
+
+void SshConsole::delCharToLineEnd()
+{
     QTextCursor cursor(textCursor());
     cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
     setTextCursor(cursor);
@@ -411,6 +418,26 @@ void SshConsole::setForeColor(ColorRole role)
 void SshConsole::onBackColor(ColorRole role)
 {
     setBackColor(role);
+}
+
+void SshConsole::onReverse()
+{
+    setReverse();
+}
+
+void SshConsole::setReverse()
+{
+    ColorRole back = currentForeRole;
+    ColorRole fore = currentBackRole;
+    if(back == ColorRole::NullRole)
+        textFormat.setBackground(palette().color(QPalette::Text));
+    else
+        setBackColor(back);
+
+    if(fore == ColorRole::NullRole)
+        textFormat.setForeground(palette().color(QPalette::Base));
+    else
+        setForeColor(fore);
 }
 
 void SshConsole::setBackColor(ColorRole role)

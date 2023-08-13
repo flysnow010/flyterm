@@ -73,6 +73,7 @@ protected slots:
     void onText(QString const& text);
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);
+    void onReverse();
     void onCleanScreen();
     void onColorClose();
     void onRestoreState();
@@ -92,8 +93,10 @@ protected:
     virtual void cursorRight(int count);
     virtual void setForeColor(ColorRole role);
     virtual void setBackColor(ColorRole role);
+    virtual void setReverse();
     virtual void setCloseColor();
     virtual void clearScreen();
+    virtual void delCharToLineEnd();
 private:
     void removeCurrentRow();
     void clearSelection();
