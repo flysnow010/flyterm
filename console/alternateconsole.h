@@ -20,12 +20,14 @@ protected:
     void putText(QString const& text) override;
     void setForeColor(ColorRole role) override;
     void setBackColor(ColorRole role) override;
+    void setReverse() override;
     void setCloseColor() override;
     void home() override;
     void backspace(int count) override;
     void cursorLeft(int count) override;
     void cursorRight(int count) override;
     void clearScreen() override;
+    void delCharToLineEnd() override;
 private slots:
     void onSwitchToAppKeypadMode();
     void onSwitchToNormalKeypadMode();
@@ -36,11 +38,12 @@ private slots:
     void onCursorPos(int row, int col);
     void onRow(int row);
     void onCol(int col);
+    void onUp(int line);
     void showCursor();
     void hideCursor();
     void scrollDown(int rows);
     void scrollUp(int rows);
-    void delCharToLineEnd();
+
     void delCharToLineHome();
     void onEraseChars(int count);
     void onCleanToScreenEnd();

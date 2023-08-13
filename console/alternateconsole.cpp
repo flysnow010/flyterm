@@ -92,7 +92,7 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     connect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     connect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
-    connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
+    connect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     connect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
     connect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     connect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
@@ -116,7 +116,7 @@ void AlternateConsole::disconnectAppCommand()
     disconnect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     disconnect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     disconnect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
-    disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(delCharToLineEnd()));
+    disconnect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     disconnect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
     disconnect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     disconnect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
@@ -165,7 +165,7 @@ void AlternateConsole::putText(QString const& text)
 #ifdef SHOW_INFO
     if(isUpdate)
         //qDebug() << "cursor pos:" << screen.row() << "," << screen.col();
-        //qDebug() << "putText:" << text;
+        qDebug() << "putText:" << text;
 #endif
     if(text == "\r")
     {
@@ -201,20 +201,24 @@ void AlternateConsole::putText(QString const& text)
 
 void AlternateConsole::setForeColor(ColorRole role)
 {
+    screen.setReverse(false);
     screen.setForeColor(role);
-//    qDebug() << "fore: " << role;
 }
 
 void AlternateConsole::setBackColor(ColorRole role)
 {
+    screen.setReverse(false);
     screen.setBackColor(role);
-//    qDebug() << "back: " << role;
+}
+
+void AlternateConsole::setReverse()
+{
+    screen.setReverse(true);
 }
 
 void  AlternateConsole::setCloseColor()
 {
-//    qDebug() << "fore: " << ColorRole::NullRole;
-//    qDebug() << "back: " << ColorRole::NullRole;
+    screen.setReverse(false);
     screen.setForeColor(ColorRole::NullRole);
     screen.setBackColor(ColorRole::NullRole);
 }
@@ -329,6 +333,11 @@ void AlternateConsole::onCol(int col)
         qDebug() << "col:" << col;
 #endif
      screen.cursorCol(col);
+}
+
+void AlternateConsole::onUp(int line)
+{
+    screen.cursorUp(line);
 }
 
 void AlternateConsole::scrollDown(int rows)
