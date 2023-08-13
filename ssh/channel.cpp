@@ -89,7 +89,7 @@ bool Channel::run_shell(int cols, int rows)
         xterm
         xterm-256color
     */
-    const char* term = "xterm-256color";
+    const char* term = "xterm-256color";//vt100 vt400 xterm xterm-256color
     if (ssh_channel_request_pty_size(d->channel, term, cols, rows) != SSH_OK)
         return false;
 
