@@ -47,6 +47,8 @@ signals:
     void onDelCharToLineHome();
     void onDelCharOfLine();
     void onEraseChars(int count);
+    void onUp(int line);
+    void onDown(int line);
     void onLeft(int count);
     void onRight(int count);
     void onScreenHome();
