@@ -195,6 +195,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'A')
         {
+            parse_A(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -368,6 +369,13 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
+        else if(*ch == 'Z')
+        {
+            parse_Z(QString::fromUtf8(start + 2, ch - start - 2));
+            isEnd = true;
+            ch++;
+            break;
+        }
         else if(*ch == ' ')
         {
             isEnd = true;
@@ -431,6 +439,14 @@ void SShParser::parse_0(QString const& c)
         emit onDECLineDrawingMode();
     else if(c == ")0")
         ;
+}
+
+void SShParser::parse_A(QString const& a)
+{
+    if(a.isEmpty())
+        emit onUp(1);
+    else
+        emit onUp(a.toInt());
 }
 
 void SShParser::parse_B(QString const& b)
@@ -555,6 +571,14 @@ void SShParser::parse_X(QString const& x)
         emit onEraseChars(1);
     else
         emit onEraseChars(x.toInt());
+}
+
+void SShParser::parse_Z(QString const& z)
+{
+    if(z.isEmpty())
+        emit onLeft(4);//tab = 4 spaces
+    else
+        emit onLeft(z.toInt() * 4);
 }
 
 void SShParser::parse_r(QString const& r)

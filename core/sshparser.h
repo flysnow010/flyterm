@@ -13,6 +13,7 @@ private:
      int parseEsc(const char* start, const char* end);
      int parseTitle(const char* start, const char* end);
      void parse_0(QString const& c);
+     void parse_A(QString const& c);
      void parse_B(QString const& b);
      void parse_d(QString const& d);
      void parse_G(QString const& g);
@@ -26,6 +27,7 @@ private:
      void parse_J(QString const& j);
      void parse_K(QString const& k);
      void parse_X(QString const& x);
+     void parse_Z(QString const& z);
      void parse_r(QString const& r);
      bool parse_7(QString const& v);
      bool parse_8(QString const& v);
