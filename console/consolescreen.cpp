@@ -1,7 +1,6 @@
 #include "consolescreen.h"
 #include <QTextEdit>
 #include <QTextCharFormat>
-#include <iostream>
 
 ConsoleScreen::ConsoleScreen(int cols, int rows)
     : cols_(cols)
@@ -23,7 +22,6 @@ void ConsoleScreen::clear(bool isAll)
     for(int i = 0; i < consoleCharsVec.size(); i++)
         *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[i]->size());
 
-    drawCount  = 0;
     if(isAll)
     {
         top_ = 0;
@@ -225,7 +223,11 @@ void ConsoleScreen::update(QTextEdit* textEdit,
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
                 if(consoleText.role.back != ColorRole::NullRole)
                     colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
-                //qDebug() << i << ": " << QString::fromLocal8Bit(consoleText.text);
+                if(consoleText.role.isReverse)
+                {
+                    colorFormat.setForeground(Qt::black);
+                    colorFormat.setBackground(Qt::white);
+                }
                 tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
                 consoleText.role = consoleChar.role;
                 index = j;
@@ -298,8 +300,6 @@ void ConsoleScreen::drawRow(int row,
     tc.movePosition(QTextCursor::Start);
     tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
     tc.select(QTextCursor::LineUnderCursor);
-    QString selectText = tc.selectedText();
-    std::cerr << "selectText: " << selectText.toLocal8Bit().toStdString().size() << std::endl;
     ConsoleChars* rowData = consoleCharsVec[row];
     ConsoleText consoleText;
     consoleText.role = (*rowData)[0].role;
@@ -334,7 +334,11 @@ void ConsoleScreen::drawRow(int row,
                 colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
             if(consoleText.role.back != ColorRole::NullRole)
                 colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
-            std::cerr << row << ": " << consoleText.text.toStdString() << consoleText.text.toStdString().size() << std::endl;
+            if(consoleText.role.isReverse)
+            {
+                colorFormat.setForeground(Qt::black);
+                colorFormat.setBackground(Qt::white);
+            }
             tc.insertText(QString::fromLocal8Bit(consoleText.text), colorFormat);
             consoleText.role = consoleChar.role;
             index = j;
@@ -344,14 +348,6 @@ void ConsoleScreen::drawRow(int row,
         charCount += (consoleChar.isDrawLineMode ? 2 : 1);
     }
     textEdit->setTextCursor(tc);
-    {
-        std::cerr << "all:" << drawCount++ << std::endl;
-        QStringList texts = textEdit->toPlainText().split("\n");
-        for(int i = 0; i < texts.size(); i++)
-        {
-            std::cerr << i << texts[i].toLocal8Bit().toStdString() << std::endl;
-        }
-    }
 }
 
 void ConsoleScreen::updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,

@@ -41,6 +41,7 @@ public:
     void delCharToLineHome();
     void onEraseChars(int count);
 
+    void setReverse(bool enable) { role_.isReverse = enable; }
     void setForeColor(ColorRole fore) { role_.fore = fore; }
     void setBackColor(ColorRole back) { role_.back = back; }
 
@@ -72,7 +73,6 @@ private:
     int row_ = 0;
     int cols_;
     int rows_;
-    int drawCount = 0;
 };
 
 #endif // CONSOLESCREEN_H
