@@ -291,6 +291,9 @@ void SShWidget::onGotCursorPos(int row, int col)
 
 void SShWidget::customContextMenu(const QPoint &)
 {
+    if(!isMainScreen)
+        return;
+
     QMenu contextMenu;
 
     contextMenu.addAction(tr("Copy"), this, SLOT(copy()));
