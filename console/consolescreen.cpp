@@ -94,17 +94,20 @@ void ConsoleScreen::cursorPos(int row, int col)
 
 void ConsoleScreen::cursorRow(int row)
 {
-    row_ = row - 1;
+    if(row > 1)
+        row_ = row - 1;
 }
 
 void ConsoleScreen::cursorCol(int col)
 {
-    col_ = col - 1;
+    if(col > 1)
+        col_ = col - 1;
 }
 
 void ConsoleScreen::cursorUp(int count)
 {
-    row_ -= count;
+    if(row_ > count)
+        row_ -= count;
 }
 
 void ConsoleScreen::cursorDown(int count)
