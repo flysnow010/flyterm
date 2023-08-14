@@ -108,6 +108,7 @@ protected:
     ConsolePalette::Ptr palette_;
     QTextCharFormat textFormat;
     QTextCharFormat normalFormat;
+    int cursorPos = 0;
 private:
     QSyntaxHighlighter *highlighter = nullptr;
     LogFile::WeakPtr logfile_;
@@ -121,7 +122,6 @@ private:
     bool isOverWrite = false;
     int minCursorPos_ = -1;
     bool isReturn = false;
-    int cursorPos = 0;
     int selectStart = 0;
     int selectEnd = 0;
     ConsoleScreen screen;

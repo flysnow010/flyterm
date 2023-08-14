@@ -74,6 +74,22 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
     }
 }
 
+void AlternateConsole::mousePressEvent(QMouseEvent *)
+{
+}
+
+void AlternateConsole::mouseMoveEvent(QMouseEvent *)
+{
+}
+
+void AlternateConsole::mouseReleaseEvent(QMouseEvent *)
+{
+}
+
+void AlternateConsole::mouseDoubleClickEvent(QMouseEvent *)
+{
+}
+
 void AlternateConsole::connectAppCommand()
 {
     if(!commandParser)
