@@ -180,8 +180,7 @@ void AlternateConsole::putText(QString const& text)
 {
 #ifdef SHOW_INFO
     if(isUpdate)
-        //qDebug() << "cursor pos:" << screen.row() << "," << screen.col();
-        qDebug() << "putText:" << text;
+        qDebug() << "putText(" << screen.row() << "," << screen.col() << "): " << text;
 #endif
     if(text == "\r")
     {
@@ -196,7 +195,7 @@ void AlternateConsole::putText(QString const& text)
             down();
             return;
         }
-        else if(screen.isBottom())
+        else if(screen.isBottom() && isUpdate)
         {
             screen.scrollUp(1);
             return;
