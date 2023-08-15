@@ -54,6 +54,9 @@ void ConsoleScreen::onCleanToScreenEnd()
 
 void ConsoleScreen::setSize(int cols, int rows)
 {
+    if(cols == cols_ && rows == rows_)
+        return;
+
     for(int i = 0; i < consoleCharsVec.size(); i++)
         delete consoleCharsVec[i];
 
