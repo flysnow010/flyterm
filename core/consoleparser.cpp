@@ -75,30 +75,20 @@ void ConsoleParser::parseSGR(QString const& sgr)
     {
         if(tokens[1] == "5")//index
         {
-            if(tokens[2] == "9")
-                emit onForeColor(ColorRole::Red);
-            else if(tokens[2] == "34")
-                emit onForeColor(ColorRole::Green);
-            else if(tokens[2] == "27")
-                emit onForeColor(ColorRole::Blue);
-            else if(tokens[2] == "62")
-                emit onForeColor(ColorRole::SkyBlue);
+            emit onForeColor(toColorRole(tokens[2].toInt()));
         }
         else if(tokens[1] == "2")//rgb
         {
-
         }
     }
     else if(tokens[0] == "48" && tokens.size() >= 3)
     {
         if(tokens[1] == "5")//index
         {
-            if(tokens[2] == "250")
-                emit onBackColor(ColorRole::White);
+            emit onBackColor(toColorRole(tokens[2].toInt()));
         }
         else if(tokens[1] == "2")//rgb
         {
-
         }
     }
     else
@@ -106,7 +96,6 @@ void ConsoleParser::parseSGR(QString const& sgr)
         foreach(auto token, tokens)
             parseOneSGR(token);
     }
-
 }
 
 void ConsoleParser::parse_n(QString const& n)

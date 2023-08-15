@@ -2,7 +2,24 @@
 
 ConsolePalette::ConsolePalette()
 {
+    for(int red = 0; red < 6; red++)
+        for(int green = 0; green < 6; green++)
+            for(int blue = 0; blue < 6; blue++)
+    {
+        int code = 16 + red * 36 + green * 6 + blue;
+        QColor color(red ? (red * 40 + 55) : 0,
+                     green ? (green * 40 + 55) : 0,
+                     blue ? (blue * 40 + 55) : 0);
+        addColor(toColorRole(code), ConsoleColor{ color, color });
+    }
 
+    for(int gray = 0; gray < 24; gray++)
+    {
+        int level = gray * 10 + 8;
+        int code = 232 + gray;
+         QColor color(level, level, level);
+        addColor(toColorRole(code), ConsoleColor{ color, color });
+    }
 }
 
 ConsolePalette::~ConsolePalette()
