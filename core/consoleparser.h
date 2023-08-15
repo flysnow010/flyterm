@@ -99,7 +99,6 @@ signals:
     void onSRMOff();
     void onSRMOn();
 protected:
-    void parseColor(QString const& color);
     void parseSGR(QString const& sgr);
     void parseOneSGR(QString const& sgr);
     void parse_n(QString const& n);

@@ -4,50 +4,6 @@ ConsoleParser::ConsoleParser()
 {
 }
 
-void ConsoleParser::parseColor(QString const& c)
-{
-    if(c.endsWith("30") || c == "90")
-        emit onForeColor(ColorRole::Black);
-    else if(c == "40" || c == "100")
-        emit onBackColor(ColorRole::Black);
-    else if(c.endsWith("31") || c == "91")
-        emit onForeColor(ColorRole::Red);
-    else if(c == "41" || c == "101")
-        emit onBackColor(ColorRole::Red);
-    else if(c.endsWith("32")  || c == "92")
-        emit onForeColor(ColorRole::Green);
-    else if(c == "42" || c == "102")
-        emit onBackColor(ColorRole::Green);
-    else if(c.endsWith("33")  || c == "93")
-        emit onForeColor(ColorRole::Yellow);
-    else if(c == "43" || c == "103")
-        emit onBackColor(ColorRole::Yellow);
-    else if(c.endsWith("34")  || c == "94")
-        emit onForeColor(ColorRole::Blue);
-    else if(c == "44" || c == "104")
-        emit onBackColor(ColorRole::Blue);
-    else if(c.endsWith("35")  || c == "95")
-        emit onForeColor(ColorRole::Purple);
-    else if(c == "45" || c == "105")
-        emit onBackColor(ColorRole::Purple);
-    else if(c.endsWith("36")  || c == "96")
-        emit onForeColor(ColorRole::SkyBlue);
-    else if(c == "46" || c == "106")//
-        emit onBackColor(ColorRole::SkyBlue);
-    else if(c.endsWith("37")  || c == "97")
-        emit onForeColor(ColorRole::White);
-    else if(c == "47" || c == "107")
-        emit onBackColor(ColorRole::White);
-    else if(c == "38;5;9") //Foreground Extended
-        emit onForeColor(ColorRole::Red);
-    else if(c == "38;5;34")
-        emit onForeColor(ColorRole::Green);
-    else if(c == "38;5;27")
-        emit onForeColor(ColorRole::Blue);
-    else if(c == "00" || c == "0" || c == "")
-        emit onColorClose();
-}
-
 void ConsoleParser::parseOneSGR(QString const& sgr)
 {
     if(sgr == "" || sgr == "0" || sgr == "00")
@@ -66,10 +22,16 @@ void ConsoleParser::parseOneSGR(QString const& sgr)
         emit onNoUnderLine();
     else if(sgr == "27'")
         emit onNormalColor();
-    else if(sgr == "39'")
-        emit onNormalForeColor();
-    else if(sgr == "49'")
-        emit onNormalBackColor();
+    else if(sgr == "39")
+    {
+        emit onForeColor(ColorRole::NullRole);
+        emit onNormalForeColor();//??
+    }
+    else if(sgr == "49")
+    {
+        emit onBackColor(ColorRole::NullRole);
+        emit onNormalBackColor();//??
+    }
     else if(sgr == "30" || sgr == "90")
         emit onForeColor(ColorRole::Black);
     else if(sgr == "31" || sgr == "91")
@@ -119,6 +81,8 @@ void ConsoleParser::parseSGR(QString const& sgr)
                 emit onForeColor(ColorRole::Green);
             else if(tokens[2] == "27")
                 emit onForeColor(ColorRole::Blue);
+            else if(tokens[2] == "62")
+                emit onForeColor(ColorRole::SkyBlue);
         }
         else if(tokens[1] == "2")//rgb
         {
@@ -129,7 +93,8 @@ void ConsoleParser::parseSGR(QString const& sgr)
     {
         if(tokens[1] == "5")//index
         {
-
+            if(tokens[2] == "250")
+                emit onBackColor(ColorRole::White);
         }
         else if(tokens[1] == "2")//rgb
         {
