@@ -47,6 +47,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
     connect(widget, &SShWidget::onClose, this, &Session::onClose);
+    connect(widget, &SShWidget::onSizeChanged, this, &Session::onSizeChanged);
     connect(widget, &SShWidget::onCommand, this, &Session::onCommand);
     connect(widget, &SShWidget::fontSizeChanged, this, &Session::fontSizeChanged);
     connect(widget, &SShWidget::highLighterChanged, this, &Session::highLighterChanged);

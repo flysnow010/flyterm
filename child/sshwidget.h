@@ -44,6 +44,7 @@ public slots:
     void clearScrollback();
 signals:
     void onClose(QWidget *widget);
+    void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
     void fontSizeChanged(int fonstSize);
     void getHighlighter();

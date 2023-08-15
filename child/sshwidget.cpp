@@ -231,6 +231,7 @@ void SShWidget::resizeEvent(QResizeEvent *event)
     console->resize(consoleSize);
     alternateConsole->resize(consoleSize);
     getShellSize(consoleSize, shellCols, shellRows);
+    emit onSizeChanged(this);
 }
 
 void SShWidget::activedWidget()

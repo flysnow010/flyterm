@@ -67,6 +67,7 @@ public:
     virtual QJsonObject object() const = 0;
 signals:
     void onClose(QWidget *widget);
+    void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
     void fontSizeChanged(int fonstSize);
     void highLighterChanged(QString const& highLight);

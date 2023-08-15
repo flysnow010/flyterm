@@ -221,6 +221,17 @@ void MainWindow::createConnets()
             this, &MainWindow::sendCommand);
     connect(sessionDockWidget, &SessionDockWidget::onCreateShell,
             this, &MainWindow::createShell);
+    connect(sessionDockWidget, &SessionDockWidget::onSessionSizeChanged,
+            [=](QWidget* widget)
+    {
+        QMdiSubWindow* subWindow = activeSubWindow();
+        if(subWindow && subWindow->widget() == widget)
+        {
+            Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+            if(session)
+                session->activeWidget(widget);
+        }
+    });
     connect(sessionDockWidget, &SessionDockWidget::onCreateSession,
             [this]{
         addSession(false);

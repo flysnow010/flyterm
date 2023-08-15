@@ -42,6 +42,8 @@ void SessionDockWidget::loadSessions()
         for(int size = 0; size < shellSize; size++)
             emit onCreateShell(session);
         connect(session.get(), &Session::onClose, this, &SessionDockWidget::onClose);
+        connect(session.get(), &Session::onSizeChanged, this,
+                &SessionDockWidget::onSessionSizeChanged);
     }
     sessionModel->setSessionManger(sessionManager);
     treeView->setHeaderHidden(false);
@@ -147,6 +149,8 @@ void SessionDockWidget::editSession()
 void SessionDockWidget::addSession(Session::Ptr const& session)
 {
     connect(session.get(), &Session::onClose, this, &SessionDockWidget::onClose);
+    connect(session.get(), &Session::onSizeChanged,
+            this, &SessionDockWidget::onSessionSizeChanged);
     sessionManager->addSession(session);
     updateTreeView();
 }
