@@ -53,7 +53,7 @@ public:
 
     void setDrawLineMode(bool enable) { isDrawLineMode_ = enable; }
 
-    bool isBottom() const { return bottom_ == row_; }
+    bool isBottom() const { return bottom_ != 0 && bottom_ == row_; }
 private:
     typedef QVector<ConsoleChar> ConsoleChars;
     void scrollUp();

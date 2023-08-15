@@ -94,19 +94,19 @@ void ConsoleScreen::cursorPos(int row, int col)
 
 void ConsoleScreen::cursorRow(int row)
 {
-    if(row > 1)
+    if(row >= 1)
         row_ = row - 1;
 }
 
 void ConsoleScreen::cursorCol(int col)
 {
-    if(col > 1)
+    if(col >= 1)
         col_ = col - 1;
 }
 
 void ConsoleScreen::cursorUp(int count)
 {
-    if(row_ > count)
+    if(row_ >= count)
         row_ -= count;
 }
 
@@ -122,7 +122,7 @@ void ConsoleScreen::cursorRight(int count)
 
 void ConsoleScreen::cursorLeft(int count)
 {
-    if(col_ > count)
+    if(col_ >= count)
         col_ -= count;
 }
 
@@ -144,6 +144,9 @@ void ConsoleScreen::scrollDown(int rows)
 
 void ConsoleScreen::scrollUp()
 {
+    if(bottom_ == 0)
+        return;
+
     for(int i = top_; i < bottom_; i++)
         *(consoleCharsVec[i]) = *(consoleCharsVec[i+1]);
     *(consoleCharsVec[bottom_]) = ConsoleChars(consoleCharsVec[bottom_]->size());
