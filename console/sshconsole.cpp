@@ -363,38 +363,6 @@ void SshConsole::putText(QString const& text)
         colorRange.start = start;
         colorRanges << colorRange;
     }
-//    if(text == "\r")
-//    {
-//        onReturn();
-//        return;
-//    }
-
-//    if(text.startsWith("\r\n"))//if(text == "\r\n")
-//    {
-//        QTextCursor tc = textCursor();
-//        tc.movePosition(QTextCursor::EndOfLine);
-//        setTextCursor(tc);
-//        isOverWrite = false;
-//    }
-
-//    QTextCursor tc = textCursor();
-//    if(isOverWrite)
-//    {
-//        tc.movePosition(QTextCursor::Right,
-//                        QTextCursor::KeepAnchor, text.size());
-//        setTextCursor(tc);
-//        tc = textCursor();
-//    }
-
-//    tc.insertText(text, isUseColor ? textFormat : normalFormat);
-//    if(isUseColor)
-//    {
-//        ColorRange colorRange;
-//        colorRange.role = currentForeRole;
-//        colorRange.end = tc.position();
-//        colorRange.start = colorRange.end - text.size();
-//        colorRanges << colorRange;
-//    }
 }
 
 void SshConsole::clearScreen()
@@ -409,10 +377,18 @@ void SshConsole::onForeColor(ColorRole role)
 
 void SshConsole::setForeColor(ColorRole role)
 {
-    isUseColor = true;
     currentForeRole = role;
-    if(palette_)
-        textFormat.setForeground(QBrush(palette_->color(role).fore));
+    if(currentForeRole == ColorRole::NullRole)
+    {
+        isUseColor = false;
+        textFormat.setForeground(palette().color(QPalette::Text));
+    }
+    else
+    {
+        isUseColor = true;
+        if(palette_)
+            textFormat.setForeground(QBrush(palette_->color(role).fore));
+    }
 }
 
 void SshConsole::onBackColor(ColorRole role)
@@ -442,10 +418,18 @@ void SshConsole::setReverse()
 
 void SshConsole::setBackColor(ColorRole role)
 {
-    isUseColor = true;
     currentBackRole = role;
-    if(palette_)
-        textFormat.setBackground(QBrush(palette_->color(role).back));
+    if(currentBackRole == ColorRole::NullRole)
+    {
+        isUseColor = false;
+        textFormat.setBackground(palette().color(QPalette::Base));
+    }
+    else
+    {
+        isUseColor = true;
+        if(palette_)
+            textFormat.setBackground(QBrush(palette_->color(role).back));
+    }
 }
 
 void SshConsole::setCloseColor()
