@@ -130,7 +130,7 @@ void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
     int w = fontmetrics.width('W');
     int h = fontmetrics.height();
     cols = size.width() / w;
-    rows = size.height() / h;
+    rows = size.height() / h - 1;
 }
 
 void SShWidget::disconnect()
