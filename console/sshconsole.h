@@ -108,6 +108,7 @@ private:
     int selectText();
     int selectText(int start, int end);
     void updateColors();
+    void updateSelectedColors();
 protected:
     ConsoleParser* commandParser;
     ConsolePalette::Ptr palette_;

@@ -124,18 +124,28 @@ void SshConsole::setConsoleColor(ConsoleColor const& color)
 {
     setStyleSheet(QString("QTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
+    setTextColor(palette().color(QPalette::Text));
+    setTextBackgroundColor(palette().color(QPalette::Base));
     updateColors();
 }
 
 void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
 {
     palette_ = palette;
+    updateColors();
+}
+
+void SshConsole::updateColors()
+{
     int oldPos = -1;
     for(int i = 0; i < colorRanges.size(); i++)
     {
         int pos = selectText(colorRanges[i].start, colorRanges[i].end);
         setTextColor(palette_->color(colorRanges[i].fore).fore);
-        setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+        if(colorRanges[i].back != ColorRole::NullRole)
+            setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+        else
+            setTextBackgroundColor(this->palette().color(QPalette::Base));
         if(oldPos == -1)
             oldPos = pos;
     }
@@ -147,7 +157,7 @@ void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
     }
 }
 
-void SshConsole::updateColors()
+void SshConsole::updateSelectedColors()
 {
     int oldPos = -1;
     for(int i = 0; i < colorRanges.size(); i++)
@@ -156,7 +166,10 @@ void SshConsole::updateColors()
         {
             int pos = selectText(colorRanges[i].start, colorRanges[i].end);
             setTextColor(palette_->color(colorRanges[i].fore).fore);
-            setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+            if(colorRanges[i].back != ColorRole::NullRole)
+                setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+            else
+                setTextBackgroundColor(palette().color(QPalette::Base));
             if(oldPos == -1)
                 oldPos = pos;
         }
@@ -679,7 +692,7 @@ void SshConsole::cancelSelection()
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         setTextCursor(cursor);
-        updateColors();
+        updateSelectedColors();
         selectStart = 0;
         selectEnd = 0;
     }
