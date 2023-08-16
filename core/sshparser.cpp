@@ -31,7 +31,7 @@ void SShParser::parse(QByteArray const& data)
             {
                 emit onBeep();
                 if(ch > start)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 start = ch + 1;
                 ch++;
                 break;
@@ -39,7 +39,7 @@ void SShParser::parse(QByteArray const& data)
             case SO:
             {
                 if(ch > start)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 emit onDECLineDrawingMode();
                 start = ch + 1;
                 ch++;
@@ -48,7 +48,7 @@ void SShParser::parse(QByteArray const& data)
             case SI:
             {
                 if(ch > start)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 emit onASCIIMode();
                 start = ch + 1;
                 ch++;
@@ -60,14 +60,14 @@ void SShParser::parse(QByteArray const& data)
 //                if(ch != end && *ch == LF)
 //                {
 //                    if((ch - 1) > start)
-//                        emit onText(QString::fromUtf8(start, ch - start - 1));
+//                        emit onText(toText(start, ch - start - 1));
 //                    emit onOverWrite(false);
 //                    start = ch - 1;
 //                }
 //                else
 //                {
 //                    if((ch - 1) > start)
-//                        emit onText(QString::fromUtf8(start, ch - start - 1));
+//                        emit onText(toText(start, ch - start - 1));
 //                    emit onHome();
 //                    emit onOverWrite(true);
 //                    start = ch;
@@ -86,7 +86,7 @@ void SShParser::parse(QByteArray const& data)
                 }
 
                 if(ch > start && *start != BS)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 ch += parseBs(ch, end);
                 start = ch;
                 break;
@@ -94,7 +94,7 @@ void SShParser::parse(QByteArray const& data)
             case ESC:
             {
                 if(ch > start && *start != BS)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 int size = parseEsc(ch, end);
                 if(size == 0)
                 {
@@ -116,7 +116,7 @@ void SShParser::parse(QByteArray const& data)
     }
 
     if(ch > start)
-        emit onText(QString::fromUtf8(start, ch - start));
+        emit onText(toText(start, ch - start));
     parseData_.clear();
 }
 

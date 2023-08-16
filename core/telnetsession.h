@@ -29,6 +29,7 @@ public:
     void copyAll(QWidget *widget) override;
     void paste(QWidget *widget) override;
     void updateHightLighter(QString const& hightLighter) override;
+    void updateCodecName(QString const& codecName) override;
     void updateFontName(QString const& fontName) override;
     void updateColorIndex(int index) override;
     void updatePaletteName(QString const& paletteName) override;

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QByteArray>
 
+class QTextCodec;
 class ConsoleParser : public QObject
 {
     Q_OBJECT
@@ -40,6 +41,8 @@ public:
     bool isEnterKeyPress() const { return isEnterKeyPress_; }
     void setHomePress(bool enable) { isHomeKeyPress_ = enable; }
     bool isHomeKeyPress() const { return isHomeKeyPress_; }
+
+    void setCodecName(QByteArray const& name);
 signals:
     void onBeep();
     void onBackspace(int count);
@@ -102,10 +105,12 @@ protected:
     void parse_n(QString const& n);
     void parse_C(QString const& c);
     void parse_D(QString const& c);
+    QString toText(const char *str, int size);
 protected:
     QByteArray parseData_;
 private:
     Mode keyMode_ = Mode_Insert;
+    QTextCodec* textCodec;
     int leftKeyPressCount = 0;
     bool isRightKeyPress_ = false;
     bool isEnterKeyPress_ = false;

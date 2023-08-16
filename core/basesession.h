@@ -23,6 +23,9 @@ public:
     QString hightLighter() const { return hightLighter_; }
     void setHightLighter(QString const& hightLighter);
 
+    QString codecName() const { return codecName_; }
+    void setCodecName(QString const& codecName);
+
     QString fontName() const { return fontName_; }
     void setFontName(QString const& fontName);
 
@@ -52,6 +55,7 @@ public:
     virtual void copyAll(QWidget *widget) = 0;
     virtual void paste(QWidget *widget) = 0;
     virtual void updateHightLighter(QString const& hightLighter) = 0;
+    virtual void updateCodecName(QString const& codecName) = 0;
     virtual void updateFontName(QString const& fontName) = 0;
     virtual void updateFontSize(int fontSize) = 0;
     virtual void updateColorIndex(int index) = 0;
@@ -77,6 +81,7 @@ private:
 private:
     QString name_;
     QString hightLighter_;
+    QString codecName_;
     QString fontName_;
     int  colorIndex_;
     QString paletteName_;

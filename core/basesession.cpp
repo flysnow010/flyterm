@@ -9,6 +9,7 @@
 Session::Session(QString const& name)
     : name_(name)
     , hightLighter_("errorHighLighter")
+    , codecName_("UTF-8")
     , fontName_("Courier New")
     , colorIndex_(4)//"Black White
     , paletteName_("XTerm")
@@ -30,6 +31,12 @@ void Session::setHightLighter(QString const& hightLighter)
 {
     hightLighter_ = hightLighter;
     updateHightLighter(hightLighter);
+}
+
+void Session::setCodecName(QString const& codecName)
+{
+    codecName_ = codecName;
+    updateCodecName(codecName);
 }
 
 void Session::setFontName(QString const& fontName)
@@ -144,6 +151,7 @@ bool SessionManager::save(QString const& fileName)
         session.insert("type", sessions_[i]->type());
         session.insert("name", sessions_[i]->name());
         session.insert("hightLighter", sessions_[i]->hightLighter());
+        session.insert("codecName", sessions_[i]->codecName());
         session.insert("fontName", sessions_[i]->fontName());
         session.insert("fontSize", sessions_[i]->fontSize());
         session.insert("colorIndex", sessions_[i]->colorIndex());
@@ -199,35 +207,22 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
     QString hightLighter = obj.value("hightLighter").toString();
     int colorIndex = obj.value("colorIndex").toInt();
     QString paletteName = obj.value("paletteName").toString();
+    QString codecName = obj.value("codecName").toString();
     QString fontName = obj.value("fontName").toString();
     int fontSize = obj.value("fontSize").toInt();
 
     if(type == "SshSession")
-    {
         session = Session::Ptr(new SshSession(name));
-        session->setHightLighter(hightLighter);
-        session->setFontName(fontName);
-        session->setFontSize(fontSize);
-        session->setColorIndex(colorIndex);
-        if(!paletteName.isEmpty())
-            session->setPaletteName(paletteName);
-        session->setObject(obj.value("session").toObject());
-    }
     else if(type == "TelnetSession")
-    {
         session = Session::Ptr(new TelnetSession(name));
-        session->setHightLighter(hightLighter);
-        session->setFontName(fontName);
-        session->setFontSize(fontSize);
-        session->setColorIndex(colorIndex);
-        if(!paletteName.isEmpty())
-            session->setPaletteName(paletteName);
-        session->setObject(obj.value("session").toObject());
-    }
     else if(type == "SerialSession")
-    {
         session = Session::Ptr(new SerialSession(name));
+
+    if(session)
+    {
         session->setHightLighter(hightLighter);
+        if(!codecName.isEmpty())
+            session->setCodecName(codecName);
         session->setFontName(fontName);
         session->setFontSize(fontSize);
         session->setColorIndex(colorIndex);

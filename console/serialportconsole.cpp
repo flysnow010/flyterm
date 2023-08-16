@@ -218,6 +218,11 @@ void SerialPortConsole::copyOne()
     }
 }
 
+void SerialPortConsole::setCodecName(QString const& name)
+{
+    commandParser->setCodecName(name.toUtf8());
+}
+
 void SerialPortConsole::setFontName(QString const& name)
 {
     fontName_ = name;

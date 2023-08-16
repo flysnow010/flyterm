@@ -58,6 +58,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();
     ConsolePalette::Ptr palette = manager->findPalette(paletteName());
 
+    widget->setCodecName(codecName());
     widget->setFontName(fontName());
     widget->setFontSize(fontSize());
     widget->setConsoleColor(color);
@@ -153,6 +154,12 @@ void SshSession::updateHightLighter(QString const& hightLighter)
 {
     for(int i = 0; i < widgets_.size(); i++)
         widgets_[i]->updateHightLighter(hightLighter);
+}
+
+void SshSession::updateCodecName(QString const& codecName)
+{
+    for(int i = 0; i < widgets_.size(); i++)
+        widgets_[i]->setCodecName(codecName);
 }
 
 void SshSession::updateFontName(QString const& fontName)

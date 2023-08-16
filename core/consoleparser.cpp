@@ -1,7 +1,24 @@
 #include "consoleparser.h"
+#include <QTextCodec>
 
 ConsoleParser::ConsoleParser()
+    : textCodec(QTextCodec::codecForName("UTF-8"))
 {
+}
+
+void ConsoleParser::setCodecName(QByteArray const& name)
+{
+    if(textCodec->name() != name)
+    {
+        QTextCodec* codec = QTextCodec::codecForName(name);
+        if(codec)
+           textCodec = codec;
+    }
+}
+
+QString ConsoleParser::toText(const char *str, int size)
+{
+    return textCodec->toUnicode(str, size);
 }
 
 void ConsoleParser::parseOneSGR(QString const& sgr)

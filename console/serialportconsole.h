@@ -19,6 +19,7 @@ public:
     void putData(const QByteArray &data);
     void setLocalEchoEnabled(bool set);
     void setLogFile(LogFile::SharedPtr const& logfile) { logfile_ = logfile; }
+    void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setFontSize(int fontSize);
     void setConsoleColor(ConsoleColor const& color);

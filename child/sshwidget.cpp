@@ -180,6 +180,11 @@ void SShWidget::paste()
     console->paste();
 }
 
+void SShWidget::setCodecName(QString const& name)
+{
+    commandParser->setCodecName(name.toUtf8());
+}
+
 void SShWidget::setFontName(QString const& name)
 {
     console->setFontName(name);

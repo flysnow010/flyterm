@@ -13,6 +13,7 @@
 #include "core/serialsession.h"
 #include "core/userauth.h"
 #include "core/languagemanager.h"
+#include "core/consolecodec.h"
 #include "service/tftp/tftpserver.h"
 #include "color/consolepalette.h"
 #include "highlighter/hightlightermanager.h"
@@ -321,12 +322,15 @@ void MainWindow::createToolButtons()
 {
     comboColor = new QComboBox(ui->toolBar);
     comboPalette = new QComboBox(ui->toolBar);
+    comboCodec = new QComboBox(ui->toolBar);
     comboFont = new QFontComboBox(ui->toolBar);
     comboSize = new QComboBox(ui->toolBar);
     comboFont->setFontFilters(QFontComboBox::MonospacedFonts);
     comboFont->setEditable(false);
     ui->toolBar->addWidget(comboColor);
     ui->toolBar->addWidget(comboPalette);
+    ui->toolBar->addSeparator();
+    ui->toolBar->addWidget(comboCodec);
     ui->toolBar->addSeparator();
     ui->toolBar->addWidget(comboFont);
     ui->toolBar->addWidget(comboSize);
@@ -338,17 +342,23 @@ void MainWindow::createToolButtons()
     for(int i = 0; i < manager->size(); i++)
         comboPalette->addItem(manager->palette(i)->name());
 
+    QList<ConsoleCodec> const& codecs = ConsoleCodecManager::Instance()->codecs();
+    foreach(auto codec, codecs)
+        comboCodec->addItem(codec.name, codec.codec);
+
     const QList<int> standardSizes = QFontDatabase::standardSizes();
     foreach (int size, standardSizes)
         comboSize->addItem(QString::number(size));
 
     comboColor->setToolTip(tr("Background and foreground of Console"));
     comboPalette->setToolTip(tr("Paletee of Console"));
+    comboCodec->setToolTip(tr("Codec of Console"));
     comboFont->setToolTip(tr("Font name of Console"));
     comboSize->setToolTip(tr("Font size of Console"));
 
     connect(comboColor, SIGNAL(activated(int)), this, SLOT(setColorIndex(int)));
     connect(comboPalette, SIGNAL(activated(QString)), this, SLOT(setPaletteName(QString)));
+    connect(comboCodec, SIGNAL(activated(int)), this, SLOT(setCodecName(int)));
     connect(comboFont, SIGNAL(activated(QString)), this, SLOT(setFontName(QString)));
     connect(comboSize, SIGNAL(activated(QString)), this, SLOT(setFontSize(QString)));
 }
@@ -504,8 +514,10 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
         Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
         if(session)
         {
+            QString name = ConsoleCodecManager::Instance()->codecToName(session->codecName());
             comboColor->setCurrentIndex(session->colorIndex());
             comboPalette->setCurrentText(session->paletteName());
+            comboCodec->setCurrentText(name);
             comboFont->setCurrentText(session->fontName());
             comboSize->setCurrentText(QString::number(session->fontSize()));
             udpateHighLighterMenuStatus(session->hightLighter());
@@ -632,6 +644,14 @@ void MainWindow::setFontName(QString const& name)
     Session::Ptr session = activeSession();
     if(session)
         session->setFontName(name);
+}
+
+void MainWindow::setCodecName(int index)
+{
+    QString name = comboCodec->itemData(index).toString();
+    Session::Ptr session = activeSession();
+    if(session)
+        session->setCodecName(name);
 }
 
 void MainWindow::setColorIndex(int index)

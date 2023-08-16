@@ -128,6 +128,11 @@ void TelnetWidget::paste()
     console->paste();
 }
 
+void TelnetWidget::setCodecName(QString const& name)
+{
+    console->setCodecName(name);
+}
+
 void TelnetWidget::setFontName(QString const& name)
 {
     console->setFontName(name);

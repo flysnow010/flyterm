@@ -248,6 +248,11 @@ void TelnetConsole::copyOne()
     }
 }
 
+void TelnetConsole::setCodecName(QString const& name)
+{
+    commandParser->setCodecName(name.toUtf8());
+}
+
 void TelnetConsole::setFontName(QString const& name)
 {
     fontName_ = name;

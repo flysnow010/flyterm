@@ -58,6 +58,7 @@ bool TelnetSession::createShell(QMdiArea *midArea, bool isLog)
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();
     ConsolePalette::Ptr palette = manager->findPalette(paletteName());
 
+    widget->setCodecName(codecName());
     widget->setFontName(fontName());
     widget->setFontSize(fontSize());
     widget->setConsoleColor(color);
@@ -153,6 +154,12 @@ void TelnetSession::updateHightLighter(QString const& hightLighter)
 {
     for(int i = 0; i < widgets_.size(); i++)
         widgets_[i]->updateHightLighter(hightLighter);
+}
+
+void TelnetSession::updateCodecName(QString const& codecName)
+{
+    for(int i = 0; i < widgets_.size(); i++)
+        widgets_[i]->setCodecName(codecName);
 }
 
 void TelnetSession::updateFontName(QString const& fontName)

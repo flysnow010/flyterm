@@ -62,6 +62,7 @@ bool SerialSession::createShell(QMdiArea *midArea, bool isLog)
     ConsolePaletteManager* manager = ConsolePaletteManager::Instance();
     ConsolePalette::Ptr palette = manager->findPalette(paletteName());
 
+    widget_->setCodecName(codecName());
     widget_->setFontName(fontName());
     widget_->setFontSize(fontSize());
     widget_->setConsoleColor(color);
@@ -153,6 +154,12 @@ void SerialSession::paste(QWidget *widget)
     SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
     if(theWidget)
         theWidget->paste();
+}
+
+void SerialSession::updateCodecName(QString const& codecName)
+{
+    if(widget_)
+        widget_->setCodecName(codecName);
 }
 
 void SerialSession::updateFontName(QString const& name)

@@ -27,6 +27,7 @@ public:
     void setErrorText(QString const& text);
 
     void disconnect();
+    void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setConsoleColor(ConsoleColor const& color);
     void setConsolePalette(ConsolePalette::Ptr palette);

@@ -52,6 +52,7 @@ private slots:
     void copy();
     void copyAll();
     void udpateHighLighter(QString const& lighter);
+    void setCodecName(int index);
     void setFontName(QString const& name);
     void setFontSize(QString const& fontSize);
     void setColorIndex(int index);
@@ -109,6 +110,7 @@ private:
     QAction* statusBarAction;
     QComboBox* comboColor;
     QComboBox* comboPalette;
+    QComboBox* comboCodec;
     QFontComboBox* comboFont;
     QComboBox* comboSize;
     WindowMode windowMode = Max;

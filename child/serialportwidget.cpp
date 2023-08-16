@@ -195,6 +195,11 @@ void SerialPortWidget::paste()
     console->paste();
 }
 
+void SerialPortWidget::setCodecName(QString const& name)
+{
+    console->setCodecName(name);
+}
+
 void SerialPortWidget::setFontName(QString const& name)
 {
     console->setFontName(name);

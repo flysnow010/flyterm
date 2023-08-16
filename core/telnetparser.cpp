@@ -37,7 +37,7 @@ void TelnetParser::parse(QByteArray const& data)
             {
                 emit onBeep();
                 if(ch > start)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 start = ch + 1;
                 ch++;
                 break;
@@ -53,7 +53,7 @@ void TelnetParser::parse(QByteArray const& data)
                 }
 
                 if(ch > start && *start != BS)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 ch += parseBs(ch, end);
                 start = ch;
                 break;
@@ -61,7 +61,7 @@ void TelnetParser::parse(QByteArray const& data)
             case ESC:
             {
                 if(ch > start && *start != BS)
-                    emit onText(QString::fromUtf8(start, ch - start));
+                    emit onText(toText(start, ch - start));
                 int size = parseEsc(ch, end);
                 if(size == 0)
                 {
@@ -82,6 +82,6 @@ void TelnetParser::parse(QByteArray const& data)
     }
 
     if(ch > start)
-        emit onText(QString::fromUtf8(start, ch - start));
+        emit onText(toText(start, ch - start));
     parseData_.clear();
 }
