@@ -37,6 +37,7 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Left:
         emit getData("\033OD");
+        commandParser->setLeftKeyPress(true);
         isUpdate = true;
         break;
     case Qt::Key_Home:
@@ -231,9 +232,21 @@ void AlternateConsole::setReverse()
     screen.setReverse(true);
 }
 
+void AlternateConsole::setBold(bool enable)
+{
+    screen.setBold(enable);
+}
+
+void AlternateConsole::setUnderLine(bool enable)
+{
+    screen.setUnderLine(enable);
+}
+
 void  AlternateConsole::setCloseColor()
 {
     screen.setReverse(false);
+    screen.setBold(false);
+    screen.setUnderLine(false);
     screen.setForeColor(ColorRole::NullRole);
     screen.setBackColor(ColorRole::NullRole);
 }

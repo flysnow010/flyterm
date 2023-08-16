@@ -25,6 +25,8 @@ protected:
     void setForeColor(ColorRole role) override;
     void setBackColor(ColorRole role) override;
     void setReverse() override;
+    void setBold(bool enable) override;
+    void setUnderLine(bool enable) override;
     void setCloseColor() override;
     void home() override;
     void backspace(int count) override;

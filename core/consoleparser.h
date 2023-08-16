@@ -65,10 +65,8 @@ signals:
     void onBackColor(ColorRole role);
     void onForeRgbColor();
     void onBackRgbColor();
-    void onBold();
-    void onNoBold();
-    void onUnderLine();
-    void onNoUnderLine();
+    void onBold(bool enable);
+    void onUnderLine(bool enable);
     void onBlink();
     void onReverse();
     void onNormalColor();

@@ -44,12 +44,14 @@ public:
     void setReverse(bool enable) { role_.isReverse = enable; }
     void setForeColor(ColorRole fore) { role_.fore = fore; }
     void setBackColor(ColorRole back) { role_.back = back; }
+    void setBold(bool enable) { role_.isBold = enable; }
+    void setUnderLine(bool enable) { role_.isUnderLine = enable; }
 
     void setText(QString const& text);
     void updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                   QTextCharFormat const& text);
     void update(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
-                  QTextCharFormat const& text);
+                  QTextCharFormat const& textFormat);
 
     void setDrawLineMode(bool enable) { isDrawLineMode_ = enable; }
 

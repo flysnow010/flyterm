@@ -35,7 +35,8 @@ public:
 
     struct ColorRange
     {
-        ColorRole role;
+        ColorRole fore;
+        ColorRole back;
         int start;
         int end;
     };
@@ -74,6 +75,8 @@ protected slots:
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);
     void onReverse();
+    void onBold(bool enable);
+    void onUnderLine(bool enable);
     void onCleanScreen();
     void onColorClose();
     void onRestoreState();
@@ -94,6 +97,8 @@ protected:
     virtual void setForeColor(ColorRole role);
     virtual void setBackColor(ColorRole role);
     virtual void setReverse();
+    virtual void setBold(bool enable);
+    virtual void setUnderLine(bool enable);
     virtual void setCloseColor();
     virtual void clearScreen();
     virtual void delCharToLineEnd();

@@ -64,6 +64,8 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
     connect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
+    connect(commandParser, SIGNAL(onBold(bool)), this, SLOT(onBold(bool)));
+    connect(commandParser, SIGNAL(onUnderLine(bool)), this, SLOT(onUnderLine(bool)));
 }
 
 void SshConsole::disconnectCommand()
@@ -94,6 +96,8 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
     disconnect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
+    disconnect(commandParser, SIGNAL(onBold(bool)), this, SLOT(onBold(bool)));
+    disconnect(commandParser, SIGNAL(onUnderLine(bool)), this, SLOT(onUnderLine(bool)));
 }
 
 void SshConsole::setFontName(QString const& fontName)
@@ -120,6 +124,7 @@ void SshConsole::setConsoleColor(ConsoleColor const& color)
 {
     setStyleSheet(QString("QTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
+    updateColors();
 }
 
 void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
@@ -129,7 +134,8 @@ void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
     for(int i = 0; i < colorRanges.size(); i++)
     {
         int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-        setTextColor(palette_->color(colorRanges[i].role).fore);
+        setTextColor(palette_->color(colorRanges[i].fore).fore);
+        setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
         if(oldPos == -1)
             oldPos = pos;
     }
@@ -149,7 +155,8 @@ void SshConsole::updateColors()
         if(!(selectStart > colorRanges[i].end || selectEnd < colorRanges[i].start))
         {
             int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-            setTextColor(palette_->color(colorRanges[i].role).fore);
+            setTextColor(palette_->color(colorRanges[i].fore).fore);
+            setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
             if(oldPos == -1)
                 oldPos = pos;
         }
@@ -358,7 +365,8 @@ void SshConsole::putText(QString const& text)
     if(isUseColor)
     {
         ColorRange colorRange;
-        colorRange.role = currentForeRole;
+        colorRange.fore = currentForeRole;
+        colorRange.back = currentBackRole;
         colorRange.end = tc.position();
         colorRange.start = start;
         colorRanges << colorRange;
@@ -401,6 +409,16 @@ void SshConsole::onReverse()
     setReverse();
 }
 
+void SshConsole::onBold(bool enable)
+{
+    setBold(enable);
+}
+
+void SshConsole::onUnderLine(bool enable)
+{
+    setUnderLine(enable);
+}
+
 void SshConsole::setReverse()
 {
     ColorRole back = currentForeRole;
@@ -414,6 +432,16 @@ void SshConsole::setReverse()
         textFormat.setForeground(palette().color(QPalette::Base));
     else
         setForeColor(fore);
+}
+
+void SshConsole::setBold(bool enable)
+{
+    textFormat.setFontWeight(enable ? QFont::Bold : QFont::Normal);
+}
+
+void SshConsole::setUnderLine(bool enable)
+{
+    textFormat.setFontUnderline(enable);
 }
 
 void SshConsole::setBackColor(ColorRole role)
@@ -435,6 +463,8 @@ void SshConsole::setBackColor(ColorRole role)
 void SshConsole::setCloseColor()
 {
     isUseColor = false;
+    setBold(false);
+    setUnderLine(false);
     currentBackRole = ColorRole::NullRole;
     currentForeRole = ColorRole::NullRole;
     textFormat.setForeground(palette().color(QPalette::Text));

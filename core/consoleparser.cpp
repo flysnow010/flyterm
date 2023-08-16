@@ -9,17 +9,17 @@ void ConsoleParser::parseOneSGR(QString const& sgr)
     if(sgr == "" || sgr == "0" || sgr == "00")
         emit onColorClose();
     else if(sgr == "1")
-        emit onBold();
+        emit onBold(true);
     else if(sgr == "4")
-        emit onUnderLine();
+        emit onUnderLine(true);
     else if(sgr == "5")
         emit onBlink();
     else if(sgr == "7")
         emit onReverse();
     else if(sgr == "22'")
-        emit onNoBold();
+        emit onBold(false);
     else if(sgr == "24'")
-        emit onNoUnderLine();
+        emit onUnderLine(false);
     else if(sgr == "27'")
         emit onNormalColor();
     else if(sgr == "39")

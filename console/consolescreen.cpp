@@ -65,6 +65,8 @@ void ConsoleScreen::setSize(int cols, int rows)
         consoleCharsVec[i] = new ConsoleChars(cols);
     cols_ = cols;
     rows_ = rows;
+    col_ = 0;
+    row_ = 0;
 }
 
 void ConsoleScreen::scrollRangle(int top, int bottom)
@@ -98,13 +100,23 @@ void ConsoleScreen::cursorPos(int row, int col)
 void ConsoleScreen::cursorRow(int row)
 {
     if(row >= 1)
-        row_ = row - 1;
+    {
+        if(row < rows_)
+            row_ = row - 1;
+        else
+            row_ = rows_ -1;
+    }
 }
 
 void ConsoleScreen::cursorCol(int col)
 {
     if(col >= 1)
-        col_ = col - 1;
+    {
+        if(col < cols_)
+            col_ = col - 1;
+        else
+            col_ = cols_ - 1;
+    }
 }
 
 void ConsoleScreen::cursorUp(int count)
@@ -190,7 +202,7 @@ void ConsoleScreen::onEraseChars(int count)
 
 void ConsoleScreen::update(QTextEdit* textEdit,
                              ConsolePalette::Ptr const& palette,
-                             const QTextCharFormat &text)
+                             const QTextCharFormat &textFormat)
 {
     textEdit->clear();
     updateRows_.clear();
@@ -227,11 +239,13 @@ void ConsoleScreen::update(QTextEdit* textEdit,
                     }
                     index++;
                 }
-                QTextCharFormat colorFormat = text;
+                QTextCharFormat colorFormat = textFormat;
                 if(consoleText.role.fore != ColorRole::NullRole)
                     colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
                 if(consoleText.role.back != ColorRole::NullRole)
                     colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+                colorFormat.setFontWeight(consoleText.role.isBold ? QFont::Bold : QFont::Normal);
+                colorFormat.setFontUnderline(consoleText.role.isUnderLine);
                 if(consoleText.role.isReverse)
                 {
                     colorFormat.setForeground(Qt::black);
@@ -246,7 +260,7 @@ void ConsoleScreen::update(QTextEdit* textEdit,
             charCount += (consoleChar.isDrawLineMode ? 2 : 1);
         }
         if(i != consoleCharsVec.size() - 1)
-            tc.insertText("\n", text);
+            tc.insertText("\n", textFormat);
     }
 }
 
@@ -343,6 +357,8 @@ void ConsoleScreen::drawRow(int row,
                 colorFormat.setForeground(QBrush(palette->color(consoleText.role.fore).fore));
             if(consoleText.role.back != ColorRole::NullRole)
                 colorFormat.setBackground(QBrush(palette->color(consoleText.role.back).back));
+            colorFormat.setFontWeight(consoleText.role.isBold ? QFont::Bold : QFont::Normal);
+            colorFormat.setFontUnderline(consoleText.role.isUnderLine);
             if(consoleText.role.isReverse)
             {
                 colorFormat.setForeground(Qt::black);
