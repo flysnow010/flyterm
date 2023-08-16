@@ -34,6 +34,7 @@ SOURCES += \
     core/basesession.cpp \
     core/commandmanager.cpp \
     core/commandthread.cpp \
+    core/consolecodec.cpp \
     core/consoleparser.cpp \
     core/languagemanager.cpp \
     core/logfile.cpp \
@@ -109,6 +110,7 @@ HEADERS += \
     core/commandmanager.h \
     core/commandthread.h \
     core/connecttype.h \
+    core/consolecodec.h \
     core/consoleparser.h \
     core/languagemanager.h \
     core/logfile.h \
