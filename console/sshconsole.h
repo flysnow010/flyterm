@@ -64,6 +64,7 @@ protected slots:
     void onBeep();
     void onGetCursorPos();
     void onBackspace(int count);
+    void onDelChars(int count);
     void onLeft(int count);
     void onRight(int count);
     void onReturn();
@@ -92,6 +93,7 @@ protected:
     virtual void putText(QString const& text);
     virtual void home();
     virtual void backspace(int count);
+    virtual void delChars(int count);
     virtual void cursorLeft(int count);
     virtual void cursorRight(int count);
     virtual void setForeColor(ColorRole role);

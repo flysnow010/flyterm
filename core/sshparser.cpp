@@ -487,10 +487,14 @@ void SShParser::parse_f(QString const& f)
         emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
 }
 
-void SShParser::parse_P(QString const& p)//???
+void SShParser::parse_P(QString const& p)
 {
+    if(p.isEmpty())
+        emit onDelChars(1);
+    else
+        emit onDelChars(p.toInt());
     //emit onBackspace(p.toInt());
-    emit onDelCharToLineEnd();
+    //emit onDelCharToLineEnd();
 }
 
 void SShParser::parse_M(QString const& m)

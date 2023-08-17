@@ -39,7 +39,8 @@ public:
 
     void delCharToLineEnd();
     void delCharToLineHome();
-    void onEraseChars(int count);
+    void delChars(int count);
+    void eraseChars(int count);
 
     void setReverse(bool enable) { role_.isReverse = enable; }
     void setForeColor(ColorRole fore) { role_.fore = fore; }

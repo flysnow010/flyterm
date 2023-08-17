@@ -30,6 +30,7 @@ protected:
     void setCloseColor() override;
     void home() override;
     void backspace(int count) override;
+    void delChars(int count) override;
     void cursorLeft(int count) override;
     void cursorRight(int count) override;
     void clearScreen() override;

@@ -190,13 +190,25 @@ void ConsoleScreen::delCharToLineHome()
     addUpdateRow(row_);
 }
 
-void ConsoleScreen::onEraseChars(int count)
+void ConsoleScreen::delChars(int count)
+{
+    ConsoleChars* rowChars = consoleCharsVec[row_];
+    int shiftCount =  rowChars->size() - col_ - count;
+    for(int i = col_; i < rowChars->size(); i++)
+    {
+        if(i < col_ + shiftCount)
+            (*rowChars)[i] = (*rowChars)[i+count];
+        else
+            (*rowChars)[i].clear(' ', role_);
+    }
+    addUpdateRow(row_);
+}
+
+void ConsoleScreen::eraseChars(int count)
 {
     ConsoleChars* rowChars = consoleCharsVec[row_];
     for(int i = col_; i < col_ + count && i < rowChars->size(); i++)
-    {
         (*rowChars)[i].clear(' ', role_);
-    }
     addUpdateRow(row_);
 }
 
@@ -372,6 +384,9 @@ void ConsoleScreen::drawRow(int row,
         }
         charCount += (consoleChar.isDrawLineMode ? 2 : 1);
     }
+    tc.movePosition(QTextCursor::Start);
+    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
+    tc.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor, col_ + 1);//??
     textEdit->setTextCursor(tc);
 }
 

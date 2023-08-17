@@ -42,6 +42,7 @@ void SshConsole::connectCommand()
         return;
     connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
+    connect(commandParser, SIGNAL(onDelChars(int)), this, SLOT(onDelChars(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
     connect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
@@ -74,6 +75,7 @@ void SshConsole::disconnectCommand()
         return;
     disconnect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
     disconnect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
+    disconnect(commandParser, SIGNAL(onDelChars(int)), this, SLOT(onDelChars(int)));
     disconnect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     disconnect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
     disconnect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
@@ -220,6 +222,11 @@ void SshConsole::onBackspace(int count)
     backspace(count);
 }
 
+void SshConsole::onDelChars(int count)
+{
+
+}
+
 void SshConsole::onLeft(int count)
 {
     cursorLeft(count);
@@ -255,6 +262,12 @@ void SshConsole::backspace(int count)
         count = pos - minCursorPos_;
     for(int i = 0; i < count; i++)
         textCursor().deletePreviousChar();
+}
+
+void SshConsole::delChars(int count)
+{
+    Q_UNUSED(count)
+    delCharToLineEnd();
 }
 
 void SshConsole::onRight(int count)

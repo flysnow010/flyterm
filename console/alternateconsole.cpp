@@ -21,7 +21,9 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_Backspace:
-        emit getData(e->text().toLocal8Bit());
+        //emit getData(e->text().toLocal8Bit());
+        emit getData("\x7F");
+        isUpdate = true;
         break;
     case Qt::Key_Up:
         emit getData("\033OA"); //"\x1B[?25l\x1B[1;23r\x1B[1;1H\x1B[L\x1B[1;24r\x1B[1;1H#ifndef VIDEO_WORKS_FEATURE_H\r\x1B[?12l\x1B[?25h"
@@ -63,6 +65,42 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
     case Qt::Key_PageDown:
         emit getData("\033[6~");
         //isUpdate = true;
+        break;
+    case Qt::Key_F1:
+        emit getData("\033OP");
+        break;
+    case Qt::Key_F2:
+        emit getData("\033OQ");
+        break;
+    case Qt::Key_F3:
+        emit getData("\033OR");
+        break;
+    case Qt::Key_F4:
+        emit getData("\033OS");
+        break;
+    case Qt::Key_F5:
+        emit getData("\033[15~");
+        break;
+    case Qt::Key_F6:
+        emit getData("\033[17~");
+        break;
+    case Qt::Key_F7:
+        emit getData("\033[18~");
+        break;
+    case Qt::Key_F8:
+        emit getData("\033[19~");
+        break;
+    case Qt::Key_F9:
+        emit getData("\033[20~");
+        break;
+    case Qt::Key_F10:
+        emit getData("\033[21~");
+        break;
+    case Qt::Key_F11:
+        emit getData("\033[23~");
+        break;
+    case Qt::Key_F12:
+        emit getData("\033[24~");
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
@@ -402,7 +440,7 @@ void AlternateConsole::delCharToLineHome()
 
 void AlternateConsole::onEraseChars(int count)
 {
-    screen.onEraseChars(count);
+    screen.eraseChars(count);
     screen.updateRows(this, palette_, normalFormat);
 }
 
@@ -422,6 +460,12 @@ void AlternateConsole::home()
 void AlternateConsole::backspace(int count)
 {
     screen.cursorLeft(count);
+}
+
+void AlternateConsole::delChars(int count)
+{
+    screen.delChars(count);
+    screen.updateRows(this, palette_, normalFormat);
 }
 
 void AlternateConsole::down()
