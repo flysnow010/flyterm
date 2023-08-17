@@ -9,6 +9,6 @@ struct TelnetSettings
     QString userName;
     int port = 23;
 
-    QString name() const { return QString("%1@%)").arg(userName, hostName); }
+    QString name() const { return QString("%1@%").arg(userName, hostName); }
 };
 #endif // TELNETSETTINGS_H
