@@ -189,6 +189,8 @@ void SShWidget::setFontName(QString const& name)
 {
     console->setFontName(name);
     alternateConsole->setFontName(name);
+    getShellSize(consoleSize, shellCols, shellRows);
+    emit onSizeChanged(this);
 }
 
 void SShWidget::setConsolePalette(ConsolePalette::Ptr palette)
@@ -207,6 +209,8 @@ void SShWidget::setFontSize(int fontSize)
 {
     console->setFontSize(fontSize);
     alternateConsole->setFontSize(fontSize);
+    getShellSize(consoleSize, shellCols, shellRows);
+    emit onSizeChanged(this);
 }
 
 void SShWidget::increaseFontSize()
