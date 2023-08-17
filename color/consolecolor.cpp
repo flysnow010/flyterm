@@ -5,7 +5,7 @@ ConsoleColorManager::ConsoleColorManager()
     colorNames_ << "Light yellow Black";//浅黄背景黑字
     colors_ << ConsoleColor{ QColor(255, 255, 221), QColor(28, 28, 28) };
     colorNames_ << "White Black";//白底黑字
-    colors_ << ConsoleColor{ QColor(236, 236, 236), QColor(28, 28, 28) };
+    colors_ << ConsoleColor{ QColor(255, 255, 255), QColor(28, 28, 28) };
     colorNames_ << "Black Gray";//黑底灰字
     colors_ << ConsoleColor{ QColor(28, 28, 28), QColor(170, 170, 170) };
     colorNames_ << "Black Green";//黑底绿字
