@@ -49,38 +49,70 @@ void ConsoleParser::parseOneSGR(QString const& sgr)
         emit onBackColor(ColorRole::NullRole);
         emit onNormalBackColor();//??
     }
-    else if(sgr == "30" || sgr == "90")
+    else if(sgr == "30")
         emit onForeColor(ColorRole::Black);
-    else if(sgr == "31" || sgr == "91")
+    else if(sgr == "90")
+        emit onForeColor(ColorRole::BrightBlack);
+    else if(sgr == "31")
         emit onForeColor(ColorRole::Red);
-    else if(sgr == "32" || sgr == "92")
+    else if(sgr == "91")
+        emit onForeColor(ColorRole::BrightRed);
+    else if(sgr == "32")
         emit onForeColor(ColorRole::Green);
-    else if(sgr == "33" || sgr == "93")
+    else if(sgr == "92")
+        emit onForeColor(ColorRole::BrightGreen);
+    else if(sgr == "33")
         emit onForeColor(ColorRole::Yellow);
-    else if(sgr == "34" || sgr == "94")
+    else if(sgr == "93")
+        emit onForeColor(ColorRole::BrightYellow);
+    else if(sgr == "34")
         emit onForeColor(ColorRole::Blue);
-    else if(sgr == "35" || sgr == "95")
+    else if(sgr == "94")
+        emit onForeColor(ColorRole::BrightBlue);
+    else if(sgr == "35")
         emit onForeColor(ColorRole::Purple);
-    else if(sgr == "36" || sgr == "96")
-        emit onForeColor(ColorRole::SkyBlue);
-    else if(sgr == "37" || sgr == "97")
+    else if(sgr == "95")
+        emit onForeColor(ColorRole::BrightPurple);
+    else if(sgr == "36")
+        emit onForeColor(ColorRole::Cyan);
+    else if(sgr == "96")
+        emit onForeColor(ColorRole::BrightCyan);
+    else if(sgr == "37")
         emit onForeColor(ColorRole::White);
-    else if(sgr == "40" || sgr == "100")
+    else if(sgr == "97")
+        emit onForeColor(ColorRole::BrightWhite);
+    else if(sgr == "40")
         emit onBackColor(ColorRole::Black);
-    else if(sgr == "41" || sgr == "101")
+    else if(sgr == "100")
+        emit onBackColor(ColorRole::BrightBlack);
+    else if(sgr == "41")
         emit onBackColor(ColorRole::Red);
-    else if(sgr == "42" || sgr == "102")
+    else if(sgr == "101")
+        emit onBackColor(ColorRole::BrightRed);
+    else if(sgr == "42")
         emit onBackColor(ColorRole::Green);
-    else if(sgr == "43" || sgr == "103")
+    else if(sgr == "102")
+        emit onBackColor(ColorRole::BrightGreen);
+    else if(sgr == "43")
         emit onBackColor(ColorRole::Yellow);
-    else if(sgr == "44" || sgr == "104")
+    else if(sgr == "103")
+        emit onBackColor(ColorRole::BrightYellow);
+    else if(sgr == "44")
         emit onBackColor(ColorRole::Blue);
-    else if(sgr == "45" || sgr == "105")
+    else if(sgr == "104")
+        emit onBackColor(ColorRole::BrightBlue);
+    else if(sgr == "45")
         emit onBackColor(ColorRole::Purple);
-    else if(sgr == "46" || sgr == "106")
-        emit onBackColor(ColorRole::SkyBlue);
-    else if(sgr == "47" || sgr == "107")
+    else if(sgr == "105")
+        emit onBackColor(ColorRole::BrightPurple);
+    else if(sgr == "46")
+        emit onBackColor(ColorRole::Cyan);
+    else if(sgr == "106")
+        emit onBackColor(ColorRole::BrightCyan);
+    else if(sgr == "47")
         emit onBackColor(ColorRole::White);
+    else if(sgr == "107")
+        emit onBackColor(ColorRole::BrightWhite);
 }
 
 void ConsoleParser::parseSGR(QString const& sgr)
