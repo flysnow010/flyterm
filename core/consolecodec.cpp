@@ -63,7 +63,7 @@ ConsoleCodecManager::ConsoleCodecManager()
         << ConsoleCodec{"Hebrew(ISO 8859-10)", "ISO 8859-10"}
         << ConsoleCodec{"Romania(ISO 8859-16)", "ISO 8859-16"}
         << ConsoleCodec{"Turkish(Windows-1254)", "Windows-1254"}
-        << ConsoleCodec{"Turkish(ISO 8859-9)", "8859-9"}
+        << ConsoleCodec{"Turkish(ISO 8859-9)", "ISO 8859-9"}
         << ConsoleCodec{"Vietnameese(Windows-1258)", "Windows-1258"}
         << ConsoleCodec{"Simplified Chinese(GB18030)", "GB18030"}
         << ConsoleCodec{"Fraditional Chinese(Big5)", "Big5"}
