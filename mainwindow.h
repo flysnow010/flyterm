@@ -15,6 +15,7 @@ class QMdiArea;
 class QMdiSubWindow;
 class QFontComboBox;
 class QComboBox;
+class QToolButton;
 class QActionGroup;
 class SessionDockWidget;
 class ButtonsDockWidget;
@@ -52,7 +53,7 @@ private slots:
     void copy();
     void copyAll();
     void udpateHighLighter(QString const& lighter);
-    void setCodecName(int index);
+    void selectCodec();
     void setFontName(QString const& name);
     void setFontSize(QString const& fontSize);
     void setColorIndex(int index);
@@ -110,9 +111,9 @@ private:
     QAction* statusBarAction;
     QComboBox* comboColor;
     QComboBox* comboPalette;
-    QComboBox* comboCodec;
     QFontComboBox* comboFont;
     QComboBox* comboSize;
+    QToolButton* buttonCodec;
     WindowMode windowMode = Max;
     ConnectType connectType = ConnectType::SSH;
     QString tftpRootPath;

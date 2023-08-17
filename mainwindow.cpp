@@ -22,6 +22,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QFontComboBox>
+#include <QToolButton>
 #include <QDesktopWidget>
 #include <QSettings>
 #include <QLocalSocket>
@@ -322,18 +323,17 @@ void MainWindow::createToolButtons()
 {
     comboColor = new QComboBox(ui->toolBar);
     comboPalette = new QComboBox(ui->toolBar);
-    comboCodec = new QComboBox(ui->toolBar);
     comboFont = new QFontComboBox(ui->toolBar);
     comboSize = new QComboBox(ui->toolBar);
+    buttonCodec = new QToolButton(ui->statusBar);
     comboFont->setFontFilters(QFontComboBox::MonospacedFonts);
     comboFont->setEditable(false);
     ui->toolBar->addWidget(comboColor);
     ui->toolBar->addWidget(comboPalette);
     ui->toolBar->addSeparator();
-    ui->toolBar->addWidget(comboCodec);
-    ui->toolBar->addSeparator();
     ui->toolBar->addWidget(comboFont);
     ui->toolBar->addWidget(comboSize);
+    ui->statusBar->addPermanentWidget(buttonCodec);
 
     QStringList colorNames = ConsoleColorManager::Instance()->colorNames();
     comboColor->addItems(colorNames);
@@ -342,25 +342,31 @@ void MainWindow::createToolButtons()
     for(int i = 0; i < manager->size(); i++)
         comboPalette->addItem(manager->palette(i)->name());
 
-    QList<ConsoleCodec> const& codecs = ConsoleCodecManager::Instance()->codecs();
-    foreach(auto codec, codecs)
-        comboCodec->addItem(codec.name, codec.codec);
-
     const QList<int> standardSizes = QFontDatabase::standardSizes();
     foreach (int size, standardSizes)
         comboSize->addItem(QString::number(size));
 
     comboColor->setToolTip(tr("Background and foreground of Console"));
     comboPalette->setToolTip(tr("Paletee of Console"));
-    comboCodec->setToolTip(tr("Codec of Console"));
     comboFont->setToolTip(tr("Font name of Console"));
     comboSize->setToolTip(tr("Font size of Console"));
-
+    buttonCodec->setToolTip(tr("Codec of Console"));
+    buttonCodec->setText("UTF-8");
+    buttonCodec->setAutoRaise(true);
+    QColor color = palette().highlight().color().lighter(210);
+    QString colorText = QString("#%1%2%3")
+        .arg(color.red(), 2, 16, QChar('0'))
+        .arg(color.green(), 2, 16, QChar('0'))
+        .arg(color.blue(), 2, 16, QChar('0'));
+    buttonCodec->setStyleSheet(QString("QToolButton{margin-right:5px;border-width:1px;border-radius:2px;}"
+                               "QToolButton:hover {background:%1;}"
+                               "QToolButton:pressed{background:%1;}").arg(colorText)
+                               );
     connect(comboColor, SIGNAL(activated(int)), this, SLOT(setColorIndex(int)));
     connect(comboPalette, SIGNAL(activated(QString)), this, SLOT(setPaletteName(QString)));
-    connect(comboCodec, SIGNAL(activated(int)), this, SLOT(setCodecName(int)));
     connect(comboFont, SIGNAL(activated(QString)), this, SLOT(setFontName(QString)));
     connect(comboSize, SIGNAL(activated(QString)), this, SLOT(setFontSize(QString)));
+    connect(buttonCodec, SIGNAL(clicked()), this, SLOT(selectCodec()));
 }
 
 void MainWindow::addSession(bool isCreateSheel)
@@ -514,10 +520,9 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
         Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
         if(session)
         {
-            QString name = ConsoleCodecManager::Instance()->codecToName(session->codecName());
             comboColor->setCurrentIndex(session->colorIndex());
             comboPalette->setCurrentText(session->paletteName());
-            comboCodec->setCurrentText(name);
+            buttonCodec->setText(session->codecName());
             comboFont->setCurrentText(session->fontName());
             comboSize->setCurrentText(QString::number(session->fontSize()));
             udpateHighLighterMenuStatus(session->hightLighter());
@@ -639,19 +644,38 @@ void MainWindow::udpateHighLighter(QString const& lighter)
     }
 }
 
+void MainWindow::selectCodec()
+{
+    QList<ConsoleCodec> const& codecs = ConsoleCodecManager::Instance()->codecs();
+    QString name = ConsoleCodecManager::Instance()->codecToName(buttonCodec->text());
+    QMenu menu;
+
+    foreach(auto codec, codecs)
+    {
+        QAction *action = menu.addAction(codec.name, this, [=](){
+            Session::Ptr session = activeSession();
+            if(session)
+            {
+                session->setCodecName(codec.codec);
+                buttonCodec->setText(codec.codec);
+            }
+        });
+        if(action->text() == name)
+        {
+            action->setCheckable(true);
+            action->setChecked(true);
+        }
+    }
+
+    QPoint pos = buttonCodec->mapToGlobal(buttonCodec->rect().topLeft());
+    menu.exec(pos);
+}
+
 void MainWindow::setFontName(QString const& name)
 {
     Session::Ptr session = activeSession();
     if(session)
         session->setFontName(name);
-}
-
-void MainWindow::setCodecName(int index)
-{
-    QString name = comboCodec->itemData(index).toString();
-    Session::Ptr session = activeSession();
-    if(session)
-        session->setCodecName(name);
 }
 
 void MainWindow::setColorIndex(int index)
