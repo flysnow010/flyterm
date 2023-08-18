@@ -50,7 +50,8 @@ private slots:
     void hideCursor();
     void scrollDown(int rows);
     void scrollUp(int rows);
-
+    void insertLine(int lines);
+    void deleteLine(int lines);
     void delCharToLineHome();
     void onEraseChars(int count);
     void onCleanToScreenEnd();
@@ -59,9 +60,9 @@ private:
 private:
     int topRow = -1;
     int bottomRow = -1;
-    bool isPutText = true;
-    bool isUpdate = false;
+    int cursorWidth = 0;
     bool isVideo = false;
+    bool isDebug = false;
     ConsoleScreen screen;
 };
 

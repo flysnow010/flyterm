@@ -21,42 +21,41 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_Backspace:
-        //emit getData(e->text().toLocal8Bit());
         emit getData("\x7F");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_Up:
-        emit getData("\033OA"); //"\x1B[?25l\x1B[1;23r\x1B[1;1H\x1B[L\x1B[1;24r\x1B[1;1H#ifndef VIDEO_WORKS_FEATURE_H\r\x1B[?12l\x1B[?25h"
-        isUpdate = true;
+        emit getData("\033OA");
+        isDebug = true;
         break;
     case Qt::Key_Down:
-        emit getData("\033OB"); //"\x1B[?25l\x1B[1;23r\x1B[23;1H\r\n\x1B[1;24r\x1B[23;1H#endif\x1B[24;1H\x1B[K\x1B[23;1H\x1B[?12l\x1B[?25h"
-        isUpdate = true;
+        emit getData("\033OB");
+        isDebug = true;
         break;
     case Qt::Key_Right:
         emit getData("\033OC");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_Left:
         emit getData("\033OD");
         commandParser->setLeftKeyPress(true);
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_Home:
         emit getData("\033OH");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_End:
         emit getData("\033OF");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_Insert:
         emit getData("\033[2~");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_Delete:
         emit getData("\033[3~");
-        isUpdate = true;
+        isDebug = true;
         break;
     case Qt::Key_PageUp:
         emit getData("\033[5~");
@@ -95,6 +94,7 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_F10:
         emit getData("\033[21~");
+        isDebug = true;
         break;
     case Qt::Key_F11:
         emit getData("\033[23~");
@@ -104,11 +104,11 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
-        emit getData(e->text().toLocal8Bit());//"\x1B[?25l\x1B[16;23r\x1B[16;1H\x1B[L\x1B[1;24r\x1B[16;1H\x1B[?12l\x1B[?25h"
+        emit getData(e->text().toLocal8Bit());
         break;
     default:
         emit getData(e->text().toLocal8Bit());
-        isUpdate = true;
+        isDebug = true;
         break;
     }
 }
@@ -147,6 +147,8 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     connect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     connect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
+    connect(commandParser, SIGNAL(onInsertLine(int)), this, SLOT(insertLine(int)));
+    connect(commandParser, SIGNAL(onDeleteLine(int)), this, SLOT(deleteLine(int)));
     connect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     connect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
     connect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
@@ -171,6 +173,8 @@ void AlternateConsole::disconnectAppCommand()
     disconnect(commandParser, SIGNAL(onCol(int)), this, SLOT(onCol(int)));
     disconnect(commandParser, SIGNAL(onScrollDown(int)), this, SLOT(scrollDown(int)));
     disconnect(commandParser, SIGNAL(onScrollUp(int)), this, SLOT(scrollUp(int)));
+    disconnect(commandParser, SIGNAL(onInsertLine(int)), this, SLOT(insertLine(int)));
+    disconnect(commandParser, SIGNAL(onDeleteLine(int)), this, SLOT(deleteLine(int)));
     disconnect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     disconnect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
     disconnect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
@@ -180,7 +184,7 @@ void AlternateConsole::disconnectAppCommand()
 void AlternateConsole::putData(const QByteArray &data)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "putData:" << data;
 #endif
     commandParser->parse(data);
@@ -190,23 +194,15 @@ void AlternateConsole::putData(const QByteArray &data)
 
 void AlternateConsole::clearScreen()
 {
-    //screen.clear(false);
     screen.clearScreen();
 }
 
 void AlternateConsole::reset(bool video)
 {
     isVideo = video;
-    isUpdate = false;
     screen.clear(true);
-//    if(!isVideo)
-//        screen.clear(true);
-//    else
-    if(isVideo)
-    {
-        screen.clearScreen();
-        screen.update(this, palette_, normalFormat);
-    }
+    screen.clearScreen();
+    screen.update(this, palette_, normalFormat);
 }
 
 void AlternateConsole::shellSize(int cols, int rows)
@@ -218,39 +214,11 @@ void AlternateConsole::shellSize(int cols, int rows)
 void AlternateConsole::putText(QString const& text)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "putText(" << screen.row() << "," << screen.col() << "): " << text;
 #endif
-    if(text == "\r")
-    {
-        if(!isPutText || isUpdate)
-            home();
-        return;
-    }
-    if(text == "\r\n")
-    {
-        if(!isPutText)
-        {
-            down();
-            return;
-        }
-        else if(screen.isBottom() && isUpdate)
-        {
-            screen.scrollUp(1);
-            return;
-        }
-    }
-    if(isPutText)
-    {
-        screen.setText(text);
-        if(isVideo)
-            screen.updateRows(this, palette_, normalFormat);
-    }
-    else
-    {
-        onRight(text.size());
-        screen.cursorRight(text.size());
-    }
+    screen.setText(text);
+    screen.updateRows(this, palette_, normalFormat);
 }
 
 void AlternateConsole::setForeColor(ColorRole role)
@@ -308,10 +276,10 @@ void AlternateConsole::cursorRight(int count)
 void AlternateConsole::onSwitchToAppKeypadMode()
 {
     qDebug() << "onSwitchToAppKeypadMode";
-    int w =  QFontMetrics(QFont(fontFamily(),
+    cursorWidth =  QFontMetrics(QFont(fontFamily(),
                                 fontPointSize(),
-                                fontWeight())).horizontalAdvance("W");
-    setCursorWidth(w + 1);
+                                fontWeight())).horizontalAdvance("W") + 1;
+    setCursorWidth(cursorWidth);
 }
 
 void AlternateConsole::onSwitchToNormalKeypadMode()
@@ -321,15 +289,13 @@ void AlternateConsole::onSwitchToNormalKeypadMode()
 
 void AlternateConsole::onASCIIMode()
 {
-    //qDebug() << "onASCIIMode";
-    isPutText = true;
+    qDebug() << "onASCIIMode";
     screen.setDrawLineMode(false);
 }
 
 void AlternateConsole::onDECLineDrawingMode()
 {
-    //qDebug() << "onDECLineDrawingMode";
-    isPutText = true;
+    qDebug() << "onDECLineDrawingMode";
     screen.setDrawLineMode(true);
 }
 
@@ -345,22 +311,16 @@ void AlternateConsole::hideCursor()
 #ifdef SHOW_INFO
     qDebug() << "hideCursor";
 #endif
-    isPutText = true;
+    //setCursorWidth(0);
 }
 
 void AlternateConsole::showCursor()
 {
 #ifdef SHOW_INFO
-    qDebug() << "showCursor";
+    qDebug() << "showCursor(" << screen.row() << "," << screen.col() << ")";
 #endif
-    isPutText = false;
-    if(!isUpdate)
-        screen.update(this, palette_, normalFormat);
-    else
-    {
-        isUpdate = false;
-        screen.updateRows(this, palette_, normalFormat);
-    }
+//    setCursorWidth(cursorWidth);
+//    ensureCursorVisible();
     onCursorPos(screen.row(), screen.col());
 }
 
@@ -372,7 +332,7 @@ void AlternateConsole::onScreenHome()
 void AlternateConsole::onCursorPos(int row, int col)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "pos:" << row << "," << col;
 #endif
     QTextCursor cursor = textCursor();
@@ -386,7 +346,7 @@ void AlternateConsole::onCursorPos(int row, int col)
 void AlternateConsole::onRow(int row)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "row:" << row;
 #endif
     screen.cursorRow(row);
@@ -395,7 +355,7 @@ void AlternateConsole::onRow(int row)
 void AlternateConsole::onCol(int col)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "col:" << col;
 #endif
      screen.cursorCol(col);
@@ -409,21 +369,29 @@ void AlternateConsole::onUp(int line)
 void AlternateConsole::scrollDown(int rows)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "scrollDown:" << rows;
 #endif
     screen.scrollDown(rows);
-    isUpdate = false;
 }
 
 void AlternateConsole::scrollUp(int rows)
 {
 #ifdef SHOW_INFO
-    if(isUpdate)
+    if(isDebug)
         qDebug() << "scrollUp:" << rows;
 #endif
     screen.scrollUp(rows);
-    isUpdate = false;
+}
+
+void AlternateConsole::insertLine(int lines)
+{
+    screen.insertLine(lines);
+}
+
+void AlternateConsole::deleteLine(int lines)
+{
+    screen.deleteLine(lines);
 }
 
 void AlternateConsole::delCharToLineEnd()
@@ -470,8 +438,8 @@ void AlternateConsole::delChars(int count)
 
 void AlternateConsole::down()
 {
-    QTextCursor cursor = textCursor();
-    cursor.movePosition(QTextCursor::Down);
-    setTextCursor(cursor);
-    screen.cursorDown(1);
+//    QTextCursor cursor = textCursor();
+//    cursor.movePosition(QTextCursor::Down);
+//    setTextCursor(cursor);
+//    screen.cursorDown(1);
 }
