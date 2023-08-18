@@ -230,7 +230,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'h')
         {
-            parse_h(QString::fromUtf8(start + 1, ch - start));
+            parse_h(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -258,7 +258,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'l')
         {
-            parse_l(QString::fromUtf8(start + 1, ch - start));
+            parse_l(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -284,6 +284,13 @@ int SShParser::parseEsc(const char* start, const char* end)
             ch++;
             break;
         }
+        else if(*ch == 'S')
+        {
+            parse_S(QString::fromUtf8(start + 2, ch - start - 2));
+            isEnd = true;
+            ch++;
+            break;
+        }
         else if(*ch == 'c')//>c
         {
             isEnd = true;
@@ -299,6 +306,13 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == '=')
         {
+            isEnd = true;
+            ch++;
+            break;
+        }
+        else if(*ch == 'T')
+        {
+            parse_T(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -493,60 +507,102 @@ void SShParser::parse_P(QString const& p)
         emit onDelChars(1);
     else
         emit onDelChars(p.toInt());
-    //emit onBackspace(p.toInt());
-    //emit onDelCharToLineEnd();
 }
 
 void SShParser::parse_M(QString const& m)
 {
-    emit onScrollUp(m.toInt());
+    if(m.isEmpty())
+        emit onDeleteLine(1);
+    else
+        emit onDeleteLine(m.toInt());
 }
 
 void SShParser::parse_h(QString const& h)//4h
 {
-    if(h == "[?1049h")
+    if(h.isEmpty())
+        return;
+
+    if(!h.startsWith('?'))
+    {
+        if(h == "2")
+            emit onKAMOn();
+        else if(h == "4")
+            emit onIRMOn();
+        else if(h == "12")
+            emit onSRMOn();
+        else if(h == "20")
+            emit onLNMOn();
+    }
+    else
+    {
+        QStringList tokens = h.mid(1).split(";");
+        foreach(auto token, tokens)
+            parse_one_h(token);
+    }
+}
+
+void SShParser::parse_one_h(QString const& h)
+{
+    if(h == "1049")
     {
         if(isBracketedPasteMode)
             emit onSwitchToAlternateCharScreen();
         else
             emit onSwitchToAlternateVideoScreen();
     }
-    else if(h == "[?2004h")
+    else if(h == "2004")
         isBracketedPasteMode = true;
-    else if(h == "[?47h")
+    else if(h == "47")
         emit onSwitchToAlternateVideoScreen();
-    else if(h == "[?1h")
+    else if(h == "1")
         emit onSwitchToAppKeypadMode();
-    else if(h == "[?12h")
+    else if(h == "12")
         emit onCursorStartBlinking();
-    else if(h == "[?25h")
+    else if(h == "25")
         emit onShowCursor();
-    else if(h == "[12h")
-        emit onSRMOff();
 }
 
 void SShParser::parse_L(QString const& l)
 {
     if(l.isEmpty())
-        emit onScrollDown(1);
+        emit onInsertLine(1);
     else
-        emit onScrollDown(l.toInt());
+        emit onInsertLine(l.toInt());
 }
 
 void SShParser::parse_l(QString const& l)//4l
 {
-    if(l == "[?1049l" || l == "[?47l")
+    if(!l.startsWith('?'))
+    {
+        if(l == "2")
+            emit onKAMOff();
+        else if(l == "4")
+            emit onIRMOff();
+        else if(l == "12")
+            emit onSRMOff();
+        else if(l == "20")
+            emit onLNMOff();
+    }
+    else
+    {
+        QStringList tokens = l.mid(1).split(";");
+        foreach(auto token, tokens)
+            parse_one_l(token);
+    }
+}
+
+void SShParser::parse_one_l(QString const& l)
+{
+    if(l == "1049" || l == "47")
         emit onSwitchToMainScreen();
-    if(l == "[?2004l")
+    if(l == "2004")
         isBracketedPasteMode = false;
-    else if(l == "[?1l")
+    else if(l == "1")
         emit onSwitchToNormalKeypadMode();
-    else if(l == "[?12l")
+    else if(l == "12")
         emit onCursorStopBlinking();
-    else if(l == "[?25l")
+    else if(l == "25")
         emit onHideCursor();
-    else if(l == "[12l")
-        emit onSRMOn();
 }
 
 void SShParser::parse_J(QString const& j)
@@ -591,6 +647,23 @@ void SShParser::parse_r(QString const& r)
     if(tokens.size() == 2)
         emit onRowRangle(tokens[0].toInt(), tokens[1].toInt());
 }
+
+void SShParser::parse_S(QString const& s)
+{
+    if(s.isEmpty())
+        emit onScrollUp(1);
+    else
+        emit onScrollUp(s.toInt());
+}
+
+void SShParser::parse_T(QString const& t)
+{
+    if(t.isEmpty())
+        emit onScrollDown(1);
+    else
+        emit onScrollDown(t.toInt());
+}
+
 bool SShParser::parse_7(QString const& v)
 {
     if(v == "7")

@@ -94,12 +94,18 @@ signals:
     void onCursorPos(int row, int col);
     void onGetCursorPos();
     void onRowRangle(int top, int bottom);
-    void onInsertLine(int lines);//[1P
-    void onDeleteLine(int lines);//[1L
-    void onScrollDown(int rows);//[1S
-    void onScrollUp(int rows);//[1T
-    void onSRMOff();
-    void onSRMOn();
+    void onInsertLine(int lines);//[1L
+    void onDeleteLine(int lines);//[1M
+    void onScrollDown(int rows);//[1T
+    void onScrollUp(int rows);//[1S
+    void onKAMOn();//Keyboard Action Mode on
+    void onKAMOff();//Keyboard Action Mode off
+    void onIRMOn();//Insert mode on
+    void onIRMOff();//Insert mode off
+    void onSRMOn();//Send/receive mode on
+    void onSRMOff();//Send/receive mode off
+    void onLNMOn();//Automatic Newline on
+    void onLNMOff();//Automatic Newline off
 protected:
     void parseSGR(QString const& sgr);
     void parseOneSGR(QString const& sgr);

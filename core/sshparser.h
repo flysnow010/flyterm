@@ -22,13 +22,17 @@ private:
      void parse_P(QString const& f);
      void parse_M(QString const& m);
      void parse_h(QString const& h);
+     void parse_one_h(QString const& h);
      void parse_L(QString const& l);
      void parse_l(QString const& l);
+     void parse_one_l(QString const& l);
      void parse_J(QString const& j);
      void parse_K(QString const& k);
      void parse_X(QString const& x);
      void parse_Z(QString const& z);
      void parse_r(QString const& r);
+     void parse_S(QString const& s);
+     void parse_T(QString const& t);
      bool parse_7(QString const& v);
      bool parse_8(QString const& v);
 private:
