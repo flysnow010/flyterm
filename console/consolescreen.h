@@ -36,6 +36,8 @@ public:
     void scrollRangle(int top, int bottom);
     void scrollUp(int rows);
     void scrollDown(int rows);
+    void insertLine(int lines);
+    void deleteLine(int lines);
 
     void delCharToLineEnd();
     void delCharToLineHome();

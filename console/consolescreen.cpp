@@ -38,6 +38,7 @@ void ConsoleScreen::clearScreen()
         ConsoleChars* rowData = consoleCharsVec[i];
         for(int j = 0; j < rowData->size(); j++)
             (*rowData)[j].clear(' ', role_);
+        addUpdateRow(i);
     }
 }
 
@@ -155,6 +156,21 @@ void ConsoleScreen::scrollDown(int rows)
         scrollDown();
     for(int i = top_; i < bottom_; i++)
         addUpdateRow(i);
+}
+
+void ConsoleScreen::insertLine(int lines)
+{
+    for(int i = bottom_; i - lines >= row_; i--)
+        *(consoleCharsVec[i]) = *(consoleCharsVec[i - lines]);
+    for(int i = row_; i < row_ + lines; i++)
+        *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[top_]->size());
+    for(int i = row_; i < bottom_; i++)
+        addUpdateRow(i);
+}
+
+void ConsoleScreen::deleteLine(int lines)
+{
+
 }
 
 void ConsoleScreen::scrollUp()
@@ -293,8 +309,13 @@ void ConsoleScreen::setText(QString const& text)
     }
     for(int i = 0; i < localText.size(); i++)
     {
-        if(localText[i] == '\r')
+        if(localText[i] == '\t')//???
             continue;
+        if(localText[i] == '\r')
+        {
+            col = 0;
+            continue;
+        }
         if(col < rowData->size() && localText[i] != '\n')
         {
             (*rowData)[col].isDrawLineMode = isDrawLineMode_;
@@ -303,23 +324,22 @@ void ConsoleScreen::setText(QString const& text)
         }
         else
         {
-            if(row + 1 < consoleCharsVec.size())
-            {
-                rowData = consoleCharsVec[++row];
-                addUpdateRow(row);
-            }
+            if(localText[i] == '\n' && isBottom())
+                scrollUp(1);
             else
             {
-                if(row > 1)
-                    addUpdateRow(row - 1);
-                scrollUp();
+                if(row + 1 < consoleCharsVec.size())
+                {
+                    rowData = consoleCharsVec[++row];
+                    addUpdateRow(row);
+                }
+                else
+                {
+                    if(row > 1)
+                        addUpdateRow(row - 1);
+                    scrollUp(1);
+                }
             }
-            if(localText[i] == '\n')
-            {
-                if(i == 0 || localText[i - 1] != '\r')
-                    continue;
-            }
-            col = 0;
         }
     }
     row_ = row;
@@ -384,9 +404,6 @@ void ConsoleScreen::drawRow(int row,
         }
         charCount += (consoleChar.isDrawLineMode ? 2 : 1);
     }
-    tc.movePosition(QTextCursor::Start);
-    tc.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, row);
-    tc.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor, col_ + 1);//??
     textEdit->setTextCursor(tc);
 }
 
