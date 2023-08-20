@@ -163,14 +163,19 @@ void ConsoleScreen::insertLine(int lines)
     for(int i = bottom_; i - lines >= row_; i--)
         *(consoleCharsVec[i]) = *(consoleCharsVec[i - lines]);
     for(int i = row_; i < row_ + lines; i++)
-        *(consoleCharsVec[i]) = ConsoleChars(consoleCharsVec[top_]->size());
+        deleteRow(i);
     for(int i = row_; i < bottom_; i++)
         addUpdateRow(i);
 }
 
 void ConsoleScreen::deleteLine(int lines)
 {
-
+    for(int i = row_; i + lines <= bottom_; i++)
+        *(consoleCharsVec[i]) = *(consoleCharsVec[i + lines]);
+    for(int i = bottom_; bottom_ - i < lines; i--)
+        deleteRow(i);
+    for(int i = row_; i < bottom_; i++)
+        addUpdateRow(i);
 }
 
 void ConsoleScreen::scrollUp()
@@ -310,7 +315,15 @@ void ConsoleScreen::setText(QString const& text)
     for(int i = 0; i < localText.size(); i++)
     {
         if(localText[i] == '\t')//???
+        {
+//            for(int k = 0; k < 4; k++)
+//            {
+//                (*rowData)[col].isDrawLineMode = isDrawLineMode_;
+//                (*rowData)[col].value = ' ';
+//                (*rowData)[col++].role = role_;
+//            }
             continue;
+        }
         if(localText[i] == '\r')
         {
             col = 0;
@@ -405,6 +418,13 @@ void ConsoleScreen::drawRow(int row,
         charCount += (consoleChar.isDrawLineMode ? 2 : 1);
     }
     textEdit->setTextCursor(tc);
+}
+
+void ConsoleScreen::deleteRow(int row)
+{
+    ConsoleChars *rowData = consoleCharsVec[row];
+    for(int i = 0; i < rowData->size(); i++)
+        (*rowData)[i].value = ' ';
 }
 
 void ConsoleScreen::updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,

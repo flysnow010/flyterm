@@ -218,7 +218,13 @@ void AlternateConsole::putText(QString const& text)
         qDebug() << "putText(" << screen.row() << "," << screen.col() << "): " << text;
 #endif
     screen.setText(text);
+    int oldPos = textCursor().position();
     screen.updateRows(this, palette_, normalFormat);
+    int newPos = textCursor().position();
+    if(newPos != oldPos)
+    {
+        textCursor().setPosition(oldPos);
+    }
 }
 
 void AlternateConsole::setForeColor(ColorRole role)

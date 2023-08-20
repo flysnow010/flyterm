@@ -242,8 +242,27 @@ void SshConsole::cursorLeft(int count)
     setTextCursor(cursor);
 }
 
-void SshConsole::cursorRight(int)
+void SshConsole::cursorRight(int count)
 {
+    if(isReturn)
+    {
+        home();
+        isReturn = false;
+    }
+    QTextCursor cursor = textCursor();
+    if(count + screen.col() < screen.cols())
+    {
+        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
+        screen.cursorRight(count);
+    }
+    else
+    {
+        screen.cursorRight(screen.cols() - screen.col());
+        cursor.movePosition(QTextCursor::Right,
+                            QTextCursor::MoveAnchor,
+                            screen.cols() - screen.col());
+    }
+    setTextCursor(cursor);
 }
 
 void SshConsole::home()
@@ -272,25 +291,6 @@ void SshConsole::delChars(int count)
 
 void SshConsole::onRight(int count)
 {
-    if(isReturn)
-    {
-        home();
-        isReturn = false;
-    }
-    QTextCursor cursor = textCursor();
-    if(count + screen.col() < screen.cols())
-    {
-        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
-        screen.cursorRight(count);
-    }
-    else
-    {
-        screen.cursorRight(screen.cols() - screen.col());
-        cursor.movePosition(QTextCursor::Right,
-                            QTextCursor::MoveAnchor,
-                            screen.cols() - screen.col());
-    }
-    setTextCursor(cursor);
     cursorRight(count);
 }
 

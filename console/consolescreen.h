@@ -66,6 +66,7 @@ private:
     QByteArray drawChar(char ch);
     void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                  QTextCharFormat const& text);
+    void deleteRow(int row);
     void addUpdateRow(int row);
 private:
     QVector<ConsoleChars *> consoleCharsVec;
