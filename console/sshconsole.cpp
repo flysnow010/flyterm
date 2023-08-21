@@ -128,6 +128,7 @@ void SshConsole::setConsoleColor(ConsoleColor const& color)
                   .arg(color.fore.name(), color.back.name()));
     setTextColor(palette().color(QPalette::Text));
     setTextBackgroundColor(palette().color(QPalette::Base));
+    textFormat.setBackground(palette().color(QPalette::Base));
     updateColors();
 }
 
