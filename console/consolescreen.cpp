@@ -164,7 +164,7 @@ void ConsoleScreen::insertLine(int lines)
         *(consoleCharsVec[i]) = *(consoleCharsVec[i - lines]);
     for(int i = row_; i < row_ + lines; i++)
         deleteRow(i);
-    for(int i = row_; i < bottom_; i++)
+    for(int i = row_; i <= bottom_; i++)
         addUpdateRow(i);
 }
 
@@ -174,7 +174,7 @@ void ConsoleScreen::deleteLine(int lines)
         *(consoleCharsVec[i]) = *(consoleCharsVec[i + lines]);
     for(int i = bottom_; bottom_ - i < lines; i--)
         deleteRow(i);
-    for(int i = row_; i < bottom_; i++)
+    for(int i = row_; i <= bottom_; i++)
         addUpdateRow(i);
 }
 

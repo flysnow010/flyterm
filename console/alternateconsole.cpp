@@ -10,7 +10,7 @@
 #ifdef DEBUG
 #define SHOW_INFO
 #endif
-
+#define NEW_DRAW
 AlternateConsole::AlternateConsole(QWidget *parent)
     : SshConsole(parent)
 {
@@ -188,6 +188,10 @@ void AlternateConsole::putData(const QByteArray &data)
         qDebug() << "putData:" << data;
 #endif
     commandParser->parse(data);
+#ifdef NEW_DRAW
+    screen.updateRows(this, palette_, normalFormat);
+    onCursorPos(screen.row(), screen.col());
+#endif
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(bar->maximum());
 }
@@ -218,13 +222,13 @@ void AlternateConsole::putText(QString const& text)
         qDebug() << "putText(" << screen.row() << "," << screen.col() << "): " << text;
 #endif
     screen.setText(text);
+#ifndef NEW_DRAW
     int oldPos = textCursor().position();
     screen.updateRows(this, palette_, normalFormat);
     int newPos = textCursor().position();
     if(newPos != oldPos)
-    {
         textCursor().setPosition(oldPos);
-    }
+#endif
 }
 
 void AlternateConsole::setForeColor(ColorRole role)
@@ -403,19 +407,25 @@ void AlternateConsole::deleteLine(int lines)
 void AlternateConsole::delCharToLineEnd()
 {
     screen.delCharToLineEnd();
+#ifndef NEW_DRAW
     screen.updateRows(this, palette_, normalFormat);
+#endif
 }
 
 void AlternateConsole::delCharToLineHome()
 {
     screen.delCharToLineHome();
+#ifndef NEW_DRAW
     screen.updateRows(this, palette_, normalFormat);
+#endif
 }
 
 void AlternateConsole::onEraseChars(int count)
 {
     screen.eraseChars(count);
+#ifndef NEW_DRAW
     screen.updateRows(this, palette_, normalFormat);
+#endif
 }
 
 void AlternateConsole::onCleanToScreenEnd()
@@ -439,13 +449,7 @@ void AlternateConsole::backspace(int count)
 void AlternateConsole::delChars(int count)
 {
     screen.delChars(count);
+#ifndef NEW_DRAW
     screen.updateRows(this, palette_, normalFormat);
-}
-
-void AlternateConsole::down()
-{
-//    QTextCursor cursor = textCursor();
-//    cursor.movePosition(QTextCursor::Down);
-//    setTextCursor(cursor);
-//    screen.cursorDown(1);
+#endif
 }

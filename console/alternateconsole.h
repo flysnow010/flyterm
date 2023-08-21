@@ -56,8 +56,6 @@ private slots:
     void onEraseChars(int count);
     void onCleanToScreenEnd();
 private:
-    void down();
-private:
     int topRow = -1;
     int bottomRow = -1;
     int cursorWidth = 0;
