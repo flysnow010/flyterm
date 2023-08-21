@@ -227,6 +227,7 @@ void SShWidget::decreaseFontSize()
 void SShWidget::clearScrollback()
 {
     console->clearall();
+    writeData("clear\n");
 }
 
 QSize SShWidget::sizeHint() const
