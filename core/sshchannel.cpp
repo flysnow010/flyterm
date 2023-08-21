@@ -26,8 +26,10 @@ int SSHChannel::write(QByteArray const& data)
 
 void SSHChannel::shellSize(int cols, int rows)
 {
-    if(cols == cols_ && rows == rows_)
+    if((cols == cols_ && rows == rows_)
+            || (cols < 0 || rows < 0))
         return;
+
     cols_ = cols;
     rows_ =  rows;
     shellSizeChanged_ = true;
