@@ -26,6 +26,7 @@ SOURCES += \
     color/consolepalette.cpp \
     console/alternateconsole.cpp \
     console/commandconsole.cpp \
+    console/console.cpp \
     console/consolescreen.cpp \
     console/historyconsole.cpp \
     console/serialportconsole.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     color/consolerole.h \
     console/alternateconsole.h \
     console/commandconsole.h \
+    console/console.h \
     console/consolechar.h \
     console/consolescreen.h \
     console/historyconsole.h \
