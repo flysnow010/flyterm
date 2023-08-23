@@ -199,7 +199,7 @@ void AlternateConsole::clearScreen()
 
 void AlternateConsole::reset()
 {
-    //isDebug = false;
+    isDebug = false;
     screen.clear(true);
     screen.clearScreen();
     screen.update(this, palette_, normalFormat);

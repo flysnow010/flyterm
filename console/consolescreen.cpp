@@ -68,6 +68,7 @@ void ConsoleScreen::setSize(int cols, int rows)
     rows_ = rows;
     col_ = 0;
     row_ = 0;
+    updateRows_.clear();
 }
 
 void ConsoleScreen::scrollRangle(int top, int bottom)

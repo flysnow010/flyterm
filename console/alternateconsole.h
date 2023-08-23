@@ -62,7 +62,7 @@ private:
     int topRow = -1;
     int bottomRow = -1;
     int cursorWidth = 0;
-    bool isDebug = true;
+    bool isDebug = false;
     ConsoleScreen screen;
 };
 
