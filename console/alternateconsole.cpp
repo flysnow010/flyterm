@@ -190,8 +190,6 @@ void AlternateConsole::putData(const QByteArray &data)
     screen.updateRows(this, palette_, normalFormat);
     onCursorPos(screen.row(), screen.col());
 #endif
-    QScrollBar *bar = verticalScrollBar();
-    bar->setValue(bar->maximum());
 }
 
 void AlternateConsole::clearScreen()
@@ -220,8 +218,6 @@ void AlternateConsole::updateRows()
     {
         screen.updateRows(this, palette_, normalFormat);
         onCursorPos(screen.row(), screen.col());
-        QScrollBar *bar = verticalScrollBar();
-        bar->setValue(bar->maximum());
     }
     #endif
 }
