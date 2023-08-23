@@ -37,7 +37,7 @@ void ConsoleScreen::clearScreen()
     {
         ConsoleChars* rowData = consoleCharsVec[i];
         for(int j = 0; j < rowData->size(); j++)
-            (*rowData)[j].clear('.', role_);
+            (*rowData)[j].clear(' ', role_);
         addUpdateRow(i);
     }
 }
