@@ -25,6 +25,7 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     , serial(new QSerialPort())
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    console->createParserAndConnect();
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());

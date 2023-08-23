@@ -20,6 +20,7 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     , telnet(new QtTelnet(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    console->createParserAndConnect();
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());

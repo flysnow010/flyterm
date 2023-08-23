@@ -27,7 +27,6 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     console->setCommandParser(commandParser);
     console->connectCommand();
     alternateConsole->setCommandParser(commandParser);
-    //alternateConsole->connectAppCommand();
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
@@ -49,8 +48,8 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
-    connect(console, SIGNAL(onSwitchToAlternateCharScreen()), this, SLOT(switchToAlternateCharScreen()));
-    connect(console, SIGNAL(onSwitchToAlternateVideoScreen()), this, SLOT(switchToAlternateVideoScreen()));
+    connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
+    connect(console, SIGNAL(onSwitchToAlternateFinished()), alternateConsole, SLOT(updateRows()));
     connect(console, SIGNAL(onSwitchToAppKeypadMode()), this, SLOT(switchToAppKeypadMode()));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
@@ -58,6 +57,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(alternateConsole, SIGNAL(onSwitchToMainScreen()), this, SLOT(switchToMainScreen()));
     connect(alternateConsole, SIGNAL(onSwitchToNormalKeypadMode()), this, SLOT(switchToNormalKeypadMode()));
     connect(alternateConsole, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
+
     commandThread_->start();
 }
 
@@ -246,6 +246,9 @@ void SShWidget::resizeEvent(QResizeEvent *event)
 
 void SShWidget::activedWidget()
 {
+    if(shellCols < 0 || shellRows < 0)
+        return;
+
     shell->shellSize(shellCols, shellRows);
     if(!isMainScreen)
         alternateConsole->shellSize(shellCols, shellRows);
@@ -323,7 +326,7 @@ void SShWidget::customContextMenu(const QPoint &)
     console->cancelSelection();
 }
 
-void SShWidget::switchToAlternateScreen(bool isVideo)
+void SShWidget::switchToAlternateScreen()
 {
     isMainScreen = false;
     console->hide();
@@ -331,24 +334,14 @@ void SShWidget::switchToAlternateScreen(bool isVideo)
     alternateConsole->connectCommand();
     alternateConsole->connectAppCommand();
     alternateConsole->shellSize(shellCols, shellRows);
-    alternateConsole->reset(isVideo);
+    alternateConsole->reset();
     alternateConsole->show();
     alternateConsole->setFocus();
 }
 
-void SShWidget::switchToAlternateCharScreen()
-{
-    switchToAlternateScreen(false);
-}
-
-void SShWidget::switchToAlternateVideoScreen()
-{
-    switchToAlternateScreen(true);
-}
-
 void SShWidget::switchToAppKeypadMode()
 {
-    switchToAlternateScreen(true);//for vt100
+    switchToAlternateScreen();//for vt100
 }
 
 void SShWidget::switchToNormalKeypadMode()

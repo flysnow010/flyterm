@@ -9,7 +9,7 @@
 #include "color/consolepalette.h"
 
 class QMenu;
-class SerialPortConsole;
+class Console;
 class CommandThread;
 class SerialPortWidget : public QWidget
 {
@@ -79,7 +79,7 @@ private:
 
     QString getTestCommand();
 private:
-    SerialPortConsole* console;
+    Console* console;
     CommandThread* commandThread_;
     QSerialPort* serial;
     LogFile::SharedPtr beforeLogfile_;

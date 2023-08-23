@@ -10,7 +10,7 @@
 
 class QMenu;
 class QtTelnet;
-class TelnetConsole;
+class Console;
 class TelnetSettings;
 class CommandThread;
 class TelnetWidget : public QWidget
@@ -70,7 +70,7 @@ private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
 private:
-    TelnetConsole* console;
+    Console* console;
     CommandThread* commandThread_;
     QtTelnet* telnet;
     LogFile::SharedPtr beforeLogfile_;
