@@ -7,11 +7,6 @@ class SerialPortParser : public ConsoleParser
     Q_OBJECT
 public:
     SerialPortParser();
-
-    void parse(QByteArray const& data) override;
-protected:
-     int parseBs(const char* start, const char* end);
-     int parseEsc(const char* start, const char* end);
 };
 
 #endif // SERIALPORTPARSER_H

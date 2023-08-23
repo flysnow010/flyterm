@@ -29,7 +29,7 @@ public:
         Mode_Overwrite
     };
 
-    virtual void parse(QByteArray const& data) = 0;
+    virtual void parse(QByteArray const& data);
     void setKeyMode(Mode mode) { keyMode_ = mode; }
     Mode keyMode() const { return keyMode_; }
     void setLeftKeyPress(bool enable) { leftKeyPressCount += (enable ? 1 : -1); }
@@ -80,8 +80,7 @@ signals:
     void onDECLineDrawingMode();
     void onColorClose();//onCloseCharAttriutes
 
-    void onSwitchToAlternateCharScreen();
-    void onSwitchToAlternateVideoScreen();
+    void onSwitchToAlternateScreen();
     void onSwitchToMainScreen();
     void onSwitchToAppKeypadMode();
     void onSwitchToNormalKeypadMode();
@@ -93,6 +92,7 @@ signals:
     void onRestoreCursorPos();
     void onCursorPos(int row, int col);
     void onGetCursorPos();
+    void onGetStatus();
     void onRowRangle(int top, int bottom);
     void onInsertLine(int lines);//[1L
     void onDeleteLine(int lines);//[1M
@@ -113,6 +113,8 @@ protected:
     void parse_C(QString const& c);
     void parse_D(QString const& c);
     QString toText(const char *str, int size);
+    virtual int parseBs(const char* start, const char* end);
+    virtual int parseEsc(const char* start, const char* end);
 protected:
     QByteArray parseData_;
 private:

@@ -358,7 +358,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'n')//[6n
         {
-            parse_n(QString::fromUtf8(start + 1, ch - start));
+            parse_n(QString::fromUtf8(start + 2, ch - start -2));
             isEnd = true;
             ch++;
             break;
@@ -544,16 +544,11 @@ void SShParser::parse_h(QString const& h)//4h
 void SShParser::parse_one_h(QString const& h)
 {
     if(h == "1049")
-    {
-        if(isBracketedPasteMode)
-            emit onSwitchToAlternateCharScreen();
-        else
-            emit onSwitchToAlternateVideoScreen();
-    }
+        emit onSwitchToAlternateScreen();
     else if(h == "2004")
         isBracketedPasteMode = true;
     else if(h == "47")
-        emit onSwitchToAlternateVideoScreen();
+        emit onSwitchToAlternateScreen();
     else if(h == "1")
         emit onSwitchToAppKeypadMode();
     else if(h == "12")
