@@ -114,6 +114,7 @@ private:
     void updateSelectedColors();
     void setTextColor(QColor const& color);
     void setTextBackgroundColor(QColor const& color);
+    void setTextColor(QColor const& fore, QColor const& back);
     void setFontFamily(QString const& name);
     void setFontPointSize(int fontSize);
 protected:

@@ -124,10 +124,10 @@ void SshConsole::setConsoleColor(ConsoleColor const& color)
 {
     setStyleSheet(QString("QPlainTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
-    setTextColor(palette().color(QPalette::Text));
-    setTextBackgroundColor(palette().color(QPalette::Base));
     textFormat.setBackground(palette().color(QPalette::Base));
-    updateColors();
+    selectAll();
+    setTextBackgroundColor(palette().color(QPalette::Base));
+    clearSelection();
 }
 
 void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
@@ -139,14 +139,15 @@ void SshConsole::setConsolePalette(ConsolePalette::Ptr palette)
 void SshConsole::updateColors()
 {
     int oldPos = -1;
+    QColor defaultBack = this->palette().color(QPalette::Base);
     for(int i = 0; i < colorRanges.size(); i++)
     {
         int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-        setTextColor(palette_->color(colorRanges[i].fore).fore);
         if(colorRanges[i].back != ColorRole::NullRole)
-            setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+            setTextColor(palette_->color(colorRanges[i].fore).fore,
+                         palette_->color(colorRanges[i].back).back);
         else
-            setTextBackgroundColor(this->palette().color(QPalette::Base));
+            setTextColor(palette_->color(colorRanges[i].fore).fore, defaultBack);
         if(oldPos == -1)
             oldPos = pos;
     }
@@ -749,6 +750,15 @@ void SshConsole::setTextBackgroundColor(QColor const& color)
     QTextCursor tc = textCursor();
     QTextCharFormat format;
     format.setBackground(color);
+    tc.mergeCharFormat(format);
+}
+
+void SshConsole::setTextColor(QColor const& fore, QColor const& back)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setForeground(fore);
+    format.setBackground(back);
     tc.mergeCharFormat(format);
 }
 
