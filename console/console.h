@@ -17,6 +17,7 @@ public:
     virtual ~Console();
 
     void putData(const QByteArray &data);
+    void createParserAndConnect();
 
     void setLogFile(LogFile::SharedPtr const& logfile) { logfile_ = logfile; }
     void setLocalEchoEnabled(bool enabled) { localEchoEnabled = enabled; }
@@ -26,6 +27,7 @@ public:
     void setConsoleColor(ConsoleColor const& color);
     void setConsolePalette(ConsolePalette::Ptr palette);
 
+    int fontSize() const { return fontSize_; }
     void updateHightLighter(QString const& hightLighter);
     void cancelSelection();
 
@@ -55,7 +57,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
-    virtual ConsoleParser* createParser() = 0;
+    virtual ConsoleParser * createParser() = 0;
 private slots:
     void onBeep();
     void onGetCursorPos();
@@ -68,7 +70,6 @@ private slots:
     void onColorClose();
 private:
     void onEnd();
-
     void removeCurrentRow();
     void clearSelection();
     void putText(QString const& text);
@@ -79,6 +80,10 @@ private:
     void setForeColor(ColorRole role);
     void setBackColor(ColorRole role);
     void setCloseColor();
+    void setTextColor(QColor const& color);
+    void setTextBackgroundColor(QColor const& color);
+    void setFontFamily(QString const& name);
+    void setFontPointSize(int fontSize);
 private:
     ConsoleParser *commandParser = 0;
     ConsolePalette::Ptr palette_;

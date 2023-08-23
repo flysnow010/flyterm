@@ -4,7 +4,7 @@
 #include <QChar>
 
 #include "consolechar.h"
-class QTextEdit;
+class QPlainTextEdit;
 class QTextCharFormat;
 
 class ConsoleScreen
@@ -51,20 +51,21 @@ public:
     void setUnderLine(bool enable) { role_.isUnderLine = enable; }
 
     void setText(QString const& text);
-    void updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+    void updateRows(QPlainTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                   QTextCharFormat const& text);
-    void update(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+    void update(QPlainTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                   QTextCharFormat const& textFormat);
 
     void setDrawLineMode(bool enable) { isDrawLineMode_ = enable; }
 
     bool isBottom() const { return bottom_ != 0 && bottom_ == row_; }
+    bool isCanUpdate() const { return !updateRows_.isEmpty(); }
 private:
     typedef QVector<ConsoleChar> ConsoleChars;
     void scrollUp();
     void scrollDown();
     QByteArray drawChar(char ch);
-    void drawRow(int row, QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+    void drawRow(int row, QPlainTextEdit* textEdit, ConsolePalette::Ptr const& palette,
                  QTextCharFormat const& text);
     void deleteRow(int row);
     void addUpdateRow(int row);

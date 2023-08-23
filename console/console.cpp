@@ -18,9 +18,6 @@ Console::Console(QWidget *parent)
     textFormat.setFontPointSize(fontSize_);
     normalFormat.setFontFamily(fontName_);
     normalFormat.setFontPointSize(fontSize_);
-
-    //commandParser = createParser();//??
-    connectCommands();
 }
 
 Console::~Console()
@@ -74,14 +71,13 @@ void Console::clearall()
     colorRanges.clear();
 }
 
-
 void Console::copyOne()
 {
     if(selectStart != selectEnd)
     {
         int pos = selectText();
-        //setTextColor(palette().color(QPalette::Text));
-        //setTextBackgroundColor(palette().color(QPalette::Base));
+        setTextColor(palette().color(QPalette::Text));
+        setTextBackgroundColor(palette().color(QPalette::Base));
         copy();
 
         QTextCursor cursor = textCursor();
@@ -148,7 +144,7 @@ void Console::setFontName(QString const& name)
     textFormat.setFontFamily(fontName_);
     normalFormat.setFontFamily(fontName_);
     selectAll();
-    //setFontFamily(fontName_);
+    setFontFamily(fontName_);
     clearSelection();
 }
 
@@ -158,13 +154,13 @@ void Console::setFontSize(int fontSize)
     textFormat.setFontPointSize(fontSize_);
     normalFormat.setFontPointSize(fontSize_);
     selectAll();
-    //setFontPointSize(fontSize_);
+    setFontPointSize(fontSize_);
     clearSelection();
 }
 
 void Console::setConsoleColor(ConsoleColor const& color)
 {
-    setStyleSheet(QString("QTextEdit { color: %1; background: %2; }")
+    setStyleSheet(QString("QPlainTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
 }
 
@@ -175,7 +171,7 @@ void Console::setConsolePalette(ConsolePalette::Ptr palette)
     for(int i = 0; i < colorRanges.size(); i++)
     {
         int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-        //setTextColor(palette_->color(colorRanges[i].role).fore);
+        setTextColor(palette_->color(colorRanges[i].role).fore);
         if(oldPos == -1)
             oldPos = pos;
     }
@@ -208,8 +204,8 @@ void Console::cancelSelection()
     if(selectStart != selectEnd)
     {
         int pos = selectText();
-        //setTextColor(palette().color(QPalette::Text));
-        //setTextBackgroundColor(palette().color(QPalette::Base));
+        setTextColor(palette().color(QPalette::Text));
+        setTextBackgroundColor(palette().color(QPalette::Base));
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         setTextCursor(cursor);
@@ -267,8 +263,8 @@ void Console::mouseReleaseEvent(QMouseEvent *e)
     QPlainTextEdit::mouseReleaseEvent(e);
 
     QTextCursor cursor = textCursor();
-    //setTextColor(palette().color(QPalette::HighlightedText));
-    //setTextBackgroundColor(palette().color(QPalette::Highlight));
+    setTextColor(palette().color(QPalette::HighlightedText));
+    setTextBackgroundColor(palette().color(QPalette::Highlight));
     if(cursor.hasSelection())
     {
         selectStart = cursor.selectionStart();
@@ -288,8 +284,8 @@ void Console::mouseDoubleClickEvent(QMouseEvent *e)
 {
     int pos = textCursor().position();
     QPlainTextEdit::mouseDoubleClickEvent(e);
-    //setTextColor(palette().color(QPalette::HighlightedText));
-    //setTextBackgroundColor(palette().color(QPalette::Highlight));
+    setTextColor(palette().color(QPalette::HighlightedText));
+    setTextBackgroundColor(palette().color(QPalette::Highlight));
 
     QTextCursor cursor = textCursor();
     selectStart = cursor.selectionStart();
@@ -325,25 +321,21 @@ void Console::onBackspace(int count)
 void Console::onLeft(int count)
 {
     QTextCursor cursor = textCursor();
-    cursor.movePosition(QTextCursor::Left, QTextCursor::MoveAnchor, count);
+    int pos = cursor.positionInBlock();
+    if(count < pos)
+        cursor.movePosition(QTextCursor::Left, QTextCursor::MoveAnchor, count);
     setTextCursor(cursor);
 }
 
 void Console::onRight(int count)
 {
     QTextCursor cursor = textCursor();
-    if(count + screen.col() < screen.cols())
-    {
-        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
-        screen.cursorRight(count);
-    }
-    else
-    {
-        screen.cursorRight(screen.cols() - screen.col());
-        cursor.movePosition(QTextCursor::Right,
-                            QTextCursor::MoveAnchor,
-                            screen.cols() - screen.col());
-    }
+    if(count + screen.col() >= screen.cols())
+        count = screen.cols() - screen.col();
+
+    screen.cursorRight(count);
+    cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
+
 }
 
 void Console::onText(QString const& text)
@@ -440,6 +432,12 @@ void Console::onEnd()
     setTextCursor(cursor);
 }
 
+void Console::createParserAndConnect()
+{
+    commandParser = createParser();
+    connectCommands();
+}
+
 void Console::removeCurrentRow()
 {
     QTextCursor cursor = textCursor();
@@ -479,7 +477,7 @@ void Console::updateColors()
         if(!(selectStart > colorRanges[i].end || selectEnd < colorRanges[i].start))
         {
             int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-            //setTextColor(palette_->color(colorRanges[i].role).fore);
+            setTextColor(palette_->color(colorRanges[i].role).fore);
             if(oldPos == -1)
                 oldPos = pos;
         }
@@ -506,4 +504,35 @@ void Console::setBackColor(ColorRole role)
     currentBackRole = role;
     if(palette_)
         textFormat.setBackground(QBrush(palette_->color(role).back));
+}
+
+void Console::setTextColor(QColor const& color)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setForeground(color);
+    tc.mergeCharFormat(format);
+}
+void Console::setTextBackgroundColor(QColor const& color)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setBackground(color);
+    tc.mergeCharFormat(format);
+}
+
+void Console::setFontFamily(QString const& name)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setFontFamily(name);
+    tc.mergeCharFormat(format);
+}
+
+void Console::setFontPointSize(int fontSize)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setFontPointSize(fontSize);
+    tc.mergeCharFormat(format);
 }

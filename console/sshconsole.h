@@ -1,6 +1,6 @@
 #ifndef SSHCONSOLE_H
 #define SSHCONSOLE_H
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include "core/logfile.h"
 #include "color/consolecolor.h"
 #include "color/consolepalette.h"
@@ -9,7 +9,7 @@
 class ConsoleParser;
 class QSyntaxHighlighter;
 class QMimeData;
-class SshConsole : public QTextEdit
+class SshConsole : public QPlainTextEdit
 {
     Q_OBJECT
 public:
@@ -44,8 +44,8 @@ public:
 signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
-    void onSwitchToAlternateCharScreen();
-    void onSwitchToAlternateVideoScreen();
+    void onSwitchToAlternateScreen();
+    void onSwitchToAlternateFinished();
     void onSwitchToAppKeypadMode();
     void onSwitchToNormalKeypadMode();
     void onSaveCursorPos();
@@ -81,6 +81,7 @@ protected slots:
     void onCleanScreen();
     void onColorClose();
     void onRestoreState();
+    void switchToAlternateScreen();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -111,6 +112,10 @@ private:
     int selectText(int start, int end);
     void updateColors();
     void updateSelectedColors();
+    void setTextColor(QColor const& color);
+    void setTextBackgroundColor(QColor const& color);
+    void setFontFamily(QString const& name);
+    void setFontPointSize(int fontSize);
 protected:
     ConsoleParser* commandParser;
     ConsolePalette::Ptr palette_;
@@ -128,6 +133,7 @@ private:
     QList<int> standardSizes;
     bool isUseColor = false;
     bool isOverWrite = false;
+    bool isSwitchingToAlternate = false;
     int minCursorPos_ = -1;
     bool isReturn = false;
     int selectStart = 0;

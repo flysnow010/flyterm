@@ -1,5 +1,5 @@
 #include "consolescreen.h"
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QTextCharFormat>
 
 ConsoleScreen::ConsoleScreen(int cols, int rows)
@@ -37,7 +37,7 @@ void ConsoleScreen::clearScreen()
     {
         ConsoleChars* rowData = consoleCharsVec[i];
         for(int j = 0; j < rowData->size(); j++)
-            (*rowData)[j].clear(' ', role_);
+            (*rowData)[j].clear('.', role_);
         addUpdateRow(i);
     }
 }
@@ -233,7 +233,7 @@ void ConsoleScreen::eraseChars(int count)
     addUpdateRow(row_);
 }
 
-void ConsoleScreen::update(QTextEdit* textEdit,
+void ConsoleScreen::update(QPlainTextEdit* textEdit,
                              ConsolePalette::Ptr const& palette,
                              const QTextCharFormat &textFormat)
 {
@@ -360,7 +360,7 @@ void ConsoleScreen::setText(QString const& text)
 }
 
 void ConsoleScreen::drawRow(int row,
-                            QTextEdit* textEdit,
+                            QPlainTextEdit* textEdit,
                             const ConsolePalette::Ptr &palette,
                             const QTextCharFormat &text)
 {
@@ -427,7 +427,7 @@ void ConsoleScreen::deleteRow(int row)
         (*rowData)[i].value = ' ';
 }
 
-void ConsoleScreen::updateRows(QTextEdit* textEdit, ConsolePalette::Ptr const& palette,
+void ConsoleScreen::updateRows(QPlainTextEdit* textEdit, ConsolePalette::Ptr const& palette,
               QTextCharFormat const& text)
 {
     foreach(auto row, updateRows_)

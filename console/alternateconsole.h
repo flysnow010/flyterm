@@ -13,8 +13,11 @@ public:
     void connectAppCommand();
     void disconnectAppCommand();
     void putData(const QByteArray &data) override;
-    void reset(bool video);
+    void reset();
     void shellSize(int cols, int rows);
+
+public slots:
+    void updateRows();
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
@@ -59,8 +62,7 @@ private:
     int topRow = -1;
     int bottomRow = -1;
     int cursorWidth = 0;
-    bool isVideo = false;
-    bool isDebug = false;
+    bool isDebug = true;
     ConsoleScreen screen;
 };
 

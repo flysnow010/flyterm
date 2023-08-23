@@ -59,11 +59,9 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_PageUp:
         emit getData("\033[5~");
-        //isUpdate = true;
         break;
     case Qt::Key_PageDown:
         emit getData("\033[6~");
-        //isUpdate = true;
         break;
     case Qt::Key_F1:
         emit getData("\033OP");
@@ -201,9 +199,9 @@ void AlternateConsole::clearScreen()
     screen.clearScreen();
 }
 
-void AlternateConsole::reset(bool video)
+void AlternateConsole::reset()
 {
-    isVideo = video;
+    //isDebug = false;
     screen.clear(true);
     screen.clearScreen();
     screen.update(this, palette_, normalFormat);
@@ -213,6 +211,19 @@ void AlternateConsole::shellSize(int cols, int rows)
 {
     screen.setSize(cols, rows);
     document()->setMaximumBlockCount(rows);
+}
+
+void AlternateConsole::updateRows()
+{
+#ifdef NEW_DRAW
+    if(screen.isCanUpdate())
+    {
+        screen.updateRows(this, palette_, normalFormat);
+        onCursorPos(screen.row(), screen.col());
+        QScrollBar *bar = verticalScrollBar();
+        bar->setValue(bar->maximum());
+    }
+    #endif
 }
 
 void AlternateConsole::putText(QString const& text)
@@ -286,9 +297,10 @@ void AlternateConsole::cursorRight(int count)
 void AlternateConsole::onSwitchToAppKeypadMode()
 {
     qDebug() << "onSwitchToAppKeypadMode";
-    cursorWidth =  QFontMetrics(QFont(fontFamily(),
-                                fontPointSize(),
-                                fontWeight())).horizontalAdvance("W") + 1;
+    QTextCharFormat format = textCursor().charFormat();
+    cursorWidth =  QFontMetrics(QFont(format.fontFamily(),
+                                format.fontPointSize(),
+                                format.fontWeight())).horizontalAdvance("W") + 1;
     setCursorWidth(cursorWidth);
 }
 
@@ -311,7 +323,6 @@ void AlternateConsole::onDECLineDrawingMode()
 
 void AlternateConsole::onRowRangle(int top, int bottom)
 {
-    //qDebug() << "top:" << top << "bottom: " << bottom;
     topRow = top;
     bottomRow = bottom;
     screen.scrollRangle(top, bottom);
@@ -321,7 +332,7 @@ void AlternateConsole::hideCursor()
 #ifdef SHOW_INFO
     qDebug() << "hideCursor";
 #endif
-    //setCursorWidth(0);
+    setCursorWidth(0);
 }
 
 void AlternateConsole::showCursor()
@@ -329,8 +340,7 @@ void AlternateConsole::showCursor()
 #ifdef SHOW_INFO
     qDebug() << "showCursor(" << screen.row() << "," << screen.col() << ")";
 #endif
-//    setCursorWidth(cursorWidth);
-//    ensureCursorVisible();
+    setCursorWidth(cursorWidth);
     onCursorPos(screen.row(), screen.col());
 }
 

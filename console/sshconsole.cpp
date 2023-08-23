@@ -14,7 +14,7 @@
 #include <QDebug>
 
 SshConsole::SshConsole(QWidget *parent)
-    : QTextEdit(parent)
+    : QPlainTextEdit(parent)
     , currentForeRole(ColorRole::NullRole)
     , currentBackRole(ColorRole::NullRole)
 {
@@ -57,8 +57,7 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     connect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     connect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
-    connect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
-    connect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    connect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
     connect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SIGNAL(onSwitchToAppKeypadMode()));
     connect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SIGNAL(onSwitchToNormalKeypadMode()));
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
@@ -90,8 +89,7 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
     disconnect(commandParser, SIGNAL(onDelCharToLineEnd()), this, SLOT(onDelCharToLineEnd()));
     disconnect(commandParser, SIGNAL(onOverWrite(bool)), this, SLOT(onOverWrite(bool)));
-    disconnect(commandParser, SIGNAL(onSwitchToAlternateCharScreen()), this, SIGNAL(onSwitchToAlternateCharScreen()));
-    disconnect(commandParser, SIGNAL(onSwitchToAlternateVideoScreen()), this, SIGNAL(onSwitchToAlternateVideoScreen()));
+    disconnect(commandParser, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
     disconnect(commandParser, SIGNAL(onSwitchToAppKeypadMode()), this, SIGNAL(onSwitchToAppKeypadMode()));
     disconnect(commandParser, SIGNAL(onSwitchToNormalKeypadMode()), this, SIGNAL(onSwitchToNormalKeypadMode()));
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
@@ -124,7 +122,7 @@ void SshConsole::setFontSize(int fontSize)
 
 void SshConsole::setConsoleColor(ConsoleColor const& color)
 {
-    setStyleSheet(QString("QTextEdit { color: %1; background: %2; }")
+    setStyleSheet(QString("QPlainTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
     setTextColor(palette().color(QPalette::Text));
     setTextBackgroundColor(palette().color(QPalette::Base));
@@ -204,6 +202,11 @@ void SshConsole::updateHightLighter(QString const& hightLighter)
 void SshConsole::putData(const QByteArray &data)
 {
     commandParser->parse(data);
+    if(isSwitchingToAlternate)
+    {
+        isSwitchingToAlternate = false;
+        emit onSwitchToAlternateFinished();
+    }
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(bar->maximum());
 }
@@ -513,6 +516,12 @@ void SshConsole::onRestoreState()
     isReturn = true;
 }
 
+void SshConsole::switchToAlternateScreen()
+{
+    isSwitchingToAlternate = true;
+    emit onSwitchToAlternateScreen();
+}
+
 void SshConsole::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
@@ -567,12 +576,12 @@ void SshConsole::mousePressEvent(QMouseEvent *e)
     if(e->buttons() & Qt::LeftButton)
         cancelSelection();
 
-    QTextEdit::mousePressEvent(e);
+    QPlainTextEdit::mousePressEvent(e);
 }
 
 void SshConsole::mouseReleaseEvent(QMouseEvent *e)
 {
-    QTextEdit::mouseReleaseEvent(e);
+    QPlainTextEdit::mouseReleaseEvent(e);
 
     QTextCursor cursor = textCursor();
     setTextColor(palette().color(QPalette::HighlightedText));
@@ -595,7 +604,7 @@ void SshConsole::mouseReleaseEvent(QMouseEvent *e)
 void SshConsole::mouseDoubleClickEvent(QMouseEvent *e)
 {
     int pos = textCursor().position();
-    QTextEdit::mouseDoubleClickEvent(e);
+    QPlainTextEdit::mouseDoubleClickEvent(e);
     setTextColor(palette().color(QPalette::HighlightedText));
     setTextBackgroundColor(palette().color(QPalette::Highlight));
 
@@ -726,4 +735,35 @@ int SshConsole::selectText(int start, int end)
                         QTextCursor::KeepAnchor, end - start);
     setTextCursor(cursor);
     return pos;
+}
+
+void SshConsole::setTextColor(QColor const& color)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setForeground(color);
+    tc.mergeCharFormat(format);
+}
+void SshConsole::setTextBackgroundColor(QColor const& color)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setBackground(color);
+    tc.mergeCharFormat(format);
+}
+
+void SshConsole::setFontFamily(QString const& name)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setFontFamily(name);
+    tc.mergeCharFormat(format);
+}
+
+void SshConsole::setFontPointSize(int fontSize)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setFontPointSize(fontSize);
+    tc.mergeCharFormat(format);
 }
