@@ -41,6 +41,7 @@ SOURCES += \
     core/logfile.cpp \
     core/serialportparser.cpp \
     core/serialsession.cpp \
+    core/shellthread.cpp \
     core/sshchannel.cpp \
     core/sshparser.cpp \
     core/sshsession.cpp \
@@ -121,6 +122,7 @@ HEADERS += \
     core/serialportparser.h \
     core/serialsession.h \
     core/serialsettings.h \
+    core/shellthread.h \
     core/sshchannel.h \
     core/sshparser.h \
     core/sshsession.h \
