@@ -59,9 +59,11 @@ void AlternateConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_PageUp:
         emit getData("\033[5~");
+        isDebug = true;
         break;
     case Qt::Key_PageDown:
         emit getData("\033[6~");
+        isDebug = true;
         break;
     case Qt::Key_F1:
         emit getData("\033OP");
@@ -149,6 +151,7 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onDeleteLine(int)), this, SLOT(deleteLine(int)));
     connect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     connect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
+    connect(commandParser, SIGNAL(onInsertChars(int)), this, SLOT(insertChars(int)));
     connect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     connect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
 }
@@ -175,6 +178,7 @@ void AlternateConsole::disconnectAppCommand()
     disconnect(commandParser, SIGNAL(onDeleteLine(int)), this, SLOT(deleteLine(int)));
     disconnect(commandParser, SIGNAL(onUp(int)), this, SLOT(onUp(int)));
     disconnect(commandParser, SIGNAL(onDelCharToLineHome()), this, SLOT(delCharToLineHome()));
+    disconnect(commandParser, SIGNAL(onInsertChars(int)), this, SLOT(insertChars(int)));
     disconnect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     disconnect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
 }
@@ -425,6 +429,12 @@ void AlternateConsole::delCharToLineHome()
     screen.updateRows(this, palette_, normalFormat);
 #endif
 }
+
+void AlternateConsole::insertChars(int count)
+{
+    screen.insertChars(count);
+}
+
 
 void AlternateConsole::onEraseChars(int count)
 {

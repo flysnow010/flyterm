@@ -42,6 +42,7 @@ public:
     void delCharToLineEnd();
     void delCharToLineHome();
     void delChars(int count);
+    void insertChars(int count);
     void eraseChars(int count);
 
     void setReverse(bool enable) { role_.isReverse = enable; }

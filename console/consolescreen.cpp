@@ -226,6 +226,16 @@ void ConsoleScreen::delChars(int count)
     addUpdateRow(row_);
 }
 
+void ConsoleScreen::insertChars(int count)
+{
+    ConsoleChars* rowChars = consoleCharsVec[row_];
+    for(int i = cols_ - 1; i - count >= col_; i--)
+        (*rowChars)[i] = (*rowChars)[i - count];
+    for(int i = col_; i < col_ + count && i < rowChars->size(); i++)
+        (*rowChars)[i].clear(' ', role_);
+    addUpdateRow(row_);
+}
+
 void ConsoleScreen::eraseChars(int count)
 {
     ConsoleChars* rowChars = consoleCharsVec[row_];
@@ -315,13 +325,31 @@ void ConsoleScreen::setText(QString const& text)
     }
     for(int i = 0; i < localText.size(); i++)
     {
-        if(localText[i] == '\t')//???
+        if(localText[i] == '\t')
         {
-//            for(int k = 0; k < 4; k++)
+//            int preRow = row - 1;
+//            if(preRow >= 0)
 //            {
-//                (*rowData)[col].isDrawLineMode = isDrawLineMode_;
-//                (*rowData)[col].value = ' ';
-//                (*rowData)[col++].role = role_;
+//                ConsoleChars* preRowData = consoleCharsVec[preRow];
+//                int index = col;
+//                if(index > 0)
+//                    index--;
+//                if((*preRowData)[index].value != ' ')
+//                {
+//                    col += 3;
+//                }
+//                else
+//                {
+//                    for(int k = index; k < preRowData->size(); k++)
+//                    {
+//                        if((*preRowData)[k].value != ' ')
+//                        {
+//                            col += 4;
+//                            break;
+//                        }
+//                        col++;
+//                    }
+//                }
 //            }
             continue;
         }

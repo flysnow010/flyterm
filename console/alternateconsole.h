@@ -56,6 +56,7 @@ private slots:
     void insertLine(int lines);
     void deleteLine(int lines);
     void delCharToLineHome();
+    void insertChars(int count);
     void onEraseChars(int count);
     void onCleanToScreenEnd();
 private:

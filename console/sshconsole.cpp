@@ -229,7 +229,7 @@ void SshConsole::onBackspace(int count)
 
 void SshConsole::onDelChars(int count)
 {
-
+    delChars(count);
 }
 
 void SshConsole::onLeft(int count)
