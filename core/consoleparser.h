@@ -49,6 +49,7 @@ signals:
     void onDelCharToLineEnd();
     void onDelCharToLineHome();
     void onDelCharOfLine();
+    void onInsertChars(int count);
     void onDelChars(int count);
     void onEraseChars(int count);
     void onUp(int line);
