@@ -13,6 +13,7 @@ class SshConsole;
 class AlternateConsole;
 class SSHSettings;
 class CommandThread;
+class ShellThread;
 class SShWidget : public QWidget
 {
     Q_OBJECT
@@ -78,6 +79,7 @@ private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
     CommandThread* commandThread_;
+    ShellThread* shellThread_;
     ConsoleParser* commandParser;
     SshShell * shell;
     QSize consoleSize;

@@ -4,6 +4,7 @@
 #include "core/sshsettings.h"
 #include "core/sshparser.h"
 #include "core/commandthread.h"
+#include "core/shellthread.h"
 #include "core/userauth.h"
 #include "dialog/passworddialog.h"
 #include "highlighter/hightlightermanager.h"
@@ -19,6 +20,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     , console(new SshConsole(this))
     , alternateConsole(new AlternateConsole(this))
     , commandThread_(new CommandThread(this))
+    , shellThread_(new ShellThread(this))
     , commandParser(new SShParser())
     , shell(new SshShell(this))
 {
@@ -43,8 +45,9 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
 
     connect(shell, SIGNAL(connected()), this, SLOT(connected()));
     connect(shell, SIGNAL(connectionError(QString)), this, SLOT(connectionError(QString)));
-    connect(shell, SIGNAL(onData(QByteArray)), this, SLOT(onData(QByteArray)));
+    connect(shell, SIGNAL(onData(QByteArray)), shellThread_, SLOT(addData(QByteArray)));
     connect(shell, SIGNAL(onError(QByteArray)), this, SLOT(onError(QByteArray)));
+    connect(shellThread_, SIGNAL(onData(QByteArray)), this, SLOT(onData(QByteArray)));
 
     connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
@@ -59,6 +62,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(alternateConsole, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     commandThread_->start();
+    shellThread_->start();
 }
 
 SShWidget::~SShWidget()
