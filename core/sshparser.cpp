@@ -379,6 +379,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == '@')
         {
+            parse_ICH(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -492,6 +493,14 @@ void SShParser::parse_H(QString const& h)
         emit onCursorPos(tokens[0].toInt(), tokens[1].toInt());
     else
         emit onScreenHome();
+}
+
+void SShParser::parse_ICH(QString const& s)
+{
+    if(s.isEmpty())
+        emit onInsertChars(1);
+    else
+        emit onInsertChars(s.toInt());
 }
 
 void SShParser::parse_f(QString const& f)
