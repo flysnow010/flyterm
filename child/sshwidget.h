@@ -14,6 +14,7 @@ class AlternateConsole;
 class SSHSettings;
 class CommandThread;
 class ShellThread;
+class QTimer;
 class SShWidget : public QWidget
 {
     Q_OBJECT
@@ -71,6 +72,7 @@ private slots:
     void switchToMainScreen();
     void execCommand(QString const& command);
     void execExpandCommand(QString const& command);
+    void pullData();
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
@@ -82,6 +84,7 @@ private:
     ShellThread* shellThread_;
     ConsoleParser* commandParser;
     SshShell * shell;
+    QTimer* dataTimer;
     QSize consoleSize;
     int shellRows = 0;
     int shellCols = 0;

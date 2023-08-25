@@ -13,6 +13,7 @@
 #include <QPrinter>
 #include <QMenu>
 #include <QPrintDialog>
+#include <QTimer>
 #include <QDebug>
 
 SShWidget::SShWidget(bool isLog, QWidget *parent)
@@ -23,12 +24,14 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     , shellThread_(new ShellThread(this))
     , commandParser(new SShParser())
     , shell(new SshShell(this))
+    , dataTimer(new QTimer(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
     alternateConsole->hide();
     console->setCommandParser(commandParser);
     console->connectCommand();
     alternateConsole->setCommandParser(commandParser);
+    //shellThread_->setCommandParser(commandParser);
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
@@ -37,7 +40,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }
-
+    connect(dataTimer, SIGNAL(timeout()), this, SLOT(pullData()));
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
@@ -62,7 +65,8 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(alternateConsole, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     commandThread_->start();
-    shellThread_->start();
+    //shellThread_->start();
+    dataTimer->start(1);
 }
 
 SShWidget::~SShWidget()
@@ -289,6 +293,13 @@ void SShWidget::onData(QByteArray const& data)
         alternateConsole->putData(data);
     if(sheelIsClose)
         sheelIsClose = false;
+}
+
+void SShWidget::pullData()
+{
+    QByteArray data;
+    if(shellThread_->getData(data))
+        onData(data);
 }
 
 void SShWidget::onError(QByteArray const& data)
