@@ -5,6 +5,7 @@
 #include <QByteArrayList>
 #include <QMutex>
 
+class ConsoleParser;
 class ShellThread : public QThread
 {
     Q_OBJECT
@@ -12,7 +13,10 @@ public:
     explicit ShellThread(QObject *parent = nullptr);
     ~ShellThread();
 
+    void setCommandParser(ConsoleParser* parser);
     void stop() { doSignal(); }
+
+    bool getData(QByteArray &data);
 public slots:
     void addData(const QByteArray &data);
 signals:
@@ -25,6 +29,7 @@ private:
 private:
     QByteArrayList byteArrayList;
     QMutex mutex;
+    ConsoleParser* commandParser = 0;
     volatile bool signal_ = false;
 };
 
