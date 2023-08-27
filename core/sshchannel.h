@@ -2,6 +2,8 @@
 #define SSHCHANNEL_H
 
 #include <QObject>
+#include <QByteArrayList>
+#include <QMutex>
 
 #include "sshsettings.h"
 #include "ssh/session.h"
@@ -14,6 +16,7 @@ public:
     explicit SSHChannel(QObject *parent = nullptr);
 
     int write(QByteArray const& data);
+    bool read(QByteArray &data);
 public slots:
     void connectTo(SSHSettings const& settings);
     bool run();
@@ -22,15 +25,18 @@ public slots:
 signals:
     void connected();
     void unconnected();
-    void onData(QByteArray const& data);
     void onError(QByteArray const& data);
     void connectionError(QString const& error);
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
+
+    void addData(QByteArray const& data);
 private:
     ssh::Session::Ptr sessioin_;
     ssh::Channel* channel_;
+    QByteArrayList datas;
+    QMutex mutex;
     volatile bool signal_;
     volatile bool shellSizeChanged_;
     bool isConnected = false;

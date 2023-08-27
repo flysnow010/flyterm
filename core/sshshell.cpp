@@ -15,7 +15,6 @@ SshShell::SshShell(QObject *parent)
     connect(worker, &SSHChannel::connected, this, &SshShell::connected);
     connect(worker, &SSHChannel::unconnected, this, &SshShell::unconnected);
     connect(worker, &SSHChannel::connectionError, this, &SshShell::connectionError);
-    connect(worker, &SSHChannel::onData, this, &SshShell::onData);
     connect(worker, &SSHChannel::onError, this, &SshShell::onError);
 
 
@@ -43,6 +42,11 @@ void SshShell::run()
 int SshShell::write(QByteArray const& data)
 {
     return worker_->write(data);
+}
+
+bool SshShell::read(QByteArray &data)
+{
+    return worker_->read(data);
 }
 
 void SshShell::shellSize(int cols, int rows)

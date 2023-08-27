@@ -24,6 +24,18 @@ int SSHChannel::write(QByteArray const& data)
     return channel_->write((void *)data.data(), data.size());
 }
 
+bool SSHChannel::read(QByteArray &data)
+{
+    QMutexLocker locker(&mutex);
+    if(datas.isEmpty())
+        return false;
+    data = datas.takeFirst();
+    while(datas.size() > 0 && data.size() < 4096)
+        data.push_back(datas.takeFirst());
+    qDebug() << "getData: " << data.size() << "/" << datas.size();
+    return true;
+}
+
 void SSHChannel::shellSize(int cols, int rows)
 {
     if((cols == cols_ && rows == rows_)
@@ -96,10 +108,15 @@ bool SSHChannel::run()
 
         QByteArray bytes(nbytes, Qt::Uninitialized);
         channel_->read(bytes.data(), bytes.size());
-
-        emit onData(bytes);
+        addData(bytes);
     }
     return true;
+}
+
+void SSHChannel::addData(QByteArray const& data)
+{
+    QMutexLocker locker(&mutex);
+    datas.push_back(data);
 }
 
 void SSHChannel::stop()

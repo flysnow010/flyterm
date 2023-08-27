@@ -15,6 +15,7 @@ public:
 
     void connectTo(SSHSettings const& settings);
     int write(QByteArray const& data);
+    bool read(QByteArray &data);
     void shellSize(int cols, int rows);
     void run();
     void stop();
@@ -26,7 +27,6 @@ signals:
 
     void connected();
     void unconnected();
-    void onData(QByteArray const& data);
     void onError(QByteArray const& data);
     void connectionError(QString const& error);
 private:
