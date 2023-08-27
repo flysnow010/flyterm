@@ -13,7 +13,6 @@ class SshConsole;
 class AlternateConsole;
 class SSHSettings;
 class CommandThread;
-class ShellThread;
 class QTimer;
 class SShWidget : public QWidget
 {
@@ -81,7 +80,6 @@ private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
     CommandThread* commandThread_;
-    ShellThread* shellThread_;
     ConsoleParser* commandParser;
     SshShell * shell;
     QTimer* dataTimer;
