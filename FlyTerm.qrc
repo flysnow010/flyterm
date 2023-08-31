@@ -21,5 +21,7 @@
         <file>image/Term/close.png</file>
         <file>image/Term/close-hover.png</file>
         <file>image/Tool/list.png</file>
+        <file>image/File/display.png</file>
+        <file>image/File/undisplay.png</file>
     </qresource>
 </RCC>
