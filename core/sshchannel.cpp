@@ -32,7 +32,7 @@ bool SSHChannel::read(QByteArray &data)
     data = datas.takeFirst();
     while(datas.size() > 0 && data.size() < 4096)
         data.push_back(datas.takeFirst());
-    qDebug() << "getData: " << data.size() << "/" << datas.size();
+    //qDebug() << "getData: " << data.size() << "/" << datas.size();
     return true;
 }
 
@@ -123,5 +123,6 @@ void SSHChannel::stop()
 {
     doSignal();
     sessioin_->disconnect();
+    isConnected = false;
     emit unconnected();
 }
