@@ -78,6 +78,7 @@ signals:
     void onNormalForeColor();
     void onNormalBackColor();
     void onASCIIMode();
+    void onSecondaryDA();
     void onDECLineDrawingMode();
     void onColorClose();//onCloseCharAttriutes
 

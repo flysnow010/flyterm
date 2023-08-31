@@ -154,6 +154,8 @@ void AlternateConsole::connectAppCommand()
     connect(commandParser, SIGNAL(onInsertChars(int)), this, SLOT(insertChars(int)));
     connect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     connect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
+    connect(commandParser, SIGNAL(onSecondaryDA()), this, SIGNAL(onSecondaryDA()));
+
 }
 
 void AlternateConsole::disconnectAppCommand()
@@ -181,6 +183,7 @@ void AlternateConsole::disconnectAppCommand()
     disconnect(commandParser, SIGNAL(onInsertChars(int)), this, SLOT(insertChars(int)));
     disconnect(commandParser, SIGNAL(onEraseChars(int)), this, SLOT(onEraseChars(int)));
     disconnect(commandParser, SIGNAL(onCleanToScreenEnd()), this, SLOT(onCleanToScreenEnd()));
+    disconnect(commandParser, SIGNAL(onSecondaryDA()), this, SIGNAL(onSecondaryDA()));
 }
 
 void AlternateConsole::putData(const QByteArray &data)

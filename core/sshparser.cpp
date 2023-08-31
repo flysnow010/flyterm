@@ -293,6 +293,7 @@ int SShParser::parseEsc(const char* start, const char* end)
         }
         else if(*ch == 'c')//>c
         {
+            parse_c(QString::fromUtf8(start + 2, ch - start - 2));
             isEnd = true;
             ch++;
             break;
@@ -468,6 +469,12 @@ void SShParser::parse_B(QString const& b)
 {
     if(b == "(B")
         emit onASCIIMode();
+}
+
+void SShParser::parse_c(QString const& c)
+{
+    if(c == ">0")//Esc[>0;95;0c
+        emit onSecondaryDA();
 }
 
 void SShParser::parse_d(QString const& d)

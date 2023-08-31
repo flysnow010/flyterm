@@ -15,6 +15,7 @@ private:
      void parse_0(QString const& c);
      void parse_A(QString const& c);
      void parse_B(QString const& b);
+     void parse_c(QString const& c);
      void parse_d(QString const& d);
      void parse_G(QString const& g);
      void parse_H(QString const& h);

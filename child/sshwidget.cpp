@@ -57,6 +57,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(alternateConsole, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
     connect(alternateConsole, SIGNAL(onSwitchToMainScreen()), this, SLOT(switchToMainScreen()));
     connect(alternateConsole, SIGNAL(onSwitchToNormalKeypadMode()), this, SLOT(switchToNormalKeypadMode()));
+    connect(alternateConsole, SIGNAL(onSecondaryDA()), this, SLOT(secondaryDA()));
     connect(alternateConsole, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     commandThread_->start();
@@ -294,6 +295,11 @@ void SShWidget::pullData()
     QByteArray data;
     if(shell->read(data))
         onData(data);
+}
+
+void SShWidget::secondaryDA()
+{
+    writeData("\033[>0;95;0c");
 }
 
 void SShWidget::onError(QByteArray const& data)

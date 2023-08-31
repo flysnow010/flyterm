@@ -51,6 +51,7 @@ signals:
     void onSaveCursorPos();
     void onRestoreCursorPos();
     void onSwitchToMainScreen();
+    void onSecondaryDA();
 
 public slots:
     void copyAll();

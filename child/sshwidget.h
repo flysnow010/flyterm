@@ -72,6 +72,7 @@ private slots:
     void execCommand(QString const& command);
     void execExpandCommand(QString const& command);
     void pullData();
+    void secondaryDA();
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
