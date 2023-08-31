@@ -27,6 +27,9 @@ public:
     void setErrorText(QString const& text);
 
     void disconnect();
+    bool isDisplay() const;
+    void display();
+    void undisplay();
     void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setConsoleColor(ConsoleColor const& color);
@@ -65,17 +68,26 @@ private slots:
     void setHighLighter();
     void onGotCursorPos(int row, int col);
     void execCommand(QString const& command);
+    void execTestCommand(QString const& command);
     void execExpandCommand(QString const& command);
+    void pullData();
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
+    QString getTestCommand();
 private:
     Console* console;
     CommandThread* commandThread_;
     QtTelnet* telnet;
+    QTimer* dataTimer;
+    QStringList texts;
     LogFile::SharedPtr beforeLogfile_;
     LogFile::SharedPtr afterLogfile_;
     QString highLight_;
+    QStringList testCommands_;
+    QByteArray testParam_;
+    bool isTest_ = false;
+    QByteArray testData_;
 };
 
 #endif // TELNETWIDGET_H

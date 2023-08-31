@@ -9,8 +9,8 @@ public:
     SShParser();
     void parse(QByteArray const& data) override;
 private:
-     int parseBs(const char* start, const char* end);
-     int parseEsc(const char* start, const char* end);
+     int parseBs(const char* start, const char* end) override;
+     int parseEsc(const char* start, const char* end) override;
      int parseTitle(const char* start, const char* end);
      void parse_0(QString const& c);
      void parse_A(QString const& c);

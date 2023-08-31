@@ -180,6 +180,9 @@
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
    <addaction name="separator"/>
+   <addaction name="actionDisplay"/>
+   <addaction name="actionUndisplay"/>
+   <addaction name="separator"/>
    <addaction name="actionSave"/>
    <addaction name="actionPrint"/>
    <addaction name="separator"/>
@@ -527,6 +530,24 @@
    </property>
    <property name="text">
     <string>Fusion</string>
+   </property>
+  </action>
+  <action name="actionDisplay">
+   <property name="icon">
+    <iconset resource="FlyTerm.qrc">
+     <normaloff>:/image/File/display.png</normaloff>:/image/File/display.png</iconset>
+   </property>
+   <property name="text">
+    <string>Display</string>
+   </property>
+  </action>
+  <action name="actionUndisplay">
+   <property name="icon">
+    <iconset resource="FlyTerm.qrc">
+     <normaloff>:/image/File/undisplay.png</normaloff>:/image/File/undisplay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undisplay</string>
    </property>
   </action>
  </widget>

@@ -47,6 +47,8 @@ private slots:
     void cascadeChildWindow();
     void maximizeChildWidnow();
     void cancelconnect();
+    void display();
+    void undisplay();
 
     void save();
     void print();
@@ -93,6 +95,7 @@ private:
     void setShowStyle(QString const& style);
     void setLanguage(QString const& lang);
     void retranslateUi();
+    void setDiaplay(bool enable);
 private:
     Ui::MainWindow *ui;
     QMdiArea *mdiArea;

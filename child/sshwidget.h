@@ -28,6 +28,9 @@ public:
     QSize sizeHint() const override;
 
     void disconnect();
+    bool isDisplay() const;
+    void display();
+    void undisplay();
     void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setConsoleColor(ConsoleColor const& color);
@@ -70,6 +73,7 @@ private slots:
     void switchToNormalKeypadMode();
     void switchToMainScreen();
     void execCommand(QString const& command);
+    void execTestCommand(QString const& command);
     void execExpandCommand(QString const& command);
     void pullData();
     void secondaryDA();
@@ -77,6 +81,7 @@ private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
     void getShellSize(QSize const& size, int &cols, int &rows);
+    QString getTestCommand();
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
@@ -92,6 +97,10 @@ private:
     bool sheelIsClose = true;
     bool isMainScreen = true;
     QString highLight_;
+    QStringList testCommands_;
+    QByteArray testParam_;
+    bool isTest_ = false;
+    QByteArray testData_;
 };
 
 #endif // SSHWIDGET_H

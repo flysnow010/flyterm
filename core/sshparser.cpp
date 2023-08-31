@@ -8,18 +8,7 @@ SShParser::SShParser()
 
 void SShParser::parse(QByteArray const& data)
 {
-    if(!isEnterKeyPress())
-        parseData_.push_back(data);
-    else
-    {
-        setEnterKeyPress(false);
-        int index = data.indexOf("\r\n");//ab\r\n or \r\ntext
-        if(index == 0)
-            parseData_.push_back(data);
-        else if(index > 0)
-            parseData_.push_back(data.right(data.size() - index - 1));
-    }
-
+    parseData_.push_back(data);
     const char* start = parseData_.data();
     const char* end = start + parseData_.size();
     const char* ch = start;
@@ -54,27 +43,6 @@ void SShParser::parse(QByteArray const& data)
                 ch++;
                 break;
             }
-//            case CR:
-//            {
-//                ch++;
-//                if(ch != end && *ch == LF)
-//                {
-//                    if((ch - 1) > start)
-//                        emit onText(toText(start, ch - start - 1));
-//                    emit onOverWrite(false);
-//                    start = ch - 1;
-//                }
-//                else
-//                {
-//                    if((ch - 1) > start)
-//                        emit onText(toText(start, ch - start - 1));
-//                    emit onHome();
-//                    emit onOverWrite(true);
-//                    start = ch;
-//                }
-
-//                break;
-//            }
             case BS:
             {
                 if(parseData_.size() == 1 && isLeftKeyPress())

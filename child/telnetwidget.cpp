@@ -18,6 +18,7 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     , console(new TelnetConsole(this))
     , commandThread_(new CommandThread(this))
     , telnet(new QtTelnet(this))
+    , dataTimer(new QTimer(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
     console->createParserAndConnect();
@@ -29,10 +30,13 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }
+    connect(dataTimer, SIGNAL(timeout()), this, SLOT(pullData()));
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
+    connect(commandThread_, SIGNAL(onTestCommand(QString)),
+            this, SLOT(execTestCommand(QString)));
     connect(telnet, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
     connect(telnet, SIGNAL(loginRequired()), this, SLOT(loginRequired()));
     connect(telnet, SIGNAL(loginFailed()), this, SLOT(loginFailed()));
@@ -45,14 +49,15 @@ TelnetWidget::TelnetWidget(bool isLog, QWidget *parent)
     connect(console, &QWidget::customContextMenuRequested,
             this, &TelnetWidget::customContextMenu);
     commandThread_->start();
+    dataTimer->start(1);
 }
 
 void TelnetWidget::resizeEvent(QResizeEvent *event)
 {
     console->resize(event->size());
     QFontMetrics fm(font());
-           int lh = fm.lineSpacing();
-           int cw = fm.width(QChar('X'));
+    int lh = fm.lineSpacing();
+    int cw = fm.width(QChar('X'));
 
     telnet->setWindowSize(event->size().width()/ cw, event->size().height() / lh);
 }
@@ -85,6 +90,21 @@ void TelnetWidget::setErrorText(QString const& text)
 void TelnetWidget::disconnect()
 {
     telnet->close();
+}
+
+bool TelnetWidget::isDisplay() const
+{
+    return dataTimer->isActive();
+}
+
+void TelnetWidget::display()
+{
+    dataTimer->start(1);
+}
+
+void TelnetWidget::undisplay()
+{
+    dataTimer->stop();
 }
 
 void TelnetWidget::save()
@@ -172,6 +192,8 @@ void TelnetWidget::clearScrollback()
 
 bool TelnetWidget::runShell(TelnetSettings const& settings)
 {
+    telnet->login(settings.userName, QString());
+    telnet->setLoginString("ultichip login:\\s*$");
     telnet->connectToHost(settings.hostName, settings.port);
     return true;
 }
@@ -193,9 +215,40 @@ void TelnetWidget::sendCommands(QStringList const& commands)
     }
 }
 
+QString TelnetWidget::getTestCommand()
+{
+    if(testCommands_.isEmpty())
+        return QString();
+    QString command = testCommands_.front();
+    testCommands_.pop_front();
+    return command;
+}
+
 void TelnetWidget::execCommand(QString const& command)
 {
     telnet->sendData(command + QString("\r\n"));
+}
+
+void TelnetWidget::execTestCommand(QString const& command)
+{
+    QString testCommand = command.right(command.size() - 1);
+    if(!testCommand.startsWith("start"))
+        testCommands_.push_back(testCommand);
+    else
+    {
+        QStringList cmds = testCommand.split(' ');
+        if(cmds.size() > 1)
+            testParam_ = cmds[1].toUtf8();
+        isTest_ = true;
+        QString cmd = getTestCommand();
+        if(!cmd.startsWith("#"))
+            execCommand(cmd);
+        else
+        {
+            execExpandCommand(cmd);
+            execCommand(QString());
+        }
+    }
 }
 
 void TelnetWidget::execExpandCommand(QString const& command)
@@ -219,11 +272,46 @@ void TelnetWidget::execExpandCommand(QString const& command)
     }
 }
 
-void TelnetWidget::onMessage(QString const& data)
+void TelnetWidget::pullData()
 {
+    if(texts.isEmpty())
+        return;
+
+    QString data;
+    while(texts.size() > 0 && data.size() < 512)
+        data.push_back(texts.takeFirst());
+
+    if(isTest_)
+    {
+        testData_.push_back(data.toUtf8());
+        if(testData_.contains(testParam_))
+        {
+            QString command = getTestCommand();
+            if(command.startsWith("#"))
+            {
+                execExpandCommand(command);
+                execCommand(QString());
+            }
+            else
+            {
+                if(command == "end")
+                    isTest_ = false;
+                else
+                    execCommand(command);
+
+            }
+            testData_.clear();
+        }
+    }
+
     if(beforeLogfile_)
         beforeLogfile_->write(data);
     console->putData(data.toUtf8());
+}
+
+void TelnetWidget::onMessage(QString const& data)
+{
+    texts << data;
 }
 
 void TelnetWidget::loginRequired()

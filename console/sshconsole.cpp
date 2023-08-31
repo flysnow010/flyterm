@@ -553,7 +553,6 @@ void SshConsole::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter:
         onEnd();
         emit getData(e->text().toLocal8Bit());
-        commandParser->setEnterKeyPress(true);
         break;
     default:
         emit getData(e->text().toLocal8Bit());

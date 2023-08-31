@@ -27,6 +27,9 @@ public:
     void setErrorText(QString const& text);
 
     void disconnect();
+    bool isDisplay() const;
+    void display();
+    void undisplay();
     void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setConsoleColor(ConsoleColor const& color);
@@ -62,6 +65,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 private slots:
     void readData();
+    void pullData();
     void writeData(QByteArray const&data);
     void customContextMenu(const QPoint &);
     void setHighLighter();
@@ -82,6 +86,8 @@ private:
     Console* console;
     CommandThread* commandThread_;
     QSerialPort* serial;
+    QTimer* dataTimer;
+    QByteArrayList datas;
     LogFile::SharedPtr beforeLogfile_;
     LogFile::SharedPtr afterLogfile_;
     QString highLight_;

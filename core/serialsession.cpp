@@ -121,6 +121,28 @@ void SerialSession::disconnect(QWidget *widget)
         theWidget->disconnect();
 }
 
+bool SerialSession::isDisplay(QWidget *widget) const
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+        return theWidget->isDisplay();
+    return true;
+}
+
+void SerialSession::display(QWidget *widget)
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+        theWidget->display();
+}
+
+void SerialSession::undisplay(QWidget *widget)
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+        theWidget->undisplay();
+}
+
 void SerialSession::save(QWidget *widget)
 {
     SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);

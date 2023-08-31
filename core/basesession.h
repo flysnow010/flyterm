@@ -49,6 +49,9 @@ public:
 
     virtual void sendCommand(QWidget *widget, QString const& command) = 0;
     virtual void disconnect(QWidget *widget) = 0;
+    virtual bool isDisplay(QWidget *widget) const = 0;
+    virtual void display(QWidget *widget) = 0;
+    virtual void undisplay(QWidget *widget) = 0;
     virtual void save(QWidget *widget) = 0;
     virtual void print(QWidget *widget) = 0;
     virtual void copy(QWidget *widget) = 0;

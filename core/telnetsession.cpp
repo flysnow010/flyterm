@@ -117,18 +117,44 @@ void TelnetSession::disconnect(QWidget *widget)
     if(theWidget)
         theWidget->disconnect();
 }
+
+bool TelnetSession::isDisplay(QWidget *widget) const
+{
+    TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
+    if(theWidget)
+        return theWidget->isDisplay();
+    return true;
+}
+
+
+void TelnetSession::display(QWidget *widget)
+{
+    TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
+    if(theWidget)
+        theWidget->display();
+}
+
+void TelnetSession::undisplay(QWidget *widget)
+{
+    TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
+    if(theWidget)
+        theWidget->undisplay();
+}
+
 void TelnetSession::save(QWidget *widget)
 {
     TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
     if(theWidget)
         theWidget->save();
 }
+
 void TelnetSession::print(QWidget *widget)
 {
     TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
     if(theWidget)
         theWidget->print();
 }
+
 void TelnetSession::copy(QWidget *widget)
 {
     TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);

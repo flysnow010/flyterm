@@ -379,6 +379,14 @@
     </message>
 </context>
 <context>
+    <name>Console</name>
+    <message>
+        <location filename="console/console.cpp" line="113"/>
+        <source>Save as...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FileProgressDialog</name>
     <message>
         <location filename="dialog/fileprogressdialog.ui" line="14"/>
@@ -518,360 +526,370 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="197"/>
+        <location filename="mainwindow.ui" line="200"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="200"/>
+        <location filename="mainwindow.ui" line="203"/>
         <source>Quick connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="203"/>
+        <location filename="mainwindow.ui" line="206"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="208"/>
+        <location filename="mainwindow.ui" line="211"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="211"/>
+        <location filename="mainwindow.ui" line="214"/>
         <source>Exit FlyTerm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="220"/>
+        <location filename="mainwindow.ui" line="223"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="223"/>
+        <location filename="mainwindow.ui" line="226"/>
         <source>About FlyTerm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="232"/>
+        <location filename="mainwindow.ui" line="235"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="235"/>
+        <location filename="mainwindow.ui" line="238"/>
         <source>Copy text to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="238"/>
+        <location filename="mainwindow.ui" line="241"/>
         <source>Ctrl+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="247"/>
+        <location filename="mainwindow.ui" line="250"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="250"/>
+        <location filename="mainwindow.ui" line="253"/>
         <source>Paste text from clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="253"/>
+        <location filename="mainwindow.ui" line="256"/>
         <source>Ctrl+V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="261"/>
+        <location filename="mainwindow.ui" line="264"/>
         <source>Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="264"/>
+        <location filename="mainwindow.ui" line="267"/>
         <source>Set tab view mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="272"/>
+        <location filename="mainwindow.ui" line="275"/>
         <source>Tile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="275"/>
+        <location filename="mainwindow.ui" line="278"/>
         <source>Title windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="280"/>
+        <location filename="mainwindow.ui" line="283"/>
         <source>Tile Vertically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="288"/>
+        <location filename="mainwindow.ui" line="291"/>
         <source>Cascade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
+        <location filename="mainwindow.ui" line="294"/>
         <source>Cascade windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="296"/>
+        <location filename="mainwindow.ui" line="299"/>
         <source>ToolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="301"/>
+        <location filename="mainwindow.ui" line="304"/>
         <source>StatusBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="309"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="309"/>
+        <location filename="mainwindow.ui" line="312"/>
         <source>Close current window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="314"/>
+        <location filename="mainwindow.ui" line="317"/>
         <source>Close All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="317"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>Close all window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="322"/>
+        <location filename="mainwindow.ui" line="325"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="325"/>
+        <location filename="mainwindow.ui" line="328"/>
         <source>Next a window </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="330"/>
+        <location filename="mainwindow.ui" line="333"/>
         <source>Previous</source>
         <oldsource>Pre&amp;vious</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="333"/>
+        <location filename="mainwindow.ui" line="336"/>
         <source>Previous a window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="342"/>
+        <location filename="mainwindow.ui" line="345"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="345"/>
+        <location filename="mainwindow.ui" line="348"/>
         <source>Disable connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="354"/>
+        <location filename="mainwindow.ui" line="357"/>
         <source>Save...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="357"/>
+        <location filename="mainwindow.ui" line="360"/>
         <source>Save console text to a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="369"/>
+        <location filename="mainwindow.ui" line="372"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="372"/>
+        <location filename="mainwindow.ui" line="375"/>
         <source>Print console text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="375"/>
+        <location filename="mainwindow.ui" line="378"/>
         <source>Ctrl+P</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="380"/>
+        <location filename="mainwindow.ui" line="383"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="383"/>
+        <location filename="mainwindow.ui" line="386"/>
         <source>Copy all text to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="388"/>
+        <location filename="mainwindow.ui" line="391"/>
         <source>Increase Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="391"/>
+        <location filename="mainwindow.ui" line="394"/>
         <source>Increase font size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="394"/>
+        <location filename="mainwindow.ui" line="397"/>
         <source>Increase font size of console text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="399"/>
+        <location filename="mainwindow.ui" line="402"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="402"/>
+        <location filename="mainwindow.ui" line="405"/>
         <source>Decrease font size of console text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="407"/>
+        <location filename="mainwindow.ui" line="410"/>
         <source>Clear ScrollBack</source>
         <oldsource>Clear scroll back</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="410"/>
+        <location filename="mainwindow.ui" line="413"/>
         <source>Clear text of console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="418"/>
+        <location filename="mainwindow.ui" line="421"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="421"/>
+        <location filename="mainwindow.ui" line="424"/>
         <source>Toggole flag of log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="432"/>
         <source>Maximized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="434"/>
-        <location filename="mainwindow.ui" line="444"/>
-        <location filename="mainwindow.ui" line="473"/>
+        <location filename="mainwindow.ui" line="437"/>
+        <location filename="mainwindow.ui" line="447"/>
+        <location filename="mainwindow.ui" line="476"/>
         <source>Receive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="439"/>
-        <location filename="mainwindow.ui" line="449"/>
-        <location filename="mainwindow.ui" line="478"/>
+        <location filename="mainwindow.ui" line="442"/>
+        <location filename="mainwindow.ui" line="452"/>
+        <location filename="mainwindow.ui" line="481"/>
         <source>Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="454"/>
+        <location filename="mainwindow.ui" line="457"/>
         <source>Start...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="457"/>
+        <location filename="mainwindow.ui" line="460"/>
         <source>Start a service of  TFTP server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="465"/>
+        <location filename="mainwindow.ui" line="468"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="468"/>
+        <location filename="mainwindow.ui" line="471"/>
         <source>Stop a service of  TFTP server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="483"/>
+        <location filename="mainwindow.ui" line="486"/>
         <source>WindowVista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="494"/>
+        <location filename="mainwindow.ui" line="497"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="502"/>
+        <location filename="mainwindow.ui" line="505"/>
         <source>简体中文</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="513"/>
+        <location filename="mainwindow.ui" line="516"/>
         <source>WindowsVista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="521"/>
+        <location filename="mainwindow.ui" line="524"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="529"/>
+        <location filename="mainwindow.ui" line="532"/>
         <source>Fusion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="282"/>
-        <location filename="mainwindow.cpp" line="868"/>
+        <location filename="mainwindow.ui" line="541"/>
+        <source>Display</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="550"/>
+        <source>Undisplay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="283"/>
+        <location filename="mainwindow.cpp" line="892"/>
         <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="353"/>
+        <location filename="mainwindow.cpp" line="349"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="354"/>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>Paletee of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="353"/>
         <source>Codec of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="356"/>
+        <location filename="mainwindow.cpp" line="351"/>
         <source>Font name of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="357"/>
+        <location filename="mainwindow.cpp" line="352"/>
         <source>Font size of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="800"/>
+        <location filename="mainwindow.cpp" line="824"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="808"/>
+        <location filename="mainwindow.cpp" line="832"/>
         <source>Start server on %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="809"/>
+        <location filename="mainwindow.cpp" line="833"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -906,227 +924,219 @@
 <context>
     <name>SShWidget</name>
     <message>
-        <location filename="child/sshwidget.cpp" line="85"/>
+        <location filename="child/sshwidget.cpp" line="88"/>
         <source>Password for %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="152"/>
+        <location filename="child/sshwidget.cpp" line="155"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="305"/>
+        <location filename="child/sshwidget.cpp" line="328"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="306"/>
+        <location filename="child/sshwidget.cpp" line="329"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="307"/>
+        <location filename="child/sshwidget.cpp" line="330"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="309"/>
+        <location filename="child/sshwidget.cpp" line="332"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="310"/>
+        <location filename="child/sshwidget.cpp" line="333"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="312"/>
+        <location filename="child/sshwidget.cpp" line="335"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="314"/>
+        <location filename="child/sshwidget.cpp" line="337"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="315"/>
+        <location filename="child/sshwidget.cpp" line="338"/>
         <source>Clear Scrollback</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SerialPortConsole</name>
-    <message>
-        <location filename="console/serialportconsole.cpp" line="295"/>
-        <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SerialPortWidget</name>
     <message>
-        <location filename="child/serialportwidget.cpp" line="79"/>
+        <location filename="child/serialportwidget.cpp" line="80"/>
         <source>Unable to open serial port %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="81"/>
+        <location filename="child/serialportwidget.cpp" line="82"/>
         <source>%1 have be opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="107"/>
+        <location filename="child/serialportwidget.cpp" line="108"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="125"/>
-        <location filename="child/serialportwidget.cpp" line="145"/>
-        <location filename="child/serialportwidget.cpp" line="165"/>
+        <location filename="child/serialportwidget.cpp" line="126"/>
+        <location filename="child/serialportwidget.cpp" line="146"/>
+        <location filename="child/serialportwidget.cpp" line="166"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="126"/>
-        <location filename="child/serialportwidget.cpp" line="136"/>
-        <location filename="child/serialportwidget.cpp" line="146"/>
-        <location filename="child/serialportwidget.cpp" line="156"/>
-        <location filename="child/serialportwidget.cpp" line="166"/>
-        <location filename="child/serialportwidget.cpp" line="176"/>
+        <location filename="child/serialportwidget.cpp" line="127"/>
+        <location filename="child/serialportwidget.cpp" line="137"/>
+        <location filename="child/serialportwidget.cpp" line="147"/>
+        <location filename="child/serialportwidget.cpp" line="157"/>
+        <location filename="child/serialportwidget.cpp" line="167"/>
+        <location filename="child/serialportwidget.cpp" line="177"/>
         <source>All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="135"/>
-        <location filename="child/serialportwidget.cpp" line="155"/>
-        <location filename="child/serialportwidget.cpp" line="175"/>
+        <location filename="child/serialportwidget.cpp" line="136"/>
+        <location filename="child/serialportwidget.cpp" line="156"/>
+        <location filename="child/serialportwidget.cpp" line="176"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="398"/>
+        <location filename="child/serialportwidget.cpp" line="399"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="399"/>
+        <location filename="child/serialportwidget.cpp" line="400"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="400"/>
+        <location filename="child/serialportwidget.cpp" line="401"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="402"/>
+        <location filename="child/serialportwidget.cpp" line="403"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="403"/>
+        <location filename="child/serialportwidget.cpp" line="404"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="405"/>
+        <location filename="child/serialportwidget.cpp" line="406"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="406"/>
+        <location filename="child/serialportwidget.cpp" line="407"/>
         <source>Kermit Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="407"/>
+        <location filename="child/serialportwidget.cpp" line="408"/>
         <source>XModem Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="408"/>
+        <location filename="child/serialportwidget.cpp" line="409"/>
         <source>YModem Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="409"/>
+        <location filename="child/serialportwidget.cpp" line="410"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="410"/>
+        <location filename="child/serialportwidget.cpp" line="411"/>
         <source>Kermit Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="411"/>
+        <location filename="child/serialportwidget.cpp" line="412"/>
         <source>XModem Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="412"/>
+        <location filename="child/serialportwidget.cpp" line="413"/>
         <source>YModem Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="417"/>
+        <location filename="child/serialportwidget.cpp" line="418"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="418"/>
+        <location filename="child/serialportwidget.cpp" line="419"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="463"/>
+        <location filename="child/serialportwidget.cpp" line="464"/>
         <source>Kermit Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="495"/>
+        <location filename="child/serialportwidget.cpp" line="496"/>
         <source>Kermit Recv</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="532"/>
+        <location filename="child/serialportwidget.cpp" line="533"/>
         <source>YMODEM Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="533"/>
-        <location filename="child/serialportwidget.cpp" line="573"/>
+        <location filename="child/serialportwidget.cpp" line="534"/>
+        <location filename="child/serialportwidget.cpp" line="574"/>
         <source>1K YMODEM</source>
         <oldsource>YMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="537"/>
+        <location filename="child/serialportwidget.cpp" line="538"/>
         <source>XMODEM Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="538"/>
-        <location filename="child/serialportwidget.cpp" line="578"/>
+        <location filename="child/serialportwidget.cpp" line="539"/>
+        <location filename="child/serialportwidget.cpp" line="579"/>
         <source>1K XMODEM</source>
         <oldsource>XMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="572"/>
+        <location filename="child/serialportwidget.cpp" line="573"/>
         <source>YMODEM Recv</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="577"/>
+        <location filename="child/serialportwidget.cpp" line="578"/>
         <source>XMODEM Recv</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1196,7 +1206,7 @@
 <context>
     <name>SshConsole</name>
     <message>
-        <location filename="console/sshconsole.cpp" line="653"/>
+        <location filename="console/sshconsole.cpp" line="677"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1215,60 +1225,52 @@
     </message>
 </context>
 <context>
-    <name>TelnetConsole</name>
-    <message>
-        <location filename="console/telnetconsole.cpp" line="325"/>
-        <source>Save as...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TelnetWidget</name>
     <message>
-        <location filename="child/telnetwidget.cpp" line="100"/>
+        <location filename="child/telnetwidget.cpp" line="101"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="262"/>
+        <location filename="child/telnetwidget.cpp" line="263"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="263"/>
+        <location filename="child/telnetwidget.cpp" line="264"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="264"/>
+        <location filename="child/telnetwidget.cpp" line="265"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="266"/>
+        <location filename="child/telnetwidget.cpp" line="267"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="267"/>
+        <location filename="child/telnetwidget.cpp" line="268"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="269"/>
+        <location filename="child/telnetwidget.cpp" line="270"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="271"/>
+        <location filename="child/telnetwidget.cpp" line="272"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="272"/>
+        <location filename="child/telnetwidget.cpp" line="273"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>

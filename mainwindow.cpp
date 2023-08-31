@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
     mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     mdiArea->setDocumentMode(true);
     mdiArea->setTabsClosable(true);
-
+    setDiaplay(true);
     setCentralWidget(mdiArea);
     createDockWidgets();
     createConnets();
@@ -139,6 +139,10 @@ void MainWindow::createConnets()
             this, &MainWindow::newConnect);
     connect(ui->actionDisconnect, &QAction::triggered,
             this, &MainWindow::cancelconnect);
+    connect(ui->actionDisplay, &QAction::triggered,
+            this, &MainWindow::display);
+    connect(ui->actionUndisplay, &QAction::triggered,
+            this, &MainWindow::undisplay);
 
     connect(ui->actionKermitReceive, &QAction::triggered,
             [=](){ recvFile("Kermit"); });
@@ -527,6 +531,7 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
             comboSize->setCurrentText(QString::number(session->fontSize()));
             udpateHighLighterMenuStatus(session->hightLighter());
             session->activeWidget(subWindow->widget());
+            setDiaplay(session->isDisplay(subWindow->widget()));
         }
     }
 }
@@ -566,6 +571,40 @@ void MainWindow::cancelconnect()
         if(session)
             session->disconnect(subWindow->widget());
     }
+}
+
+void MainWindow::display()
+{
+    QMdiSubWindow* subWindow = activeSubWindow();
+    if(subWindow)
+    {
+        Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+        if(session)
+        {
+            session->display(subWindow->widget());
+            setDiaplay(true);
+        }
+    }
+}
+
+void MainWindow::undisplay()
+{
+    QMdiSubWindow* subWindow = activeSubWindow();
+    if(subWindow)
+    {
+        Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+        if(session)
+        {
+            session->undisplay(subWindow->widget());
+            setDiaplay(false);
+        }
+    }
+}
+
+void MainWindow::setDiaplay(bool enable)
+{
+    ui->actionDisplay->setVisible(!enable);
+    ui->actionUndisplay->setVisible(enable);
 }
 
 void MainWindow::sendFile(QString const& protocol)

@@ -15,17 +15,7 @@ void ConsoleParser::parse(QByteArray const& data)
         return;
     }
 
-    if(!isEnterKeyPress())
-        parseData_.push_back(data);
-    else
-    {
-        setEnterKeyPress(false);
-        int index = data.indexOf("\r\n");//ab\r\n or \r\ntext
-        if(index == 0)
-            parseData_.push_back(data);
-        else if(index > 0)
-            parseData_.push_back(data.right(data.size() - index - 1));
-    }
+    parseData_.push_back(data);
 
     const char* start = parseData_.data();
     const char* end = start + parseData_.size();

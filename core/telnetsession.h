@@ -23,6 +23,9 @@ public:
 
     void sendCommand(QWidget *widget, QString const& command) override;
     void disconnect(QWidget *widget) override;
+    bool isDisplay(QWidget *widget) const override;
+    void display(QWidget *widget) override;
+    void undisplay(QWidget *widget) override;
     void save(QWidget *widget) override;
     void print(QWidget *widget) override;
     void copy(QWidget *widget) override;

@@ -23,6 +23,7 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     , console(new SerialPortConsole(this))
     , commandThread_(new CommandThread(this))
     , serial(new QSerialPort())
+    , dataTimer(new QTimer(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
     console->createParserAndConnect();
@@ -34,6 +35,7 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }
+    connect(dataTimer, SIGNAL(timeout()), this, SLOT(pullData()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
@@ -46,6 +48,7 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
     connect(console, &QWidget::customContextMenuRequested,
             this, &SerialPortWidget::customContextMenu);
     commandThread_->start();
+    dataTimer->start(1);
 }
 
 SerialPortWidget::~SerialPortWidget()
@@ -92,6 +95,21 @@ void SerialPortWidget::setErrorText(QString const& text)
 void SerialPortWidget::disconnect()
 {
     serial->close();
+}
+
+bool SerialPortWidget::isDisplay() const
+{
+    return dataTimer->isActive();
+}
+
+void SerialPortWidget::display()
+{
+    dataTimer->start(1);
+}
+
+void SerialPortWidget::undisplay()
+{
+    dataTimer->stop();
 }
 
 void SerialPortWidget::save()
@@ -237,6 +255,42 @@ void SerialPortWidget::clearScrollback()
     console->clearall();
 }
 
+void SerialPortWidget::pullData()
+{
+    if(datas.isEmpty())
+        return;
+
+    QByteArray data;
+    while(datas.size() > 0 && data.size() < 512)
+        data.push_back(datas.takeFirst());
+
+    if(isTest_)
+    {
+        testData_.push_back(data);
+        if(testData_.contains(testParam_))
+        {
+            QString command = getTestCommand();
+            if(command.startsWith("#"))
+            {
+                execExpandCommand(command);
+                execCommand(QString());
+            }
+            else
+            {
+                if(command == "end")
+                    isTest_ = false;
+                else
+                    execCommand(command);
+
+            }
+            testData_.clear();
+        }
+    }
+    if(beforeLogfile_)
+        beforeLogfile_->write(data);
+    console->putData(data);
+}
+
 bool SerialPortWidget::runShell(QString const& name, int baudRate)
 {
     serial->setPortName(name);
@@ -359,32 +413,7 @@ void SerialPortWidget::execExpandCommand(QString const& command)
 void SerialPortWidget::readData()
 {
     QByteArray data = serial->readAll();
-    if(isTest_)
-    {
-        testData_.push_back(data);
-        //qDebug() << data;
-        if(testData_.contains(testParam_))
-        {
-            QString command = getTestCommand();
-            if(command.startsWith("#"))
-            {
-                execExpandCommand(command);
-                execCommand(QString());
-            }
-            else
-            {
-                if(command == "end")
-                    isTest_ = false;
-                else
-                    execCommand(command);
-
-            }
-            testData_.clear();
-        }
-    }
-    if(beforeLogfile_)
-        beforeLogfile_->write(data);
-    console->putData(data);
+    datas.push_back(data);
 }
 
 void SerialPortWidget::writeData(QByteArray const&data)

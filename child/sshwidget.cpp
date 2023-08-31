@@ -42,6 +42,8 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
+    connect(commandThread_, SIGNAL(onTestCommand(QString)),
+            this, SLOT(execTestCommand(QString)));
 
     connect(shell, SIGNAL(connected()), this, SLOT(connected()));
     connect(shell, SIGNAL(connectionError(QString)), this, SLOT(connectionError(QString)));
@@ -136,9 +138,55 @@ void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
     rows = size.height() / h - 1;
 }
 
+QString SShWidget::getTestCommand()
+{
+    if(testCommands_.isEmpty())
+        return QString();
+    QString command = testCommands_.front();
+    testCommands_.pop_front();
+    return command;
+}
+
+void SShWidget::execTestCommand(QString const& command)
+{
+    QString testCommand = command.right(command.size() - 1);
+    if(!testCommand.startsWith("start"))
+        testCommands_.push_back(testCommand);
+    else
+    {
+        QStringList cmds = testCommand.split(' ');
+        if(cmds.size() > 1)
+            testParam_ = cmds[1].toUtf8();
+        isTest_ = true;
+        QString cmd = getTestCommand();
+        if(!cmd.startsWith("#"))
+            execCommand(cmd);
+        else
+        {
+            execExpandCommand(cmd);
+            execCommand(QString());
+        }
+    }
+}
+
 void SShWidget::disconnect()
 {
     shell->stop();
+}
+
+bool SShWidget::isDisplay() const
+{
+    return dataTimer->isActive();
+}
+
+void SShWidget::display()
+{
+    dataTimer->start(1);
+}
+
+void SShWidget::undisplay()
+{
+    dataTimer->stop();
 }
 
 void SShWidget::save()
@@ -280,6 +328,28 @@ void SShWidget::connectionError(QString const& error)
 
 void SShWidget::onData(QByteArray const& data)
 {
+    if(isTest_)
+    {
+        testData_.push_back(data);
+        if(testData_.contains(testParam_))
+        {
+            QString command = getTestCommand();
+            if(command.startsWith("#"))
+            {
+                execExpandCommand(command);
+                execCommand(QString());
+            }
+            else
+            {
+                if(command == "end")
+                    isTest_ = false;
+                else
+                    execCommand(command);
+
+            }
+            testData_.clear();
+        }
+    }
     if(beforeLogfile_)
         beforeLogfile_->write(data);
     if(isMainScreen)

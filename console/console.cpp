@@ -239,7 +239,6 @@ void Console::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter:
         onEnd();
         emit getData(e->text().toLocal8Bit());
-        commandParser->setEnterKeyPress(true);
         break;
     default:
         if (localEchoEnabled)

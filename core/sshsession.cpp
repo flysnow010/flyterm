@@ -117,18 +117,43 @@ void SshSession::disconnect(QWidget *widget)
     if(theWidget)
         theWidget->disconnect();
 }
+
+bool SshSession::isDisplay(QWidget *widget) const
+{
+    SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
+    if(theWidget)
+        return theWidget->isDisplay();
+    return true;
+}
+
+void SshSession::display(QWidget *widget)
+{
+    SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
+    if(theWidget)
+        theWidget->display();
+}
+
+void SshSession::undisplay(QWidget *widget)
+{
+    SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
+    if(theWidget)
+        theWidget->undisplay();
+}
+
 void SshSession::save(QWidget *widget)
 {
     SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
     if(theWidget)
         theWidget->save();
 }
+
 void SshSession::print(QWidget *widget)
 {
     SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
     if(theWidget)
         theWidget->print();
 }
+
 void SshSession::copy(QWidget *widget)
 {
     SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);

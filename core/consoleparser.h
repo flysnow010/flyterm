@@ -37,8 +37,6 @@ public:
     bool isLeftKeyPress() const { return leftKeyPressCount > 0; }
     void setRightKeyPress(bool enable) { isRightKeyPress_ = enable; }
     bool isRightKeyPress() const { return isRightKeyPress_; }
-    void setEnterKeyPress(bool enable) { isEnterKeyPress_ = enable; }
-    bool isEnterKeyPress() const { return isEnterKeyPress_; }
     void setHomePress(bool enable) { isHomeKeyPress_ = enable; }
     bool isHomeKeyPress() const { return isHomeKeyPress_; }
 
