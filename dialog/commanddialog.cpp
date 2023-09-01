@@ -4,6 +4,8 @@
 #include "util/util.h"
 #include <QDebug>
 
+bool CommandDialog::isShowMore = false;
+
 CommandDialog::CommandDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CommandDialog)
@@ -14,6 +16,7 @@ CommandDialog::CommandDialog(QWidget *parent)
     highlighter->setDocument(ui->editScript->document());
     highlighter->rehighlight();
     createConnect();
+    showMore(isShowMore);
     highlightCurrentLine();
 }
 
@@ -60,6 +63,27 @@ void CommandDialog::highlightCurrentLine()
     extraSelections.append(selection);
     ui->editScript->setExtraSelections(extraSelections);
     updateCommand();
+}
+
+void CommandDialog::showMore()
+{
+    isShowMore = !isShowMore;
+    showMore(isShowMore);
+}
+
+void CommandDialog::showMore(bool isShow)
+{
+    if(isShow)
+        ui->btnMore->setText(tr("Less"));
+    else
+        ui->btnMore->setText(tr("More"));
+
+    ui->widSendByKermit->setVisible(isShow);
+    ui->widSendByXModem->setVisible(isShow);
+    ui->widSendByYModem->setVisible(isShow);
+    ui->widSleep->setVisible(isShow);
+    ui->widSave->setVisible(isShow);
+    ui->widRun->setVisible(isShow);
 }
 
 void CommandDialog::updateCommands()
@@ -190,9 +214,11 @@ void CommandDialog::createConnect()
         if(!prompt.isEmpty())
         {
             updateCommands();
-            updateCommand(QString("!end"));
             updateCommand(QString("!start %1").arg(prompt));
         }
+    });
+    connect(ui->btnMore, &QPushButton::clicked, this, [=](){
+        showMore();
     });
     connect(ui->editScript, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
 }
