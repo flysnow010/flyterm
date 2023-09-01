@@ -164,6 +164,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     QMenu contextMenu;
     contextMenu.addAction(tr("New Button"), this, SLOT(newButton()));
     QAction* editAction = contextMenu.addAction(tr("Edit Button"));
+    QAction* cloneAction = contextMenu.addAction(tr("Clone Button"));
     QAction* leftAction = contextMenu.addAction(tr("Move Button Left"));
     QAction* rightAction = contextMenu.addAction(tr("Move Button Right"));
     QAction* deleteAction = contextMenu.addAction(tr("Delete Button"));
@@ -217,6 +218,20 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
             }
         }
         );
+        connect(cloneAction, &QAction::triggered, [=](bool)
+        {
+            CommandDialog dialog;
+            dialog.setName(action->text() + QString(" "));
+            dialog.setScript(action->toolTip());
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                Command::Ptr command(new Command);
+                command->name = dialog.name();
+                command->script = dialog.script();
+                addCommand(command);
+                commandManger->addCommand(command);
+            }
+        });
 
         connect(leftAction, &QAction::triggered, [=](bool)
         {
@@ -257,6 +272,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     else
     {
         editAction->setEnabled(false);
+        cloneAction->setEnabled(false);
         leftAction->setEnabled(false);
         rightAction->setEnabled(false);
         deleteAction->setEnabled(false);
