@@ -193,7 +193,7 @@ void TelnetWidget::clearScrollback()
 bool TelnetWidget::runShell(TelnetSettings const& settings)
 {
     telnet->login(settings.userName, QString());
-    telnet->setLoginString("ultichip login:\\s*$");
+    //telnet->setLoginString("ultichip login:\\s*$");
     telnet->connectToHost(settings.hostName, settings.port);
     return true;
 }
@@ -222,6 +222,11 @@ QString TelnetWidget::getTestCommand()
     QString command = testCommands_.front();
     testCommands_.pop_front();
     return command;
+}
+
+bool TelnetWidget::testCommandIsEmpty() const
+{
+    return testCommands_.isEmpty();
 }
 
 void TelnetWidget::execCommand(QString const& command)
@@ -287,20 +292,16 @@ void TelnetWidget::pullData()
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(command.startsWith("#"))
+            if(!command.startsWith("#"))
+                execCommand(command);
+            else
             {
                 execExpandCommand(command);
                 execCommand(QString());
             }
-            else
-            {
-                if(command == "end")
-                    isTest_ = false;
-                else
-                    execCommand(command);
-
-            }
             testData_.clear();
+            if(testCommandIsEmpty())
+                isTest_ = false;
         }
     }
 

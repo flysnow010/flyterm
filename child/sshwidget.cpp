@@ -147,6 +147,11 @@ QString SShWidget::getTestCommand()
     return command;
 }
 
+bool SShWidget::testCommandIsEmpty() const
+{
+    return testCommands_.isEmpty();
+}
+
 void SShWidget::execTestCommand(QString const& command)
 {
     QString testCommand = command.right(command.size() - 1);
@@ -334,20 +339,16 @@ void SShWidget::onData(QByteArray const& data)
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(command.startsWith("#"))
+            if(!command.startsWith("#"))
+                execCommand(command);
+            else
             {
                 execExpandCommand(command);
                 execCommand(QString());
             }
-            else
-            {
-                if(command == "end")
-                    isTest_ = false;
-                else
-                    execCommand(command);
-
-            }
             testData_.clear();
+            if(testCommandIsEmpty())
+                isTest_ = false;
         }
     }
     if(beforeLogfile_)

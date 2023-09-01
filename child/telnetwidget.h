@@ -75,6 +75,7 @@ private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
     QString getTestCommand();
+    bool testCommandIsEmpty() const;
 private:
     Console* console;
     CommandThread* commandThread_;

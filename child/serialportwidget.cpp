@@ -270,20 +270,16 @@ void SerialPortWidget::pullData()
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(command.startsWith("#"))
+            if(!command.startsWith("#"))
+                execCommand(command);
+            else
             {
                 execExpandCommand(command);
                 execCommand(QString());
             }
-            else
-            {
-                if(command == "end")
-                    isTest_ = false;
-                else
-                    execCommand(command);
-
-            }
             testData_.clear();
+            if(testCommandIsEmpty())
+                isTest_ = false;
         }
     }
     if(beforeLogfile_)
@@ -635,4 +631,9 @@ QString SerialPortWidget::getTestCommand()
     QString command = testCommands_.front();
     testCommands_.pop_front();
     return command;
+}
+
+bool SerialPortWidget::testCommandIsEmpty() const
+{
+    return testCommands_.isEmpty();
 }

@@ -82,6 +82,7 @@ private:
     void sendCommands(QStringList const& commands);
     void getShellSize(QSize const& size, int &cols, int &rows);
     QString getTestCommand();
+    bool testCommandIsEmpty() const;
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;

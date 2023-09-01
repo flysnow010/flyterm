@@ -82,6 +82,7 @@ private:
     void recvFileByXYModem(QString const& fileName, bool isYModem);
 
     QString getTestCommand();
+    bool testCommandIsEmpty() const;
 private:
     Console* console;
     CommandThread* commandThread_;
