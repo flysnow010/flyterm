@@ -41,7 +41,8 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
 {
     SShWidget* widget = new SShWidget(isLog);
     QMdiSubWindow* subWindow = midArea->addSubWindow(widget);
-    subWindow->setWindowTitle(QString("%1.%2").arg(index++).arg(name()));
+    QString titleName = QString("%1.%2").arg(index++).arg(name());
+    subWindow->setWindowTitle(titleName);
     subWindow->setWindowIcon(icon());
     subWindow->setStyle(QStyleFactory::create("Fusion"));
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
@@ -49,6 +50,13 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     connect(widget, &SShWidget::onClose, this, &Session::onClose);
     connect(widget, &SShWidget::onSizeChanged, this, &Session::onSizeChanged);
     connect(widget, &SShWidget::onCommand, this, &Session::onCommand);
+    connect(widget, &SShWidget::onTitle, this, [=](QString const& title){
+        int index = title.indexOf(":");
+        if(index >= 0)
+            subWindow->setWindowTitle(QString("%1%2").arg(titleName, title.mid(index)));
+        else
+            subWindow->setWindowTitle(QString("%1: %2").arg(titleName, title));
+    });
     connect(widget, &SShWidget::fontSizeChanged, this, &Session::fontSizeChanged);
     connect(widget, &SShWidget::highLighterChanged, this, &Session::highLighterChanged);
     connect(widget, &SShWidget::getHighlighter, this, &SshSession::setHighLighter);

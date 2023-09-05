@@ -35,7 +35,7 @@ void Console::connectCommands()
     connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     connect(commandParser, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
-    connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    connect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
@@ -51,7 +51,7 @@ void Console::disconnectCommands()
     disconnect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     disconnect(commandParser, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
-    disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    disconnect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
     disconnect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     disconnect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
     disconnect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
@@ -410,7 +410,7 @@ void Console::onBackColor(ColorRole role)
     setBackColor(role);
 }
 
-void Console::onColorClose()
+void Console::onCloseCharAttriutes()
 {
     setCloseColor();
 }

@@ -67,7 +67,7 @@ private slots:
     void onText(QString const& text);
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);//???
-    void onColorClose();
+    void onCloseCharAttriutes();
 private:
     void onEnd();
     void removeCurrentRow();

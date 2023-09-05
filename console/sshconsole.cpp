@@ -51,7 +51,7 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onBackColor(ColorRole)),
             this, SLOT(onBackColor(ColorRole)));
     connect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
-    connect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    connect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
     connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SLOT(onRestoreState()));
     connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     connect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
@@ -63,6 +63,7 @@ void SshConsole::connectCommand()
     connect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     connect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     connect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
+    connect(commandParser, SIGNAL(onTitle(QString)), this, SIGNAL(onTitle(QString)));
     connect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
     connect(commandParser, SIGNAL(onBold(bool)), this, SLOT(onBold(bool)));
     connect(commandParser, SIGNAL(onUnderLine(bool)), this, SLOT(onUnderLine(bool)));
@@ -83,7 +84,7 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onBackColor(ColorRole)),
             this, SLOT(onBackColor(ColorRole)));
     disconnect(commandParser, SIGNAL(onCleanScreen()), this, SLOT(onCleanScreen()));
-    disconnect(commandParser, SIGNAL(onColorClose()), this, SLOT(onColorClose()));
+    disconnect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
     disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SLOT(onRestoreState()));
     disconnect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     disconnect(commandParser, SIGNAL(onHome()), this, SLOT(onHome()));
@@ -95,6 +96,7 @@ void SshConsole::disconnectCommand()
     disconnect(commandParser, SIGNAL(onSwitchToMainScreen()), this, SIGNAL(onSwitchToMainScreen()));
     disconnect(commandParser, SIGNAL(onSaveCursorPos()), this, SIGNAL(onSaveCursorPos()));
     disconnect(commandParser, SIGNAL(onRestoreCursorPos()), this, SIGNAL(onRestoreCursorPos()));
+    disconnect(commandParser, SIGNAL(onTitle(QString)), this, SIGNAL(onTitle(QString)));
     disconnect(commandParser, SIGNAL(onReverse()), this, SLOT(onReverse()));
     disconnect(commandParser, SIGNAL(onBold(bool)), this, SLOT(onBold(bool)));
     disconnect(commandParser, SIGNAL(onUnderLine(bool)), this, SLOT(onUnderLine(bool)));
@@ -506,7 +508,7 @@ void SshConsole::onCleanScreen()
     clearScreen();
 }
 
-void SshConsole::onColorClose()
+void SshConsole::onCloseCharAttriutes()
 {
     setCloseColor();
 }

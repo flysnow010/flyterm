@@ -44,6 +44,7 @@ public:
 signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
+    void onTitle(QString const& title);
     void onSwitchToAlternateScreen();
     void onSwitchToAlternateFinished();
     void onSwitchToAppKeypadMode();
@@ -80,7 +81,7 @@ protected slots:
     void onBold(bool enable);
     void onUnderLine(bool enable);
     void onCleanScreen();
-    void onColorClose();
+    void onCloseCharAttriutes();
     void onRestoreState();
     void switchToAlternateScreen();
 

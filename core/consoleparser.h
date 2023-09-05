@@ -78,7 +78,7 @@ signals:
     void onASCIIMode();
     void onSecondaryDA();
     void onDECLineDrawingMode();
-    void onColorClose();//onCloseCharAttriutes
+    void onCloseCharAttriutes();
 
     void onSwitchToAlternateScreen();
     void onSwitchToMainScreen();

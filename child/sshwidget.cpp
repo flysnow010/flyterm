@@ -54,6 +54,7 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(console, SIGNAL(onSwitchToAlternateScreen()), this, SLOT(switchToAlternateScreen()));
     connect(console, SIGNAL(onSwitchToAlternateFinished()), alternateConsole, SLOT(updateRows()));
     connect(console, SIGNAL(onSwitchToAppKeypadMode()), this, SLOT(switchToAppKeypadMode()));
+    connect(console, SIGNAL(onTitle(QString)), this, SIGNAL(onTitle(QString)));
     connect(console, &QWidget::customContextMenuRequested, this, &SShWidget::customContextMenu);
 
     connect(alternateConsole, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));

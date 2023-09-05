@@ -155,7 +155,7 @@ QString ConsoleParser::toText(const char *str, int size)
 void ConsoleParser::parseOneSGR(QString const& sgr)
 {
     if(sgr == "" || sgr == "0" || sgr == "00")
-        emit onColorClose();
+        emit onCloseCharAttriutes();
     else if(sgr == "1")
         emit onBold(true);
     else if(sgr == "4")
