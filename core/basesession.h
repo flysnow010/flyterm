@@ -38,6 +38,9 @@ public:
     QString paletteName() const { return paletteName_; }
     void setPaletteName(QString const& name);
 
+    QString subTitle() const { return subTitle_; }
+    void setSubTitle(QString const& title) { subTitle_ = title; }
+
     virtual QString type() const = 0;
     virtual QIcon icon() = 0;
     virtual void edit() = 0;
@@ -76,6 +79,7 @@ signals:
     void onClose(QWidget *widget);
     void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
+    void onSubTitle(QString const& title);
     void fontSizeChanged(int fonstSize);
     void highLighterChanged(QString const& highLight);
     void windowStateChanged(Qt::WindowStates oldState, Qt::WindowStates newState);
@@ -88,6 +92,7 @@ private:
     QString fontName_;
     int  colorIndex_;
     QString paletteName_;
+    QString subTitle_;
     int fontSize_;
 };
 

@@ -248,9 +248,6 @@ void MainWindow::createConnets()
 
     connect(tftpServer_, &TFtpServer::statusText,
             this, &MainWindow::showStatusText);
-
-    connect(this, &QWidget::windowTitleChanged,
-            this, &MainWindow::windowTitleChanged);
 }
 
 void MainWindow::tileChildWindow()
@@ -532,6 +529,7 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
             udpateHighLighterMenuStatus(session->hightLighter());
             session->activeWidget(subWindow->widget());
             setDiaplay(session->isDisplay(subWindow->widget()));
+            setSubTitle(session->subTitle());
         }
     }
 }
@@ -546,11 +544,14 @@ void MainWindow::createShell(Session::Ptr & session)
     disconnect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     disconnect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
+    disconnect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
     disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
+
 
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     connect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
+    connect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
     connect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
 
     if(session->createShell(mdiArea, isLog))
@@ -842,14 +843,13 @@ void MainWindow::subWindowStateChanged(Qt::WindowStates oldState, Qt::WindowStat
     }
 }
 
-void MainWindow::windowTitleChanged(const QString &title)
+void MainWindow::setSubTitle(QString const& title)
 {
-    Q_UNUSED(title)
-    QMdiSubWindow* subWindow = activeSubWindow();
-    if(!subWindow)
-        return;
-    setWindowTitle(QString("%1 - %2").arg(subWindow->windowTitle(),
-        QApplication::applicationName()));
+    if(title.isEmpty())
+        setWindowTitle(QApplication::applicationName());
+    else
+        setWindowTitle(QString("%1 - %2")
+                   .arg(QApplication::applicationName(), title));
 }
 
 void MainWindow::showStatusText(QString const& text)
@@ -886,7 +886,10 @@ void MainWindow::loadStyleSheet()
     setStyleSheet(
                   "QMdiSubWindow { border: 2px; }"
                   "QTabBar::tab{"
-                  "padding: 4px;"
+                  "padding-left: 6px;"
+                  "padding-top: 4px;"
+                  "padding-right: 4px;"
+                  "padding-bottom: 3px;"
                   "background: #F3F3F3;"
                   "border: 1px solid #E5E5E5;"
                   "border-top-left-radius: 8px;"
@@ -894,7 +897,7 @@ void MainWindow::loadStyleSheet()
                   "QTabBar::tab:hover{"
                   "background: #EDEDED;}"
                   "QTabBar::tab:selected{"
-                  "margin-left: -4px;"
+                  "margin-left: -6px;"
                   "margin-right: -4px;"
                   "background: #FAFAFA;}"
                   "QTabBar::tab:first:selected {"
