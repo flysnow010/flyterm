@@ -248,6 +248,9 @@ void MainWindow::createConnets()
 
     connect(tftpServer_, &TFtpServer::statusText,
             this, &MainWindow::showStatusText);
+
+    connect(this, &QWidget::windowTitleChanged,
+            this, &MainWindow::windowTitleChanged);
 }
 
 void MainWindow::tileChildWindow()
@@ -841,6 +844,21 @@ void MainWindow::subWindowStateChanged(Qt::WindowStates oldState, Qt::WindowStat
         windowMode = Max;
         ui->actionMaximize->setChecked(true);
     }
+}
+
+void MainWindow::windowTitleChanged(const QString &title)
+{
+    Q_UNUSED(title)
+    QString newTitle;
+    QMdiSubWindow* subWindow = activeSubWindow();
+
+    if(subWindow)
+    {
+        Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+        if(session)
+            newTitle = session->subTitle();
+    }
+    setSubTitle(newTitle);
 }
 
 void MainWindow::setSubTitle(QString const& title)

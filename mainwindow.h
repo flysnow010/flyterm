@@ -70,6 +70,7 @@ private slots:
     void setHighLighter();
     void subWindowStateChanged(Qt::WindowStates oldState,
                                Qt::WindowStates newState);
+    void windowTitleChanged(const QString &title);
     void setSubTitle(QString const& title);
 
     void showStatusText(QString const& text);
