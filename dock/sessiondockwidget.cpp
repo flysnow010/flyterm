@@ -78,6 +78,7 @@ void SessionDockWidget::onClose(QWidget *widget)
     if(session){
         session->closeSheel(widget);
         updateTreeView();
+        emit onSessionClose();
     }
 }
 

@@ -29,6 +29,7 @@ signals:
     void onCreateShell(Session::Ptr & session);
     void onCreateSession();
     void onSessionSizeChanged(QWidget* widget);
+    void onSessionClose();
 public slots:
     void saveSessions();
 
