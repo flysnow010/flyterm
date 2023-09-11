@@ -29,11 +29,14 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QStyleFactory>
+#include <QTimer>
 
 QTranslator MainWindow::appTranslator;
 QTranslator MainWindow::sysTranslator;
 QString MainWindow::language;
 QString MainWindow::showStyle;
+
+int const SHOW_WINDOW_TIME_OUT = 100;
 
 void MainWindow::InstallTranstoirs(bool isInited)
 {
@@ -104,6 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     sessionDockWidget->loadSessions();
     buttonsDockWidget->loadCommands();
     loadStyleSheet();
+    QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, SLOT(loadWindowState()));
 }
 
 MainWindow::~MainWindow()
@@ -206,6 +210,10 @@ void MainWindow::createConnets()
             mdiArea, &QMdiArea::closeActiveSubWindow);
     connect(ui->actionCloseAll, &QAction::triggered,
             mdiArea, &QMdiArea::closeAllSubWindows);
+    connect(ui->actionHorizontalTile, &QAction::triggered,
+            this, &MainWindow::horizontalTileChileWindow);
+    connect(ui->actionVerticalTile, &QAction::triggered,
+            this, &MainWindow::verticalTileChileWindow);
     connect(ui->actionTitle, &QAction::triggered,
             this, &MainWindow::tileChildWindow);
     connect(ui->actionCascade, &QAction::triggered,
@@ -242,6 +250,12 @@ void MainWindow::createConnets()
             [this]{
         addSession(false);
     });
+    connect(sessionDockWidget, &SessionDockWidget::onSessionClose,
+            [this]{
+        QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, [this](){
+            updateWindowState();
+        });
+    });
 
     ui->actionNext->setShortcuts(QKeySequence::NextChild);
     ui->actionPrevious->setShortcuts(QKeySequence::PreviousChild);
@@ -257,6 +271,51 @@ void MainWindow::tileChildWindow()
 {
     mdiArea->tileSubWindows();
     windowMode = Tile;
+}
+
+void MainWindow::horizontalTileChileWindow()
+{
+    QList<QMdiSubWindow *> widgets = mdiArea->subWindowList();
+    if(widgets.isEmpty())
+        return;
+
+    QRect rect = mdiArea->viewport()->rect();
+    int w = rect.width() / widgets.size();
+
+    mdiArea->tileSubWindows();
+    for(int i = 0, x = 0; i < widgets.size(); i++, x += w)
+    {
+        QWidget *widget = widgets.at(i);
+        if(i == widgets.size() - 1)
+            w = rect.width() - (widgets.size() - 1) * w;
+        QRect newGeometry = QRect(QPoint(x, 0), QSize(w, rect.height()));
+        widget->setGeometry(QStyle::visualRect(widget->layoutDirection(),
+                                               rect, newGeometry));
+    }
+    windowMode = HorizontalTile;
+}
+
+void MainWindow::verticalTileChileWindow()
+{
+    QList<QMdiSubWindow *> widgets = mdiArea->subWindowList();
+    if(widgets.isEmpty())
+        return;
+
+    QRect rect = mdiArea->viewport()->rect();
+    int h = rect.height() / widgets.size();
+
+    mdiArea->tileSubWindows();
+    for(int i = 0, y = 0; i < widgets.size(); i++, y += h)
+    {
+        QWidget *widget = widgets.at(i);
+        if(i == widgets.size() - 1)
+            h = rect.height() - (widgets.size() - 1) * h;
+
+        QRect newGeometry = QRect(QPoint(0, y), QSize(rect.width(), h));
+        widget->setGeometry(QStyle::visualRect(widget->layoutDirection(),
+                                               rect, newGeometry));
+    }
+    windowMode = VerticalTile;
 }
 
 void MainWindow::cascadeChildWindow()
@@ -299,6 +358,8 @@ void MainWindow::createMenus()
     ui->menuView->addAction(sessionAction);
     ui->menuView->addAction(buttonsDockWidget->toggleViewAction());
     ui->menuView->addAction(commandAction);
+    windowGroup->addAction(ui->actionHorizontalTile);
+    windowGroup->addAction(ui->actionVerticalTile);
     windowGroup->addAction(ui->actionTitle);
     windowGroup->addAction(ui->actionCascade);
     windowGroup->addAction(ui->actionMaximize);
@@ -426,6 +487,16 @@ void MainWindow::updateWindowState()
         ui->actionTitle->setChecked(true);
         mdiArea->tileSubWindows();
     }
+    else if(windowMode == HorizontalTile)
+    {
+        ui->actionHorizontalTile->setChecked(true);
+        horizontalTileChileWindow();
+    }
+    else if(windowMode == VerticalTile)
+    {
+        ui->actionVerticalTile->setChecked(true);
+        verticalTileChileWindow();
+    }
     else if(windowMode == Cascade)
     {
         ui->actionCascade->setChecked(true);
@@ -472,12 +543,18 @@ void MainWindow::readSettings()
     bool isVisible = settings.value("statusBarIsVisable", true).toBool();
     ui->statusBar->setVisible(isVisible);
 
-    windowMode = static_cast<WindowMode>(settings.value("windowMode", windowMode).toUInt());
-    updateWindowState();
     connectType = static_cast<ConnectType>(settings.value("connectType", connectType).toUInt());
     tftpRootPath = settings.value("tftpRootPath", tftpRootPath).toString();
     isLog = settings.value("isLog", false).toBool();
     ui->actionLog->setChecked(isLog);
+}
+
+void MainWindow::loadWindowState()
+{
+    QSettings settings(QCoreApplication::applicationName(),
+                       QCoreApplication::applicationVersion());
+    windowMode = static_cast<WindowMode>(settings.value("windowMode", windowMode).toUInt());
+    updateWindowState();
 }
 
 void MainWindow::writeSettings()
@@ -562,7 +639,9 @@ void MainWindow::createShell(Session::Ptr & session)
         if(mdiArea->subWindowList().size() < 2)
             updateStatus(activeSubWindow());
         session->runShell();
-        updateWindowState();
+        QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, [this](){
+            updateWindowState();
+        });
     }
 }
 
@@ -902,7 +981,6 @@ void MainWindow::tftpServerStop()
 void MainWindow::loadStyleSheet()
 {
     setStyleSheet(
-                  "QMdiSubWindow { border: 2px; }"
                   "QTabBar::tab{"
                   "padding-left: 6px;"
                   "padding-top: 4px;"

@@ -101,6 +101,8 @@
     <addaction name="separator"/>
     <addaction name="actionTab"/>
     <addaction name="separator"/>
+    <addaction name="actionHorizontalTile"/>
+    <addaction name="actionVerticalTile"/>
     <addaction name="actionTitle"/>
     <addaction name="actionCascade"/>
     <addaction name="actionMaximize"/>
@@ -548,6 +550,22 @@
    </property>
    <property name="text">
     <string>Undisplay</string>
+   </property>
+  </action>
+  <action name="actionHorizontalTile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Horizontal Tile</string>
+   </property>
+  </action>
+  <action name="actionVerticalTile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Vertical Tile</string>
    </property>
   </action>
  </widget>

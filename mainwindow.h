@@ -29,7 +29,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    enum WindowMode { Max, Tile, Cascade };
+    enum WindowMode { Max, Tile, Cascade, HorizontalTile, VerticalTile };
 
     static void LoadSettings();
     static void InstallTranstoirs(bool isInited = false);
@@ -44,6 +44,8 @@ private slots:
     void createShell(Session::Ptr & session);
 
     void tileChildWindow();
+    void horizontalTileChileWindow();
+    void verticalTileChileWindow();
     void cascadeChildWindow();
     void maximizeChildWidnow();
     void cancelconnect();
@@ -76,6 +78,7 @@ private slots:
     void showStatusText(QString const& text);
     void tftpServerStart();
     void tftpServerStop();
+    void loadWindowState();
 private:
     void sendFile(QString const& protocol);
     void recvFile(QString const& protocol);
