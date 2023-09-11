@@ -281,7 +281,6 @@ void MainWindow::horizontalTileChileWindow()
 
     QRect rect = mdiArea->viewport()->rect();
     int w = rect.width() / widgets.size();
-
     mdiArea->tileSubWindows();
     for(int i = 0, x = 0; i < widgets.size(); i++, x += w)
     {
@@ -303,7 +302,6 @@ void MainWindow::verticalTileChileWindow()
 
     QRect rect = mdiArea->viewport()->rect();
     int h = rect.height() / widgets.size();
-
     mdiArea->tileSubWindows();
     for(int i = 0, y = 0; i < widgets.size(); i++, y += h)
     {
@@ -639,9 +637,7 @@ void MainWindow::createShell(Session::Ptr & session)
         if(mdiArea->subWindowList().size() < 2)
             updateStatus(activeSubWindow());
         session->runShell();
-        QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, [this](){
-            updateWindowState();
-        });
+        updateWindowState();
     }
 }
 
@@ -980,8 +976,7 @@ void MainWindow::tftpServerStop()
 
 void MainWindow::loadStyleSheet()
 {
-    setStyleSheet(
-                  "QTabBar::tab{"
+    setStyleSheet("QTabBar::tab{"
                   "padding-left: 6px;"
                   "padding-top: 4px;"
                   "padding-right: 4px;"
@@ -993,6 +988,7 @@ void MainWindow::loadStyleSheet()
                   "QTabBar::tab:hover{"
                   "background: #EDEDED;}"
                   "QTabBar::tab:selected{"
+                  "border-top: 1px solid #1BC6F4;"//#1BC6F4 90C8F6 3F48BF
                   "margin-left: -6px;"
                   "margin-right: -4px;"
                   "background: #FAFAFA;}"
