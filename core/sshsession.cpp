@@ -70,7 +70,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     if(palette)
         widget->setConsolePalette(palette);
     widget->updateHightLighter(hightLighter());
-    widget->showMaximized();
+    widget->showNormal();
 
     widgets_ << widget;
     return true;

@@ -69,7 +69,7 @@ bool SerialSession::createShell(QMdiArea *midArea, bool isLog)
     if(palette)
         widget_->setConsolePalette(palette);
     widget_->updateHightLighter(hightLighter());
-    widget_->showMaximized();
+    widget_->showNormal();
     return true;
 }
 
