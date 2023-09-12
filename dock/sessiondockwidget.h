@@ -25,6 +25,7 @@ public:
     Session::Ptr findSession(QWidget *widget) { return sessionManager->findSession(widget); }
     void loadSessions();
     void retranslateUi();
+
 signals:
     void onCreateShell(Session::Ptr & session);
     void onCreateSession();
@@ -32,10 +33,11 @@ signals:
     void onSessionClose();
 public slots:
     void saveSessions();
+    void createShell(QWidget *widget);
 
 private slots:
     void onClose(QWidget *widget);
-    void createSheel(const QModelIndex &index);
+    void createOneShell(const QModelIndex &index);
     void customContextMenu(QPoint const& p);
     void delSession();
     void renameSession();
@@ -43,6 +45,7 @@ private slots:
     void downSession();
     void editSession();
 private:
+   void createShellBySession(Session::Ptr & session);
    void createLayout();
    void createToolBar();
    void createTreeView();

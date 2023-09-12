@@ -82,7 +82,7 @@ void SessionDockWidget::onClose(QWidget *widget)
     }
 }
 
-void SessionDockWidget::createSheel(const QModelIndex &index)
+void SessionDockWidget::createOneShell(const QModelIndex &index)
 {
     if(index.parent().isValid())
     {
@@ -90,10 +90,21 @@ void SessionDockWidget::createSheel(const QModelIndex &index)
         if(row >= 0 && row < sessionManager->size())
         {
             Session::Ptr session = sessionManager->session(row);
-            emit onCreateShell(session);
-            updateTreeView();
+            createShellBySession(session);
         }
     }
+}
+
+void SessionDockWidget::createShell(QWidget *widget)
+{
+    Session::Ptr session = findSession(widget);
+    createShellBySession(session);
+}
+
+void SessionDockWidget::createShellBySession(Session::Ptr & session)
+{
+    emit onCreateShell(session);
+    updateTreeView();
 }
 
 void SessionDockWidget::delSession()
@@ -194,6 +205,7 @@ void SessionDockWidget::createTreeView()
     treeView->setRootIsDecorated(false);
     treeView->setAlternatingRowColors(true);
     treeView->setAllColumnsShowFocus(true);
+    treeView->setIconSize(QSize(18, 18));
 
     ui->dockWidgetContents->layout()->addWidget(treeView);
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -223,7 +235,7 @@ void SessionDockWidget::customContextMenu(QPoint const& p)
 
 void SessionDockWidget::createConnects()
 {
-    connect(treeView, &QTreeView::doubleClicked, this, &SessionDockWidget::createSheel);
+    connect(treeView, &QTreeView::doubleClicked, this, &SessionDockWidget::createOneShell);
     connect(addAction, SIGNAL(triggered(bool)), this, SIGNAL(onCreateSession()));
     connect(delAction, SIGNAL(triggered(bool)), this, SLOT(delSession()));
     connect(renameAction, SIGNAL(triggered(bool)), this, SLOT(renameSession()));
