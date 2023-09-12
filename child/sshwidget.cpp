@@ -287,6 +287,16 @@ void SShWidget::clearScrollback()
     writeData("clear\n");
 }
 
+void SShWidget::uploadFile()
+{
+
+}
+
+void SShWidget::downloadFile()
+{
+
+}
+
 QSize SShWidget::sizeHint() const
 {
     return QSize(400, 300);
@@ -403,6 +413,9 @@ void SShWidget::customContextMenu(const QPoint &)
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Increase Font Size"), this, SLOT(increaseFontSize()));
     contextMenu.addAction(tr("Decrease Font Size"), this, SLOT(decreaseFontSize()));
+    contextMenu.addSeparator();
+    contextMenu.addAction(tr("Upload..."), this, SLOT(uploadFile()));
+    contextMenu.addAction(tr("Download..."), this, SLOT(downloadFile()));
     contextMenu.addSeparator();
     createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();

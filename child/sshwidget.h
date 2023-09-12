@@ -47,6 +47,8 @@ public slots:
     void increaseFontSize();
     void decreaseFontSize();
     void clearScrollback();
+    void uploadFile();
+    void downloadFile();
 signals:
     void onClose(QWidget *widget);
     void onSizeChanged(QWidget *widget);
