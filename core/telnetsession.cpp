@@ -3,6 +3,7 @@
 #include "dialog/connectdialog.h"
 
 #include <QMdiArea>
+#include <QMenu>
 #include <QMdiSubWindow>
 #include <QApplication>
 #include <QStyleFactory>
@@ -44,6 +45,7 @@ bool TelnetSession::createShell(QMdiArea *midArea, bool isLog)
 
     subWindow->setWindowTitle(QString("%1.%2").arg(index++).arg(name()));
     subWindow->setWindowIcon(icon());
+    subWindow->setSystemMenu(createSystemMenu(subWindow, widget));
     connect(widget, &TelnetWidget::onClose, this, &Session::onClose);
     connect(widget, &TelnetWidget::onCommand, this, &Session::onCommand);
     connect(widget, &TelnetWidget::fontSizeChanged, this, &Session::fontSizeChanged);
@@ -90,6 +92,18 @@ void TelnetSession::updateTitle(QString const& name)
                                      .arg(title.left(count), name));
        }
     }
+}
+
+QMenu* TelnetSession::createSystemMenu(QMdiSubWindow *parent, QWidget *widget)
+{
+    QMenu* menu = Session::createSystemMenu(parent, widget);
+    QList<QAction*> actions = menu->actions();
+    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Clone tab"), menu);
+    menu->insertAction(actions.first(), action);
+    connect(action, &QAction::triggered, this, [=]{
+        emit onCreateShell(widget);
+    });
+    return menu;
 }
 
 bool TelnetSession::runShell()

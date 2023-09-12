@@ -5,6 +5,9 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QMdiSubWindow>
+#include <QMdiArea>
+#include <QMenu>
 
 Session::Session(QString const& name)
     : name_(name)
@@ -73,6 +76,46 @@ void Session::recvFile(QWidget *widget, QString const& protocol)
 {
     Q_UNUSED(widget)
     Q_UNUSED(protocol)
+}
+
+QMenu* Session::createSystemMenu(QMdiSubWindow *parent, QWidget *widget)
+{
+    QMenu* menu = new QMenu(parent);
+    menu->addAction(QIcon(":image/File/save.png"), tr("Save Text"), this, [=]{
+        save(widget);
+    });
+    menu->addAction(tr("Floating"), this, [=]{
+        parent->mdiArea()->removeSubWindow(parent);
+        parent->setWindowIcon(QIcon(":image/app.png"));
+        parent->showMaximized();
+    });
+    menu->addSeparator();
+    menu->addAction(tr("Close left tab"), this, [=]{
+        QList<QMdiSubWindow *> widgets = parent->mdiArea()->subWindowList();
+        int index = widgets.indexOf(parent);
+        for(int i = 0; i < index; i++)
+            widgets[i]->close();
+    });
+    menu->addAction(tr("Close right tab"), this, [=]{
+        QList<QMdiSubWindow *> widgets = parent->mdiArea()->subWindowList();
+        int index = widgets.indexOf(parent);
+        if(index < 0)
+            return;
+        for(int i = index + 1; i < widgets.size(); i++)
+            widgets[i]->close();
+    });
+    menu->addAction(tr("Close other tab"), this, [=]{
+        QList<QMdiSubWindow *> widgets = parent->mdiArea()->subWindowList();
+        for(int i = 0; i < widgets.size(); i++)
+        {
+            if(widgets[i] != parent)
+                widgets[i]->close();
+        }
+    });
+    menu->addAction(QIcon(":image/Term/close.png"), tr("Close"), this, [=]{
+        parent->close();
+    });
+    return menu;
 }
 
 SessionManager::SessionManager()

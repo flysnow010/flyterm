@@ -48,8 +48,9 @@ public:
     SSHSettings settings() const { return settings_; }
 private slots:
     void setHighLighter();
-private:
+protected:
     void updateTitle(QString const& name) override;
+    QMenu* createSystemMenu(QMdiSubWindow *parent, QWidget *widget) override;
 private:
     SSHSettings settings_;
     QList<SShWidget*> widgets_;

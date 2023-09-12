@@ -2,6 +2,7 @@
 #include "util/util.h"
 #include "child/sshwidget.h"
 #include "dialog/connectdialog.h"
+#include <QMenu>
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QApplication>
@@ -47,6 +48,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setStyle(QStyleFactory::create("Fusion"));
     subWindow->setOption(QMdiSubWindow::RubberBandResize);
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
+    subWindow->setSystemMenu(createSystemMenu(subWindow, widget));
     connect(widget, &SShWidget::onClose, this, &Session::onClose);
     connect(widget, &SShWidget::onSizeChanged, this, &Session::onSizeChanged);
     connect(widget, &SShWidget::onCommand, this, &Session::onCommand);
@@ -95,6 +97,18 @@ void SshSession::updateTitle(QString const& name)
                                      .arg(title.left(count), name));
        }
     }
+}
+
+QMenu* SshSession::createSystemMenu(QMdiSubWindow *parent, QWidget *widget)
+{
+    QMenu* menu = Session::createSystemMenu(parent, widget);
+    QList<QAction*> actions = menu->actions();
+    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Clone tab"), menu);
+    menu->insertAction(actions.first(), action);
+    connect(action, &QAction::triggered, this, [=]{
+        emit onCreateShell(widget);
+    });
+    return menu;
 }
 
 bool SshSession::runShell()

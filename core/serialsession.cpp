@@ -47,6 +47,7 @@ bool SerialSession::createShell(QMdiArea *midArea, bool isLog)
     QMdiSubWindow* subWindow = midArea->addSubWindow(widget_);
     subWindow->setWindowTitle(name());
     subWindow->setWindowIcon(icon());
+    subWindow->setSystemMenu(createSystemMenu(subWindow, widget_));
 
     connect(widget_, &SerialPortWidget::onClose, this, &Session::onClose);
     connect(widget_, &SerialPortWidget::onCommand, this, &Session::onCommand);

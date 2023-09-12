@@ -49,7 +49,7 @@ public:
     SerialSettings settings() const { return settings_; }
 private slots:
     void setHighLighter();
-private:
+protected:
     void updateTitle(QString const& name) override;
 private:
     SerialSettings settings_;

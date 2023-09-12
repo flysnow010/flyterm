@@ -9,6 +9,8 @@
 
 class QMdiArea;
 class QWidget;
+class QMdiSubWindow;
+class QMenu;
 class Session : public QObject
 {
     Q_OBJECT
@@ -77,14 +79,16 @@ public:
     virtual QJsonObject object() const = 0;
 signals:
     void onClose(QWidget *widget);
+    void onCreateShell(QWidget *widget);
     void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
     void onSubTitle(QString const& title);
     void fontSizeChanged(int fonstSize);
     void highLighterChanged(QString const& highLight);
     void windowStateChanged(Qt::WindowStates oldState, Qt::WindowStates newState);
-private:
+protected:
     virtual void updateTitle(QString const& name) = 0;
+    virtual QMenu* createSystemMenu(QMdiSubWindow *parent, QWidget *widget);
 private:
     QString name_;
     QString hightLighter_;
