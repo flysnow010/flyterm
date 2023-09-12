@@ -540,7 +540,7 @@
      <normaloff>:/image/File/display.png</normaloff>:/image/File/display.png</iconset>
    </property>
    <property name="text">
-    <string>Display</string>
+    <string>Resume display</string>
    </property>
   </action>
   <action name="actionUndisplay">
@@ -549,7 +549,7 @@
      <normaloff>:/image/File/undisplay.png</normaloff>:/image/File/undisplay.png</iconset>
    </property>
    <property name="text">
-    <string>Undisplay</string>
+    <string>Pause display</string>
    </property>
   </action>
   <action name="actionHorizontalTile">
