@@ -860,13 +860,15 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="543"/>
-        <source>Display</source>
-        <translation type="unfinished">显示</translation>
+        <source>Resume display</source>
+        <oldsource>Display</oldsource>
+        <translation type="unfinished">恢复显示</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="552"/>
-        <source>Undisplay</source>
-        <translation type="unfinished">不显示</translation>
+        <source>Pause display</source>
+        <oldsource>Undisplay</oldsource>
+        <translation type="unfinished">暂停显示</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="560"/>
@@ -879,48 +881,48 @@
         <translation type="unfinished">垂青平铺</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="336"/>
-        <location filename="mainwindow.cpp" line="1003"/>
+        <location filename="mainwindow.cpp" line="344"/>
+        <location filename="mainwindow.cpp" line="1027"/>
         <source>Status Bar</source>
         <translation type="unfinished">状态条</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="404"/>
+        <location filename="mainwindow.cpp" line="412"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished">背景和前景</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="405"/>
+        <location filename="mainwindow.cpp" line="413"/>
         <source>Paletee of Console</source>
         <translation type="unfinished">终端调色板</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="408"/>
+        <location filename="mainwindow.cpp" line="416"/>
         <source>Codec of Console</source>
         <translation type="unfinished">终端编码</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="406"/>
+        <location filename="mainwindow.cpp" line="414"/>
         <source>Font name of Console</source>
         <translation type="unfinished">终端字体名称</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="407"/>
+        <location filename="mainwindow.cpp" line="415"/>
         <source>Font size of Console</source>
         <translation type="unfinished">终端字体大小</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="932"/>
+        <location filename="mainwindow.cpp" line="957"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished">选择TFTP路径</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="940"/>
+        <location filename="mainwindow.cpp" line="965"/>
         <source>Start server on %1 </source>
         <translation type="unfinished">开始服务于%1 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="941"/>
+        <location filename="mainwindow.cpp" line="966"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished">从%1停止服务 </translation>
     </message>
@@ -1009,45 +1011,55 @@
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="400"/>
+        <location filename="child/sshwidget.cpp" line="410"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="401"/>
+        <location filename="child/sshwidget.cpp" line="411"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="402"/>
+        <location filename="child/sshwidget.cpp" line="412"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="404"/>
+        <location filename="child/sshwidget.cpp" line="414"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="405"/>
+        <location filename="child/sshwidget.cpp" line="415"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="407"/>
+        <location filename="child/sshwidget.cpp" line="417"/>
+        <source>Upload...</source>
+        <translation type="unfinished">上传...</translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="418"/>
+        <source>Download...</source>
+        <translation type="unfinished">下载...</translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="420"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法加亮</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="409"/>
+        <location filename="child/sshwidget.cpp" line="422"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="410"/>
+        <location filename="child/sshwidget.cpp" line="423"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>
@@ -1224,6 +1236,39 @@
     </message>
 </context>
 <context>
+    <name>Session</name>
+    <message>
+        <location filename="core/basesession.cpp" line="87"/>
+        <source>Floating</source>
+        <translation type="unfinished">浮动</translation>
+    </message>
+    <message>
+        <location filename="core/basesession.cpp" line="84"/>
+        <source>Save Text</source>
+        <translation type="unfinished">保存文本</translation>
+    </message>
+    <message>
+        <location filename="core/basesession.cpp" line="92"/>
+        <source>Close left tab</source>
+        <translation type="unfinished">关闭左侧选项卡</translation>
+    </message>
+    <message>
+        <location filename="core/basesession.cpp" line="98"/>
+        <source>Close right tab</source>
+        <translation type="unfinished">关闭右侧选项卡</translation>
+    </message>
+    <message>
+        <location filename="core/basesession.cpp" line="106"/>
+        <source>Close other tab</source>
+        <translation type="unfinished">关闭其它选项卡</translation>
+    </message>
+    <message>
+        <location filename="core/basesession.cpp" line="114"/>
+        <source>Close</source>
+        <translation type="unfinished">关闭</translation>
+    </message>
+</context>
+<context>
     <name>SessionDockWidget</name>
     <message>
         <location filename="dock/sessiondockwidget.ui" line="14"/>
@@ -1232,37 +1277,37 @@
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="65"/>
-        <location filename="dock/sessiondockwidget.cpp" line="177"/>
+        <location filename="dock/sessiondockwidget.cpp" line="189"/>
         <source>New Session</source>
         <translation type="unfinished">新建会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="66"/>
-        <location filename="dock/sessiondockwidget.cpp" line="178"/>
+        <location filename="dock/sessiondockwidget.cpp" line="190"/>
         <source>Delete Session</source>
         <translation type="unfinished">删除会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="67"/>
-        <location filename="dock/sessiondockwidget.cpp" line="179"/>
+        <location filename="dock/sessiondockwidget.cpp" line="191"/>
         <source>Rename Session</source>
         <translation type="unfinished">重命名</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="68"/>
-        <location filename="dock/sessiondockwidget.cpp" line="180"/>
+        <location filename="dock/sessiondockwidget.cpp" line="192"/>
         <source>Up Session</source>
         <translation type="unfinished">上移会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="69"/>
-        <location filename="dock/sessiondockwidget.cpp" line="181"/>
+        <location filename="dock/sessiondockwidget.cpp" line="193"/>
         <source>Down Session</source>
         <translation type="unfinished">下移会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="70"/>
-        <location filename="dock/sessiondockwidget.cpp" line="182"/>
+        <location filename="dock/sessiondockwidget.cpp" line="194"/>
         <source>Edit Session</source>
         <translation type="unfinished">编辑会话</translation>
     </message>
@@ -1294,6 +1339,43 @@
     </message>
 </context>
 <context>
+    <name>SshSession</name>
+    <message>
+        <location filename="core/sshsession.cpp" line="106"/>
+        <source>Clone tab</source>
+        <oldsource>Clone Connect</oldsource>
+        <translation type="unfinished">复制选项卡</translation>
+    </message>
+    <message>
+        <source>Save Text</source>
+        <translation type="obsolete">保存文本</translation>
+    </message>
+    <message>
+        <source>Resume display</source>
+        <translation type="obsolete">恢复显示</translation>
+    </message>
+    <message>
+        <source>Pause display</source>
+        <translation type="obsolete">暂停显示</translation>
+    </message>
+    <message>
+        <source>Close left tab</source>
+        <translation type="obsolete">关闭左侧选项卡</translation>
+    </message>
+    <message>
+        <source>Close right tab</source>
+        <translation type="obsolete">关闭右侧选项卡</translation>
+    </message>
+    <message>
+        <source>Close other tab</source>
+        <translation type="obsolete">关闭其它选项卡</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="obsolete">关闭</translation>
+    </message>
+</context>
+<context>
     <name>TFtpServer</name>
     <message>
         <location filename="service/tftp/tftpserver.cpp" line="51"/>
@@ -1311,6 +1393,15 @@
     <message>
         <source>Save as...</source>
         <translation type="obsolete">另存为...</translation>
+    </message>
+</context>
+<context>
+    <name>TelnetSession</name>
+    <message>
+        <location filename="core/telnetsession.cpp" line="101"/>
+        <source>Clone tab</source>
+        <oldsource>Clone Connect</oldsource>
+        <translation type="unfinished">复制选项卡</translation>
     </message>
 </context>
 <context>
