@@ -247,12 +247,12 @@ void MainWindow::createConnets()
         }
     });
     connect(sessionDockWidget, &SessionDockWidget::onCreateSession,
-            [this]{
+            [=]{
         addSession(false);
     });
     connect(sessionDockWidget, &SessionDockWidget::onSessionClose,
-            [this]{
-        QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, [this](){
+            [=]{
+        QTimer::singleShot(SHOW_WINDOW_TIME_OUT, this, [=](){
             updateWindowState();
         });
     });
@@ -624,13 +624,14 @@ void MainWindow::createShell(Session::Ptr & session)
     disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
     disconnect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
     disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
-
+    disconnect(session.get(), &Session::onCreateShell, sessionDockWidget, &SessionDockWidget::createShell);
 
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     connect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
     connect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
     connect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
+    connect(session.get(), &Session::onCreateShell, sessionDockWidget, &SessionDockWidget::createShell);
 
     if(session->createShell(mdiArea, isLog))
     {
@@ -988,7 +989,7 @@ void MainWindow::loadStyleSheet()
                   "QTabBar::tab:hover{"
                   "background: #EDEDED;}"
                   "QTabBar::tab:selected{"
-                  "border-top: 1px solid #1BC6F4;"//#1BC6F4 90C8F6 3F48BF
+                  "border-top: 1px solid #007DE0;"//#1BC6F4 90C8F6 3F48BF #007DE0
                   "margin-left: -6px;"
                   "margin-right: -4px;"
                   "background: #FAFAFA;}"
