@@ -175,9 +175,22 @@ void SShWidget::execTestCommand(QString const& command)
     }
 }
 
+bool SShWidget::isConnected() const
+{
+    return !sheelIsClose;
+}
+
+void SShWidget::reconnect(const SSHSettings &settings)
+{
+    console->clearall();
+    shell->reset();
+    runShell(settings);
+}
+
 void SShWidget::disconnect()
 {
     shell->stop();
+    sheelIsClose = true;
 }
 
 bool SShWidget::isDisplay() const
@@ -464,7 +477,7 @@ void SShWidget::switchToMainScreen()
 void SShWidget::execCommand(QString const& command)
 {
     if(!sheelIsClose)
-        shell->write(QString("%1\n").arg(command).toUtf8());
+        shell->write(QString("%1\r").arg(command).toUtf8());
 }
 
 void SShWidget::execExpandCommand(QString const& command)

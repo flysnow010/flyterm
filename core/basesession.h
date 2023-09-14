@@ -53,6 +53,8 @@ public:
     virtual bool isThisWidget(QWidget *widget) = 0;
 
     virtual void sendCommand(QWidget *widget, QString const& command) = 0;
+    virtual bool isConnected(QWidget *widget) = 0;
+    virtual void reconnect(QWidget *widget) = 0;
     virtual void disconnect(QWidget *widget) = 0;
     virtual bool isDisplay(QWidget *widget) const = 0;
     virtual void display(QWidget *widget) = 0;

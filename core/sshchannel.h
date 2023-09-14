@@ -17,6 +17,7 @@ public:
 
     int write(QByteArray const& data);
     bool read(QByteArray &data);
+    void reset();
 public slots:
     void connectTo(SSHSettings const& settings);
     bool run();

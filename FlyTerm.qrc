@@ -23,5 +23,6 @@
         <file>image/Tool/list.png</file>
         <file>image/File/display.png</file>
         <file>image/File/undisplay.png</file>
+        <file>image/File/quickconnect.png</file>
     </qresource>
 </RCC>

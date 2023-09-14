@@ -48,6 +48,7 @@ private slots:
     void verticalTileChileWindow();
     void cascadeChildWindow();
     void maximizeChildWidnow();
+    void reconnect();
     void cancelconnect();
     void display();
     void undisplay();
@@ -100,6 +101,7 @@ private:
     void setLanguage(QString const& lang);
     void retranslateUi();
     void setDiaplay(bool enable);
+    void setConnect(bool enable);
 private:
     Ui::MainWindow *ui;
     QMdiArea *mdiArea;

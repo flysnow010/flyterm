@@ -130,6 +130,21 @@ void SshSession::sendCommand(QWidget *widget, QString const& command)
         theWidget->sendCommand(command);
 }
 
+bool SshSession::isConnected(QWidget *widget)
+{
+    SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
+    if(theWidget)
+        return theWidget->isConnected();
+    return false;
+}
+
+void SshSession::reconnect(QWidget *widget)
+{
+    SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);
+    if(theWidget)
+        theWidget->reconnect(settings_);
+}
+
 void SshSession::disconnect(QWidget *widget)
 {
     SShWidget *theWidget = dynamic_cast<SShWidget *>(widget);

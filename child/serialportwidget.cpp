@@ -92,6 +92,17 @@ void SerialPortWidget::setErrorText(QString const& text)
     console->setPlainText(text);
 }
 
+bool SerialPortWidget::isConnected() const
+{
+    return serial->isOpen();
+}
+
+void SerialPortWidget::reconnect()
+{
+    console->clearall();
+    serial->open(QIODevice::ReadWrite);
+}
+
 void SerialPortWidget::disconnect()
 {
     serial->close();

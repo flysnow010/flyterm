@@ -27,6 +27,8 @@ public:
 
     QSize sizeHint() const override;
 
+    bool isConnected() const;
+    void reconnect(SSHSettings const& settings);
     void disconnect();
     bool isDisplay() const;
     void display();

@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
     mdiArea->setDocumentMode(true);
     mdiArea->setTabsClosable(true);
     setDiaplay(true);
+    setConnect(true);
     setCentralWidget(mdiArea);
     createDockWidgets();
     createConnets();
@@ -139,8 +140,10 @@ void MainWindow::createConnets()
     connect(mdiArea, &QMdiArea::subWindowActivated,
             this, &MainWindow::updateStatus);
 
-    connect(ui->actionConnect, &QAction::triggered,
+    connect(ui->actionQuickConnect, &QAction::triggered,
             this, &MainWindow::newConnect);
+    connect(ui->actionConnect, &QAction::triggered,
+            this, &MainWindow::reconnect);
     connect(ui->actionDisconnect, &QAction::triggered,
             this, &MainWindow::cancelconnect);
     connect(ui->actionDisplay, &QAction::triggered,
@@ -607,6 +610,7 @@ void MainWindow::updateStatus(QMdiSubWindow *subWindow)
             udpateHighLighterMenuStatus(session->hightLighter());
             session->activeWidget(subWindow->widget());
             setDiaplay(session->isDisplay(subWindow->widget()));
+            setConnect(session->isConnected(subWindow->widget()));
             setSubTitle(session->subTitle());
         }
     }
@@ -635,10 +639,25 @@ void MainWindow::createShell(Session::Ptr & session)
 
     if(session->createShell(mdiArea, isLog))
     {
+        session->runShell();
+
         if(mdiArea->subWindowList().size() < 2)
             updateStatus(activeSubWindow());
-        session->runShell();
         updateWindowState();
+    }
+}
+
+void MainWindow::reconnect()
+{
+    QMdiSubWindow* subWindow = activeSubWindow();
+    if(subWindow)
+    {
+        Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
+        if(session)
+        {
+            session->reconnect(subWindow->widget());
+            setConnect(true);
+        }
     }
 }
 
@@ -649,7 +668,10 @@ void MainWindow::cancelconnect()
     {
         Session::Ptr session = sessionDockWidget->findSession(subWindow->widget());
         if(session)
+        {
             session->disconnect(subWindow->widget());
+            setConnect(false);
+        }
     }
 }
 
@@ -685,6 +707,12 @@ void MainWindow::setDiaplay(bool enable)
 {
     ui->actionDisplay->setVisible(!enable);
     ui->actionUndisplay->setVisible(enable);
+}
+
+void MainWindow::setConnect(bool enable)
+{
+    ui->actionConnect->setVisible(!enable);
+    ui->actionDisconnect->setVisible(enable);
 }
 
 void MainWindow::sendFile(QString const& protocol)

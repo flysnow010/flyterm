@@ -125,6 +125,21 @@ void TelnetSession::closeSheel(QWidget *widget)
     widgets_.removeAll(dynamic_cast<TelnetWidget *>(widget));
 }
 
+bool TelnetSession::isConnected(QWidget *widget)
+{
+    TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
+    if(theWidget)
+        return theWidget->isConnected();
+    return false;
+}
+
+void TelnetSession::reconnect(QWidget *widget)
+{
+    TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);
+    if(theWidget)
+        theWidget->reconnect(settings_);
+}
+
 void TelnetSession::disconnect(QWidget *widget)
 {
     TelnetWidget *theWidget = dynamic_cast<TelnetWidget *>(widget);

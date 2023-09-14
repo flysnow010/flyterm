@@ -58,6 +58,7 @@
      <addaction name="menuXMODEM"/>
      <addaction name="menuYMODEM"/>
     </widget>
+    <addaction name="actionQuickConnect"/>
     <addaction name="actionConnect"/>
     <addaction name="actionDisconnect"/>
     <addaction name="separator"/>
@@ -179,6 +180,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionQuickConnect"/>
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
    <addaction name="separator"/>
@@ -202,10 +204,7 @@
     <string>Connect</string>
    </property>
    <property name="statusTip">
-    <string>Quick connection</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string>Reconnect</string>
    </property>
   </action>
   <action name="actionExit">
@@ -566,6 +565,21 @@
    </property>
    <property name="text">
     <string>Vertical Tile</string>
+   </property>
+  </action>
+  <action name="actionQuickConnect">
+   <property name="icon">
+    <iconset resource="FlyTerm.qrc">
+     <normaloff>:/image/File/quickconnect.png</normaloff>:/image/File/quickconnect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quick connect</string>
+   </property>
+   <property name="statusTip">
+    <string>Quick connect</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

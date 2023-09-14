@@ -115,6 +115,21 @@ void SerialSession::sendCommand(QWidget *widget, QString const& command)
         theWidget->sendCommand(command);
 }
 
+bool SerialSession::isConnected(QWidget *widget)
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+        return theWidget->isConnected();
+    return false;
+}
+
+void SerialSession::reconnect(QWidget *widget)
+{
+    SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);
+    if(theWidget)
+        theWidget->reconnect();
+}
+
 void SerialSession::disconnect(QWidget *widget)
 {
     SerialPortWidget *theWidget = dynamic_cast<SerialPortWidget *>(widget);

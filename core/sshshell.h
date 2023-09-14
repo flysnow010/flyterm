@@ -18,6 +18,7 @@ public:
     bool read(QByteArray &data);
     void shellSize(int cols, int rows);
     void run();
+    void reset();
     void stop();
 
 signals:

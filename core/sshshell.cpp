@@ -17,7 +17,6 @@ SshShell::SshShell(QObject *parent)
     connect(worker, &SSHChannel::connectionError, this, &SshShell::connectionError);
     connect(worker, &SSHChannel::onError, this, &SshShell::onError);
 
-
     worker_ = worker;
     workerThread.start();
 }
@@ -52,6 +51,11 @@ bool SshShell::read(QByteArray &data)
 void SshShell::shellSize(int cols, int rows)
 {
     worker_->shellSize(cols, rows);
+}
+
+void SshShell::reset()
+{
+    worker_->reset();
 }
 
 void SshShell::stop()

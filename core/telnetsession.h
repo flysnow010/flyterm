@@ -22,6 +22,8 @@ public:
     int  shellSize() override;
 
     void sendCommand(QWidget *widget, QString const& command) override;
+    bool isConnected(QWidget *widget) override;
+    void reconnect(QWidget *widget) override;
     void disconnect(QWidget *widget) override;
     bool isDisplay(QWidget *widget) const override;
     void display(QWidget *widget) override;

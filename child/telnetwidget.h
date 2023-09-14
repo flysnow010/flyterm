@@ -26,6 +26,8 @@ public:
     QString errorString();
     void setErrorText(QString const& text);
 
+    bool isConnected() const;
+    void reconnect(TelnetSettings const& settings);
     void disconnect();
     bool isDisplay() const;
     void display();
@@ -88,6 +90,7 @@ private:
     QStringList testCommands_;
     QByteArray testParam_;
     bool isTest_ = false;
+    bool isConnected_ = false;
     QByteArray testData_;
 };
 

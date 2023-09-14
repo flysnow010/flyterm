@@ -26,6 +26,8 @@ public:
     QString errorString();
     void setErrorText(QString const& text);
 
+    bool isConnected() const;
+    void reconnect();
     void disconnect();
     bool isDisplay() const;
     void display();

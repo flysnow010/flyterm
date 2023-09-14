@@ -87,9 +87,21 @@ void TelnetWidget::setErrorText(QString const& text)
     console->setPlainText(text);
 }
 
+bool TelnetWidget::isConnected() const
+{
+    return isConnected_;
+}
+
+void TelnetWidget::reconnect(TelnetSettings const& settings)
+{
+    console->clearall();
+    runShell(settings);
+}
+
 void TelnetWidget::disconnect()
 {
     telnet->close();
+    isConnected_ = false;
 }
 
 bool TelnetWidget::isDisplay() const
@@ -193,8 +205,8 @@ void TelnetWidget::clearScrollback()
 bool TelnetWidget::runShell(TelnetSettings const& settings)
 {
     telnet->login(settings.userName, QString());
-    //telnet->setLoginString("ultichip login:\\s*$");
     telnet->connectToHost(settings.hostName, settings.port);
+    isConnected_ = true;
     return true;
 }
 
@@ -231,7 +243,7 @@ bool TelnetWidget::testCommandIsEmpty() const
 
 void TelnetWidget::execCommand(QString const& command)
 {
-    telnet->sendData(command + QString("\r\n"));
+    telnet->sendData(command + QString("\r"));
 }
 
 void TelnetWidget::execTestCommand(QString const& command)

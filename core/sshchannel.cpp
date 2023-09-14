@@ -20,8 +20,16 @@ int SSHChannel::write(QByteArray const& data)
 {
     if(!isConnected)
         return 0;
-
     return channel_->write((void *)data.data(), data.size());
+}
+
+void SSHChannel::reset()
+{
+    sessioin_ = ssh::Session::Ptr(new ssh::Session());
+    delete channel_;
+    channel_ = 0;
+    signal_ = false;
+    shellSizeChanged_ = false;
 }
 
 bool SSHChannel::read(QByteArray &data)
@@ -32,7 +40,6 @@ bool SSHChannel::read(QByteArray &data)
     data = datas.takeFirst();
     while(datas.size() > 0 && data.size() < 4096)
         data.push_back(datas.takeFirst());
-    //qDebug() << "getData: " << data.size() << "/" << datas.size();
     return true;
 }
 
@@ -121,6 +128,8 @@ void SSHChannel::addData(QByteArray const& data)
 
 void SSHChannel::stop()
 {
+    if(channel_)
+        channel_->close();
     doSignal();
     sessioin_->disconnect();
     isConnected = false;
