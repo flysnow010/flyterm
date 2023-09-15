@@ -38,6 +38,7 @@ SOURCES += \
     core/consolecodec.cpp \
     core/consoleparser.cpp \
     core/languagemanager.cpp \
+    core/localshell.cpp \
     core/logfile.cpp \
     core/serialportparser.cpp \
     core/serialsession.cpp \
@@ -119,6 +120,7 @@ HEADERS += \
     core/consolecodec.h \
     core/consoleparser.h \
     core/languagemanager.h \
+    core/localshell.h \
     core/logfile.h \
     core/prikey.h \
     core/pubkey.h \
