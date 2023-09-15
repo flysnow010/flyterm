@@ -884,7 +884,7 @@
     </message>
     <message>
         <location filename="mainwindow.cpp" line="347"/>
-        <location filename="mainwindow.cpp" line="1053"/>
+        <location filename="mainwindow.cpp" line="1068"/>
         <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -914,17 +914,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="983"/>
+        <location filename="mainwindow.cpp" line="998"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="991"/>
+        <location filename="mainwindow.cpp" line="1006"/>
         <source>Start server on %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="992"/>
+        <location filename="mainwindow.cpp" line="1007"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -959,66 +959,96 @@
 <context>
     <name>SShWidget</name>
     <message>
-        <location filename="child/sshwidget.cpp" line="91"/>
+        <location filename="child/sshwidget.cpp" line="97"/>
         <source>Password for %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="209"/>
+        <location filename="child/sshwidget.cpp" line="229"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="410"/>
+        <location filename="child/sshwidget.cpp" line="316"/>
+        <source>Open File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="317"/>
+        <source>All files (*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="336"/>
+        <source>FileName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="340"/>
+        <source>Select Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="461"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="411"/>
+        <location filename="child/sshwidget.cpp" line="462"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="412"/>
+        <location filename="child/sshwidget.cpp" line="463"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="414"/>
+        <location filename="child/sshwidget.cpp" line="465"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="415"/>
+        <location filename="child/sshwidget.cpp" line="466"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="417"/>
+        <location filename="child/sshwidget.cpp" line="468"/>
         <source>Upload...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="418"/>
+        <location filename="child/sshwidget.cpp" line="469"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="420"/>
+        <location filename="child/sshwidget.cpp" line="471"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="422"/>
+        <location filename="child/sshwidget.cpp" line="473"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="423"/>
+        <location filename="child/sshwidget.cpp" line="474"/>
         <source>Clear Scrollback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="608"/>
+        <source>Sftp Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/sshwidget.cpp" line="610"/>
+        <source>Sftp Download</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1035,153 +1065,153 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="126"/>
+        <location filename="child/serialportwidget.cpp" line="137"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="144"/>
-        <location filename="child/serialportwidget.cpp" line="164"/>
-        <location filename="child/serialportwidget.cpp" line="184"/>
+        <location filename="child/serialportwidget.cpp" line="155"/>
+        <location filename="child/serialportwidget.cpp" line="175"/>
+        <location filename="child/serialportwidget.cpp" line="195"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="145"/>
-        <location filename="child/serialportwidget.cpp" line="155"/>
-        <location filename="child/serialportwidget.cpp" line="165"/>
-        <location filename="child/serialportwidget.cpp" line="175"/>
-        <location filename="child/serialportwidget.cpp" line="185"/>
-        <location filename="child/serialportwidget.cpp" line="195"/>
+        <location filename="child/serialportwidget.cpp" line="156"/>
+        <location filename="child/serialportwidget.cpp" line="166"/>
+        <location filename="child/serialportwidget.cpp" line="176"/>
+        <location filename="child/serialportwidget.cpp" line="186"/>
+        <location filename="child/serialportwidget.cpp" line="196"/>
+        <location filename="child/serialportwidget.cpp" line="206"/>
         <source>All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="154"/>
-        <location filename="child/serialportwidget.cpp" line="174"/>
-        <location filename="child/serialportwidget.cpp" line="194"/>
+        <location filename="child/serialportwidget.cpp" line="165"/>
+        <location filename="child/serialportwidget.cpp" line="185"/>
+        <location filename="child/serialportwidget.cpp" line="205"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="424"/>
+        <location filename="child/serialportwidget.cpp" line="435"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="425"/>
+        <location filename="child/serialportwidget.cpp" line="436"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="426"/>
+        <location filename="child/serialportwidget.cpp" line="437"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="428"/>
+        <location filename="child/serialportwidget.cpp" line="439"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="429"/>
+        <location filename="child/serialportwidget.cpp" line="440"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="431"/>
+        <location filename="child/serialportwidget.cpp" line="442"/>
         <source>Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="432"/>
+        <location filename="child/serialportwidget.cpp" line="443"/>
         <source>Kermit Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="433"/>
+        <location filename="child/serialportwidget.cpp" line="444"/>
         <source>XModem Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="434"/>
+        <location filename="child/serialportwidget.cpp" line="445"/>
         <source>YModem Send...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="435"/>
+        <location filename="child/serialportwidget.cpp" line="446"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="436"/>
+        <location filename="child/serialportwidget.cpp" line="447"/>
         <source>Kermit Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="437"/>
+        <location filename="child/serialportwidget.cpp" line="448"/>
         <source>XModem Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="438"/>
+        <location filename="child/serialportwidget.cpp" line="449"/>
         <source>YModem Reveive...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="443"/>
+        <location filename="child/serialportwidget.cpp" line="454"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="444"/>
+        <location filename="child/serialportwidget.cpp" line="455"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="489"/>
+        <location filename="child/serialportwidget.cpp" line="500"/>
         <source>Kermit Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="521"/>
+        <location filename="child/serialportwidget.cpp" line="532"/>
         <source>Kermit Recv</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="558"/>
+        <location filename="child/serialportwidget.cpp" line="569"/>
         <source>YMODEM Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="559"/>
-        <location filename="child/serialportwidget.cpp" line="599"/>
+        <location filename="child/serialportwidget.cpp" line="570"/>
+        <location filename="child/serialportwidget.cpp" line="610"/>
         <source>1K YMODEM</source>
         <oldsource>YMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="563"/>
+        <location filename="child/serialportwidget.cpp" line="574"/>
         <source>XMODEM Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="564"/>
-        <location filename="child/serialportwidget.cpp" line="604"/>
+        <location filename="child/serialportwidget.cpp" line="575"/>
+        <location filename="child/serialportwidget.cpp" line="615"/>
         <source>1K XMODEM</source>
         <oldsource>XMODEM (1K)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="598"/>
+        <location filename="child/serialportwidget.cpp" line="609"/>
         <source>YMODEM Recv</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="603"/>
+        <location filename="child/serialportwidget.cpp" line="614"/>
         <source>XMODEM Recv</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1282,9 +1312,22 @@
     </message>
 </context>
 <context>
+    <name>SftpTransferInner</name>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="128"/>
+        <source>Upload is failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="171"/>
+        <source>Donwload is failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SshConsole</name>
     <message>
-        <location filename="console/sshconsole.cpp" line="678"/>
+        <location filename="console/sshconsole.cpp" line="694"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1292,9 +1335,8 @@
 <context>
     <name>SshSession</name>
     <message>
-        <location filename="core/sshsession.cpp" line="106"/>
-        <source>Clone tab</source>
-        <oldsource>Clone Connect</oldsource>
+        <location filename="core/sshsession.cpp" line="107"/>
+        <source>Duplicate tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1315,58 +1357,57 @@
     <name>TelnetSession</name>
     <message>
         <location filename="core/telnetsession.cpp" line="101"/>
-        <source>Clone tab</source>
-        <oldsource>Clone Connect</oldsource>
+        <source>Duplicate tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TelnetWidget</name>
     <message>
-        <location filename="child/telnetwidget.cpp" line="121"/>
+        <location filename="child/telnetwidget.cpp" line="133"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="352"/>
+        <location filename="child/telnetwidget.cpp" line="364"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="353"/>
+        <location filename="child/telnetwidget.cpp" line="365"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="354"/>
+        <location filename="child/telnetwidget.cpp" line="366"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="356"/>
+        <location filename="child/telnetwidget.cpp" line="368"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="357"/>
+        <location filename="child/telnetwidget.cpp" line="369"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="359"/>
+        <location filename="child/telnetwidget.cpp" line="371"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="361"/>
+        <location filename="child/telnetwidget.cpp" line="373"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="362"/>
+        <location filename="child/telnetwidget.cpp" line="374"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>

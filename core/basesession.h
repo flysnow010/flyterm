@@ -82,6 +82,7 @@ public:
 signals:
     void onClose(QWidget *widget);
     void onCreateShell(QWidget *widget);
+    void onConnectStatus(QWidget *widget, bool on);
     void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
     void onSubTitle(QString const& title);

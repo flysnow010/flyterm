@@ -42,6 +42,7 @@ private slots:
     void updateStatus(QMdiSubWindow *window);
     void updateFontSize(int fontSize);
     void createShell(Session::Ptr & session);
+    void connectStatus(QWidget* widget, bool on);
 
     void tileChildWindow();
     void horizontalTileChileWindow();

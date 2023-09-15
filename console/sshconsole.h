@@ -40,7 +40,7 @@ public:
         int start;
         int end;
     };
-
+    QString selectedText();
 signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);

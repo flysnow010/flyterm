@@ -651,6 +651,22 @@ void SshConsole::copyOne()
     }
 }
 
+QString SshConsole::selectedText()
+{
+    QString text;
+    if(selectStart != selectEnd)
+    {
+        int pos = selectText();
+        setTextColor(palette().color(QPalette::Text));
+        setTextBackgroundColor(palette().color(QPalette::Base));
+        QTextCursor cursor = textCursor();
+        text = cursor.selectedText();
+        cursor.setPosition(pos);
+        setTextCursor(cursor);
+    }
+    return text;
+}
+
 bool SshConsole::increaseFontSize()
 {
     int fontIndex = standardSizes.indexOf(fontSize_) + 1;
@@ -711,7 +727,7 @@ void SshConsole::cancelSelection()
 {
     if(selectStart != selectEnd)
     {
-        int pos = selectText();
+        int pos = selectText(selectStart, selectEnd);
         setTextColor(palette().color(QPalette::Text));
         setTextBackgroundColor(palette().color(QPalette::Base));
         QTextCursor cursor = textCursor();

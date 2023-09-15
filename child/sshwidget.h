@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "core/sshshell.h"
+#include "core/sshsettings.h"
 #include "core/logfile.h"
 #include "color/consolecolor.h"
 #include "color/consolepalette.h"
@@ -11,7 +12,6 @@ class QMenu;
 class ConsoleParser;
 class SshConsole;
 class AlternateConsole;
-class SSHSettings;
 class CommandThread;
 class QTimer;
 class SShWidget : public QWidget
@@ -53,6 +53,7 @@ public slots:
     void downloadFile();
 signals:
     void onClose(QWidget *widget);
+    void onConnectStatus(QWidget *widget, bool on);
     void onSizeChanged(QWidget *widget);
     void onCommand(QString const& command);
     void onTitle(QString const& title);
@@ -88,6 +89,8 @@ private:
     void getShellSize(QSize const& size, int &cols, int &rows);
     QString getTestCommand();
     bool testCommandIsEmpty() const;
+    QString  getCurrentPath();
+    void transferFile(QString const& srcFileName, QString const& dstFileName, bool isUpload);
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
@@ -107,6 +110,8 @@ private:
     QByteArray testParam_;
     bool isTest_ = false;
     QByteArray testData_;
+    SSHSettings settings_;
+    QString filePath;
 };
 
 #endif // SSHWIDGET_H

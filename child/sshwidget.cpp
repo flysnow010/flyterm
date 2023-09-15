@@ -6,14 +6,20 @@
 #include "core/commandthread.h"
 #include "core/userauth.h"
 #include "dialog/passworddialog.h"
+#include "dialog/fileprogressdialog.h"
 #include "highlighter/hightlightermanager.h"
+#include "transfer/sftp/sftptransfer.h"
 #include "util/util.h"
 
 #include <QPrinter>
 #include <QMenu>
 #include <QPrintDialog>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QTimer>
 #include <QDebug>
+#include <QThread>
+#include <QApplication>
 
 SShWidget::SShWidget(bool isLog, QWidget *parent)
     : QWidget(parent)
@@ -108,6 +114,7 @@ bool SShWidget::runShell(SSHSettings const& settings)
             });
         }
         shell->connectTo(newSettings);
+        settings_ = newSettings;
     }
     return true;
 }
@@ -297,17 +304,46 @@ void SShWidget::decreaseFontSize()
 void SShWidget::clearScrollback()
 {
     console->clearall();
-    writeData("clear\n");
+    execCommand("clear");
 }
 
 void SShWidget::uploadFile()
 {
+    QString dstPath = getCurrentPath();
+    if(dstPath.isEmpty())
+        return;
 
+    QString srcFileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    filePath, tr("All files (*.*)"));
+    if(srcFileName.isEmpty())
+        return;
+
+    QFileInfo fileInfo(srcFileName);
+    QString dstFileName = QFileInfo(dstPath, fileInfo.fileName()).filePath();
+    filePath = fileInfo.filePath();
+
+    transferFile(srcFileName, dstFileName, true);
 }
 
 void SShWidget::downloadFile()
 {
+    QString srcPath = getCurrentPath();
+    if(srcPath.isEmpty())
+        return;
 
+    QString fileName = console->selectedText();
+    if(fileName.isEmpty())
+        fileName = Util::getText(tr("FileName"));
+    if(fileName.isEmpty())
+           return;
+
+    QString dstPath = QFileDialog::getExistingDirectory(this, tr("Select Path"));
+    if(dstPath.isEmpty())
+        return;
+    filePath = QFileInfo(dstPath).filePath();
+    QString srcFileName = QFileInfo(srcPath, fileName).filePath();
+    QString dstFileName =  QFileInfo(dstPath, fileName).filePath();
+    transferFile(srcFileName, dstFileName, false);
 }
 
 QSize SShWidget::sizeHint() const
@@ -347,12 +383,14 @@ void SShWidget::connected()
 {
     activedWidget();
     shell->run();
+    emit onConnectStatus(this, true);
 }
 
 void SShWidget::connectionError(QString const& error)
 {
     qDebug() << "connectionError: " << error;
     onData(error.toUtf8());
+    emit onConnectStatus(this, false);
 }
 
 void SShWidget::onData(QByteArray const& data)
@@ -495,6 +533,16 @@ void SShWidget::execExpandCommand(QString const& command)
             }
         }
     }
+    else if(command.startsWith("#supload"))
+    {
+        if(cmds.size() > 2)
+            transferFile(cmds[1], cmds[2], true);
+    }
+    else if(command.startsWith("#sdownload"))
+    {
+        if(cmds.size() > 2)
+            transferFile(cmds[1], cmds[2], false);
+    }
     else if(command.startsWith("#esave"))
     {
         afterLogfile_ = LogFile::SharedPtr();
@@ -522,4 +570,65 @@ void SShWidget::setHighLighter()
         emit highLighterChanged(actoin->data().toString());
 }
 
+QString SShWidget::getCurrentPath()
+{
+    int MAX_COUNT = 30;
+    QString path;
+    QByteArray data;
 
+    undisplay();
+    execCommand("pwd");
+    for(int i = 0; i < MAX_COUNT; i++)
+    {
+        QThread::msleep(10);
+        QByteArray temp;
+        if(shell->read(temp))
+            data.push_back(temp);
+         QStringList lines = QString::fromUtf8(data).split("\r\n");
+         if(lines.size() >= 3)
+         {
+            path =  lines[1];
+            break;
+         }
+    }
+    display();
+    return path;
+}
+
+void SShWidget::transferFile(QString const& srcFileName, QString const& dstFileName, bool isUpload)
+{
+    FileProgressDialog dialog(this);
+    SftpTransfer transfer(settings_);
+    connect(&transfer, &SftpTransfer::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
+    connect(&transfer, &SftpTransfer::progressInfo, &dialog, &FileProgressDialog::setProgressInfo);
+    connect(&transfer, &SftpTransfer::finished, &dialog, &FileProgressDialog::finished);
+    connect(&transfer, &SftpTransfer::error, &dialog, &FileProgressDialog::error);
+
+    if(isUpload)
+        dialog.setTitle(tr("Sftp Upload"));
+    else
+        dialog.setTitle(tr("Sftp Download"));
+    dialog.setProtocol("Sftp");
+    dialog.setFilename(QFileInfo(srcFileName).fileName());
+    dialog.setModal(true);
+    dialog.setVisible(true);
+
+    if(isUpload)
+        transfer.upload(srcFileName, dstFileName);
+    else
+        transfer.download(srcFileName, dstFileName);
+    while(!dialog.isFinished())
+    {
+        if(dialog.isCancel())
+        {
+            transfer.stop();
+            while(!dialog.isFinished())
+                QApplication::processEvents();
+            transfer.stop();
+        }
+        QApplication::processEvents();
+    }
+    if(isUpload && dialog.isFinished())
+        execCommand(QString("ls -l %1")
+                    .arg(QFileInfo(dstFileName).fileName()));
+}

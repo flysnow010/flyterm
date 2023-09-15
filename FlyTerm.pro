@@ -83,6 +83,9 @@ SOURCES += \
     transfer/kermit/kermitfilesender.cpp \
     transfer/kermit/kermitrecvfile.cpp \
     transfer/kermit/kermitsendfile.cpp \
+    transfer/sftp/sftpsession.cpp \
+    transfer/sftp/sftptransfer.cpp \
+    transfer/sftp/sshconnect.cpp \
     transfer/xyzmodem/modem.cpp \
     transfer/xyzmodem/xmodem.cpp \
     transfer/xyzmodem/xymodemfilerecver.cpp \
@@ -166,6 +169,9 @@ HEADERS += \
     transfer/kermit/kermitfilesender.h \
     transfer/kermit/kermitrecvfile.h \
     transfer/kermit/kermitsendfile.h \
+    transfer/sftp/sftpsession.h \
+    transfer/sftp/sftptransfer.h \
+    transfer/sftp/sshconnect.h \
     transfer/xyzmodem/modem.h \
     transfer/xyzmodem/xmodem.h \
     transfer/xyzmodem/xymodemfilerecver.h \

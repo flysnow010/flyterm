@@ -621,19 +621,32 @@ void MainWindow::updateFontSize(int fontSize)
     comboSize->setCurrentText(QString::number(fontSize));
 }
 
+void  MainWindow::connectStatus(QWidget* widget, bool on)
+{
+    QMdiSubWindow* subWindow = activeSubWindow();
+    if(subWindow)
+    {
+        if(subWindow->widget() == widget)
+            setConnect(on);
+    }
+}
+
 void MainWindow::createShell(Session::Ptr & session)
 {
     disconnect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     disconnect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     disconnect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
     disconnect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
+    disconnect(session.get(), &Session::onConnectStatus, this, &MainWindow::connectStatus);
     disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
     disconnect(session.get(), &Session::onCreateShell, sessionDockWidget, &SessionDockWidget::createShell);
+
 
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     connect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
     connect(session.get(), &Session::onSubTitle, this, &MainWindow::setSubTitle);
+    connect(session.get(), &Session::onConnectStatus, this, &MainWindow::connectStatus);
     connect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
     connect(session.get(), &Session::onCreateShell, sessionDockWidget, &SessionDockWidget::createShell);
 

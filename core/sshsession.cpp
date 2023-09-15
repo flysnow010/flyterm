@@ -50,6 +50,7 @@ bool SshSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setOption(QMdiSubWindow::RubberBandMove);
     subWindow->setSystemMenu(createSystemMenu(subWindow, widget));
     connect(widget, &SShWidget::onClose, this, &Session::onClose);
+    connect(widget, &SShWidget::onConnectStatus, this, &Session::onConnectStatus);
     connect(widget, &SShWidget::onSizeChanged, this, &Session::onSizeChanged);
     connect(widget, &SShWidget::onCommand, this, &Session::onCommand);
     connect(widget, &SShWidget::onTitle, this, [=](QString const& title){
@@ -103,7 +104,7 @@ QMenu* SshSession::createSystemMenu(QMdiSubWindow *parent, QWidget *widget)
 {
     QMenu* menu = Session::createSystemMenu(parent, widget);
     QList<QAction*> actions = menu->actions();
-    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Clone tab"), menu);
+    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Duplicate tab"), menu);
     menu->insertAction(actions.first(), action);
     connect(action, &QAction::triggered, this, [=]{
         emit onCreateShell(widget);

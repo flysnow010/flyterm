@@ -98,7 +98,7 @@ QMenu* TelnetSession::createSystemMenu(QMdiSubWindow *parent, QWidget *widget)
 {
     QMenu* menu = Session::createSystemMenu(parent, widget);
     QList<QAction*> actions = menu->actions();
-    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Clone tab"), menu);
+    QAction* action = new QAction(QIcon(":image/File/copy.png"), tr("Duplicate tab"), menu);
     menu->insertAction(actions.first(), action);
     connect(action, &QAction::triggered, this, [=]{
         emit onCreateShell(widget);
