@@ -6,6 +6,7 @@
 #include "core/sshsettings.h"
 #include "core/telnetsettings.h"
 #include "core/serialsettings.h"
+#include "core/localshellsettings.h"
 
 namespace Ui {
 class ConnectDialog;
@@ -30,6 +31,9 @@ public:
 
     SerialSettings serialSettings()  const;
     void setSerialSettings(SerialSettings const& settings);
+
+    LocalShellSettings localShellSettings() const;
+    void setLocalShellSettings(LocalShellSettings const& settings);
 private slots:
     void selectPrivateKeyFileName();
 private:

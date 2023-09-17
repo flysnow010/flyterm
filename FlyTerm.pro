@@ -19,6 +19,7 @@ else
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    child/localshellwidget.cpp \
     child/serialportwidget.cpp \
     child/sshwidget.cpp \
     child/telnetwidget.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     console/console.cpp \
     console/consolescreen.cpp \
     console/historyconsole.cpp \
+    console/localshellconsole.cpp \
     console/serialportconsole.cpp \
     console/sshconsole.cpp \
     console/telnetconsole.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
     core/consoleparser.cpp \
     core/languagemanager.cpp \
     core/localshell.cpp \
+    core/localshellsession.cpp \
     core/logfile.cpp \
     core/serialportparser.cpp \
     core/serialsession.cpp \
@@ -98,6 +101,7 @@ SOURCES += \
     util/util.cpp
 
 HEADERS += \
+    child/localshellwidget.h \
     child/serialportwidget.h \
     child/sshwidget.h \
     child/telnetwidget.h \
@@ -110,6 +114,7 @@ HEADERS += \
     console/consolechar.h \
     console/consolescreen.h \
     console/historyconsole.h \
+    console/localshellconsole.h \
     console/serialportconsole.h \
     console/sshconsole.h \
     console/telnetconsole.h \
@@ -121,6 +126,8 @@ HEADERS += \
     core/consoleparser.h \
     core/languagemanager.h \
     core/localshell.h \
+    core/localshellsession.h \
+    core/localshellsettings.h \
     core/logfile.h \
     core/prikey.h \
     core/pubkey.h \

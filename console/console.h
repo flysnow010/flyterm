@@ -20,7 +20,8 @@ public:
     void createParserAndConnect();
 
     void setLogFile(LogFile::SharedPtr const& logfile) { logfile_ = logfile; }
-    void setLocalEchoEnabled(bool enabled) { localEchoEnabled = enabled; }
+    void setLocalEchoEnabled(bool enabled) { isLocalEchoEnabled_ = enabled; }
+    void setNeedNewLine(bool enabled) { isNeedNewline_ = enabled; }
     void setCodecName(QString const& name);
     void setFontName(QString const& name);
     void setFontSize(int fontSize);
@@ -51,13 +52,14 @@ public slots:
 signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
+    void onCommand(QString const& command);
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
-    virtual ConsoleParser * createParser() = 0;
+    virtual ConsoleParser * createParser();
 private slots:
     void onBeep();
     void onGetCursorPos();
@@ -68,7 +70,7 @@ private slots:
     void onForeColor(ColorRole role);
     void onBackColor(ColorRole role);//???
     void onCloseCharAttriutes();
-private:
+protected:
     void onEnd();
     void removeCurrentRow();
     void clearSelection();
@@ -84,6 +86,8 @@ private:
     void setTextBackgroundColor(QColor const& color);
     void setFontFamily(QString const& name);
     void setFontPointSize(int fontSize);
+    bool isLocalEchoEnabled() const { return isLocalEchoEnabled_; }
+    bool isNeedNewline() const { return isNeedNewline_; }
 private:
     ConsoleParser *commandParser = 0;
     ConsolePalette::Ptr palette_;
@@ -100,7 +104,8 @@ private:
     int     fontSize_ = 12;
 
     bool isReturn = false;
-    bool localEchoEnabled = false;
+    bool isLocalEchoEnabled_ = false;
+    bool isNeedNewline_ = false;
     QList<ColorRange> colorRanges;
     int cursorPos = 0;
     int selectStart = 0;

@@ -17,8 +17,8 @@ public:
 signals:
     void onData(QByteArray const& data);
 private slots:
-    void readyReadSto();
-    void readyReadStr();
+    void readyReadStdout();
+    void readyReadStderr();
 private:
     QProcess* process;
 };

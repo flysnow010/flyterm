@@ -7,6 +7,7 @@ namespace  {
     int const SSH_TAB = 0;
     int const Telnet_Tab = 1;
     int const Serial_Tab = 2;
+    int const Local_Tab = 3;
 }
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent),
@@ -14,6 +15,8 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    ui->comboBoxSheelType->addItem(tr("Command Prompt"), "cmd");
+    ui->comboBoxSheelType->addItem(tr("Windows PowerShell"), "powershell");
     fillPortsParameters();
     fillPortsInfo();
     connect(ui->toolButtonAddFile, SIGNAL(clicked()),
@@ -34,6 +37,8 @@ ConnectType ConnectDialog::type() const
         return Telnet;
     else if(currentIndex == Serial_Tab)
         return Serial;
+    else if (currentIndex == Local_Tab)
+        return Local;
     else
         return None;
 }
@@ -41,11 +46,13 @@ ConnectType ConnectDialog::type() const
 void ConnectDialog::setType(ConnectType t)
 {
     if(t == SSH)
-        ui->tabWidget->setCurrentIndex(0);
+        ui->tabWidget->setCurrentIndex(SSH_TAB);
     else if(t == Telnet)
-        ui->tabWidget->setCurrentIndex(1);
+        ui->tabWidget->setCurrentIndex(Telnet_Tab);
     else if(t == Serial)
-        ui->tabWidget->setCurrentIndex(2);
+        ui->tabWidget->setCurrentIndex(Serial_Tab);
+    else if(t == Local)
+        ui->tabWidget->setCurrentIndex(Local_Tab);
 }
 
 SSHSettings ConnectDialog::sshSettings() const
@@ -112,6 +119,22 @@ void ConnectDialog::setSerialSettings(SerialSettings const& settings)
     ui->checkBoxLocalEcho->setChecked(settings.localEchoEnabled);
 }
 
+LocalShellSettings ConnectDialog::localShellSettings() const
+{
+    LocalShellSettings settings;
+    settings.shellText = ui->comboBoxSheelType->currentText();
+    settings.shellType = ui->comboBoxSheelType->currentData().toString();
+    settings.currentPath = ui->lineEditCurentPath->text();
+    return settings;
+}
+
+void ConnectDialog::setLocalShellSettings(LocalShellSettings const& settings)
+{
+    QStringList shellTypes = QStringList() << "cmd" << "powershell";
+    ui->comboBoxSheelType->setCurrentIndex(shellTypes.indexOf(settings.shellType));
+    ui->lineEditCurentPath->setText(settings.currentPath);
+}
+
 void ConnectDialog::selectPrivateKeyFileName()
 {
     static QString filePath;
@@ -165,8 +188,7 @@ void ConnectDialog::fillPortsInfo()
     ui->comboBoxPort->clear();
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
         ui->comboBoxPort->addItem(QString("%1: %2")
-                                  .arg(info.portName())
-                                  .arg(info.description()),
+                                  .arg(info.portName(), info.description()),
                                   info.portName());
     }
 }

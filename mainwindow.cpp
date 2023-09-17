@@ -11,6 +11,7 @@
 #include "core/sshsession.h"
 #include "core/telnetsession.h"
 #include "core/serialsession.h"
+#include "core/localshellsession.h"
 #include "core/userauth.h"
 #include "core/languagemanager.h"
 #include "core/consolecodec.h"
@@ -457,6 +458,11 @@ void MainWindow::addSession(bool isCreateSheel)
         {
             SerialSettings settings = dlg.serialSettings();
             session = Session::Ptr(new SerialSession(settings.port, settings));
+        }
+        else if(connectType == ConnectType::Local)
+        {
+            LocalShellSettings settings = dlg.localShellSettings();
+            session = Session::Ptr(new LocalShellSession(settings.name(), settings));
         }
         if(session)
         {

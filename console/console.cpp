@@ -239,9 +239,10 @@ void Console::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Enter:
         onEnd();
         emit getData(e->text().toLocal8Bit());
+
         break;
     default:
-        if (localEchoEnabled)
+        if (isLocalEchoEnabled())
             QPlainTextEdit::keyPressEvent(e);
         emit getData(e->text().toLocal8Bit());
         break;
@@ -297,6 +298,11 @@ void Console::insertFromMimeData(const QMimeData *source)
 {
     if(source->hasText())
        emit getData(source->text().toUtf8());
+}
+
+ConsoleParser * Console::createParser()
+{
+    return new ConsoleParser();
 }
 
 void Console::onBeep()
