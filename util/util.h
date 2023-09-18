@@ -6,7 +6,9 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QDataStream>
+#include <QIcon>
 #include <QTime>
+
 class QFile;
 class Util
 {
@@ -92,6 +94,7 @@ public:
         obj = doc.object();
     }
 
+    static QIcon GetIcon(QString const& fileName, int index = 0);
     static QString formatFileSize(qint64 byte);
     static QString formatFileSizeB(qint64 byte);
     static QString formatFileSizeKB(qint64 byte);

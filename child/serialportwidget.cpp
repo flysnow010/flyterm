@@ -449,7 +449,7 @@ void SerialPortWidget::customContextMenu(const QPoint &)
     download->addAction(tr("YModem Reveive..."), this, SLOT(recvFileByYModem()));
 
     contextMenu.addSeparator();
-    createHighLightMenu(contextMenu.addMenu("Syntax Highlighting"));
+    createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
     contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));

@@ -19,14 +19,14 @@ void LocalShell::write(QByteArray const& data)
 
 void LocalShell::start(QString const& shell)
 {
-    QStringList cmds = shell.split(" ");
-    if(cmds.size() < 2)
-        process->setProgram(shell);
-    else
-    {
-        process->setProgram(cmds[0]);
-        process->setArguments(cmds.mid(1));
-    }
+    process->setProgram(shell);
+    process->start();
+}
+
+void LocalShell::start(QString const& shell, QStringList const& params)
+{
+    process->setProgram(shell);
+    process->setArguments(params);
     process->start();
 }
 
@@ -48,5 +48,7 @@ void LocalShell::readyReadStderr()
 
 void LocalShell::stop()
 {
+   process->write("exit\n");
    process->terminate();
+   process->waitForFinished(1000);
 }

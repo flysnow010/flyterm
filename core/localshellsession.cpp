@@ -1,6 +1,7 @@
 #include "localshellsession.h"
 #include "child/localshellwidget.h"
 #include "dialog/connectdialog.h"
+#include "util/util.h"
 
 #include <QMdiArea>
 #include <QMenu>
@@ -31,7 +32,10 @@ QString LocalShellSession::type() const
 
 QIcon LocalShellSession::icon()
 {
-    return QIcon(":image/Term/telnet.png");
+    if(settings_.shellType == "cmd")
+        return Util::GetIcon("cmd.exe");
+    else
+        return Util::GetIcon("powershell.exe");
 }
 
 void LocalShellSession::edit()

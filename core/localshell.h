@@ -11,6 +11,7 @@ public:
     explicit LocalShell(QObject *parent = nullptr);
 
     void start(QString const& shell);
+    void start(QString const& shell, QStringList const& params);
     void stop();
 
     void write(QByteArray const& data);

@@ -8,6 +8,12 @@ struct LocalShellSettings
     QString shellType;
     QString currentPath;
 
+    QString getCurrentPath() const
+    {
+        QString windowsPath = currentPath;
+        windowsPath.replace("/", "\\");
+        return windowsPath;
+    }
     QString name() const
     {
         if(currentPath.isEmpty())

@@ -49,11 +49,23 @@ LocalShellWidget::LocalShellWidget(bool isLog, QWidget *parent)
 
 bool LocalShellWidget::runShell(LocalShellSettings const& settings)
 {
-    shell->start(settings.shellType);
     if(settings.shellType == "cmd")
     {
         console->setLocalEchoEnabled(true);
         console->setNeedNewLine(true);
+    }
+
+    if(settings.currentPath.isEmpty())
+        shell->start(settings.shellType);
+    else
+    {
+        QStringList params;
+        if(settings.shellType == "cmd")
+            params << "/s" <<  "/k" << "pushd" << settings.getCurrentPath();
+        else if(settings.shellType == "powershell")
+            params << "-noexit" <<  "-command" << "Set-Location"
+                   << "-literalPath" << settings.getCurrentPath();
+        shell->start(settings.shellType, params);
     }
     isConnected_ = true;
     return true;
@@ -196,6 +208,7 @@ void LocalShellWidget::closeEvent(QCloseEvent *event)
 {
     emit onClose(this);
     event->accept();
+    shell->stop();
     commandThread->stop();
     commandThread->wait();
     commandThread->quit();

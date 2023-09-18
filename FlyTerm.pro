@@ -1,4 +1,4 @@
-QT       += core gui network serialport printsupport
+QT       += core gui network serialport printsupport  winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

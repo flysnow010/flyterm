@@ -5,8 +5,12 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QtWin>
+
 #include <cstring>
 #include <cstdio>
+#include <windows.h>
+
 namespace
 {
     QString theCachePath = QDir::homePath();
@@ -138,6 +142,16 @@ qint64 const SIZE_MB = 0x100000;
 qint64 const SIZE_GB = 0x40000000;
 qint64 const SIZE_TB = 0x10000000000;
 
+QIcon Util::GetIcon(QString const& fileName, int index)
+{
+    HICON hicon;
+    if(ExtractIconEx(fileName.toStdWString().c_str(), index, &hicon, 0, 1) > 0)
+    {
+        if(hicon)
+            return QIcon(QtWin::fromHICON(hicon));
+    }
+    return QIcon();
+}
 QString Util::formatFileSize(qint64 byte)
 {
     if(byte < SIZE_KB)

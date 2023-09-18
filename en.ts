@@ -273,124 +273,149 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="33"/>
+        <location filename="dialog/connectdialog.ui" line="46"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="54"/>
+        <location filename="dialog/connectdialog.ui" line="67"/>
         <source>Use Privte Key </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="84"/>
-        <location filename="dialog/connectdialog.ui" line="136"/>
-        <location filename="dialog/connectdialog.ui" line="233"/>
+        <location filename="dialog/connectdialog.ui" line="97"/>
+        <location filename="dialog/connectdialog.ui" line="149"/>
+        <location filename="dialog/connectdialog.ui" line="246"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="91"/>
-        <location filename="dialog/connectdialog.ui" line="143"/>
+        <location filename="dialog/connectdialog.ui" line="104"/>
+        <location filename="dialog/connectdialog.ui" line="156"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="101"/>
-        <location filename="dialog/connectdialog.ui" line="179"/>
+        <location filename="dialog/connectdialog.ui" line="114"/>
+        <location filename="dialog/connectdialog.ui" line="192"/>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="125"/>
+        <location filename="dialog/connectdialog.ui" line="138"/>
         <source>Telnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="202"/>
+        <location filename="dialog/connectdialog.ui" line="215"/>
         <source>Serial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="210"/>
+        <location filename="dialog/connectdialog.ui" line="223"/>
         <source>BaudRate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="223"/>
+        <location filename="dialog/connectdialog.ui" line="236"/>
         <source>StopBits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="243"/>
+        <location filename="dialog/connectdialog.ui" line="256"/>
         <source>Parity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="250"/>
+        <location filename="dialog/connectdialog.ui" line="263"/>
         <source>DataBits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="263"/>
+        <location filename="dialog/connectdialog.ui" line="276"/>
         <source>FlowControl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="270"/>
+        <location filename="dialog/connectdialog.ui" line="283"/>
         <source>LocalEcho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="118"/>
+        <location filename="dialog/connectdialog.ui" line="296"/>
+        <source>Local</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="304"/>
+        <source>ShellType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="314"/>
+        <source>Current path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="18"/>
+        <source>Command Prompt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="19"/>
+        <source>Windows PowerShell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="141"/>
         <source>Select Private Key File</source>
         <oldsource>Add Private Key File</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="120"/>
+        <location filename="dialog/connectdialog.cpp" line="143"/>
         <source>Private Key File (*.*)</source>
         <oldsource>KeyFile (*.*)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="146"/>
-        <location filename="dialog/connectdialog.cpp" line="158"/>
+        <location filename="dialog/connectdialog.cpp" line="169"/>
+        <location filename="dialog/connectdialog.cpp" line="181"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="147"/>
+        <location filename="dialog/connectdialog.cpp" line="170"/>
         <source>Even</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="148"/>
+        <location filename="dialog/connectdialog.cpp" line="171"/>
         <source>Odd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="149"/>
+        <location filename="dialog/connectdialog.cpp" line="172"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="150"/>
+        <location filename="dialog/connectdialog.cpp" line="173"/>
         <source>Space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="154"/>
+        <location filename="dialog/connectdialog.cpp" line="177"/>
         <source>1.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="159"/>
+        <location filename="dialog/connectdialog.cpp" line="182"/>
         <source>RTS/CTS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="160"/>
+        <location filename="dialog/connectdialog.cpp" line="183"/>
         <source>XON/XOFF</source>
         <translation type="unfinished"></translation>
     </message>
@@ -449,6 +474,62 @@
     <message>
         <location filename="dialog/fileprogressdialog.ui" line="135"/>
         <source>Bytes transferred:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LocalShellSession</name>
+    <message>
+        <location filename="core/localshellsession.cpp" line="110"/>
+        <source>Duplicate tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LocalShellWidget</name>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="149"/>
+        <source>Print Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="237"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="238"/>
+        <source>Copy All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="239"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="241"/>
+        <source>Increase Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="242"/>
+        <source>Decrease Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="244"/>
+        <source>Syntax Highlighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="246"/>
+        <source>Save To File...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="child/localshellwidget.cpp" line="247"/>
+        <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -883,48 +964,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="347"/>
-        <location filename="mainwindow.cpp" line="1068"/>
+        <location filename="mainwindow.cpp" line="348"/>
+        <location filename="mainwindow.cpp" line="1074"/>
         <source>Status Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="415"/>
+        <location filename="mainwindow.cpp" line="416"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="416"/>
+        <location filename="mainwindow.cpp" line="417"/>
         <source>Paletee of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="419"/>
+        <location filename="mainwindow.cpp" line="420"/>
         <source>Codec of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="418"/>
         <source>Font name of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="418"/>
+        <location filename="mainwindow.cpp" line="419"/>
         <source>Font size of Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="998"/>
+        <location filename="mainwindow.cpp" line="1004"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1006"/>
+        <location filename="mainwindow.cpp" line="1012"/>
         <source>Start server on %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1007"/>
+        <location filename="mainwindow.cpp" line="1013"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1161,6 +1242,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="child/serialportwidget.cpp" line="452"/>
+        <source>Syntax Highlighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="child/serialportwidget.cpp" line="454"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
@@ -1219,32 +1305,32 @@
 <context>
     <name>Session</name>
     <message>
-        <location filename="core/basesession.cpp" line="87"/>
+        <location filename="core/basesession.cpp" line="88"/>
         <source>Floating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="84"/>
+        <location filename="core/basesession.cpp" line="85"/>
         <source>Save Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="93"/>
+        <location filename="core/basesession.cpp" line="94"/>
         <source>Close left tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="99"/>
+        <location filename="core/basesession.cpp" line="100"/>
         <source>Close right tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="107"/>
+        <location filename="core/basesession.cpp" line="108"/>
         <source>Close other tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="115"/>
+        <location filename="core/basesession.cpp" line="116"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
