@@ -171,15 +171,9 @@ void ConsoleParser::parseOneSGR(QString const& sgr)
     else if(sgr == "27'")
         emit onNormalColor();
     else if(sgr == "39")
-    {
-        emit onForeColor(ColorRole::NullRole);
-        emit onNormalForeColor();//??
-    }
+        emit onNormalForeColor();
     else if(sgr == "49")
-    {
-        emit onBackColor(ColorRole::NullRole);
-        emit onNormalBackColor();//??
-    }
+        emit onNormalBackColor();
     else if(sgr == "30")
         emit onForeColor(ColorRole::Black);
     else if(sgr == "90")

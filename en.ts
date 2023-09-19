@@ -423,7 +423,7 @@
 <context>
     <name>Console</name>
     <message>
-        <location filename="console/console.cpp" line="113"/>
+        <location filename="console/console.cpp" line="118"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>

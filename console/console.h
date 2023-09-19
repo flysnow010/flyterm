@@ -68,7 +68,9 @@ private slots:
     void onRight(int count);
     void onText(QString const& text);
     void onForeColor(ColorRole role);
-    void onBackColor(ColorRole role);//???
+    void onBackColor(ColorRole role);
+    void onNormalForeColor();
+    void onNormalBackColor();
     void onCloseCharAttriutes();
 protected:
     void onEnd();
@@ -93,8 +95,8 @@ private:
     ConsolePalette::Ptr palette_;
     QSyntaxHighlighter *highlighter = nullptr;
     LogFile::WeakPtr logfile_;
-    ColorRole currentForeRole;
-    ColorRole currentBackRole;
+    ColorRole currentForeRole = NullRole;
+    ColorRole currentBackRole = NullRole;
 
     QList<int> standardSizes;
     bool isUseColor = false;

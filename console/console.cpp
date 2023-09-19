@@ -35,6 +35,11 @@ void Console::connectCommands()
     connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
     connect(commandParser, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
+    connect(commandParser, SIGNAL(onNormalForeColor()),
+            this, SLOT(onNormalForeColor()));
+    connect(commandParser, SIGNAL(onNormalBackColor()),
+            this, SLOT(onNormalBackColor()));
+
     connect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
     connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
     connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
@@ -162,6 +167,10 @@ void Console::setConsoleColor(ConsoleColor const& color)
 {
     setStyleSheet(QString("QPlainTextEdit { color: %1; background: %2; }")
                   .arg(color.fore.name(), color.back.name()));
+    textFormat.setBackground(palette().color(QPalette::Base));
+    selectAll();
+    setTextBackgroundColor(palette().color(QPalette::Base));
+    clearSelection();
 }
 
 void Console::setConsolePalette(ConsolePalette::Ptr palette)
@@ -424,10 +433,24 @@ void Console::onCloseCharAttriutes()
 void Console::setCloseColor()
 {
     isUseColor = false;
-    currentBackRole = ColorRole::NullRole;
+    onNormalForeColor();
+    onNormalBackColor();
+}
+
+void Console::onNormalForeColor()
+{
     currentForeRole = ColorRole::NullRole;
     textFormat.setForeground(palette().color(QPalette::Text));
+    if(currentBackRole == ColorRole::NullRole)
+        isUseColor = false;
+}
+
+void Console::onNormalBackColor()
+{
+    currentBackRole = ColorRole::NullRole;
     textFormat.setBackground(palette().color(QPalette::Base));
+    if(currentForeRole == ColorRole::NullRole)
+        isUseColor = false;
 }
 
 void Console::onEnd()

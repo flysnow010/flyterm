@@ -10,6 +10,7 @@ LocalShell::LocalShell(QObject *parent)
             this, &LocalShell::readyReadStdout);
     connect(process, &QProcess::readyReadStandardError,
             this, &LocalShell::readyReadStderr);
+    process->setProcessEnvironment(QProcessEnvironment::systemEnvironment());
 }
 
 void LocalShell::write(QByteArray const& data)
@@ -41,9 +42,7 @@ void LocalShell::readyReadStderr()
 {
     process->setCurrentReadChannel(1);
     QByteArray data = process->readAll();
-    emit onData("\033[31m");
     emit onData(data);
-    emit onData("\033[0m");
 }
 
 void LocalShell::stop()
