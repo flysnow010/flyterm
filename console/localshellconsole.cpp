@@ -11,6 +11,8 @@ void LocalShellConsole::keyPressEvent(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_Backspace:
         emit getData(e->text().toLocal8Bit());
+        if (isLocalEchoEnabled())
+            QPlainTextEdit::keyPressEvent(e);
         break;
     case Qt::Key_Left:
         emit getData("\033[D");
@@ -26,13 +28,15 @@ void LocalShellConsole::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
-        //onEnd();
+        onEnd();
+        if(isNeedNewline())
+            emit getData(command.toLocal8Bit());
         emit getData(e->text().toLocal8Bit());
+        emit getData("\n");
         if(isNeedNewline())
         {
             emit onCommand(command);
             command = "";
-            emit getData("\n");
         }
         break;
     default:
@@ -41,7 +45,8 @@ void LocalShellConsole::keyPressEvent(QKeyEvent *e)
             QPlainTextEdit::keyPressEvent(e);
             command += e->text();
         }
-        emit getData(e->text().toLocal8Bit());
+        else
+            emit getData(e->text().toLocal8Bit());
         break;
     }
 }

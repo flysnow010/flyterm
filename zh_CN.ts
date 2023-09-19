@@ -488,47 +488,47 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="149"/>
+        <location filename="child/localshellwidget.cpp" line="165"/>
         <source>Print Document</source>
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="237"/>
+        <location filename="child/localshellwidget.cpp" line="253"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="238"/>
+        <location filename="child/localshellwidget.cpp" line="254"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="239"/>
+        <location filename="child/localshellwidget.cpp" line="255"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="241"/>
+        <location filename="child/localshellwidget.cpp" line="257"/>
         <source>Increase Font Size</source>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="242"/>
+        <location filename="child/localshellwidget.cpp" line="258"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="244"/>
+        <location filename="child/localshellwidget.cpp" line="260"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="246"/>
+        <location filename="child/localshellwidget.cpp" line="262"/>
         <source>Save To File...</source>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="247"/>
+        <location filename="child/localshellwidget.cpp" line="263"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>

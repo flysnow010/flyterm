@@ -19,6 +19,8 @@ public:
     explicit LocalShellWidget(bool isLog, QWidget *parent = nullptr);
 
     bool runShell(LocalShellSettings const& settings);
+    bool runCmdShell(LocalShellSettings const& settings);
+    bool runPowerShell(LocalShellSettings const& settings);
     void sendCommand(QString const& command);
 
     QSize sizeHint() const override;

@@ -50,23 +50,39 @@ LocalShellWidget::LocalShellWidget(bool isLog, QWidget *parent)
 bool LocalShellWidget::runShell(LocalShellSettings const& settings)
 {
     if(settings.shellType == "cmd")
-    {
-        console->setLocalEchoEnabled(true);
-        console->setNeedNewLine(true);
-    }
+        return runCmdShell(settings);
+    else if(settings.shellType == "powershell")
+        return runPowerShell(settings);
+    return false;
+}
 
+bool LocalShellWidget::runCmdShell(LocalShellSettings const& settings)
+{
+    console->setLocalEchoEnabled(true);
+    console->setNeedNewLine(true);
     if(settings.currentPath.isEmpty())
         shell->start(settings.shellType);
     else
     {
         QStringList params;
-        if(settings.shellType == "cmd")
-            params << "/s" <<  "/k" << "pushd" << settings.getCurrentPath();
-        else if(settings.shellType == "powershell")
-            params << "-noexit" <<  "-command" << "Set-Location"
-                   << "-literalPath" << settings.getCurrentPath();
+        params << "/F:ON" << "/E:ON" << "/s" <<  "/k" << "pushd" << settings.getCurrentPath();
         shell->start(settings.shellType, params);
     }
+    isConnected_ = true;
+    return true;
+}
+
+bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
+{
+    QStringList params;
+    //params << "-version" << "5"; 3,4,5
+    params << "-nologo";
+    if(!settings.currentPath.isEmpty())
+    {
+        params << "-noexit" <<  "-command" << "Set-Location"
+               << "-literalPath" << settings.getCurrentPath();
+    }
+    shell->start(settings.shellType, params);
     isConnected_ = true;
     return true;
 }

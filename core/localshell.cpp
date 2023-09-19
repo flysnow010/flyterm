@@ -47,7 +47,6 @@ void LocalShell::readyReadStderr()
 
 void LocalShell::stop()
 {
-   process->write("exit\n");
-   process->terminate();
+   process->kill();
    process->waitForFinished(1000);
 }
