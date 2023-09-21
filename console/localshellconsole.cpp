@@ -10,9 +10,16 @@ void LocalShellConsole::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
     case Qt::Key_Backspace:
-        emit getData(e->text().toLocal8Bit());
         if (isLocalEchoEnabled())
-            QPlainTextEdit::keyPressEvent(e);
+        {
+            if(!command.isEmpty())
+            {
+                QPlainTextEdit::keyPressEvent(e);
+                command.remove(command.size() - 1, 1);
+            }
+        }
+        else
+            emit getData(e->text().toLocal8Bit());
         break;
     case Qt::Key_Left:
         emit getData("\033[D");
