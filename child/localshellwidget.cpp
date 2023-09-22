@@ -65,7 +65,7 @@ bool LocalShellWidget::runCmdShell(LocalShellSettings const& settings)
     else
     {
         QStringList params;
-        params << "/F:ON" << "/E:ON" << "/s" <<  "/k" << "pushd" << settings.getCurrentPath();
+        shell->setWorkingDirectory(settings.getCurrentPath());
         shell->start(settings.shellType, params);
     }
     isConnected_ = true;
@@ -76,12 +76,14 @@ bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
 {
     QStringList params;
     //params << "-version" << "5"; 3,4,5
+    //conhost --headless wsl.exe
+//    params << "--headless" << "wsl.exe" << "--cd" << "/home/james";
+//    shell->start("conhost", params);
+//    isConnected_ = true;
+//    return true;
     params << "-nologo";
     if(!settings.currentPath.isEmpty())
-    {
-        params << "-noexit" <<  "-command" << "Set-Location"
-               << "-literalPath" << settings.getCurrentPath();
-    }
+        shell->setWorkingDirectory(settings.getCurrentPath());
     shell->start(settings.shellType, params);
     isConnected_ = true;
     return true;

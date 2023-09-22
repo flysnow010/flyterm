@@ -18,6 +18,11 @@ void LocalShell::write(QByteArray const& data)
     process->write(data);
 }
 
+void LocalShell::setWorkingDirectory(QString const& directory)
+{
+    process->setWorkingDirectory(directory);
+}
+
 void LocalShell::start(QString const& shell)
 {
     process->setProgram(shell);
@@ -33,15 +38,14 @@ void LocalShell::start(QString const& shell, QStringList const& params)
 
 void LocalShell::readyReadStdout()
 {
-    process->setCurrentReadChannel(0);
-    QByteArray data = process->readAll();
+    QByteArray data = process->readAllStandardOutput();
     emit onData(data);
+    qDebug() << data;
 }
 
 void LocalShell::readyReadStderr()
 {
-    process->setCurrentReadChannel(1);
-    QByteArray data = process->readAll();
+    QByteArray data = process->readAllStandardError();
     emit onData(data);
 }
 

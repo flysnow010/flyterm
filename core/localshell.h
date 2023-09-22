@@ -10,6 +10,7 @@ class LocalShell : public QObject
 public:
     explicit LocalShell(QObject *parent = nullptr);
 
+    void setWorkingDirectory(QString const& directory);
     void start(QString const& shell);
     void start(QString const& shell, QStringList const& params);
     void stop();
