@@ -343,17 +343,45 @@
     </message>
     <message>
         <location filename="dialog/connectdialog.ui" line="296"/>
-        <source>Local</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog/connectdialog.ui" line="304"/>
-        <source>ShellType</source>
+        <source>Shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dialog/connectdialog.ui" line="314"/>
-        <source>Current path</source>
+        <location filename="dialog/connectdialog.ui" line="393"/>
+        <source>Startup directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="324"/>
+        <location filename="dialog/connectdialog.ui" line="403"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="331"/>
+        <source>Execute command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="361"/>
+        <source>WSL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="369"/>
+        <source>Distribution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="379"/>
+        <source>Specify username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="304"/>
+        <source>Terminal Shell</source>
+        <oldsource>ShellType</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -488,47 +516,47 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="165"/>
+        <location filename="child/localshellwidget.cpp" line="167"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="253"/>
+        <location filename="child/localshellwidget.cpp" line="255"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="254"/>
+        <location filename="child/localshellwidget.cpp" line="256"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="255"/>
+        <location filename="child/localshellwidget.cpp" line="257"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="257"/>
+        <location filename="child/localshellwidget.cpp" line="259"/>
         <source>Increase Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="258"/>
+        <location filename="child/localshellwidget.cpp" line="260"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="260"/>
+        <location filename="child/localshellwidget.cpp" line="262"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="262"/>
+        <location filename="child/localshellwidget.cpp" line="264"/>
         <source>Save To File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="263"/>
+        <location filename="child/localshellwidget.cpp" line="265"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>

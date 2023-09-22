@@ -309,7 +309,7 @@
     <message>
         <location filename="dialog/connectdialog.ui" line="215"/>
         <source>Serial</source>
-        <translation type="unfinished">串口</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dialog/connectdialog.ui" line="223"/>
@@ -343,18 +343,54 @@
     </message>
     <message>
         <location filename="dialog/connectdialog.ui" line="296"/>
-        <source>Local</source>
-        <translation type="unfinished">本地</translation>
-    </message>
-    <message>
-        <location filename="dialog/connectdialog.ui" line="304"/>
-        <source>ShellType</source>
-        <translation type="unfinished">Shell类型</translation>
+        <source>Shell</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="dialog/connectdialog.ui" line="314"/>
+        <location filename="dialog/connectdialog.ui" line="393"/>
+        <source>Startup directory</source>
+        <translation type="unfinished">启动目录</translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="324"/>
+        <location filename="dialog/connectdialog.ui" line="403"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="331"/>
+        <source>Execute command</source>
+        <translation type="unfinished">执行命令</translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="361"/>
+        <source>WSL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="369"/>
+        <source>Distribution</source>
+        <translation type="unfinished">分发版本</translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="379"/>
+        <source>Specify username</source>
+        <translation type="unfinished">指定用户名</translation>
+    </message>
+    <message>
+        <source>Local</source>
+        <translation type="obsolete">本地</translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.ui" line="304"/>
+        <source>Terminal Shell</source>
+        <oldsource>ShellType</oldsource>
+        <translation type="unfinished">Shell类型</translation>
+    </message>
+    <message>
         <source>Current path</source>
-        <translation type="unfinished">当前路径</translation>
+        <translation type="obsolete">当前路径</translation>
     </message>
     <message>
         <location filename="dialog/connectdialog.cpp" line="18"/>
@@ -488,47 +524,47 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="165"/>
+        <location filename="child/localshellwidget.cpp" line="167"/>
         <source>Print Document</source>
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="253"/>
+        <location filename="child/localshellwidget.cpp" line="255"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="254"/>
+        <location filename="child/localshellwidget.cpp" line="256"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="255"/>
+        <location filename="child/localshellwidget.cpp" line="257"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="257"/>
+        <location filename="child/localshellwidget.cpp" line="259"/>
         <source>Increase Font Size</source>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="258"/>
+        <location filename="child/localshellwidget.cpp" line="260"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="260"/>
+        <location filename="child/localshellwidget.cpp" line="262"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="262"/>
+        <location filename="child/localshellwidget.cpp" line="264"/>
         <source>Save To File...</source>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="263"/>
+        <location filename="child/localshellwidget.cpp" line="265"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>
