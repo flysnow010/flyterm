@@ -69,11 +69,11 @@ bool LocalShellWidget::runCmdShell(LocalShellSettings const& settings)
     isConnected_ = true;
     return true;
 }
-
+#include <QDebug>
 bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
 {
     QStringList params;
-    //params << "-version" << "5"; 3,4,5
+    //params << "-version" << "4";// 3,4,5
     //conhost --headless wsl.exe
 //    params << "--headless" << "wsl.exe" << "--cd" << "/home/james";
 //    shell->start("conhost", params);
@@ -84,8 +84,10 @@ bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
         shell->setWorkingDirectory(settings.getCurrentPath());
     if(!settings.executeCommand.isEmpty())
     {
-        QByteArray base64 = toUnicode(settings.executeCommand).toBase64();
-        params << "-encodedCommand" << QString::fromUtf8(base64) << "-NoExit";
+//        QByteArray base64 = toUnicode(settings.executeCommand).toBase64();
+//        params  << "-encodedCommand" << QString::fromUtf8(base64)
+//                << "-NoExit";
+        params << "-NoExit" << "-Command" << settings.executeCommand.split(" ");
     }
     shell->start(settings.shellType, params);
     isConnected_ = true;
