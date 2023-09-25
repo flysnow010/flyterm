@@ -60,14 +60,12 @@ bool LocalShellWidget::runCmdShell(LocalShellSettings const& settings)
 {
     console->setLocalEchoEnabled(true);
     console->setNeedNewLine(true);
-    if(settings.currentPath.isEmpty())
-        shell->start(settings.shellType);
-    else
-    {
-        QStringList params;
+    QStringList params;
+    if(!settings.startupPath.isEmpty())
         shell->setWorkingDirectory(settings.getCurrentPath());
-        shell->start(settings.shellType, params);
-    }
+    if(!settings.executeCommand.isEmpty())
+        params << "/k" << settings.executeCommand.split(" ");
+    shell->start(settings.shellType, params);
     isConnected_ = true;
     return true;
 }
@@ -82,8 +80,13 @@ bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
 //    isConnected_ = true;
 //    return true;
     params << "-nologo";
-    if(!settings.currentPath.isEmpty())
+    if(!settings.startupPath.isEmpty())
         shell->setWorkingDirectory(settings.getCurrentPath());
+    if(!settings.executeCommand.isEmpty())
+    {
+        QByteArray base64 = toUnicode(settings.executeCommand).toBase64();
+        params << "-encodedCommand" << QString::fromUtf8(base64) << "-NoExit";
+    }
     shell->start(settings.shellType, params);
     isConnected_ = true;
     return true;
@@ -399,6 +402,13 @@ QString LocalShellWidget::getTestCommand()
 bool LocalShellWidget::testCommandIsEmpty() const
 {
     return testCommands_.isEmpty();
+}
+
+QByteArray LocalShellWidget::toUnicode(QString const& text)
+{
+    return QByteArray::fromRawData(
+                reinterpret_cast<const char *>(text.utf16()),
+                text.size() * sizeof(ushort));
 }
 
 void LocalShellWidget::setCommand(QString const& command)

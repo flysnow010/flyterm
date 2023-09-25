@@ -73,6 +73,7 @@ private:
     void sendCommands(QStringList const& commands);
     QString getTestCommand();
     bool testCommandIsEmpty() const;
+    QByteArray toUnicode(QString const& text);
 private:
     Console* console;
     CommandThread* commandThread;
