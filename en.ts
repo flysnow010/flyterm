@@ -273,177 +273,192 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="46"/>
+        <location filename="dialog/connectdialog.ui" line="56"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="67"/>
+        <location filename="dialog/connectdialog.ui" line="77"/>
         <source>Use Privte Key </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="97"/>
-        <location filename="dialog/connectdialog.ui" line="149"/>
-        <location filename="dialog/connectdialog.ui" line="246"/>
+        <location filename="dialog/connectdialog.ui" line="107"/>
+        <location filename="dialog/connectdialog.ui" line="163"/>
+        <location filename="dialog/connectdialog.ui" line="264"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="104"/>
-        <location filename="dialog/connectdialog.ui" line="156"/>
+        <location filename="dialog/connectdialog.ui" line="114"/>
+        <location filename="dialog/connectdialog.ui" line="170"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="114"/>
-        <location filename="dialog/connectdialog.ui" line="192"/>
+        <location filename="dialog/connectdialog.ui" line="124"/>
+        <location filename="dialog/connectdialog.ui" line="206"/>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="138"/>
+        <location filename="dialog/connectdialog.ui" line="152"/>
         <source>Telnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="215"/>
+        <location filename="dialog/connectdialog.ui" line="233"/>
         <source>Serial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="223"/>
+        <location filename="dialog/connectdialog.ui" line="241"/>
         <source>BaudRate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="236"/>
+        <location filename="dialog/connectdialog.ui" line="254"/>
         <source>StopBits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="256"/>
+        <location filename="dialog/connectdialog.ui" line="274"/>
         <source>Parity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="263"/>
+        <location filename="dialog/connectdialog.ui" line="281"/>
         <source>DataBits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="276"/>
+        <location filename="dialog/connectdialog.ui" line="294"/>
         <source>FlowControl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="283"/>
+        <location filename="dialog/connectdialog.ui" line="301"/>
         <source>LocalEcho</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="296"/>
+        <location filename="dialog/connectdialog.ui" line="314"/>
         <source>Shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="314"/>
-        <location filename="dialog/connectdialog.ui" line="393"/>
+        <location filename="dialog/connectdialog.ui" line="332"/>
+        <location filename="dialog/connectdialog.ui" line="397"/>
         <source>Startup directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="324"/>
-        <location filename="dialog/connectdialog.ui" line="403"/>
+        <location filename="dialog/connectdialog.ui" line="342"/>
+        <location filename="dialog/connectdialog.ui" line="407"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="331"/>
+        <location filename="dialog/connectdialog.ui" line="349"/>
         <source>Execute command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="361"/>
+        <location filename="dialog/connectdialog.ui" line="379"/>
         <source>WSL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="369"/>
+        <location filename="dialog/connectdialog.ui" line="387"/>
         <source>Distribution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="379"/>
+        <location filename="dialog/connectdialog.ui" line="414"/>
         <source>Specify username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.ui" line="304"/>
+        <location filename="dialog/connectdialog.ui" line="322"/>
         <source>Terminal Shell</source>
         <oldsource>ShellType</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="18"/>
+        <location filename="dialog/connectdialog.cpp" line="251"/>
         <source>Command Prompt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="19"/>
+        <location filename="dialog/connectdialog.cpp" line="252"/>
         <source>Windows PowerShell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="141"/>
+        <location filename="dialog/connectdialog.cpp" line="257"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="178"/>
         <source>Select Private Key File</source>
         <oldsource>Add Private Key File</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="143"/>
+        <location filename="dialog/connectdialog.cpp" line="180"/>
         <source>Private Key File (*.*)</source>
         <oldsource>KeyFile (*.*)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="169"/>
-        <location filename="dialog/connectdialog.cpp" line="181"/>
+        <location filename="dialog/connectdialog.cpp" line="190"/>
+        <source>Select shell startup path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="198"/>
+        <source>Select WSL startup path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/connectdialog.cpp" line="222"/>
+        <location filename="dialog/connectdialog.cpp" line="234"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="170"/>
+        <location filename="dialog/connectdialog.cpp" line="223"/>
         <source>Even</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="171"/>
+        <location filename="dialog/connectdialog.cpp" line="224"/>
         <source>Odd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="172"/>
+        <location filename="dialog/connectdialog.cpp" line="225"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="173"/>
+        <location filename="dialog/connectdialog.cpp" line="226"/>
         <source>Space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="177"/>
+        <location filename="dialog/connectdialog.cpp" line="230"/>
         <source>1.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="182"/>
+        <location filename="dialog/connectdialog.cpp" line="235"/>
         <source>RTS/CTS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="183"/>
+        <location filename="dialog/connectdialog.cpp" line="236"/>
         <source>XON/XOFF</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,47 +531,47 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="167"/>
+        <location filename="child/localshellwidget.cpp" line="170"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="255"/>
+        <location filename="child/localshellwidget.cpp" line="258"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="256"/>
+        <location filename="child/localshellwidget.cpp" line="259"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="257"/>
+        <location filename="child/localshellwidget.cpp" line="260"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="259"/>
+        <location filename="child/localshellwidget.cpp" line="262"/>
         <source>Increase Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="260"/>
+        <location filename="child/localshellwidget.cpp" line="263"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="262"/>
+        <location filename="child/localshellwidget.cpp" line="265"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="264"/>
+        <location filename="child/localshellwidget.cpp" line="267"/>
         <source>Save To File...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="265"/>
+        <location filename="child/localshellwidget.cpp" line="268"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>
