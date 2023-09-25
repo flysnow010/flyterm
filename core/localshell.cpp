@@ -40,13 +40,17 @@ void LocalShell::readyReadStdout()
 {
     QByteArray data = process->readAllStandardOutput();
     emit onData(data);
-    qDebug() << data;
 }
 
 void LocalShell::readyReadStderr()
 {
     QByteArray data = process->readAllStandardError();
     emit onData(data);
+}
+
+void LocalShell::wait()
+{
+    process->waitForFinished();
 }
 
 void LocalShell::stop()

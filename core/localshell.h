@@ -13,6 +13,7 @@ public:
     void setWorkingDirectory(QString const& directory);
     void start(QString const& shell);
     void start(QString const& shell, QStringList const& params);
+    void wait();
     void stop();
 
     void write(QByteArray const& data);
