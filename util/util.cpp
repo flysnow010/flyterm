@@ -152,6 +152,13 @@ QIcon Util::GetIcon(QString const& fileName, int index)
     }
     return QIcon();
 }
+
+QString Util::fromUnicode(QByteArray const& data)
+{
+    return QString::fromUtf16(reinterpret_cast<const ushort *>(data.data()),
+                       data.size() / sizeof(ushort));
+}
+
 QString Util::formatFileSize(qint64 byte)
 {
     if(byte < SIZE_KB)
