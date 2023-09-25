@@ -144,6 +144,7 @@ HEADERS += \
     core/telnetsession.h \
     core/telnetsettings.h \
     core/userauth.h \
+    core/wslsettings.h \
     dialog/aboutdialog.h \
     dialog/commanddialog.h \
     dialog/connectdialog.h \
