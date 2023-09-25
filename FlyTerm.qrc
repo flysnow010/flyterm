@@ -24,5 +24,14 @@
         <file>image/File/display.png</file>
         <file>image/File/undisplay.png</file>
         <file>image/File/quickconnect.png</file>
+        <file>image/Os/centos.png</file>
+        <file>image/Os/debian.png</file>
+        <file>image/Os/kali.png</file>
+        <file>image/Os/oracle.png</file>
+        <file>image/Os/redhat.png</file>
+        <file>image/Os/suse.png</file>
+        <file>image/Os/ubuntu.png</file>
+        <file>image/Os/linux.png</file>
+        <file>image/Os/windows.png</file>
     </qresource>
 </RCC>
