@@ -292,7 +292,8 @@ void LocalShellSession::setObject(QJsonObject const& obj)
 {
     settings_.shellText = obj.value("shellText").toString();
     settings_.shellType = obj.value("shellType").toString();
-    settings_.currentPath = obj.value("currentPath").toString();
+    settings_.startupPath = obj.value("startupPath").toString();
+    settings_.executeCommand = obj.value("executeCommand").toString();
 }
 
 QJsonObject LocalShellSession::object() const
@@ -301,7 +302,8 @@ QJsonObject LocalShellSession::object() const
 
     obj.insert("shellText", settings_.shellText);
     obj.insert("shellType", settings_.shellType);
-    obj.insert("currentPath", settings_.currentPath);
+    obj.insert("startupPath", settings_.startupPath);
+    obj.insert("executeCommand", settings_.executeCommand);
     return obj;
 }
 

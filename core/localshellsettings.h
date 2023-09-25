@@ -6,19 +6,20 @@ struct LocalShellSettings
 {
     QString shellText;
     QString shellType;
-    QString currentPath;
+    QString startupPath;
+    QString executeCommand;
 
     QString getCurrentPath() const
     {
-        QString windowsPath = currentPath;
+        QString windowsPath = startupPath;
         windowsPath.replace("/", "\\");
         return windowsPath;
     }
     QString name() const
     {
-        if(currentPath.isEmpty())
+        if(startupPath.isEmpty())
             return shellText;
-        return QString("%1@%2").arg(shellText, currentPath);
+        return QString("%1@%2").arg(shellText, startupPath);
     }
 };
 #endif // LOCALSHELLSETTINGS_H
