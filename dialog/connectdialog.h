@@ -7,6 +7,7 @@
 #include "core/telnetsettings.h"
 #include "core/serialsettings.h"
 #include "core/localshellsettings.h"
+#include "core/wslsettings.h"
 
 namespace Ui {
 class ConnectDialog;
@@ -34,13 +35,22 @@ public:
 
     LocalShellSettings localShellSettings() const;
     void setLocalShellSettings(LocalShellSettings const& settings);
+
+    WSLSettings wslSettings() const;
+    void setWslSettings(WSLSettings const& settings);
 private slots:
     void selectPrivateKeyFileName();
+    void selectSelectShellPath();
+    void selectSelectWSLPath();
 private:
     void fillPortsParameters();
     void fillPortsInfo();
+    void fillLocalInfo();
+    void fillWSLInfo();
+    QIcon getOsIcon(QString const& os);
 private:
     Ui::ConnectDialog *ui;
+    QStringList distributionItmes;
 };
 
 #endif // CONNECTDIALOG_H

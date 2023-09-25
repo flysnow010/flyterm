@@ -1,5 +1,8 @@
 #include "connectdialog.h"
 #include "ui_connectdialog.h"
+#include "core/localshell.h"
+#include "util/util.h"
+
 #include <QtSerialPort/QSerialPortInfo>
 #include <QFileDialog>
 
@@ -8,6 +11,7 @@ namespace  {
     int const Telnet_Tab = 1;
     int const Serial_Tab = 2;
     int const Local_Tab = 3;
+    int const WSL_Tab = 4;
 }
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,12 +19,20 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    ui->comboBoxSheelType->addItem(tr("Command Prompt"), "cmd");
-    ui->comboBoxSheelType->addItem(tr("Windows PowerShell"), "powershell");
+    ui->tabWidget->tabBar()->setTabIcon(Local_Tab, Util::GetIcon("cmd.exe"));
+    ui->tabWidget->tabBar()->setTabIcon(WSL_Tab, getOsIcon("windows"));
+
     fillPortsParameters();
     fillPortsInfo();
+    fillLocalInfo();
+    fillWSLInfo();
+
     connect(ui->toolButtonAddFile, SIGNAL(clicked()),
             this, SLOT(selectPrivateKeyFileName()));
+    connect(ui->toolButtonShellSelectPath, SIGNAL(clicked()),
+            this, SLOT(selectSelectShellPath()));
+    connect(ui->toolButtonWSLStartupDirectory, SIGNAL(clicked()),
+            this, SLOT(selectSelectWSLPath()));
 }
 
 ConnectDialog::~ConnectDialog()
@@ -39,6 +51,8 @@ ConnectType ConnectDialog::type() const
         return Serial;
     else if (currentIndex == Local_Tab)
         return Local;
+    else if (currentIndex == WSL_Tab)
+        return WSL;
     else
         return None;
 }
@@ -53,6 +67,8 @@ void ConnectDialog::setType(ConnectType t)
         ui->tabWidget->setCurrentIndex(Serial_Tab);
     else if(t == Local)
         ui->tabWidget->setCurrentIndex(Local_Tab);
+    else if(t == WSL)
+        ui->tabWidget->setCurrentIndex(WSL_Tab);
 }
 
 SSHSettings ConnectDialog::sshSettings() const
@@ -124,7 +140,8 @@ LocalShellSettings ConnectDialog::localShellSettings() const
     LocalShellSettings settings;
     settings.shellText = ui->comboBoxSheelType->currentText();
     settings.shellType = ui->comboBoxSheelType->currentData().toString();
-    settings.currentPath = ui->lineEditCurentPath->text();
+    settings.executeCommand = ui->comboBoxShellExecuteCommand->currentText();
+    settings.startupPath = ui->lineEditShellStartupPath->text();
     return settings;
 }
 
@@ -132,7 +149,27 @@ void ConnectDialog::setLocalShellSettings(LocalShellSettings const& settings)
 {
     QStringList shellTypes = QStringList() << "cmd" << "powershell";
     ui->comboBoxSheelType->setCurrentIndex(shellTypes.indexOf(settings.shellType));
-    ui->lineEditCurentPath->setText(settings.currentPath);
+    ui->comboBoxShellExecuteCommand->setCurrentText(settings.executeCommand);
+    ui->lineEditShellStartupPath->setText(settings.startupPath);
+}
+
+WSLSettings ConnectDialog::wslSettings() const
+{
+    WSLSettings settings;
+    settings.distributionText = ui->comboBoxWSLDistribution->currentText();
+    settings.distribution = ui->comboBoxWSLDistribution->currentData().toString();
+    settings.startupPath = ui->lineEditWSLStartupPath->text();
+    settings.specifyUsername = ui->lineEditWSLUsername->text();
+    settings.useSpecifyUsername = ui->checkBoxUseSpecifyUsername->isChecked();
+    return settings;
+}
+
+void ConnectDialog::setWslSettings(WSLSettings const& settings)
+{
+    ui->comboBoxWSLDistribution->setCurrentIndex(distributionItmes.indexOf(settings.distribution));
+    ui->lineEditShellStartupPath->setText(settings.startupPath);
+    ui->lineEditWSLUsername->setText(settings.specifyUsername);
+    ui->checkBoxUseSpecifyUsername->setChecked(settings.useSpecifyUsername);
 }
 
 void ConnectDialog::selectPrivateKeyFileName()
@@ -146,6 +183,22 @@ void ConnectDialog::selectPrivateKeyFileName()
         filePath = QFileInfo(fileName).filePath();
         ui->privateKeyFileName->setText(fileName);
     }
+}
+
+void ConnectDialog::selectSelectShellPath()
+{
+    QString startypPath = QFileDialog::getExistingDirectory(this, tr("Select shell startup path"),
+                                      ui->lineEditShellStartupPath->text());
+    if(!startypPath.isEmpty())
+        ui->lineEditShellStartupPath->setText(startypPath);
+}
+
+void ConnectDialog::selectSelectWSLPath()
+{
+    QString startypPath = QFileDialog::getExistingDirectory(this, tr("Select WSL startup path"),
+                                      ui->lineEditWSLStartupPath->text());
+    if(!startypPath.isEmpty())
+        ui->lineEditWSLStartupPath->setText(startypPath);
 }
 
 void ConnectDialog::fillPortsParameters()
@@ -191,4 +244,43 @@ void ConnectDialog::fillPortsInfo()
                                   .arg(info.portName(), info.description()),
                                   info.portName());
     }
+}
+
+void ConnectDialog::fillLocalInfo()
+{
+    ui->comboBoxSheelType->addItem(Util::GetIcon("cmd.exe"), tr("Command Prompt"), "cmd");
+    ui->comboBoxSheelType->addItem(Util::GetIcon("powershell.exe"), tr("Windows PowerShell"), "powershell");
+}
+
+void ConnectDialog::fillWSLInfo()
+{
+    ui->comboBoxWSLDistribution->addItem(getOsIcon("windows"), tr("Default"), "");
+    LocalShell localShell;
+    connect(&localShell, &LocalShell::onData, this, [=](QByteArray const& data){
+        QStringList items = Util::fromUnicode(data).split("\r\n");
+        foreach(auto item, items)
+        {
+            if(!item.isEmpty())
+            {
+                ui->comboBoxWSLDistribution->addItem(getOsIcon(item.toLower()), item, item);
+                distributionItmes << item;
+            }
+        }
+
+    });
+
+    localShell.start("wsl", QStringList() << "-l" << "-q");
+    localShell.wait();
+}
+
+QIcon ConnectDialog::getOsIcon(QString const& os)
+{
+    QStringList icons = QStringList()
+            << "windows" << "ubuntu" << "debian" << "kali" << "oracle" << "suse";
+    foreach(auto icon, icons)
+    {
+        if(os.contains(icon))
+            return QIcon(QString(":image/Os/%1.png").arg(icon));
+    }
+    return QIcon(":image/Os/linux.png");
 }
