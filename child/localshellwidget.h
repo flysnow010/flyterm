@@ -27,8 +27,8 @@ public:
 
     bool isConnected() const;
     void reconnect(LocalShellSettings const& settings);
-
     void disconnect();
+
     bool isDisplay() const;
     void display();
     void undisplay();

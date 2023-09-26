@@ -11,7 +11,6 @@
 #include <QMenu>
 #include <QResizeEvent>
 #include <QTimer>
-#include <QTimer>
 
 LocalShellWidget::LocalShellWidget(bool isLog, QWidget *parent)
     : QWidget(parent)
@@ -25,7 +24,7 @@ LocalShellWidget::LocalShellWidget(bool isLog, QWidget *parent)
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
-        beforeLogfile_->open(QString("%1/telnet_%2_%3.txt")
+        beforeLogfile_->open(QString("%1/localshell_%2_%3.txt")
                        .arg(Util::logoPath())
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
@@ -69,26 +68,17 @@ bool LocalShellWidget::runCmdShell(LocalShellSettings const& settings)
     isConnected_ = true;
     return true;
 }
-#include <QDebug>
+
 bool LocalShellWidget::runPowerShell(LocalShellSettings const& settings)
 {
     QStringList params;
-    //params << "-version" << "4";// 3,4,5
-    //conhost --headless wsl.exe
-//    params << "--headless" << "wsl.exe" << "--cd" << "/home/james";
-//    shell->start("conhost", params);
-//    isConnected_ = true;
-//    return true;
     params << "-nologo";
     if(!settings.startupPath.isEmpty())
         shell->setWorkingDirectory(settings.getCurrentPath());
+
     if(!settings.executeCommand.isEmpty())
-    {
-//        QByteArray base64 = toUnicode(settings.executeCommand).toBase64();
-//        params  << "-encodedCommand" << QString::fromUtf8(base64)
-//                << "-NoExit";
         params << "-NoExit" << "-Command" << settings.executeCommand.split(" ");
-    }
+
     shell->start(settings.shellType, params);
     isConnected_ = true;
     return true;
@@ -116,10 +106,9 @@ void LocalShellWidget::reconnect(LocalShellSettings const& settings)
     runShell(settings);
 }
 
-
 void LocalShellWidget::disconnect()
 {
-    //telnet->close();
+    shell->stop();
     isConnected_ = false;
 }
 
