@@ -6,7 +6,7 @@ TelnetConsole::TelnetConsole(QWidget *parent)
 {
 }
 
-ConsoleParser * TelnetConsole::createParser()
+ConsoleParser* TelnetConsole::createParser()
 {
     return new TelnetParser();
 }

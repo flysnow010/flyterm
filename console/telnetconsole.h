@@ -10,7 +10,7 @@ public:
     explicit TelnetConsole(QWidget *parent = nullptr);
 
 protected:
-    ConsoleParser * createParser() override;
+    ConsoleParser* createParser() override;
 };
 
 #endif // TELNETCONSOLE_H
