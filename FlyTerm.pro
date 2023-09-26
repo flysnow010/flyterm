@@ -19,10 +19,12 @@ else
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    child/child.cpp \
     child/localshellwidget.cpp \
     child/serialportwidget.cpp \
     child/sshwidget.cpp \
     child/telnetwidget.cpp \
+    child/wslwidget.cpp \
     color/consolecolor.cpp \
     color/consolepalette.cpp \
     console/alternateconsole.cpp \
@@ -34,6 +36,7 @@ SOURCES += \
     console/serialportconsole.cpp \
     console/sshconsole.cpp \
     console/telnetconsole.cpp \
+    console/wslconsole.cpp \
     core/basesession.cpp \
     core/commandmanager.cpp \
     core/commandthread.cpp \
@@ -53,6 +56,7 @@ SOURCES += \
     core/telnetparser.cpp \
     core/telnetsession.cpp \
     core/userauth.cpp \
+    core/wslsession.cpp \
     dialog/aboutdialog.cpp \
     dialog/commanddialog.cpp \
     dialog/connectdialog.cpp \
@@ -101,10 +105,12 @@ SOURCES += \
     util/util.cpp
 
 HEADERS += \
+    child/child.h \
     child/localshellwidget.h \
     child/serialportwidget.h \
     child/sshwidget.h \
     child/telnetwidget.h \
+    child/wslwidget.h \
     color/consolecolor.h \
     color/consolepalette.h \
     color/consolerole.h \
@@ -118,6 +124,7 @@ HEADERS += \
     console/serialportconsole.h \
     console/sshconsole.h \
     console/telnetconsole.h \
+    console/wslconsole.h \
     core/basesession.h \
     core/commandmanager.h \
     core/commandthread.h \
@@ -144,6 +151,7 @@ HEADERS += \
     core/telnetsession.h \
     core/telnetsettings.h \
     core/userauth.h \
+    core/wslsession.h \
     core/wslsettings.h \
     dialog/aboutdialog.h \
     dialog/commanddialog.h \
