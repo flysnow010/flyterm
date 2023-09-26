@@ -3,6 +3,7 @@
 #include "telnetsession.h"
 #include "serialsession.h"
 #include "localshellsession.h"
+#include "wslsession.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -265,6 +266,8 @@ Session::Ptr SessionManager::createSession(QJsonObject const& obj)
         session = Session::Ptr(new LocalShellSession(name));
     else if(type == "PowerShellSession")
         session = Session::Ptr(new LocalShellSession(name));
+    else if(type == "WSLSession")
+        session = Session::Ptr(new WSLSession(name));
 
     if(session)
     {

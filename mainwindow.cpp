@@ -12,6 +12,7 @@
 #include "core/telnetsession.h"
 #include "core/serialsession.h"
 #include "core/localshellsession.h"
+#include "core/wslsession.h"
 #include "core/userauth.h"
 #include "core/languagemanager.h"
 #include "core/consolecodec.h"
@@ -463,6 +464,11 @@ void MainWindow::addSession(bool isCreateSheel)
         {
             LocalShellSettings settings = dlg.localShellSettings();
             session = Session::Ptr(new LocalShellSession(settings.name(), settings));
+        }
+        else if(connectType == ConnectType::WSL)
+        {
+            WSLSettings settings = dlg.wslSettings();
+            session = Session::Ptr(new WSLSession(settings.name(), settings));
         }
         if(session)
         {
