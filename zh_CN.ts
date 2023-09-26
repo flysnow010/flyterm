@@ -125,6 +125,54 @@
     </message>
 </context>
 <context>
+    <name>Child</name>
+    <message>
+        <location filename="child/child.cpp" line="86"/>
+        <source>Print Document</source>
+        <translation type="unfinished">打印文档</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="194"/>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="195"/>
+        <source>Copy All</source>
+        <translation type="unfinished">复制全部</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="196"/>
+        <source>Paste</source>
+        <translation type="unfinished">粘贴</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="198"/>
+        <source>Increase Font Size</source>
+        <translation type="unfinished">增大字体</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="199"/>
+        <source>Decrease Font Size</source>
+        <translation type="unfinished">减小字体</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="201"/>
+        <source>Syntax Highlighting</source>
+        <translation type="unfinished">语法高亮</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="203"/>
+        <source>Save To File...</source>
+        <translation type="unfinished">保存到文件...</translation>
+    </message>
+    <message>
+        <location filename="child/child.cpp" line="204"/>
+        <source>Clear Scrollback</source>
+        <translation type="unfinished">清除回滚</translation>
+    </message>
+</context>
+<context>
     <name>CommandDialog</name>
     <message>
         <location filename="dialog/commanddialog.ui" line="14"/>
@@ -393,80 +441,81 @@
         <translation type="obsolete">当前路径</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="251"/>
+        <location filename="dialog/connectdialog.cpp" line="252"/>
         <source>Command Prompt</source>
         <translation type="unfinished">命令提示符</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="252"/>
+        <location filename="dialog/connectdialog.cpp" line="253"/>
         <source>Windows PowerShell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="257"/>
-        <source>Default</source>
-        <translation type="unfinished">默认</translation>
+        <location filename="dialog/connectdialog.cpp" line="258"/>
+        <source>WSL-Default</source>
+        <oldsource>WSL Default</oldsource>
+        <translation type="unfinished">WSL-Default</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="178"/>
+        <location filename="dialog/connectdialog.cpp" line="179"/>
         <source>Select Private Key File</source>
         <oldsource>Add Private Key File</oldsource>
         <translation type="unfinished">选择私钥文件</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="180"/>
+        <location filename="dialog/connectdialog.cpp" line="181"/>
         <source>Private Key File (*.*)</source>
         <oldsource>KeyFile (*.*)</oldsource>
         <translation type="unfinished">私钥文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="190"/>
+        <location filename="dialog/connectdialog.cpp" line="191"/>
         <source>Select shell startup path</source>
         <translation type="unfinished">选择Shell启动目录</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="198"/>
+        <location filename="dialog/connectdialog.cpp" line="199"/>
         <source>Select WSL startup path</source>
         <translation type="unfinished">选择WSL启动目录</translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="222"/>
-        <location filename="dialog/connectdialog.cpp" line="234"/>
+        <location filename="dialog/connectdialog.cpp" line="223"/>
+        <location filename="dialog/connectdialog.cpp" line="235"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="223"/>
+        <location filename="dialog/connectdialog.cpp" line="224"/>
         <source>Even</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="224"/>
+        <location filename="dialog/connectdialog.cpp" line="225"/>
         <source>Odd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="225"/>
+        <location filename="dialog/connectdialog.cpp" line="226"/>
         <source>Mark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="226"/>
+        <location filename="dialog/connectdialog.cpp" line="227"/>
         <source>Space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="230"/>
+        <location filename="dialog/connectdialog.cpp" line="231"/>
         <source>1.5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="235"/>
+        <location filename="dialog/connectdialog.cpp" line="236"/>
         <source>RTS/CTS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog/connectdialog.cpp" line="236"/>
+        <location filename="dialog/connectdialog.cpp" line="237"/>
         <source>XON/XOFF</source>
         <translation type="unfinished"></translation>
     </message>
@@ -539,47 +588,47 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="170"/>
+        <location filename="child/localshellwidget.cpp" line="161"/>
         <source>Print Document</source>
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="258"/>
+        <location filename="child/localshellwidget.cpp" line="249"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="259"/>
+        <location filename="child/localshellwidget.cpp" line="250"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="260"/>
+        <location filename="child/localshellwidget.cpp" line="251"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="262"/>
+        <location filename="child/localshellwidget.cpp" line="253"/>
         <source>Increase Font Size</source>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="263"/>
+        <location filename="child/localshellwidget.cpp" line="254"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="265"/>
+        <location filename="child/localshellwidget.cpp" line="256"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="267"/>
+        <location filename="child/localshellwidget.cpp" line="258"/>
         <source>Save To File...</source>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="268"/>
+        <location filename="child/localshellwidget.cpp" line="259"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>
@@ -1019,48 +1068,48 @@
         <translation type="unfinished">垂青平铺</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="348"/>
-        <location filename="mainwindow.cpp" line="1074"/>
+        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="1080"/>
         <source>Status Bar</source>
         <translation type="unfinished">状态条</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="416"/>
+        <location filename="mainwindow.cpp" line="417"/>
         <source>Background and foreground of Console</source>
         <translation type="unfinished">背景和前景</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="418"/>
         <source>Paletee of Console</source>
         <translation type="unfinished">终端调色板</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="420"/>
+        <location filename="mainwindow.cpp" line="421"/>
         <source>Codec of Console</source>
         <translation type="unfinished">终端编码</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="418"/>
+        <location filename="mainwindow.cpp" line="419"/>
         <source>Font name of Console</source>
         <translation type="unfinished">终端字体名称</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="419"/>
+        <location filename="mainwindow.cpp" line="420"/>
         <source>Font size of Console</source>
         <translation type="unfinished">终端字体大小</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1004"/>
+        <location filename="mainwindow.cpp" line="1010"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished">选择TFTP路径</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1012"/>
+        <location filename="mainwindow.cpp" line="1018"/>
         <source>Start server on %1 </source>
         <translation type="unfinished">开始服务于%1 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1013"/>
+        <location filename="mainwindow.cpp" line="1019"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished">从%1停止服务 </translation>
     </message>
@@ -1411,32 +1460,32 @@
 <context>
     <name>Session</name>
     <message>
-        <location filename="core/basesession.cpp" line="88"/>
+        <location filename="core/basesession.cpp" line="89"/>
         <source>Floating</source>
         <translation type="unfinished">浮动</translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="85"/>
+        <location filename="core/basesession.cpp" line="86"/>
         <source>Save Text</source>
         <translation type="unfinished">保存文本</translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="94"/>
+        <location filename="core/basesession.cpp" line="95"/>
         <source>Close left tab</source>
         <translation type="unfinished">关闭左侧选项卡</translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="100"/>
+        <location filename="core/basesession.cpp" line="101"/>
         <source>Close right tab</source>
         <translation type="unfinished">关闭右侧选项卡</translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="108"/>
+        <location filename="core/basesession.cpp" line="109"/>
         <source>Close other tab</source>
         <translation type="unfinished">关闭其它选项卡</translation>
     </message>
     <message>
-        <location filename="core/basesession.cpp" line="116"/>
+        <location filename="core/basesession.cpp" line="117"/>
         <source>Close</source>
         <translation type="unfinished">关闭</translation>
     </message>
@@ -1647,6 +1696,14 @@
         <location filename="child/telnetwidget.cpp" line="374"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
+    </message>
+</context>
+<context>
+    <name>WSLSession</name>
+    <message>
+        <location filename="core/wslsession.cpp" line="291"/>
+        <source>Duplicate tab</source>
+        <translation type="unfinished">复制选项卡</translation>
     </message>
 </context>
 </TS>
