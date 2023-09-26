@@ -349,7 +349,6 @@ void Console::onRight(int count)
 
     screen.cursorRight(count);
     cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, count);
-
 }
 
 void Console::onText(QString const& text)

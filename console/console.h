@@ -59,7 +59,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
-    virtual ConsoleParser * createParser();
+    virtual ConsoleParser* createParser();
 private slots:
     void onBeep();
     void onGetCursorPos();
@@ -91,7 +91,7 @@ protected:
     bool isLocalEchoEnabled() const { return isLocalEchoEnabled_; }
     bool isNeedNewline() const { return isNeedNewline_; }
 private:
-    ConsoleParser *commandParser = 0;
+    ConsoleParser *commandParser = nullptr;
     ConsolePalette::Ptr palette_;
     QSyntaxHighlighter *highlighter = nullptr;
     LogFile::WeakPtr logfile_;
