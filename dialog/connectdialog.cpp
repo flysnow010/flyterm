@@ -13,6 +13,7 @@ namespace  {
     int const Local_Tab = 3;
     int const WSL_Tab = 4;
 }
+
 ConnectDialog::ConnectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConnectDialog)
@@ -20,7 +21,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->tabWidget->tabBar()->setTabIcon(Local_Tab, Util::GetIcon("cmd.exe"));
-    ui->tabWidget->tabBar()->setTabIcon(WSL_Tab, getOsIcon("windows"));
+    ui->tabWidget->tabBar()->setTabIcon(WSL_Tab, QIcon(":image/Os/linux.png"));
 
     fillPortsParameters();
     fillPortsInfo();
@@ -167,7 +168,7 @@ WSLSettings ConnectDialog::wslSettings() const
 void ConnectDialog::setWslSettings(WSLSettings const& settings)
 {
     ui->comboBoxWSLDistribution->setCurrentIndex(distributionItmes.indexOf(settings.distribution));
-    ui->lineEditShellStartupPath->setText(settings.startupPath);
+    ui->lineEditWSLStartupPath->setText(settings.startupPath);
     ui->lineEditWSLUsername->setText(settings.specifyUsername);
     ui->checkBoxUseSpecifyUsername->setChecked(settings.useSpecifyUsername);
 }
@@ -254,7 +255,9 @@ void ConnectDialog::fillLocalInfo()
 
 void ConnectDialog::fillWSLInfo()
 {
-    ui->comboBoxWSLDistribution->addItem(getOsIcon("windows"), tr("Default"), "");
+    ui->comboBoxWSLDistribution->addItem(QIcon(":image/Os/linux.png"), tr("WSL-Default"), "");
+    distributionItmes << QString();
+
     LocalShell localShell;
     connect(&localShell, &LocalShell::onData, this, [=](QByteArray const& data){
         QStringList items = Util::fromUnicode(data).split("\r\n");
@@ -262,25 +265,12 @@ void ConnectDialog::fillWSLInfo()
         {
             if(!item.isEmpty())
             {
-                ui->comboBoxWSLDistribution->addItem(getOsIcon(item.toLower()), item, item);
+                ui->comboBoxWSLDistribution->addItem(Util::getOsIcon(item.toLower()), item, item);
                 distributionItmes << item;
             }
         }
-
     });
 
     localShell.start("wsl", QStringList() << "-l" << "-q");
     localShell.wait();
-}
-
-QIcon ConnectDialog::getOsIcon(QString const& os)
-{
-    QStringList icons = QStringList()
-            << "windows" << "ubuntu" << "debian" << "kali" << "oracle" << "suse";
-    foreach(auto icon, icons)
-    {
-        if(os.contains(icon))
-            return QIcon(QString(":image/Os/%1.png").arg(icon));
-    }
-    return QIcon(":image/Os/linux.png");
 }

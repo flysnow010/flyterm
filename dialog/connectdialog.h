@@ -47,7 +47,6 @@ private:
     void fillPortsInfo();
     void fillLocalInfo();
     void fillWSLInfo();
-    QIcon getOsIcon(QString const& os);
 private:
     Ui::ConnectDialog *ui;
     QStringList distributionItmes;
