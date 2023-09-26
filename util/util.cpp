@@ -153,6 +153,18 @@ QIcon Util::GetIcon(QString const& fileName, int index)
     return QIcon();
 }
 
+QIcon Util::getOsIcon(QString const& os)
+{
+    QStringList icons = QStringList()
+            << "windows" << "ubuntu" << "debian" << "kali" << "oracle" << "suse";
+    foreach(auto icon, icons)
+    {
+        if(os.contains(icon))
+            return QIcon(QString(":image/Os/%1.png").arg(icon));
+    }
+    return QIcon(":image/Os/linux.png");
+}
+
 QString Util::fromUnicode(QByteArray const& data)
 {
     return QString::fromUtf16(reinterpret_cast<const ushort *>(data.data()),

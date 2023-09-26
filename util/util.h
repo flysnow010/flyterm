@@ -95,6 +95,7 @@ public:
     }
 
     static QIcon GetIcon(QString const& fileName, int index = 0);
+    static QIcon getOsIcon(QString const& os);
     static QString fromUnicode(QByteArray const& data);
     static QString formatFileSize(qint64 byte);
     static QString formatFileSizeB(qint64 byte);
