@@ -136,6 +136,11 @@ void Child::clearScrollback()
     console_->clearall();
 }
 
+void Child::onExecCommand(QString const& command)
+{
+    writeToShell(QString("%1\n").arg(command).toUtf8());
+}
+
 void Child::resizeEvent(QResizeEvent *event)
 {
     console_->resize(event->size());
@@ -145,7 +150,6 @@ void Child::closeEvent(QCloseEvent *event)
 {
     emit onClose(this);
     event->accept();
-//    shell->stop();
     commandThread->stop();
     commandThread->wait();
     commandThread->quit();
@@ -187,6 +191,11 @@ void Child::onDisplay(QByteArray const& data)
     console_->putData(data);
 }
 
+void Child::setConsoleText(QString const& text)
+{
+    console_->setPlainText(text);
+}
+
 void Child::customContextMenu(const QPoint &)
 {
     QMenu contextMenu;
@@ -198,6 +207,7 @@ void Child::customContextMenu(const QPoint &)
     contextMenu.addAction(tr("Increase Font Size"), this, SLOT(increaseFontSize()));
     contextMenu.addAction(tr("Decrease Font Size"), this, SLOT(decreaseFontSize()));
     contextMenu.addSeparator();
+    onContextMenu(contextMenu);
     createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
@@ -221,7 +231,7 @@ void Child::onGotCursorPos(int row, int col)
 
 void Child::execCommand(QString const& command)
 {
-    writeToShell(QString("%1\n").arg(command).toUtf8());
+    onExecCommand(command);
 }
 
 void Child::execTestCommand(QString const& command)
@@ -265,6 +275,7 @@ void Child::execExpandCommand(QString const& command)
     {
         afterLogfile_ = LogFile::SharedPtr();
     }
+    onExpandCommand(command);
 }
 
 void Child::pullData()

@@ -48,11 +48,16 @@ protected:
     virtual Console* createConsole() = 0;
     virtual void writeToShell(QByteArray const& data) = 0;
     virtual void onPullData() = 0;
+    virtual void onContextMenu(QMenu &) {}
+    virtual void onExecCommand(QString const& command);
+    virtual void onExpandCommand(QString const&) {}
 
     void resizeEvent(QResizeEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
     void createConsoleAndConnect();
     void onDisplay(QByteArray const& data);
+    void setConsoleText(QString const& text);
+    Console* console() { return console_; }
 private slots:
     void customContextMenu(const QPoint &);
     void setHighLighter();
