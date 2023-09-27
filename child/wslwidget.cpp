@@ -77,4 +77,3 @@ void WSLWidget::onData(QByteArray const& data)
 {
     datas << data;
 }
-
