@@ -1,32 +1,26 @@
 #include "serialportwidget.h"
 #include "console/serialportconsole.h"
-#include "core/commandthread.h"
+#include "core/serialsettings.h"
 #include "transfer/kermit/kermitfilesender.h"
 #include "transfer/kermit/kermitfilerecver.h"
 #include "transfer/xyzmodem/xymodemfilesender.h"
 #include "transfer/xyzmodem/xymodemfilerecver.h"
 #include "dialog/fileprogressdialog.h"
-#include "highlighter/hightlightermanager.h"
 #include "util/util.h"
 
-#include <QPrinter>
-#include <QPrintDialog>
 #include <QMenu>
-#include <QResizeEvent>
 #include <QFileDialog>
-#include <QTimer>
-#include <QtDebug>
 #include <QApplication>
 
 SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
-    : QWidget(parent)
-    , console(new SerialPortConsole(this))
-    , commandThread_(new CommandThread(this))
+    : Child(parent)
     , serial(new QSerialPort())
-    , dataTimer(new QTimer(this))
 {
-    setAttribute(Qt::WA_DeleteOnClose);
-    console->createParserAndConnect();
+    createConsoleAndConnect();
+    connect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
+    connect(this, &Child::onClose, this, [=](QWidget *){
+        serial->close();
+    });
     if(isLog)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
@@ -35,44 +29,11 @@ SerialPortWidget::SerialPortWidget(bool isLog, QWidget *parent)
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }
-    connect(dataTimer, SIGNAL(timeout()), this, SLOT(pullData()));
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-    connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
-    connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
-    connect(commandThread_, SIGNAL(onExpandCommand(QString)),
-            this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
-    connect(commandThread_, SIGNAL(onTestCommand(QString)),
-            this, SLOT(execTestCommand(QString)));
-    connect(console, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
-    connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
-    connect(console, &QWidget::customContextMenuRequested,
-            this, &SerialPortWidget::customContextMenu);
-    commandThread_->start();
-    dataTimer->start(1);
 }
 
 SerialPortWidget::~SerialPortWidget()
 {
     delete serial;
-}
-
-void SerialPortWidget::resizeEvent(QResizeEvent *event)
-{
-    console->resize(event->size());
-}
-
-void SerialPortWidget::closeEvent(QCloseEvent *event)
-{
-    emit onClose(this);
-    event->accept();
-    commandThread_->stop();
-    commandThread_->wait();
-    commandThread_->quit();
-}
-
-QSize SerialPortWidget::sizeHint() const
-{
-    return QSize(400, 300);
 }
 
 QString SerialPortWidget::errorString()
@@ -89,7 +50,7 @@ QString SerialPortWidget::errorString()
 
 void SerialPortWidget::setErrorText(QString const& text)
 {
-    console->setPlainText(text);
+    setConsoleText(text);
 }
 
 bool SerialPortWidget::isConnected() const
@@ -99,55 +60,13 @@ bool SerialPortWidget::isConnected() const
 
 void SerialPortWidget::reconnect()
 {
-    console->clearall();
+    clearScrollback();
     serial->open(QIODevice::ReadWrite);
 }
 
 void SerialPortWidget::disconnect()
 {
     serial->close();
-}
-
-bool SerialPortWidget::isDisplay() const
-{
-    return dataTimer->isActive();
-}
-
-void SerialPortWidget::display()
-{
-    dataTimer->start(1);
-}
-
-void SerialPortWidget::undisplay()
-{
-    dataTimer->stop();
-}
-
-void SerialPortWidget::save()
-{
-    console->saveToFile();
-}
-
-void SerialPortWidget::print()
-{
-    QPrinter printer(QPrinter::HighResolution);
-    QPrintDialog *dlg = new QPrintDialog(&printer, this);
-    if (console->textCursor().hasSelection())
-        dlg->addEnabledOption(QAbstractPrintDialog::PrintSelection);
-    dlg->setWindowTitle(tr("Print Document"));
-    if (dlg->exec() == QDialog::Accepted)
-        console->print(&printer);
-    delete dlg;
-}
-
-void SerialPortWidget::updateHightLighter(QString const& hightLighter)
-{
-    console->updateHightLighter(hightLighter);
-}
-
-void SerialPortWidget::setHighLighter(QString const& hightLighter)
-{
-    highLight_ = hightLighter;
 }
 
 void SerialPortWidget::recvFileByKermit()
@@ -210,63 +129,17 @@ void SerialPortWidget::sendFileByYModem()
     sendFileByXYModem(fileName, true);
 }
 
-void SerialPortWidget::copy()
+Console* SerialPortWidget::createConsole()
 {
-    console->copyOne();
+    return new SerialPortConsole(this);
 }
 
-void SerialPortWidget::copyAll()
+void SerialPortWidget::writeToShell(QByteArray const& data)
 {
-    console->copyAll();
+    serial->write(data);
 }
 
-void SerialPortWidget::paste()
-{
-    console->paste();
-}
-
-void SerialPortWidget::setCodecName(QString const& name)
-{
-    console->setCodecName(name);
-}
-
-void SerialPortWidget::setFontName(QString const& name)
-{
-    console->setFontName(name);
-}
-
-void SerialPortWidget::setConsoleColor(ConsoleColor const& color)
-{
-   console->setConsoleColor(color);
-}
-
-void SerialPortWidget::setFontSize(int fontSize)
-{
-    console->setFontSize(fontSize);
-}
-
-void SerialPortWidget::setConsolePalette(ConsolePalette::Ptr palette)
-{
-    console->setConsolePalette(palette);
-}
-
-void SerialPortWidget::increaseFontSize()
-{
-    if(console->increaseFontSize())
-        emit fontSizeChanged(console->fontSize());
-}
-void SerialPortWidget::decreaseFontSize()
-{
-    if(console->decreaseFontSize())
-        emit fontSizeChanged(console->fontSize());
-}
-
-void SerialPortWidget::clearScrollback()
-{
-    console->clearall();
-}
-
-void SerialPortWidget::pullData()
+void SerialPortWidget::onPullData()
 {
     if(datas.isEmpty())
         return;
@@ -274,98 +147,25 @@ void SerialPortWidget::pullData()
     QByteArray data;
     while(datas.size() > 0 && data.size() < 512)
         data.push_back(datas.takeFirst());
-
-    if(isTest_)
-    {
-        testData_.push_back(data);
-        if(testData_.contains(testParam_))
-        {
-            QString command = getTestCommand();
-            if(!command.startsWith("#"))
-                execCommand(command);
-            else
-            {
-                execExpandCommand(command);
-                execCommand(QString());
-            }
-            testData_.clear();
-            if(testCommandIsEmpty())
-                isTest_ = false;
-        }
-    }
+    onDisplay(data);
     if(beforeLogfile_)
         beforeLogfile_->write(data);
-    console->putData(data);
 }
 
-bool SerialPortWidget::runShell(QString const& name, int baudRate)
+void SerialPortWidget::onContextMenu(QMenu &contextMenu)
 {
-    serial->setPortName(name);
-    serial->setBaudRate(baudRate);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    return serial->open(QIODevice::ReadWrite);
+    QMenu* upload = contextMenu.addMenu(tr("Upload"));
+    upload->addAction(tr("Kermit Send..."), this, SLOT(sendFileByKermit()));
+    upload->addAction(tr("XModem Send..."), this, SLOT(sendFileByXModem()));
+    upload->addAction(tr("YModem Send..."), this, SLOT(sendFileByXModem()));
+    QMenu* download = contextMenu.addMenu(tr("Download"));
+    download->addAction(tr("Kermit Reveive..."), this, SLOT(recvFileByKermit()));
+    download->addAction(tr("XModem Reveive..."), this, SLOT(recvFileByXModem()));
+    download->addAction(tr("YModem Reveive..."), this, SLOT(recvFileByYModem()));
+    contextMenu.addSeparator();
 }
 
-bool SerialPortWidget::runShell(SerialSettings const& settings)
-{
-    serial->setPortName(settings.port);
-    serial->setBaudRate(settings.baudRate);
-    serial->setDataBits(settings.dataBits);
-    serial->setParity(settings.parity);
-    serial->setStopBits(settings.stopBits);
-    serial->setFlowControl(settings.flowControl);
-    console->setLocalEchoEnabled(settings.localEchoEnabled);
-    return serial->open(QIODevice::ReadWrite);
-}
-
-void SerialPortWidget::sendCommand(QString const& command)
-{
-    QStringList commands = command.split("\n");
-    sendCommands(commands);
-}
-
-void SerialPortWidget::sendCommands(QStringList const& commands)
-{
-    for(int i = 0; i < commands.size(); i++)
-    {
-        QString command = commands.at(i);
-        if(command.isEmpty())
-            continue;
-        commandThread_->postCommand(command);
-    }
-}
-
-void SerialPortWidget::execCommand(QString const& command)
-{
-    serial->write(QString("%1\r").arg(command).toUtf8());
-}
-
-void SerialPortWidget::execTestCommand(QString const& command)
-{
-    QString testCommand = command.right(command.size() - 1);
-    if(!testCommand.startsWith("start"))
-        testCommands_.push_back(testCommand);
-    else
-    {
-        QStringList cmds = testCommand.split(' ');
-        if(cmds.size() > 1)
-            testParam_ = cmds[1].toUtf8();
-        isTest_ = true;
-        QString cmd = getTestCommand();
-        if(!cmd.startsWith("#"))
-            execCommand(cmd);
-        else
-        {
-            execExpandCommand(cmd);
-            execCommand(QString());
-        }
-    }
-}
-
-void SerialPortWidget::execExpandCommand(QString const& command)
+void SerialPortWidget::onExpandCommand(QString const& command)
 {
     QStringList cmds = command.split(' ');
 
@@ -399,95 +199,36 @@ void SerialPortWidget::execExpandCommand(QString const& command)
         if(cmds.size() > 1)
             recvFileByXYModem(cmds[1], true);
     }
-    else if(command.startsWith("#bsave"))
-    {
-        if(cmds.size() > 1)
-        {
-            LogFile::SharedPtr logfile(new LogFile());
-            if(logfile->open(cmds[1], false))
-            {
-                afterLogfile_ = logfile;
-                console->setLogFile(afterLogfile_);
-            }
-        }
-    }
-    else if(command.startsWith("#esave"))
-    {
-        afterLogfile_ = LogFile::SharedPtr();
-    }
 }
 
-void SerialPortWidget::readData()
+bool SerialPortWidget::runShell(SerialSettings const& settings)
+{
+    serial->setPortName(settings.port);
+    serial->setBaudRate(settings.baudRate);
+    serial->setDataBits(settings.dataBits);
+    serial->setParity(settings.parity);
+    serial->setStopBits(settings.stopBits);
+    serial->setFlowControl(settings.flowControl);
+    console()->setLocalEchoEnabled(settings.localEchoEnabled);
+    bool isOK = serial->open(QIODevice::ReadWrite);
+    display();
+    return isOK;
+}
+
+void SerialPortWidget::onExecCommand(QString const& command)
+{
+    serial->write(QString("%1\r").arg(command).toUtf8());
+}
+
+void SerialPortWidget::onData()
 {
     QByteArray data = serial->readAll();
     datas.push_back(data);
 }
 
-void SerialPortWidget::writeData(QByteArray const&data)
-{
-    serial->write(data);
-}
-
-void SerialPortWidget::customContextMenu(const QPoint &)
-{
-    QMenu contextMenu;
-
-    contextMenu.addAction(tr("Copy"), this, SLOT(copy()));
-    contextMenu.addAction(tr("Copy All"), this, SLOT(copyAll()));
-    contextMenu.addAction(tr("Paste"), this, SLOT(paste()));
-    contextMenu.addSeparator();
-    contextMenu.addAction(tr("Increase Font Size"), this, SLOT(increaseFontSize()));
-    contextMenu.addAction(tr("Decrease Font Size"), this, SLOT(decreaseFontSize()));
-    contextMenu.addSeparator();
-    QMenu* upload = contextMenu.addMenu(tr("Upload"));
-    upload->addAction(tr("Kermit Send..."), this, SLOT(sendFileByKermit()));
-    upload->addAction(tr("XModem Send..."), this, SLOT(sendFileByXModem()));
-    upload->addAction(tr("YModem Send..."), this, SLOT(sendFileByXModem()));
-    QMenu* download = contextMenu.addMenu(tr("Download"));
-    download->addAction(tr("Kermit Reveive..."), this, SLOT(recvFileByKermit()));
-    download->addAction(tr("XModem Reveive..."), this, SLOT(recvFileByXModem()));
-    download->addAction(tr("YModem Reveive..."), this, SLOT(recvFileByYModem()));
-
-    contextMenu.addSeparator();
-    createHighLightMenu(contextMenu.addMenu(tr("Syntax Highlighting")));
-    contextMenu.addSeparator();
-    contextMenu.addAction(tr("Save To File..."), this, SLOT(save()));
-    contextMenu.addAction(tr("Clear Scrollback"), this, SLOT(clearScrollback()));
-
-    contextMenu.exec(QCursor::pos());
-    console->cancelSelection();
-}
-
-void SerialPortWidget::createHighLightMenu(QMenu* menu)
-{
-    emit getHighlighter();
-    for(int i = 0; i < highLighterManager->size(); i++)
-    {
-        HighLighterManager::HighLighter const& lighter = highLighterManager->highLighter(i);
-        QAction *action = menu->addAction(lighter.text, this, SLOT(setHighLighter()));
-        action->setData(lighter.name);
-        action->setCheckable(true);
-        if(highLight_ == lighter.name)
-            action->setChecked(true);
-    }
-}
-
-void SerialPortWidget::setHighLighter()
-{
-    QAction* actoin = (QAction*)sender();
-    if(actoin)
-        emit highLighterChanged(actoin->data().toString());
-}
-
-void SerialPortWidget::onGotCursorPos(int row, int col)
-{
-    QString cursorPos = QString("\033[%1;%2R").arg(row).arg(col);
-    serial->write(cursorPos.toUtf8());
-}
-
 void SerialPortWidget::sendFileByKermit(QString const& fileName)
 {
-    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 
     FileProgressDialog dialog(this);
     KermitFileSender sender(serial);
@@ -516,12 +257,12 @@ void SerialPortWidget::sendFileByKermit(QString const& fileName)
         QApplication::processEvents();
     }
 
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 }
 
 void SerialPortWidget::recvFileByKermit(QString const& fileName)
 {
-    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
     FileProgressDialog dialog(this);
     KermitFileRecver recver(serial);
     connect(&recver, &KermitFileRecver::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
@@ -549,12 +290,12 @@ void SerialPortWidget::recvFileByKermit(QString const& fileName)
         QApplication::processEvents();
     }
 
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 }
 
 void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
 {
-    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 
     FileProgressDialog dialog(this);
     XYModemFileSender sender(serial, isYModem);
@@ -591,12 +332,12 @@ void SerialPortWidget::sendFileByXYModem(QString const& fileName, bool isYModem)
         QApplication::processEvents();
     }
 
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 }
 
 void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
 {
-    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    QObject::disconnect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
     FileProgressDialog dialog(this);
     XYModemFileRecver recver(serial, isYModem);
     connect(&recver, &XYModemFileRecver::gotFileSize, &dialog, &FileProgressDialog::setFileSize);
@@ -632,19 +373,5 @@ void SerialPortWidget::recvFileByXYModem(QString const& fileName, bool isYModem)
         QApplication::processEvents();
     }
 
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-}
-
-QString SerialPortWidget::getTestCommand()
-{
-    if(testCommands_.isEmpty())
-        return QString();
-    QString command = testCommands_.front();
-    testCommands_.pop_front();
-    return command;
-}
-
-bool SerialPortWidget::testCommandIsEmpty() const
-{
-    return testCommands_.isEmpty();
+    connect(serial, SIGNAL(readyRead()), this, SLOT(onData()));
 }
