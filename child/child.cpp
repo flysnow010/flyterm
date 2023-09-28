@@ -159,6 +159,7 @@ void Child::createConsoleAndConnect()
 {
     console_ = createConsole();
     console_->createParserAndConnect();
+    connect(console_, SIGNAL(onTitle(QString)), this, SIGNAL(onTitle(QString)));
     connect(console_, SIGNAL(onGotCursorPos(int,int)), this, SLOT(onGotCursorPos(int,int)));
     connect(console_, &Console::getData, this, [=](QByteArray const& data){
         writeToShell(data);

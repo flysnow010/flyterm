@@ -41,6 +41,7 @@ public slots:
 signals:
     void onClose(QWidget *widget);
     void onCommand(QString const& command);
+    void onTitle(QString const& title);
     void fontSizeChanged(int fonstSize);
     void getHighlighter();
     void highLighterChanged(QString const& highLight);
