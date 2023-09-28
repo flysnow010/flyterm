@@ -653,7 +653,6 @@ void MainWindow::createShell(Session::Ptr & session)
     disconnect(session.get(), &Session::onCommand, commandDockWidget, &CommandDockWidget::addToHistory);
     disconnect(session.get(), &Session::onCreateShell, sessionDockWidget, &SessionDockWidget::createShell);
 
-
     connect(session.get(), &Session::fontSizeChanged, this, &MainWindow::updateFontSize);
     connect(session.get(), &Session::highLighterChanged, this, &MainWindow::udpateHighLighter);
     connect(session.get(), &Session::windowStateChanged, this, &MainWindow::subWindowStateChanged);
@@ -665,9 +664,7 @@ void MainWindow::createShell(Session::Ptr & session)
     if(session->createShell(mdiArea, isLog))
     {
         session->runShell();
-
-        if(mdiArea->subWindowList().size() < 2)
-            updateStatus(activeSubWindow());
+        updateStatus(activeSubWindow());
         updateWindowState();
     }
 }
