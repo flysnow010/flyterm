@@ -27,7 +27,10 @@ WSLWidget::WSLWidget(bool isLog, QWidget *parent)
 bool WSLWidget::runShell(WSLSettings const& settings)
 {
     QStringList params;
-    params << "--headless" << "wsl.exe";
+    params << "--headless";
+    params << "--width" << "160";
+    params << "--height" << "55";
+    params << "wsl.exe";
     if(!settings.distribution.isEmpty())
         params << "-d" << settings.distribution;
     if(!settings.startupPath.isEmpty())
