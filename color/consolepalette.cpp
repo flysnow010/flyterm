@@ -110,7 +110,7 @@ XTerm::XTerm()
     setName("XTerm");
     addColor(Black, ConsoleColor{ QColor(0, 0, 0), QColor(127, 127, 127) });
     addColor(Red, ConsoleColor{ QColor(205, 0, 0), QColor(255, 0, 0) });
-    addColor(Green, ConsoleColor{ QColor(0, 205, 0), QColor(0, 255, 0) });
+    addColor(Green, ConsoleColor{ QColor(0, 205, 0), QColor(22, 198, 12) });
     addColor(Yellow, ConsoleColor{ QColor(205, 205, 0), QColor(255, 255, 0) });
     addColor(Blue, ConsoleColor{ QColor(92, 92, 255), QColor(27, 186, 233) });
     addColor(Purple, ConsoleColor{ QColor(205, 0, 205), QColor(255, 0, 255) });
