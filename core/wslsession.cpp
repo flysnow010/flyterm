@@ -49,6 +49,10 @@ bool WSLSession::createShell(QMdiArea *midArea, bool isLog)
     subWindow->setSystemMenu(createSystemMenu(subWindow, widget));
     connect(widget, &WSLWidget::onClose, this, &Session::onClose);
     connect(widget, &WSLWidget::onCommand, this, &Session::onCommand);
+    connect(widget, &WSLWidget::onTitle, this, [=](QString const& title){
+        setSubTitle(title);
+        emit onSubTitle(title);
+    });
     connect(widget, &WSLWidget::fontSizeChanged, this, &Session::fontSizeChanged);
     connect(widget, &WSLWidget::highLighterChanged, this, &Session::highLighterChanged);
     connect(widget, &WSLWidget::getHighlighter, this, &WSLSession::setHighLighter);
