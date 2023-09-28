@@ -34,7 +34,8 @@ public:
 
     struct ColorRange
     {
-        ColorRole role;
+        ColorRole fore;
+        ColorRole back;
         int start;
         int end;
     };
@@ -53,6 +54,8 @@ signals:
     void getData(const QByteArray &data);
     void onGotCursorPos(int row, int col);
     void onCommand(QString const& command);
+    void onTitle(QString const& title);
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
@@ -81,17 +84,23 @@ protected:
     int selectText();
     int selectText(int start, int end);
     void updateColors();
+    void updateSelectedColors();
     void setForeColor(ColorRole role);
     void setBackColor(ColorRole role);
     void setCloseColor();
     void setTextColor(QColor const& color);
+    void setTextColor(QColor const& color, QColor const& back);
     void setTextBackgroundColor(QColor const& color);
     void setFontFamily(QString const& name);
     void setFontPointSize(int fontSize);
     bool isLocalEchoEnabled() const { return isLocalEchoEnabled_; }
     bool isNeedNewline() const { return isNeedNewline_; }
+
+    ConsoleParser* parser() const { return commandParser_; }
+    void debug(bool enable) { isDebug_ = enable; }
+    bool isDebug() const { return isDebug_; }
 private:
-    ConsoleParser *commandParser = nullptr;
+    ConsoleParser *commandParser_ = nullptr;
     ConsolePalette::Ptr palette_;
     QSyntaxHighlighter *highlighter = nullptr;
     LogFile::WeakPtr logfile_;
@@ -104,7 +113,6 @@ private:
     QTextCharFormat normalFormat;
     QString fontName_ = "Courier New";
     int     fontSize_ = 12;
-
     bool isReturn = false;
     bool isLocalEchoEnabled_ = false;
     bool isNeedNewline_ = false;
@@ -114,6 +122,7 @@ private:
     int selectEnd = 0;
 
     ConsoleScreen screen;
+    bool isDebug_ = false;
 };
 
 #endif // CONSOLE_H

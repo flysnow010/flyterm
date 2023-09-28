@@ -22,45 +22,45 @@ Console::Console(QWidget *parent)
 
 Console::~Console()
 {
-    delete commandParser;
+    delete commandParser_;
     delete highlighter;
 }
 
 void Console::connectCommands()
 {
-    if(!commandParser)
+    if(!commandParser_)
         return;
 
-    connect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
-    connect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
-    connect(commandParser, SIGNAL(onForeColor(ColorRole)),
+    connect(commandParser_, SIGNAL(onBeep()), this, SLOT(onBeep()));
+    connect(commandParser_, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
+    connect(commandParser_, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
-    connect(commandParser, SIGNAL(onNormalForeColor()),
+    connect(commandParser_, SIGNAL(onNormalForeColor()),
             this, SLOT(onNormalForeColor()));
-    connect(commandParser, SIGNAL(onNormalBackColor()),
+    connect(commandParser_, SIGNAL(onNormalBackColor()),
             this, SLOT(onNormalBackColor()));
 
-    connect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
-    connect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
-    connect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
-    connect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
-    connect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
+    connect(commandParser_, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
+    connect(commandParser_, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
+    connect(commandParser_, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
+    connect(commandParser_, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
+    connect(commandParser_, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
 }
 
 void Console::disconnectCommands()
 {
-    if(!commandParser)
+    if(!commandParser_)
         return;
 
-    disconnect(commandParser, SIGNAL(onBeep()), this, SLOT(onBeep()));
-    disconnect(commandParser, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
-    disconnect(commandParser, SIGNAL(onForeColor(ColorRole)),
+    disconnect(commandParser_, SIGNAL(onBeep()), this, SLOT(onBeep()));
+    disconnect(commandParser_, SIGNAL(onGetCursorPos()), this, SLOT(onGetCursorPos()));
+    disconnect(commandParser_, SIGNAL(onForeColor(ColorRole)),
             this, SLOT(onForeColor(ColorRole)));
-    disconnect(commandParser, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
-    disconnect(commandParser, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
-    disconnect(commandParser, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
-    disconnect(commandParser, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
-    disconnect(commandParser, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
+    disconnect(commandParser_, SIGNAL(onCloseCharAttriutes()), this, SLOT(onCloseCharAttriutes()));
+    disconnect(commandParser_, SIGNAL(onBackspace(int)), this, SLOT(onBackspace(int)));
+    disconnect(commandParser_, SIGNAL(onLeft(int)), this, SLOT(onLeft(int)));
+    disconnect(commandParser_, SIGNAL(onRight(int)), this, SLOT(onRight(int)));
+    disconnect(commandParser_, SIGNAL(onText(QString)), this, SLOT(onText(QString)));
 }
 
 void Console::copyAll()
@@ -130,17 +130,19 @@ void Console::saveToFile()
    QTextDocumentWriter writer(fileNames[0]);
    writer.write(document());
 }
-
+#include <QDebug>
 void Console::putData(const QByteArray &data)
 {
-    commandParser->parse(data);
+    if(isDebug())
+        qDebug() << "----" << data;
+    commandParser_->parse(data);
     QScrollBar *bar = verticalScrollBar();
     bar->setValue(bar->maximum());
 }
 
 void Console::setCodecName(QString const& name)
 {
-    commandParser->setCodecName(name.toUtf8());
+    commandParser_->setCodecName(name.toUtf8());
 }
 
 void Console::setFontName(QString const& name)
@@ -176,20 +178,7 @@ void Console::setConsoleColor(ConsoleColor const& color)
 void Console::setConsolePalette(ConsolePalette::Ptr palette)
 {
     palette_ = palette;
-    int oldPos = -1;
-    for(int i = 0; i < colorRanges.size(); i++)
-    {
-        int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-        setTextColor(palette_->color(colorRanges[i].role).fore);
-        if(oldPos == -1)
-            oldPos = pos;
-    }
-    if(oldPos > 0)
-    {
-        QTextCursor cursor = textCursor();
-        cursor.setPosition(oldPos);
-        setTextCursor(cursor);
-    }
+    updateColors();
 }
 
 void Console::updateHightLighter(QString const& hightLighter)
@@ -218,7 +207,7 @@ void Console::cancelSelection()
         QTextCursor cursor = textCursor();
         cursor.setPosition(pos);
         setTextCursor(cursor);
-        updateColors();
+        updateSelectedColors();
         selectStart = 0;
         selectEnd = 0;
     }
@@ -232,11 +221,11 @@ void Console::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Left:
         emit getData("\033[D");
-        commandParser->setLeftKeyPress(true);
+        commandParser_->setLeftKeyPress(true);
         break;
     case Qt::Key_Right:
         emit getData("\033[C");
-        commandParser->setRightKeyPress(true);
+        commandParser_->setRightKeyPress(true);
         break;
     case Qt::Key_Up:
         emit getData("\033[A");
@@ -356,6 +345,8 @@ void Console::onText(QString const& text)
     LogFile::SharedPtr loginfile = logfile_.lock();
     if(loginfile)
         loginfile->write(text);
+    if(isDebug())
+        qDebug() << "====" << text;
     putText(text);
 }
 
@@ -378,7 +369,7 @@ void Console::putText(QString const& text)
         }
         else if(text[i] == '\n')
         {
-            if(isReturn)
+            if(isReturn || index < 0)
             {
                 isReturn = false;
                 tc.insertText(text[i], *format);
@@ -407,7 +398,8 @@ void Console::putText(QString const& text)
     if(isUseColor)
     {
         ColorRange colorRange;
-        colorRange.role = currentForeRole;
+        colorRange.fore = currentForeRole;
+        colorRange.back = currentBackRole;
         colorRange.end = tc.position();
         colorRange.start = start;
         colorRanges << colorRange;
@@ -461,7 +453,7 @@ void Console::onEnd()
 
 void Console::createParserAndConnect()
 {
-    commandParser = createParser();
+    commandParser_ = createParser();
     connectCommands();
 }
 
@@ -499,12 +491,39 @@ int Console::selectText(int start, int end)
 void Console::updateColors()
 {
     int oldPos = -1;
+    QColor defaultBack = this->palette().color(QPalette::Base);
+    for(int i = 0; i < colorRanges.size(); i++)
+    {
+        int pos = selectText(colorRanges[i].start, colorRanges[i].end);
+        if(colorRanges[i].back != ColorRole::NullRole)
+            setTextColor(palette_->color(colorRanges[i].fore).fore,
+                         palette_->color(colorRanges[i].back).back);
+        else
+            setTextColor(palette_->color(colorRanges[i].fore).fore, defaultBack);
+        if(oldPos == -1)
+            oldPos = pos;
+    }
+    if(oldPos > 0)
+    {
+        QTextCursor cursor = textCursor();
+        cursor.setPosition(oldPos);
+        setTextCursor(cursor);
+    }
+}
+
+void Console::updateSelectedColors()
+{
+    int oldPos = -1;
     for(int i = 0; i < colorRanges.size(); i++)
     {
         if(!(selectStart > colorRanges[i].end || selectEnd < colorRanges[i].start))
         {
             int pos = selectText(colorRanges[i].start, colorRanges[i].end);
-            setTextColor(palette_->color(colorRanges[i].role).fore);
+            setTextColor(palette_->color(colorRanges[i].fore).fore);
+            if(colorRanges[i].back != ColorRole::NullRole)
+                setTextBackgroundColor(palette_->color(colorRanges[i].back).back);
+            else
+                setTextBackgroundColor(palette().color(QPalette::Base));
             if(oldPos == -1)
                 oldPos = pos;
         }
@@ -540,6 +559,16 @@ void Console::setTextColor(QColor const& color)
     format.setForeground(color);
     tc.mergeCharFormat(format);
 }
+
+void Console::setTextColor(QColor const& fore, QColor const& back)
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format;
+    format.setForeground(fore);
+    format.setBackground(back);
+    tc.mergeCharFormat(format);
+}
+
 void Console::setTextBackgroundColor(QColor const& color)
 {
     QTextCursor tc = textCursor();
