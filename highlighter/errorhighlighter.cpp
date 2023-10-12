@@ -77,7 +77,6 @@ void ErrorHighlighter::addCommandFormat()
     HighlightingRule rule;
     QTextCharFormat format;
 
-    format.setFontItalic(true);
     format.setFontWeight(QFont::Bold);
     rule.format = format;
 
