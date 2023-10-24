@@ -16,6 +16,12 @@ SSHChannel::SSHChannel(QObject *parent)
 {
 }
 
+SSHChannel::~SSHChannel()
+{
+    delete channel_;
+    channel_ = 0;
+}
+
 int SSHChannel::write(QByteArray const& data)
 {
     if(!isConnected)
@@ -132,6 +138,8 @@ void SSHChannel::stop()
         channel_->close();
     doSignal();
     sessioin_->disconnect();
+    if(channel_)
+        channel_->reset();
     isConnected = false;
     emit unconnected();
 }

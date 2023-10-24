@@ -18,6 +18,11 @@ Channel::~Channel()
     delete d;
 }
 
+void Channel::reset()
+{
+    d->channel = 0;
+}
+
 bool Channel::open()
 {
     if(d->isOpened)

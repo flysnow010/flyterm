@@ -14,6 +14,7 @@ class SSHChannel : public QObject
     Q_OBJECT
 public:
     explicit SSHChannel(QObject *parent = nullptr);
+    ~SSHChannel();
 
     int write(QByteArray const& data);
     bool read(QByteArray &data);
