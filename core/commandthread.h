@@ -24,6 +24,7 @@ protected:
 private:
     QString command();
     void execCommand(QString const& command);
+    void execAppCommand(QString const& command);
 private:
     QStringList commands_;
     QMutex mutex_;

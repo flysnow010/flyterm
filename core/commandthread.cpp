@@ -1,5 +1,7 @@
 #include "commandthread.h"
+#include "util/util.h"
 #include <QMutexLocker>
+#include <QProcess>
 
 CommandThread::CommandThread(QObject *parent) : QThread(parent)
 {
@@ -47,6 +49,21 @@ void CommandThread::execCommand(QString const& command)
     }
 }
 
+void CommandThread::execAppCommand(QString const& command)
+{
+    QStringList commands = command.split(" ");
+    if(commands.isEmpty())
+        return;
+
+    QProcess process;
+    if(commands[0] == "$plot")
+        process.setProgram(Util::plotAppPath());
+    else
+        process.setProgram(commands[0].mid(1));
+    process.setArguments(commands.mid(1));
+    process.startDetached();
+}
+
 void CommandThread::run()
 {
     while(true)
@@ -56,8 +73,11 @@ void CommandThread::run()
         if(c.isEmpty())
             break;
         emit onAllCommand(c);
+
         if(c.startsWith("@"))
             execCommand(c);
+        else if(c.startsWith("$"))
+            execAppCommand(c);
         else if(c.startsWith("#"))
             emit onExpandCommand(c);
         else if(c.startsWith("!"))

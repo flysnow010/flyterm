@@ -177,7 +177,9 @@ void Child::onDisplay(QByteArray const& data)
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(!command.startsWith("#"))
+            if(command.startsWith("$") || command.startsWith("@"))
+                commandThread->postCommand(command);
+            else if(!command.startsWith("#"))
                 execCommand(command);
             else
             {
