@@ -105,6 +105,7 @@ void ButtonsDockWidget::newButton()
         command->script = dialog.script();
         addCommand(command);
         commandManger->addCommand(command);
+        saveCommands();
     }
 }
 
@@ -114,7 +115,10 @@ void ButtonsDockWidget::newButtons()
     if(!name.isEmpty())
     {
         if(commandManger->newCommands(name))
+        {
             updateActions();
+            saveCommands();
+        }
     }
 }
 
@@ -123,14 +127,20 @@ void ButtonsDockWidget::renameButtons()
     QString name = commandManger->currenCommandsName();
     QString newName = Util::getText(tr("New Name"), name);
     if(!newName.isEmpty() && name != newName)
+    {
         commandManger->renameCommands(name, newName);
+        saveCommands();
+    }
 }
 
 void ButtonsDockWidget::deleteButtons()
 {
     QString name = commandManger->currenCommandsName();
     if(commandManger->removeCommands(name))
+    {
          updateActions();
+         saveCommands();
+    }
 }
 
 void ButtonsDockWidget::load()

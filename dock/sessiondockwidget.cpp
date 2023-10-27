@@ -114,7 +114,10 @@ void SessionDockWidget::delSession()
     {
         Session::Ptr session = sessionManager->session(index.row());
         if(session && session->shellSize() == 0)
+        {
             removeSession(session);
+            saveSessions();
+        }
     }
 }
 
@@ -124,7 +127,10 @@ void SessionDockWidget::renameSession()
     if(isChild(index))
     {
         if(index.column() == 0)
+        {
             treeView->edit(index);
+            saveSessions();
+        }
     }
 }
 
@@ -135,6 +141,7 @@ void SessionDockWidget::upSession()
     {
         sessionManager->upSession(index.row());
         updateTreeView();
+        saveSessions();
     }
 }
 
@@ -145,6 +152,7 @@ void SessionDockWidget::downSession()
     {
         sessionManager->downSession(index.row());
         updateTreeView();
+        saveSessions();
     }
 }
 
@@ -165,12 +173,14 @@ void SessionDockWidget::addSession(Session::Ptr const& session)
             this, &SessionDockWidget::onSessionSizeChanged);
     sessionManager->addSession(session);
     updateTreeView();
+    saveSessions();
 }
 
 void SessionDockWidget::removeSession(Session::Ptr const& session)
 {
     sessionManager->removeSession(session);
     updateTreeView();
+    saveSessions();
 }
 
 void SessionDockWidget::createLayout()
