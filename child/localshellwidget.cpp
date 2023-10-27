@@ -19,7 +19,7 @@ LocalShellWidget::LocalShellWidget(bool isLog, QWidget *parent)
     {
         beforeLogfile_ = LogFile::SharedPtr(new LogFile());
         beforeLogfile_->open(QString("%1/localshell_%2_%3.txt")
-                       .arg(Util::logoPath())
+                       .arg(Util::logPath())
                        .arg(uint64_t(this), 8, 16)
                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss")));
     }

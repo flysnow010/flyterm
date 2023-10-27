@@ -22,7 +22,7 @@ public:
     static QString commandPath();
     static QString sshUserAuthPath();
     static QString languagePath();
-    static QString logoPath();
+    static QString logPath();
     static QString cachePath();
     static void setCachePath(QString const& path);
     static void writeFile(QString const& fileName, QString const& data);

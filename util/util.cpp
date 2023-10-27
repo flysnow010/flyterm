@@ -69,7 +69,7 @@ QString Util::languagePath()
     return QString("%1/languages").arg(QApplication::applicationDirPath());
 }
 
-QString Util::logoPath()
+QString Util::logPath()
 {
     QString path = QString("%1/Logs").arg(currentPath());
     QDir dir(path);
