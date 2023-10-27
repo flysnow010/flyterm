@@ -15,6 +15,7 @@ class Util
 public:
     static QString currentPath();
     static QString serverName();
+    static QString plotAppPath();
     static QString tempPath();
     static QString syscfgPath();
     static QString homePath();

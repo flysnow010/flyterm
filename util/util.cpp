@@ -32,6 +32,11 @@ QString Util::serverName()
     return theServerName;
 }
 
+QString Util::plotAppPath()
+{
+    return QString("%1/FlyPlot.exe").arg(QApplication::applicationDirPath());
+}
+
 QString Util::homePath()
 {
     return QString("%1/FlyTerm/V1.0.0").arg(QDir::homePath());
