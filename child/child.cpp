@@ -249,7 +249,9 @@ void Child::execTestCommand(QString const& command)
             testParam_ = cmds[1].toUtf8();
         isTest_ = true;
         QString cmd = getTestCommand();
-        if(!cmd.startsWith("#"))
+        if(cmd.startsWith("$") || cmd.startsWith("@"))
+            commandThread->postCommand(cmd);
+        else if(!cmd.startsWith("#"))
             execCommand(cmd);
         else
         {

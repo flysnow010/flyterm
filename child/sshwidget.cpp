@@ -172,8 +172,8 @@ void SShWidget::execTestCommand(QString const& command)
             testParam_ = cmds[1].toUtf8();
         isTest_ = true;
         QString cmd = getTestCommand();
-        if(command.startsWith("$") || command.startsWith("@"))
-            commandThread_->postCommand(command);
+        if(cmd.startsWith("$") || cmd.startsWith("@"))
+            commandThread_->postCommand(cmd);
         else if(!cmd.startsWith("#"))
             execCommand(cmd);
         else
@@ -403,7 +403,9 @@ void SShWidget::onData(QByteArray const& data)
         if(testData_.contains(testParam_))
         {
             QString command = getTestCommand();
-            if(!command.startsWith("#"))
+            if(command.startsWith("$") || command.startsWith("@"))
+                commandThread_->postCommand(command);
+            else if(!command.startsWith("#"))
                 execCommand(command);
             else
             {
