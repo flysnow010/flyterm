@@ -10,20 +10,22 @@
 
 Child::Child(QWidget *parent)
     : QWidget(parent)
-    , commandThread(new CommandThread(this))
+    , commandThread_(new CommandThread(this))
     , dataTimer(new QTimer(this))
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
     connect(dataTimer, SIGNAL(timeout()), this, SLOT(pullData()));
-    connect(commandThread, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
-    connect(commandThread, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
-    connect(commandThread, SIGNAL(onExpandCommand(QString)),
+    connect(commandThread_, SIGNAL(onAllCommand(QString)), this, SIGNAL(onCommand(QString)));
+    connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
+    connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
-    connect(commandThread, SIGNAL(onTestCommand(QString)),
-            this, SLOT(execTestCommand(QString)));
+    connect(commandThread_, SIGNAL(onOrderCommandStart(QString)),
+            this, SLOT(orderCommandStart(QString)));
+    connect(commandThread_, SIGNAL(onOrderCommandEnd()),
+            this, SLOT(orderCommandEnd()));
 
-    commandThread->start();
+    commandThread_->start();
 }
 
 void Child::sendCommand(QString const& command)
@@ -150,9 +152,9 @@ void Child::closeEvent(QCloseEvent *event)
 {
     emit onClose(this);
     event->accept();
-    commandThread->stop();
-    commandThread->wait();
-    commandThread->quit();
+    commandThread_->stop();
+    commandThread_->wait();
+    commandThread_->quit();
 }
 
 void Child::createConsoleAndConnect()
@@ -171,24 +173,13 @@ void Child::createConsoleAndConnect()
 
 void Child::onDisplay(QByteArray const& data)
 {
-    if(isTest_)
+    if(isOrderRun)
     {
-        testData_.push_back(data);
-        if(testData_.contains(testParam_))
+        cacheData_.push_back(data);
+        if(cacheData_.contains(runCommandFlag_))
         {
-            QString command = getTestCommand();
-            if(command.startsWith("$") || command.startsWith("@"))
-                commandThread->postCommand(command);
-            else if(!command.startsWith("#"))
-                execCommand(command);
-            else
-            {
-                execExpandCommand(command);
-                execCommand(QString());
-            }
-            testData_.clear();
-            if(testCommandIsEmpty())
-                isTest_ = false;
+            cacheData_.clear();
+            commandThread_->runOrderCommand();
         }
     }
     console_->putData(data);
@@ -237,28 +228,16 @@ void Child::execCommand(QString const& command)
     onExecCommand(command);
 }
 
-void Child::execTestCommand(QString const& command)
+void Child::orderCommandStart(QString const& runCommandFlag)
 {
-    QString testCommand = command.right(command.size() - 1);
-    if(!testCommand.startsWith("start"))
-        testCommands_.push_back(testCommand);
-    else
-    {
-        QStringList cmds = testCommand.split(' ');
-        if(cmds.size() > 1)
-            testParam_ = cmds[1].toUtf8();
-        isTest_ = true;
-        QString cmd = getTestCommand();
-        if(cmd.startsWith("$") || cmd.startsWith("@"))
-            commandThread->postCommand(cmd);
-        else if(!cmd.startsWith("#"))
-            execCommand(cmd);
-        else
-        {
-            execExpandCommand(cmd);
-            execCommand(QString());
-        }
-    }
+    runCommandFlag_ = runCommandFlag.toUtf8();
+    isOrderRun = true;
+    commandThread_->runOrderCommand();
+}
+
+void Child::orderCommandEnd()
+{
+    isOrderRun = false;
 }
 
 void Child::execExpandCommand(QString const& command)
@@ -309,15 +288,6 @@ void Child::sendCommands(QStringList const& commands)
         QString command = commands.at(i);
         if(command.isEmpty())
             continue;
-        commandThread->postCommand(command);
+        commandThread_->postCommand(command);
     }
-}
-
-QString Child::getTestCommand()
-{
-    if(testCommands_.isEmpty())
-        return QString();
-    QString command = testCommands_.front();
-    testCommands_.pop_front();
-    return command;
 }

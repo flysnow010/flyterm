@@ -79,7 +79,8 @@ private slots:
     void switchToNormalKeypadMode();
     void switchToMainScreen();
     void execCommand(QString const& command);
-    void execTestCommand(QString const& command);
+    void orderCommandStart(QString const& runCommandFlag);
+    void orderCommandEnd();
     void execExpandCommand(QString const& command);
     void pullData();
     void secondaryDA();
@@ -87,8 +88,6 @@ private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
     void getShellSize(QSize const& size, int &cols, int &rows);
-    QString getTestCommand();
-    bool testCommandIsEmpty() const;
     QString  getCurrentPath();
     void transferFile(QString const& srcFileName, QString const& dstFileName, bool isUpload);
 private:
@@ -106,10 +105,9 @@ private:
     bool sheelIsClose = true;
     bool isMainScreen = true;
     QString highLight_;
-    QStringList testCommands_;
-    QByteArray testParam_;
-    bool isTest_ = false;
-    QByteArray testData_;
+    bool isOrderRun = false;
+    QByteArray runCommandFlag_;
+    QByteArray cacheData_;
     SSHSettings settings_;
     QString filePath;
 };

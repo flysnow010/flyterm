@@ -48,8 +48,10 @@ SShWidget::SShWidget(bool isLog, QWidget *parent)
     connect(commandThread_, SIGNAL(onCommand(QString)), this, SLOT(execCommand(QString)));
     connect(commandThread_, SIGNAL(onExpandCommand(QString)),
             this, SLOT(execExpandCommand(QString)), Qt::BlockingQueuedConnection);
-    connect(commandThread_, SIGNAL(onTestCommand(QString)),
-            this, SLOT(execTestCommand(QString)));
+    connect(commandThread_, SIGNAL(onOrderCommandStart(QString)),
+            this, SLOT(orderCommandStart(QString)));
+    connect(commandThread_, SIGNAL(onOrderCommandEnd()),
+            this, SLOT(orderCommandEnd()));
 
     connect(shell, SIGNAL(connected()), this, SLOT(connected()));
     connect(shell, SIGNAL(connectionError(QString)), this, SLOT(connectionError(QString)));
@@ -146,42 +148,16 @@ void SShWidget::getShellSize(QSize const& size, int &cols, int &rows)
     rows = size.height() / h - 1;
 }
 
-QString SShWidget::getTestCommand()
+void SShWidget::orderCommandStart(QString const& runCommandFlag)
 {
-    if(testCommands_.isEmpty())
-        return QString();
-    QString command = testCommands_.front();
-    testCommands_.pop_front();
-    return command;
+    runCommandFlag_ = runCommandFlag.toUtf8();
+    isOrderRun = true;
+    commandThread_->runOrderCommand();
 }
 
-bool SShWidget::testCommandIsEmpty() const
+void SShWidget::orderCommandEnd()
 {
-    return testCommands_.isEmpty();
-}
-
-void SShWidget::execTestCommand(QString const& command)
-{
-    QString testCommand = command.right(command.size() - 1);
-    if(!testCommand.startsWith("start"))
-        testCommands_.push_back(testCommand);
-    else
-    {
-        QStringList cmds = testCommand.split(' ');
-        if(cmds.size() > 1)
-            testParam_ = cmds[1].toUtf8();
-        isTest_ = true;
-        QString cmd = getTestCommand();
-        if(cmd.startsWith("$") || cmd.startsWith("@"))
-            commandThread_->postCommand(cmd);
-        else if(!cmd.startsWith("#"))
-            execCommand(cmd);
-        else
-        {
-            execExpandCommand(cmd);
-            execCommand(QString());
-        }
-    }
+    isOrderRun = false;
 }
 
 bool SShWidget::isConnected() const
@@ -397,24 +373,13 @@ void SShWidget::connectionError(QString const& error)
 
 void SShWidget::onData(QByteArray const& data)
 {
-    if(isTest_)
+    if(isOrderRun)
     {
-        testData_.push_back(data);
-        if(testData_.contains(testParam_))
+        cacheData_.push_back(data);
+        if(cacheData_.contains(runCommandFlag_))
         {
-            QString command = getTestCommand();
-            if(command.startsWith("$") || command.startsWith("@"))
-                commandThread_->postCommand(command);
-            else if(!command.startsWith("#"))
-                execCommand(command);
-            else
-            {
-                execExpandCommand(command);
-                execCommand(QString());
-            }
-            testData_.clear();
-            if(testCommandIsEmpty())
-                isTest_ = false;
+            cacheData_.clear();
+            commandThread_->runOrderCommand();
         }
     }
     if(beforeLogfile_)

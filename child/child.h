@@ -64,24 +64,22 @@ private slots:
     void setHighLighter();
     void onGotCursorPos(int row, int col);
     void execCommand(QString const& command);
-    void execTestCommand(QString const& command);
+    void orderCommandStart(QString const& runCommandFlag);
+    void orderCommandEnd();
     void execExpandCommand(QString const& command);
     void pullData();
 private:
     void createHighLightMenu(QMenu* menu);
     void sendCommands(QStringList const& commands);
-    QString getTestCommand();
-    bool testCommandIsEmpty() const { return testCommands_.isEmpty(); }
 private:
     Console* console_ = nullptr;
-    CommandThread* commandThread;
+    CommandThread* commandThread_;
     QTimer* dataTimer;
     LogFile::SharedPtr afterLogfile_;
     QString highLight_;
-    QStringList testCommands_;
-    QByteArray testParam_;
-    bool isTest_ = false;
-    QByteArray testData_;
+    bool isOrderRun = false;
+    QByteArray runCommandFlag_;
+    QByteArray cacheData_;
 };
 
 #endif // CHILD_H
