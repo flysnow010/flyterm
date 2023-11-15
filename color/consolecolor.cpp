@@ -36,7 +36,7 @@ QStringList ConsoleColorManager::colorNames() const
 
 ConsoleColor ConsoleColorManager::color(int index) const
 {
-    if(index >= 0 & index < colors_.size())
+    if(index >= 0 && index < colors_.size())
         return colors_[index];
     return ConsoleColor();
 }
