@@ -1027,7 +1027,8 @@ void MainWindow::tftpServerStop()
 
 void MainWindow::loadStyleSheet()
 {
-    setStyleSheet("QTabBar::tab{"
+    setStyleSheet("QMainWindow::separator{width:1px;height:1px;}"
+                  "QTabBar::tab{"
                   "padding-left: 6px;"
                   "padding-top: 4px;"
                   "padding-right: 4px;"
