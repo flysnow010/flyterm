@@ -49,7 +49,7 @@ public:
     void set_port(const char* port);
     void set_user(const char* user);
 
-    bool connect(int timeout = 5);
+    bool connect(int timeout = 10);
     void disconnect();
     bool verify();
 
