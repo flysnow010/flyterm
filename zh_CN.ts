@@ -37,137 +37,155 @@
         <translation type="unfinished">按钮管理器</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="187"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="212"/>
         <source>New Buttons</source>
         <translation type="unfinished">新建组</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="124"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="128"/>
         <source>New Name</source>
         <translation type="unfinished">新组名</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="113"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="114"/>
         <source>Buttons Name</source>
         <oldsource>New Buttons Name</oldsource>
         <translation type="unfinished">组名</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="138"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="139"/>
+        <source>Are you sure you want to delete current buttons?</source>
+        <translation type="unfinished">你确认要删除当前按钮组吗?</translation>
+    </message>
+    <message>
+        <location filename="dock/buttonsdockwidget.cpp" line="151"/>
         <source>Load From</source>
         <oldsource>Load from</oldsource>
         <translation type="unfinished">加载</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="140"/>
         <location filename="dock/buttonsdockwidget.cpp" line="153"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="166"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="178"/>
         <source>Buttons (*.json)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="151"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="164"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="176"/>
         <source>Save To</source>
         <oldsource>Save to</oldsource>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="165"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="190"/>
         <source>New Button</source>
         <translation type="unfinished">新建按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="166"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="191"/>
         <source>Edit Button</source>
         <translation type="unfinished">编辑按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="167"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="192"/>
         <source>Clone Button</source>
         <oldsource>Copy Button</oldsource>
         <translation type="unfinished">克隆按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="168"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="193"/>
         <source>Move Button Left</source>
         <translation type="unfinished">左移按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="169"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="194"/>
         <source>Move Button Right</source>
         <translation type="unfinished">右移按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="170"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="195"/>
         <source>Delete Button</source>
         <translation type="unfinished">删除按钮</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="188"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="213"/>
         <source>Rename Buttons</source>
         <translation type="unfinished">重命名</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="189"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="214"/>
         <source>Delete Buttons</source>
         <translation type="unfinished">删除组</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="191"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="215"/>
+        <source>Save Current Buttons...</source>
+        <oldsource>Save Current Buttons</oldsource>
+        <translation type="unfinished">保存当前组...</translation>
+    </message>
+    <message>
+        <location filename="dock/buttonsdockwidget.cpp" line="217"/>
         <source>Load Buttons...</source>
         <oldsource>Load Buttons ...</oldsource>
         <translation type="unfinished">加载按钮...</translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="192"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="218"/>
         <source>Save Buttons...</source>
         <oldsource>Save Buttons ...</oldsource>
         <translation type="unfinished">保存按钮...</translation>
+    </message>
+    <message>
+        <location filename="dock/buttonsdockwidget.cpp" line="292"/>
+        <source>Are you sure you want to delete current button?</source>
+        <translation type="unfinished">你确认要删除当前按钮吗?</translation>
     </message>
 </context>
 <context>
     <name>Child</name>
     <message>
-        <location filename="child/child.cpp" line="86"/>
+        <location filename="child/child.cpp" line="88"/>
         <source>Print Document</source>
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="194"/>
+        <location filename="child/child.cpp" line="197"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="195"/>
+        <location filename="child/child.cpp" line="198"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="196"/>
+        <location filename="child/child.cpp" line="199"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="198"/>
+        <location filename="child/child.cpp" line="201"/>
         <source>Increase Font Size</source>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="199"/>
+        <location filename="child/child.cpp" line="202"/>
         <source>Decrease Font Size</source>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="201"/>
+        <location filename="child/child.cpp" line="205"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="203"/>
+        <location filename="child/child.cpp" line="207"/>
         <source>Save To File...</source>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/child.cpp" line="204"/>
+        <location filename="child/child.cpp" line="208"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>
@@ -588,49 +606,40 @@
 <context>
     <name>LocalShellWidget</name>
     <message>
-        <location filename="child/localshellwidget.cpp" line="161"/>
         <source>Print Document</source>
-        <translation type="unfinished">打印文档</translation>
+        <translation type="obsolete">打印文档</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="249"/>
         <source>Copy</source>
-        <translation type="unfinished">复制</translation>
+        <translation type="obsolete">复制</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="250"/>
         <source>Copy All</source>
-        <translation type="unfinished">复制全部</translation>
+        <translation type="obsolete">复制全部</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="251"/>
         <source>Paste</source>
-        <translation type="unfinished">粘贴</translation>
+        <translation type="obsolete">粘贴</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="253"/>
         <source>Increase Font Size</source>
-        <translation type="unfinished">增大字体</translation>
+        <translation type="obsolete">增大字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="254"/>
         <source>Decrease Font Size</source>
-        <translation type="unfinished">减小字体</translation>
+        <translation type="obsolete">减小字体</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="256"/>
         <source>Syntax Highlighting</source>
-        <translation type="unfinished">语法高亮</translation>
+        <translation type="obsolete">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="258"/>
         <source>Save To File...</source>
-        <translation type="unfinished">保存到文件...</translation>
+        <translation type="obsolete">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/localshellwidget.cpp" line="259"/>
         <source>Clear Scrollback</source>
-        <translation type="unfinished">清除回滚</translation>
+        <translation type="obsolete">清除回滚</translation>
     </message>
 </context>
 <context>
@@ -1069,7 +1078,7 @@
     </message>
     <message>
         <location filename="mainwindow.cpp" line="349"/>
-        <location filename="mainwindow.cpp" line="1080"/>
+        <location filename="mainwindow.cpp" line="1078"/>
         <source>Status Bar</source>
         <translation type="unfinished">状态条</translation>
     </message>
@@ -1099,17 +1108,17 @@
         <translation type="unfinished">终端字体大小</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1010"/>
+        <location filename="mainwindow.cpp" line="1007"/>
         <source>Select TFTP Path</source>
         <translation type="unfinished">选择TFTP路径</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1018"/>
+        <location filename="mainwindow.cpp" line="1015"/>
         <source>Start server on %1 </source>
         <translation type="unfinished">开始服务于%1 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1019"/>
+        <location filename="mainwindow.cpp" line="1016"/>
         <source>Stop server from %1 </source>
         <translation type="unfinished">从%1停止服务 </translation>
     </message>
@@ -1176,7 +1185,7 @@
     </message>
     <message>
         <location filename="core/commandmanager.cpp" line="101"/>
-        <location filename="core/commandmanager.cpp" line="252"/>
+        <location filename="core/commandmanager.cpp" line="283"/>
         <source>Default</source>
         <translation type="unfinished">默认</translation>
     </message>
@@ -1188,95 +1197,95 @@
 <context>
     <name>SShWidget</name>
     <message>
-        <location filename="child/sshwidget.cpp" line="97"/>
+        <location filename="child/sshwidget.cpp" line="99"/>
         <source>Password for %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="229"/>
+        <location filename="child/sshwidget.cpp" line="207"/>
         <source>Print Document</source>
         <translation type="unfinished">打印文档</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="316"/>
+        <location filename="child/sshwidget.cpp" line="294"/>
         <source>Open File</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="317"/>
+        <location filename="child/sshwidget.cpp" line="295"/>
         <source>All files (*.*)</source>
         <translation type="unfinished">全部文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="336"/>
+        <location filename="child/sshwidget.cpp" line="314"/>
         <source>FileName</source>
         <translation type="unfinished">文件名称</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="340"/>
+        <location filename="child/sshwidget.cpp" line="318"/>
         <source>Select Path</source>
         <translation type="unfinished">选择目录</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="461"/>
+        <location filename="child/sshwidget.cpp" line="430"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="462"/>
+        <location filename="child/sshwidget.cpp" line="431"/>
         <source>Copy All</source>
         <translation type="unfinished">复制全部</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="463"/>
+        <location filename="child/sshwidget.cpp" line="432"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="465"/>
+        <location filename="child/sshwidget.cpp" line="434"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished">增大字体</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="466"/>
+        <location filename="child/sshwidget.cpp" line="435"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished">减小字体</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="468"/>
+        <location filename="child/sshwidget.cpp" line="437"/>
         <source>Upload...</source>
         <translation type="unfinished">上传...</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="469"/>
+        <location filename="child/sshwidget.cpp" line="438"/>
         <source>Download...</source>
         <translation type="unfinished">下载...</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="471"/>
+        <location filename="child/sshwidget.cpp" line="440"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="473"/>
+        <location filename="child/sshwidget.cpp" line="442"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="474"/>
+        <location filename="child/sshwidget.cpp" line="443"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished">清除回滚</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="608"/>
+        <location filename="child/sshwidget.cpp" line="577"/>
         <source>Sftp Upload</source>
         <translation type="unfinished">Sftp上传</translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="610"/>
+        <location filename="child/sshwidget.cpp" line="579"/>
         <source>Sftp Download</source>
         <translation type="unfinished">Sftp下载</translation>
     </message>
@@ -1291,168 +1300,159 @@
 <context>
     <name>SerialPortWidget</name>
     <message>
-        <location filename="child/serialportwidget.cpp" line="83"/>
+        <location filename="child/serialportwidget.cpp" line="44"/>
         <source>Unable to open serial port %1</source>
         <translation type="unfinished">不能打开串口%1</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="85"/>
+        <location filename="child/serialportwidget.cpp" line="46"/>
         <source>%1 have be opened</source>
         <translation type="unfinished">%1已打开</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="137"/>
         <source>Print Document</source>
-        <translation type="unfinished">打印文档</translation>
+        <translation type="obsolete">打印文档</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="155"/>
-        <location filename="child/serialportwidget.cpp" line="175"/>
-        <location filename="child/serialportwidget.cpp" line="195"/>
+        <location filename="child/serialportwidget.cpp" line="74"/>
+        <location filename="child/serialportwidget.cpp" line="94"/>
+        <location filename="child/serialportwidget.cpp" line="114"/>
         <source>Save File</source>
         <translation type="unfinished">保存文件</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="156"/>
-        <location filename="child/serialportwidget.cpp" line="166"/>
-        <location filename="child/serialportwidget.cpp" line="176"/>
-        <location filename="child/serialportwidget.cpp" line="186"/>
-        <location filename="child/serialportwidget.cpp" line="196"/>
-        <location filename="child/serialportwidget.cpp" line="206"/>
+        <location filename="child/serialportwidget.cpp" line="75"/>
+        <location filename="child/serialportwidget.cpp" line="85"/>
+        <location filename="child/serialportwidget.cpp" line="95"/>
+        <location filename="child/serialportwidget.cpp" line="105"/>
+        <location filename="child/serialportwidget.cpp" line="115"/>
+        <location filename="child/serialportwidget.cpp" line="125"/>
         <source>All files (*.*)</source>
         <translation type="unfinished">全部文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="165"/>
-        <location filename="child/serialportwidget.cpp" line="185"/>
-        <location filename="child/serialportwidget.cpp" line="205"/>
+        <location filename="child/serialportwidget.cpp" line="84"/>
+        <location filename="child/serialportwidget.cpp" line="104"/>
+        <location filename="child/serialportwidget.cpp" line="124"/>
         <source>Open File</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="435"/>
         <source>Copy</source>
-        <translation type="unfinished">复制</translation>
+        <translation type="obsolete">复制</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="436"/>
         <source>Copy All</source>
-        <translation type="unfinished">复制全部</translation>
+        <translation type="obsolete">复制全部</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="437"/>
         <source>Paste</source>
-        <translation type="unfinished">粘贴</translation>
+        <translation type="obsolete">粘贴</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="439"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
-        <translation type="unfinished">增大字体</translation>
+        <translation type="obsolete">增大字体</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="440"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
-        <translation type="unfinished">减小字体</translation>
+        <translation type="obsolete">减小字体</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="442"/>
+        <location filename="child/serialportwidget.cpp" line="157"/>
         <source>Upload</source>
         <translation type="unfinished">上传</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="443"/>
+        <location filename="child/serialportwidget.cpp" line="158"/>
         <source>Kermit Send...</source>
         <translation type="unfinished">Kermit发送...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="444"/>
+        <location filename="child/serialportwidget.cpp" line="159"/>
         <source>XModem Send...</source>
         <translation type="unfinished">XModem发送...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="445"/>
+        <location filename="child/serialportwidget.cpp" line="160"/>
         <source>YModem Send...</source>
         <translation type="unfinished">YModem发送...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="446"/>
+        <location filename="child/serialportwidget.cpp" line="161"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="447"/>
+        <location filename="child/serialportwidget.cpp" line="162"/>
         <source>Kermit Reveive...</source>
         <translation type="unfinished">Kermit接收...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="448"/>
+        <location filename="child/serialportwidget.cpp" line="163"/>
         <source>XModem Reveive...</source>
         <translation type="unfinished">XModem接收...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="449"/>
+        <location filename="child/serialportwidget.cpp" line="164"/>
         <source>YModem Reveive...</source>
         <translation type="unfinished">YModem接收...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="452"/>
         <source>Syntax Highlighting</source>
-        <translation type="unfinished">语法高亮</translation>
+        <translation type="obsolete">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="454"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
-        <translation type="unfinished">保存到文件...</translation>
+        <translation type="obsolete">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="455"/>
         <source>Clear Scrollback</source>
-        <translation type="unfinished">清除回滚</translation>
+        <translation type="obsolete">清除回滚</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="500"/>
+        <location filename="child/serialportwidget.cpp" line="241"/>
         <source>Kermit Send</source>
         <translation type="unfinished">Kermit发送</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="532"/>
+        <location filename="child/serialportwidget.cpp" line="273"/>
         <source>Kermit Recv</source>
         <translation type="unfinished">Kermit接收</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="569"/>
+        <location filename="child/serialportwidget.cpp" line="310"/>
         <source>YMODEM Send</source>
         <translation type="unfinished">YMODEM发送</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="570"/>
-        <location filename="child/serialportwidget.cpp" line="610"/>
+        <location filename="child/serialportwidget.cpp" line="311"/>
+        <location filename="child/serialportwidget.cpp" line="351"/>
         <source>1K YMODEM</source>
         <oldsource>YMODEM (1K)</oldsource>
         <translation type="unfinished">1K YMODEM</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="574"/>
+        <location filename="child/serialportwidget.cpp" line="315"/>
         <source>XMODEM Send</source>
         <translation type="unfinished">XMODEM发送</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="575"/>
-        <location filename="child/serialportwidget.cpp" line="615"/>
+        <location filename="child/serialportwidget.cpp" line="316"/>
+        <location filename="child/serialportwidget.cpp" line="356"/>
         <source>1K XMODEM</source>
         <oldsource>XMODEM (1K)</oldsource>
         <translation type="unfinished">1K XMODEM</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="609"/>
+        <location filename="child/serialportwidget.cpp" line="350"/>
         <source>YMODEM Recv</source>
         <translation type="unfinished">YMODEM接收</translation>
     </message>
     <message>
-        <location filename="child/serialportwidget.cpp" line="614"/>
+        <location filename="child/serialportwidget.cpp" line="355"/>
         <source>XMODEM Recv</source>
         <translation type="unfinished">XMODEM接收</translation>
     </message>
@@ -1499,37 +1499,37 @@
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="65"/>
-        <location filename="dock/sessiondockwidget.cpp" line="189"/>
+        <location filename="dock/sessiondockwidget.cpp" line="199"/>
         <source>New Session</source>
         <translation type="unfinished">新建会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="66"/>
-        <location filename="dock/sessiondockwidget.cpp" line="190"/>
+        <location filename="dock/sessiondockwidget.cpp" line="200"/>
         <source>Delete Session</source>
         <translation type="unfinished">删除会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="67"/>
-        <location filename="dock/sessiondockwidget.cpp" line="191"/>
+        <location filename="dock/sessiondockwidget.cpp" line="201"/>
         <source>Rename Session</source>
         <translation type="unfinished">重命名</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="68"/>
-        <location filename="dock/sessiondockwidget.cpp" line="192"/>
+        <location filename="dock/sessiondockwidget.cpp" line="202"/>
         <source>Up Session</source>
         <translation type="unfinished">上移会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="69"/>
-        <location filename="dock/sessiondockwidget.cpp" line="193"/>
+        <location filename="dock/sessiondockwidget.cpp" line="203"/>
         <source>Down Session</source>
         <translation type="unfinished">下移会话</translation>
     </message>
     <message>
         <location filename="dock/sessiondockwidget.cpp" line="70"/>
-        <location filename="dock/sessiondockwidget.cpp" line="194"/>
+        <location filename="dock/sessiondockwidget.cpp" line="204"/>
         <source>Edit Session</source>
         <translation type="unfinished">编辑会话</translation>
     </message>
@@ -1650,58 +1650,49 @@
 <context>
     <name>TelnetWidget</name>
     <message>
-        <location filename="child/telnetwidget.cpp" line="133"/>
         <source>Print Document</source>
-        <translation type="unfinished">打印文档</translation>
+        <translation type="obsolete">打印文档</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="364"/>
         <source>Copy</source>
-        <translation type="unfinished">复制</translation>
+        <translation type="obsolete">复制</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="365"/>
         <source>Copy All</source>
-        <translation type="unfinished">复制全部</translation>
+        <translation type="obsolete">复制全部</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="366"/>
         <source>Paste</source>
-        <translation type="unfinished">粘贴</translation>
+        <translation type="obsolete">粘贴</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="368"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
-        <translation type="unfinished">增大字体</translation>
+        <translation type="obsolete">增大字体</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="369"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
-        <translation type="unfinished">减小字体</translation>
+        <translation type="obsolete">减小字体</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="371"/>
         <source>Syntax Highlighting</source>
-        <translation type="unfinished">语法高亮</translation>
+        <translation type="obsolete">语法高亮</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="373"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
-        <translation type="unfinished">保存到文件...</translation>
+        <translation type="obsolete">保存到文件...</translation>
     </message>
     <message>
-        <location filename="child/telnetwidget.cpp" line="374"/>
         <source>Clear Scrollback</source>
-        <translation type="unfinished">清除回滚</translation>
+        <translation type="obsolete">清除回滚</translation>
     </message>
 </context>
 <context>
     <name>WSLSession</name>
     <message>
-        <location filename="core/wslsession.cpp" line="291"/>
+        <location filename="core/wslsession.cpp" line="295"/>
         <source>Duplicate tab</source>
         <translation type="unfinished">复制选项卡</translation>
     </message>
