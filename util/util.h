@@ -95,6 +95,7 @@ public:
         obj = doc.object();
     }
 
+    static bool question(QString const& text);
     static QIcon GetIcon(QString const& fileName, int index = 0);
     static QIcon getOsIcon(QString const& os);
     static QString fromUnicode(QByteArray const& data);

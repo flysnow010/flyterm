@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QtWin>
 
 #include <cstring>
@@ -146,6 +147,12 @@ qint64 const SIZE_KB = 0x400;
 qint64 const SIZE_MB = 0x100000;
 qint64 const SIZE_GB = 0x40000000;
 qint64 const SIZE_TB = 0x10000000000;
+
+bool Util::question(QString const& text)
+{
+    int button = QMessageBox::question(0, QApplication::applicationName(), text);
+    return button == QMessageBox::Yes;
+}
 
 QIcon Util::GetIcon(QString const& fileName, int index)
 {
