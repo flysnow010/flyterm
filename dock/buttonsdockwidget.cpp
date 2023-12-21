@@ -136,10 +136,13 @@ void ButtonsDockWidget::renameButtons()
 void ButtonsDockWidget::deleteButtons()
 {
     QString name = commandManger->currenCommandsName();
-    if(commandManger->removeCommands(name))
+    if(Util::question(tr("Are you sure you want to delete current buttons?")))
     {
-         updateActions();
-         saveCommands();
+        if(commandManger->removeCommands(name))
+        {
+             updateActions();
+             saveCommands();
+        }
     }
 }
 
@@ -273,8 +276,11 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
             Command::Ptr command = commandManger->findCommand(name);
             if(command)
             {
-                toolBar->removeAction(action);
-                commandManger->removeCommand(command);
+                if(Util::question(tr("Are you sure you want to delete current button?")))
+                {
+                    toolBar->removeAction(action);
+                    commandManger->removeCommand(command);
+                }
             }
         }
         );
