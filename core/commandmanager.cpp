@@ -162,6 +162,32 @@ QStringList CommandManager::names() const
     return nameList;
 }
 
+bool CommandManager::saveCurrentCommands(QString const& fileName)
+{
+    QFile file(fileName);
+    if(!file.open(QIODevice::WriteOnly))
+        return false;
+
+    QJsonArray commands;
+    for(int i = 0; i < currentCommands_->size(); i++)
+    {
+        QJsonObject command;
+        command.insert("name", currentCommands_->commands[i]->name);
+        command.insert("script", currentCommands_->commands[i]->script);
+        commands.append(command);
+    }
+
+    QJsonObject commandManager;
+    commandManager.insert("version", "1.0");
+    commandManager.insert("name", currentCommands_->name);
+    commandManager.insert("commands", commands);
+
+    QJsonDocument doc;
+    doc.setObject(commandManager);
+    file.write(doc.toJson());
+    return true;
+}
+
 bool CommandManager::save(QString const& fileName)
 {
     QFile file(fileName);
@@ -214,7 +240,7 @@ bool CommandManager::load(QString const& fileName)
     {
         QJsonArray commands = commandManager.value("commands").toArray();
         Commands::Ptr commandsPtr(new Commands());
-        commandsPtr->name = "Default";
+        commandsPtr->name = commandManager.value("name").toString();
         for(int i = 0; i < commands.size(); i++)
         {
             QJsonObject object = commands.at(i).toObject();
@@ -223,7 +249,12 @@ bool CommandManager::load(QString const& fileName)
             command->script = object.value("script").toString();
             commandsPtr->commands << command;
         }
-        commandsList_ << commandsPtr;
+        int index = commandsList_.indexOf(currentCommands_);
+        currentCommands_ = commandsPtr;
+        if(index < 0)
+            commandsList_ << commandsPtr;
+        else
+            commandsList_.insert(index + 1, commandsPtr);
     }
     else if(version == "2.0")
     {
@@ -257,7 +288,7 @@ bool CommandManager::load(QString const& fileName)
         int index = findCommands(currentItem);
         if(index >= 0)
             currentCommands_ = commandsList_[index];
-        else
+        else  if(version == "2.0")
             currentCommands_ = commandsList_[0];
     }
     return true;

@@ -9,7 +9,6 @@ struct Command
     using Ptr = std::shared_ptr<Command>;
     QString name;
     QString script;
-
 };
 
 struct Commands
@@ -42,6 +41,7 @@ public:
     QString currenCommandsName();
     QStringList names() const;
 
+    bool saveCurrentCommands(QString const& fileName);
     bool save(QString const& fileName);
     bool load(QString const& fileName);
 private:
