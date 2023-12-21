@@ -171,6 +171,18 @@ void ButtonsDockWidget::save()
     commandManger->save(fileName);
 }
 
+void ButtonsDockWidget::saveCurrent()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save To"),
+                               filePath,
+                               tr("Buttons (*.json)"));
+    if(fileName.isEmpty())
+       return;
+
+    filePath = QFileInfo(fileName).path();
+    commandManger->saveCurrentCommands(fileName);
+}
+
 void ButtonsDockWidget::customContextMenu(const QPoint &pos)
 {
     QAction* action = toolBar->actionAt(pos);
@@ -200,6 +212,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     contextMenu.addAction(tr("New Buttons"), this, SLOT(newButtons()));
     contextMenu.addAction(tr("Rename Buttons"), this, SLOT(renameButtons()));
     contextMenu.addAction(tr("Delete Buttons"), this, SLOT(deleteButtons()));
+    contextMenu.addAction(tr("Save Current Buttons..."), this, SLOT(saveCurrent()));
     contextMenu.addSeparator();
     contextMenu.addAction(tr("Load Buttons..."), this, SLOT(load()));
     contextMenu.addAction(tr("Save Buttons..."), this, SLOT(save()));

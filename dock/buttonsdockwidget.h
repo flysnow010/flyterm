@@ -33,6 +33,7 @@ private slots:
     void deleteButtons();
     void load();
     void save();
+    void saveCurrent();
 private:
    void createLayout();
    void createToolBar();
