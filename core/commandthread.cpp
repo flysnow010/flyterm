@@ -127,6 +127,8 @@ void CommandThread::run()
                 emit onExpandCommand(c);
                 execNextOrderCommand();
             }
+            else if(c.startsWith("//"))
+                continue;
             else
                 emit onCommand(c);
             if(orderCommands_.isEmpty())
