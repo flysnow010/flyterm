@@ -86,12 +86,24 @@ void CommandThread::execAppCommand(QString const& command)
         return;
 
     QProcess process;
-    if(commands[0] == "$plot")
-        process.setProgram(Util::plotAppPath());
-    else
-        process.setProgram(commands[0].mid(1));
     process.setArguments(commands.mid(1));
-    process.startDetached();
+    if(commands[0].startsWith("$$"))
+    {
+        if(commands[0] == "$$plot")
+            process.setProgram(Util::plotAppPath());
+        else
+            process.setProgram(commands[0].mid(2));
+        process.start();
+        process.waitForFinished();
+    }
+    else
+    {
+        if(commands[0] == "$plot")
+            process.setProgram(Util::plotAppPath());
+        else
+            process.setProgram(commands[0].mid(1));
+        process.startDetached();
+    }
 }
 
 void CommandThread::execNextOrderCommand()
