@@ -28,8 +28,9 @@ public:
     int size() const;
     Command::Ptr command(int index);
     Command::Ptr findCommand(QString const& name);
+    int indexOfCommand(QString const& name);
 
-    void addCommand(Command::Ptr const& command);
+    void addCommand(Command::Ptr const& command, int index = -1);
     void removeCommand(Command::Ptr const& command);
     bool leftCommand(Command::Ptr const& command);
     bool rightCommand(Command::Ptr const& command);

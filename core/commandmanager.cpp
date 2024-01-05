@@ -29,9 +29,23 @@ Command::Ptr CommandManager::findCommand(QString const& name)
     return Command::Ptr();
 }
 
-void CommandManager::addCommand(Command::Ptr const& command)
+int CommandManager::indexOfCommand(QString const& name)
 {
-    currentCommands_->commands.append(command);
+    for(int i= 0; i < currentCommands_->size(); i++)
+    {
+        if(currentCommands_->commands[i]->name == name)
+            return i;
+    }
+    return -1;
+}
+
+void CommandManager::addCommand(Command::Ptr const& command,
+                                int index)
+{
+    if(index < 0)
+        currentCommands_->commands.append(command);
+    else
+        currentCommands_->commands.insert(index, command);
 }
 
 void CommandManager::removeCommand(Command::Ptr const& command)
