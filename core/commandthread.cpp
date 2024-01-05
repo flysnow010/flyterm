@@ -153,6 +153,8 @@ void CommandThread::run()
                 pushOrderCommand(c);
                 continue;
             }
+            else if(c.startsWith("//"))
+                continue;
             else if(c.startsWith("@"))
                 execCommand(c);
             else if(c.startsWith("$"))
