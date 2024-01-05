@@ -78,11 +78,14 @@ void ButtonsDockWidget::updateActions()
     createActions();
 }
 
-void ButtonsDockWidget::addCommand(Command::Ptr const& command)
+void ButtonsDockWidget::addCommand(Command::Ptr const& command, QAction *before)
 {
     QAction* action = new QAction(QIcon(":image/Tool/dot.png"), command->name);
     action->setToolTip(command->script);
-    toolBar->addAction(action);
+    if(before)
+        toolBar->insertAction(before, action);
+    else
+        toolBar->addAction(action);
     connect(action, SIGNAL(triggered(bool)), this, SLOT(sendCommand()));
 }
 
@@ -187,7 +190,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
 {
     QAction* action = toolBar->actionAt(pos);
     QMenu contextMenu;
-    contextMenu.addAction(tr("New Button"), this, SLOT(newButton()));
+    QAction* newAction = contextMenu.addAction(tr("New Button"));
     QAction* editAction = contextMenu.addAction(tr("Edit Button"));
     QAction* cloneAction = contextMenu.addAction(tr("Clone Button"));
     QAction* leftAction = contextMenu.addAction(tr("Move Button Left"));
@@ -218,6 +221,20 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     contextMenu.addAction(tr("Save Buttons..."), this, SLOT(save()));
     if(action)
     {
+        connect(newAction, &QAction::triggered, [=](bool)
+        {
+            CommandDialog dialog;
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                Command::Ptr command(new Command);
+                command->name = dialog.name();
+                command->script = dialog.script();
+                addCommand(command, action);
+                int index = commandManger->indexOfCommand(action->text());
+                commandManger->addCommand(command, index);
+                saveCommands();
+            }
+        });
         connect(editAction, &QAction::triggered, [=](bool)
         {
             CommandDialog dialog;
@@ -240,6 +257,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
                     command->script = dialog.script();
                     action->setText(command->name);
                     action->setToolTip(command->script);
+                    saveCommands();
                 }
             }
         }
@@ -247,15 +265,17 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
         connect(cloneAction, &QAction::triggered, [=](bool)
         {
             CommandDialog dialog;
-            dialog.setName(action->text() + QString(" "));
+            dialog.setName(action->text() + QString(" Copy"));
             dialog.setScript(action->toolTip());
             if(dialog.exec() == QDialog::Accepted)
             {
                 Command::Ptr command(new Command);
                 command->name = dialog.name();
                 command->script = dialog.script();
-                addCommand(command);
-                commandManger->addCommand(command);
+                addCommand(command, action);
+                int index = commandManger->indexOfCommand(action->text());
+                commandManger->addCommand(command, index);
+                saveCommands();
             }
         });
 
@@ -267,6 +287,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
             {
                 toolBar->clear();
                 createActions();
+                saveCommands();
             }
         }
         );
@@ -279,6 +300,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
             {
                 toolBar->clear();
                 createActions();
+                saveCommands();
             }
         }
         );
@@ -293,6 +315,7 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
                 {
                     toolBar->removeAction(action);
                     commandManger->removeCommand(command);
+                    saveCommands();
                 }
             }
         }
@@ -300,6 +323,12 @@ void ButtonsDockWidget::customContextMenu(const QPoint &pos)
     }
     else
     {
+        connect(newAction, &QAction::triggered, [=](bool)
+        {
+            newButton();
+        }
+        );
+
         editAction->setEnabled(false);
         cloneAction->setEnabled(false);
         leftAction->setEnabled(false);

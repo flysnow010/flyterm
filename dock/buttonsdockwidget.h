@@ -9,6 +9,7 @@ class ButtonsDockWidget;
 }
 
 class QToolBar;
+class QAction;
 class ButtonsDockWidget : public QDockWidget
 {
     Q_OBJECT
@@ -39,7 +40,7 @@ private:
    void createToolBar();
    void createActions();
    void updateActions();
-   void addCommand(Command::Ptr const& command);
+   void addCommand(Command::Ptr const& command, QAction* before = 0);
 private:
     Ui::ButtonsDockWidget *ui;
     QToolBar* toolBar;
