@@ -175,6 +175,7 @@ void SShWidget::reconnect(const SSHSettings &settings)
 void SShWidget::disconnect()
 {
     shell->stop();
+    commandThread_->clear();
     sheelIsClose = true;
 }
 
