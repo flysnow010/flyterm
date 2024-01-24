@@ -27,6 +27,12 @@ void CommandThread::stop()
     doSignal();
 }
 
+void CommandThread::clear()
+{
+    clearCommand();
+    clearOrderCommand();
+}
+
 QString CommandThread::command()
 {
     QMutexLocker locker(&mutex_);
@@ -39,6 +45,8 @@ QString CommandThread::command()
 
 QString CommandThread::orderCommand()
 {
+    QMutexLocker locker(&orderMutex_);
+
     if(orderCommands_.isEmpty())
         return QString();
     QString command = orderCommands_.front();
@@ -50,12 +58,18 @@ void CommandThread::pushOrderCommand(QString const& orderCommand)
 {
     QString command = orderCommand.right(orderCommand.size() - 1);
     if(!command.startsWith("start"))
+    {
+        QMutexLocker locker(&orderMutex_);
         orderCommands_.push_back(command);
+    }
     else
     {
         QStringList cmds = command.split(' ');
         if(cmds.size() < 2)
+        {
+            QMutexLocker locker(&orderMutex_);
             orderCommands_.clear();
+        }
         else
             emit onOrderCommandStart(cmds[1]);
     }
@@ -108,7 +122,7 @@ void CommandThread::execAppCommand(QString const& command)
 
 void CommandThread::execNextOrderCommand()
 {
-    if(!orderCommands_.isEmpty())
+    if(!orderCommandIsEmpty())
         runOrderCommand();
 }
 
@@ -143,7 +157,7 @@ void CommandThread::run()
                 continue;
             else
                 emit onCommand(c);
-            if(orderCommands_.isEmpty())
+            if(orderCommandIsEmpty())
                 emit onOrderCommandEnd();
         }
         else
@@ -166,4 +180,22 @@ void CommandThread::run()
         }
         emit onAllCommand(c);
     }
+}
+
+bool CommandThread::orderCommandIsEmpty()
+{
+    QMutexLocker locker(&orderMutex_);
+    return orderCommands_.isEmpty();
+}
+
+void CommandThread::clearCommand()
+{
+    QMutexLocker locker(&mutex_);
+    commands_.clear();
+}
+
+void CommandThread::clearOrderCommand()
+{
+    QMutexLocker locker(&orderMutex_);
+    orderCommands_.clear();
 }

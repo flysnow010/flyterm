@@ -15,6 +15,7 @@ public:
     void postCommand(QString const& command);
     void runOrderCommand();
     void stop();
+    void clear();
 signals:
     void onCommand(QString const& command);
     void onExpandCommand(QString const& command);
@@ -31,6 +32,9 @@ private:
     void execCommand(QString const& command);
     void execAppCommand(QString const& command);
     void execNextOrderCommand();
+    bool orderCommandIsEmpty();
+    void clearCommand();
+    void clearOrderCommand();
 
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
@@ -39,6 +43,7 @@ private:
     QStringList commands_;
     QStringList orderCommands_;
     QMutex mutex_;
+    QMutex orderMutex_;
     QSemaphore sem_;
 };
 
