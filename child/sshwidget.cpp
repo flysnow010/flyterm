@@ -411,7 +411,13 @@ void SShWidget::onError(QByteArray const& data)
 
 void SShWidget::writeData(QByteArray const&data)
 {
-    shell->write(data);
+    int ret = shell->write(data);
+    if(ret < 0)
+    {
+        disconnect();
+        emit onConnectStatus(this, false);
+        reconnect(settings_);
+    }
 }
 
 void SShWidget::onGotCursorPos(int row, int col)
