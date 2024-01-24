@@ -4,6 +4,8 @@
 
 int const DEFAULT_COLS = 80;
 int const DEFAULT_ROWS = 24;
+unsigned long const SLEEP_TIME_1_MS = 1;
+unsigned long const WAIT_TIME_5_MS  = 5;
 
 SSHChannel::SSHChannel(QObject *parent)
     : QObject(parent)
@@ -134,7 +136,7 @@ bool SSHChannel::run()
         }
         if(nbytes <= 0)
         {
-            QThread::msleep(1);
+            QThread::msleep(SLEEP_TIME_1_MS);
             continue;
         }
 
@@ -156,6 +158,8 @@ void SSHChannel::stop()
     if(channel_)
         channel_->close();
     doSignal();
+    //sleep 5ms for wait exit of run
+    QThread::msleep(WAIT_TIME_5_MS);
     sessioin_->disconnect();
     if(channel_)
         channel_->reset();
