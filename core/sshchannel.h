@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QByteArrayList>
 #include <QMutex>
+#include <QSemaphore>
 
 #include "sshsettings.h"
 #include "ssh/session.h"
@@ -39,6 +40,7 @@ private:
     ssh::Channel* channel_;
     QByteArrayList datas;
     QMutex mutex;
+    QSemaphore exitSem_;
     volatile bool signal_;
     volatile bool shellSizeChanged_;
     bool isConnected = false;
