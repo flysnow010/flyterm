@@ -56,6 +56,7 @@ SftpTransferInner::SftpTransferInner(SSHSettings const& settings,
     , signal_(false)
 {
     connect(sftp, &SFtpSession::connected, this, &SftpTransferInner::connected);
+    connect(sftp, &SFtpSession::connectionError, this, &SftpTransferInner::connectionError);
 }
 
 void SftpTransferInner::upload(QString const& srcFileName, QString const& dstfileName)
@@ -86,6 +87,12 @@ void SftpTransferInner::connected()
         uploadFile();
     else if(mode_ == DOWNLOAD)
         downloadFile();
+}
+
+void SftpTransferInner::connectionError(QString const& e)
+{
+    emit error(e);
+    emit finished();
 }
 
 bool SftpTransferInner::uploadFile()

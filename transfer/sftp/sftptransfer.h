@@ -54,6 +54,7 @@ signals:
 
 private slots:
     void connected();
+    void connectionError(QString const& e);
 private:
     bool uploadFile();
     bool downloadFile();
