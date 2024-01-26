@@ -44,7 +44,8 @@ void SFtpSession::start(SSHSettings const& settings)
 
 void SFtpSession::stop()
 {
-    emit stopSession();
+    //emit stopSession();
+    sessioin_->stop();
 }
 
 void SFtpSession::onConnected()
