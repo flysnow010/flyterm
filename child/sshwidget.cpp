@@ -301,7 +301,7 @@ void SShWidget::uploadFile()
     QString dstFileName = QFileInfo(dstPath, fileInfo.fileName()).filePath();
     filePath = fileInfo.filePath();
 
-    transferFile(srcFileName, dstFileName, true);
+    transferFile(srcFileName, dstFileName, true, true);
 }
 
 void SShWidget::downloadFile()
@@ -322,7 +322,7 @@ void SShWidget::downloadFile()
     filePath = QFileInfo(dstPath).filePath();
     QString srcFileName = QFileInfo(srcPath, fileName).filePath();
     QString dstFileName =  QFileInfo(dstPath, fileName).filePath();
-    transferFile(srcFileName, dstFileName, false);
+    transferFile(srcFileName, dstFileName, false, true);
 }
 
 QSize SShWidget::sizeHint() const
@@ -512,12 +512,12 @@ void SShWidget::execExpandCommand(QString const& command)
     else if(command.startsWith("#supload"))
     {
         if(cmds.size() > 2)
-            transferFile(cmds[1], cmds[2], true);
+            transferFile(cmds[1], cmds[2], true, false);
     }
     else if(command.startsWith("#sdownload"))
     {
         if(cmds.size() > 2)
-            transferFile(cmds[1], cmds[2], false);
+            transferFile(cmds[1], cmds[2], false, false);
     }
     else if(command.startsWith("#esave"))
     {
@@ -571,7 +571,8 @@ QString SShWidget::getCurrentPath()
     return path;
 }
 
-void SShWidget::transferFile(QString const& srcFileName, QString const& dstFileName, bool isUpload)
+void SShWidget::transferFile(QString const& srcFileName, QString const& dstFileName,
+                             bool isUpload, bool isCurrentDir)
 {
     FileProgressDialog dialog(this);
     SftpTransfer transfer(settings_);
@@ -605,6 +606,12 @@ void SShWidget::transferFile(QString const& srcFileName, QString const& dstFileN
         QApplication::processEvents();
     }
     if(isUpload && dialog.isFinished())
-        execCommand(QString("ls -l %1")
+    {
+        if(isCurrentDir)
+            execCommand(QString("ls -l %1")
                     .arg(QFileInfo(dstFileName).fileName()));
+        else
+            execCommand(QString("ls -l %1")
+                    .arg(dstFileName));
+    }
 }

@@ -89,7 +89,8 @@ private:
     void sendCommands(QStringList const& commands);
     void getShellSize(QSize const& size, int &cols, int &rows);
     QString  getCurrentPath();
-    void transferFile(QString const& srcFileName, QString const& dstFileName, bool isUpload);
+    void transferFile(QString const& srcFileName, QString const& dstFileName,
+                      bool isUpload, bool isCurrentDir);
 private:
     SshConsole* console;
     AlternateConsole* alternateConsole;
