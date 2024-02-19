@@ -1,7 +1,11 @@
 #include "fileprogressdialog.h"
 #include "ui_fileprogressdialog.h"
+
 #include <QApplication>
 #include <QDebug>
+#include <QTimer>
+
+int const WAIT_TIME_FOR_CLOSE = 5000;
 
 FileProgressDialog::FileProgressDialog(QWidget *parent) :
     QDialog(parent),
@@ -10,6 +14,7 @@ FileProgressDialog::FileProgressDialog(QWidget *parent) :
     bytesOfSend_(0),
     isCancel_(false),
     isFinished_(false),
+    isError_(false),
     time_(QTime::currentTime())
 {
     ui->setupUi(this);
@@ -77,9 +82,11 @@ void FileProgressDialog::finished()
 
 void FileProgressDialog::error(QString const& e)
 {
-    ui->errorLabel->setText(e);
+    ui->errorLabel->setText(QString(tr("%1(Auto closed after %2 seconds)"))
+                            .arg(e).arg(WAIT_TIME_FOR_CLOSE / 1000));
     ui->errorLabel->show();
-    qDebug() << e;
+    isError_ = true;
+    QTimer::singleShot(WAIT_TIME_FOR_CLOSE, this, SLOT(finished()));
 }
 
 void FileProgressDialog::cancel()
@@ -87,4 +94,3 @@ void FileProgressDialog::cancel()
     isCancel_ = true;
     reject();
 }
-

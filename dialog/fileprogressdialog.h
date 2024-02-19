@@ -22,6 +22,7 @@ public:
 
     bool isCancel() const { return isCancel_; }
     bool isFinished() const { return isFinished_; }
+    bool isError() const { return isError_; }
     bool isEnd() const { return (isCancel_ || isFinished_); }
 public slots:
     void setFileSize(quint64 filesize);
@@ -36,6 +37,7 @@ private:
     quint64 bytesOfSend_;
     volatile bool isCancel_;
     volatile bool isFinished_;
+    volatile bool isError_;
     QTime time_;
 };
 
