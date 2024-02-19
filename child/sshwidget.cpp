@@ -413,7 +413,7 @@ void SShWidget::onError(QByteArray const& data)
 void SShWidget::writeData(QByteArray const&data)
 {
     int ret = shell->write(data);
-    if(ret < 0)
+    if(ret <= 0)
     {
         disconnect();
         emit onConnectStatus(this, false);
@@ -601,11 +601,10 @@ void SShWidget::transferFile(QString const& srcFileName, QString const& dstFileN
             transfer.stop();
             while(!dialog.isFinished())
                 QApplication::processEvents();
-            transfer.stop();
         }
         QApplication::processEvents();
     }
-    if(isUpload && dialog.isFinished())
+    if(isUpload && !dialog.isError())
     {
         if(isCurrentDir)
             execCommand(QString("ls -l %1")
