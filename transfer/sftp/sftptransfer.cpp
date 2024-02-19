@@ -79,6 +79,7 @@ void SftpTransferInner::stop()
 {
     doSignal();
     sftp->stop();
+    emit finished();
 }
 
 void SftpTransferInner::connected()
@@ -92,20 +93,25 @@ void SftpTransferInner::connected()
 void SftpTransferInner::connectionError(QString const& e)
 {
     emit error(e);
-    emit finished();
 }
 
 bool SftpTransferInner::uploadFile()
 {
     QFile file(srcFileName_);
     if(!file.open(QIODevice::ReadOnly))
+    {
+        emit error(tr("Open srcFile is failed"));
         return false;
+    }
 
     qint64 filesize = file.size();
     ssh::File::Ptr remotefile = sftp->openForWrite(dstfileName_.toStdString().c_str(),
                                                           filesize);
     if(!remotefile)
+    {
+        emit error(tr("Open dstFile is failed"));
         return false;
+    }
 
     qint64 writedsize = 0;
      quint32 blockNumber = 1;
@@ -133,7 +139,6 @@ bool SftpTransferInner::uploadFile()
     if(writedsize != filesize)
     {
         emit error(tr("Upload is failed"));
-        emit finished();
         return false;
     }
 
@@ -145,11 +150,17 @@ bool SftpTransferInner::downloadFile()
 {
     ssh::File::Ptr remotefile = sftp->openForRead(srcFileName_.toStdString().c_str());
     if(!remotefile)
+    {
+        emit error(tr("Open srcFile is failed"));
         return false;
+    }
 
     QFile file(dstfileName_);
     if(!file.open(QIODevice::WriteOnly))
+    {
+        emit error(tr("Open dstFile is failed"));
         return false;
+    }
 
     qint64 filesize = getFileSize(srcFileName_);
     qint64 writedsize = 0;
@@ -176,7 +187,6 @@ bool SftpTransferInner::downloadFile()
     if(writedsize != filesize)
     {
         emit error(tr("Donwload is failed"));
-        emit finished();
         return false;
     }
 
