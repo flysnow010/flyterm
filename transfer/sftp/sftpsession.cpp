@@ -28,10 +28,6 @@ SFtpSession::SFtpSession(QObject *parent)
 
 SFtpSession::~SFtpSession()
 {
-    if(sftp)
-        sftp.reset();
-    if(scp)
-        scp.reset();
     stop();
     sessionThread.quit();
     sessionThread.wait();
@@ -44,7 +40,10 @@ void SFtpSession::start(SSHSettings const& settings)
 
 void SFtpSession::stop()
 {
-    //emit stopSession();
+    if(sftp)
+        sftp.reset();
+    if(scp)
+        scp.reset();
     sessioin_->stop();
 }
 
