@@ -78,7 +78,6 @@ void SftpTransferInner::download(QString const& srcFileName, QString const& dstf
 void SftpTransferInner::stop()
 {
     doSignal();
-    sftp->stop();
     emit finished();
 }
 
@@ -136,6 +135,13 @@ bool SftpTransferInner::uploadFile()
             emit progressInfo(blockNumber, writedsize);
         }
     }
+
+    if(singled())
+    {
+        emit error(tr("Upload is canceled"));
+        return false;
+    }
+
     if(writedsize != filesize)
     {
         emit error(tr("Upload is failed"));
@@ -184,6 +190,13 @@ bool SftpTransferInner::downloadFile()
             emit progressInfo(blockNumber, writedsize);
         }
     }
+
+    if(singled())
+    {
+        emit error(tr("Upload is canceled"));
+        return false;
+    }
+
     if(writedsize != filesize)
     {
         emit error(tr("Donwload is failed"));
