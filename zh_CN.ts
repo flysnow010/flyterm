@@ -1560,24 +1560,30 @@
 <context>
     <name>SftpTransferInner</name>
     <message>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="103"/>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="154"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="102"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="160"/>
         <source>Open srcFile is failed</source>
         <translation type="unfinished">打开源文件失败</translation>
     </message>
     <message>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="112"/>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="161"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="111"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="167"/>
         <source>Open dstFile is failed</source>
         <translation type="unfinished">打开目标文件失败</translation>
     </message>
     <message>
         <location filename="transfer/sftp/sftptransfer.cpp" line="141"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="196"/>
+        <source>Upload is canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="147"/>
         <source>Upload is failed</source>
         <translation type="unfinished">上传失败</translation>
     </message>
     <message>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="189"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="202"/>
         <source>Donwload is failed</source>
         <translation type="unfinished">下载失败</translation>
     </message>

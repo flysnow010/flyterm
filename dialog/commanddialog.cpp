@@ -176,7 +176,7 @@ void CommandDialog::createConnect()
             ui->lineEditFilenameForYModem->setText(fileName);
     });
     connect(ui->btnBrowseSaveFilename, &QToolButton::clicked, this, [=](){
-        QString fileName = Util::getOpenFileName("Save file");
+        QString fileName = Util::getSaveFileName("Save file");
         if(!fileName.isEmpty())
             ui->lineEditSaveFileName->setText(fileName);
     });

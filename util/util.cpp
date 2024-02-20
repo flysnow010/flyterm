@@ -221,7 +221,7 @@ QString Util::getOpenFileName(QString const& caption)
     return QFileDialog::getOpenFileName(0, caption);
 }
 
-QString getSaveFileName(QString const& caption)
+QString Util::getSaveFileName(QString const& caption)
 {
     return QFileDialog::getSaveFileName(0, caption);
 }
