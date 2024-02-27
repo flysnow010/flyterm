@@ -413,7 +413,7 @@ void SShWidget::onError(QByteArray const& data)
 void SShWidget::writeData(QByteArray const&data)
 {
     int ret = shell->write(data);
-    if(ret <= 0)
+    if(ret < 0)
     {
         disconnect();
         emit onConnectStatus(this, false);
