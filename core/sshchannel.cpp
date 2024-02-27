@@ -25,7 +25,7 @@ SSHChannel::~SSHChannel()
 int SSHChannel::write(QByteArray const& data)
 {
     if(!isConnected)
-        return 0;
+        return -1;
     return channel_->write((void *)data.data(), data.size());
 }
 
