@@ -592,6 +592,7 @@ void SshConsole::mouseReleaseEvent(QMouseEvent *e)
     {
         selectStart = cursor.selectionStart();
         selectEnd = cursor.selectionEnd();
+        copy();
     }
 
     QScrollBar *bar = verticalScrollBar();
