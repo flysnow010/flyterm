@@ -38,14 +38,18 @@ protected:
     bool tx_send(uint8_t *data, uint32_t size, int max_count = 5);
     bool tx_eot();
     bool tx_end();
+
+    void tx_code(Code code);
+    uint8_t wait_start(int max_count = 5);
     void tx_cancel();
 
     uint8_t not_id(uint8_t id) { return 0xFF - id; }
-    void next_id();
+    void next_id() { id_ = next_id(id_); }
 private:
     uint8_t next_id(uint8_t id) { return (id + 1) % 0x100; }
     void do_send(uint8_t const* data, uint16_t size);
-    void do_eot();
+    void do_eot() { tx_code(EOT); }
+    void do_c() { tx_code(C); }
 private:
     uint8_t id_;
     uint8_t frame_[FRAME_SIZE2];

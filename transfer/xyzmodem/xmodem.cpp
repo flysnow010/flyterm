@@ -49,10 +49,16 @@ bool XModem::tx_eot()
     return false;
 }
 
-void XModem::tx_cancel()
+uint8_t XModem::wait_start(int max_count)
 {
-    uint8_t frame[] = { CAN, CAN, CAN, CAN, CAN };
-    write(frame, sizeof(frame));
+    for(int i = 0; i < max_count; i++)
+    {
+        do_c();
+        uint8_t code = get_code();
+        if(code != MAX)
+            return code;
+    }
+    return MAX;
 }
 
 void XModem::do_send(uint8_t const* data, uint16_t size)
@@ -82,14 +88,16 @@ void XModem::do_send(uint8_t const* data, uint16_t size)
     write(frame_, (data_size == SIZE1 ? FRAME_SIZE1 : FRAME_SIZE2));
 }
 
-void XModem::next_id()
+void XModem::tx_cancel()
 {
-    id_ = next_id(id_);
+    uint8_t frame[] = { CAN, CAN, CAN, CAN, CAN };
+    write(frame, sizeof(frame));
 }
 
-void XModem::do_eot()
+
+void XModem::tx_code(Code code)
 {
-    uint8_t frame[CODE] = { EOT };
-    write(frame, CODE);
+    uint8_t frame = code;
+    write(&frame, CODE);
 }
 
