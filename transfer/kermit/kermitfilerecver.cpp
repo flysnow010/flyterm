@@ -5,12 +5,11 @@
 KermitFileRecver::KermitFileRecver(QSerialPort *serial, QObject *parent)
     : QObject(parent)
 {
-    KermitRecvFile* worker = new KermitRecvFile(serial);
+    worker = new KermitRecvFile(serial);
     serial->moveToThread(&workerThread);
     worker->moveToThread(&workerThread);
     connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
     connect(this, &KermitFileRecver::start_recv, worker, &KermitRecvFile::start);
-    connect(this, &KermitFileRecver::stop_recv, worker, &KermitRecvFile::stop);
     connect(this, &KermitFileRecver::cancel_recv, worker, &KermitRecvFile::cancel);
 
     connect(worker, &KermitRecvFile::gotFileSize, this, &KermitFileRecver::gotFileSize);
@@ -34,7 +33,7 @@ void KermitFileRecver::start(QString const& fileName)
 
 void KermitFileRecver::stop()
 {
-    emit stop_recv();
+    worker->stop();//???
 }
 
 void KermitFileRecver::cancel()

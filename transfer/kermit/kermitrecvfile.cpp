@@ -45,7 +45,10 @@ void KermitRecvFile::on_data(int seq, const char* data, int size)
         state_ = SSDAT;
     }
     if(file_.isOpen())
+    {
         saveData(data, size);
+        send_ack(seq);
+    }
 }
 
 void KermitRecvFile::saveData(const char* data, int size)

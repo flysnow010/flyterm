@@ -5,6 +5,7 @@
 #include <QThread>
 
 class QSerialPort;
+class KermitRecvFile;
 class KermitFileRecver : public QObject
 {
     Q_OBJECT
@@ -26,6 +27,7 @@ public:
     void cancel();
 private:
    QThread workerThread;
+   KermitRecvFile* worker;
 };
 
 #endif // KERMITFILERECVER_H
