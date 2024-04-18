@@ -1591,7 +1591,7 @@
 <context>
     <name>SshConsole</name>
     <message>
-        <location filename="console/sshconsole.cpp" line="694"/>
+        <location filename="console/sshconsole.cpp" line="695"/>
         <source>Save as...</source>
         <translation type="unfinished">另存为...</translation>
     </message>
