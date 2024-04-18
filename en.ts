@@ -37,107 +37,107 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="212"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="215"/>
         <source>New Buttons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="128"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="131"/>
         <source>New Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="114"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="117"/>
         <source>Buttons Name</source>
         <oldsource>New Buttons Name</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="139"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="142"/>
         <source>Are you sure you want to delete current buttons?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="151"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="154"/>
         <source>Load From</source>
         <oldsource>Load from</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="153"/>
-        <location filename="dock/buttonsdockwidget.cpp" line="166"/>
-        <location filename="dock/buttonsdockwidget.cpp" line="178"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="156"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="169"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="181"/>
         <source>Buttons (*.json)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="164"/>
-        <location filename="dock/buttonsdockwidget.cpp" line="176"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="167"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="179"/>
         <source>Save To</source>
         <oldsource>Save to</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="190"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="193"/>
         <source>New Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="191"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="194"/>
         <source>Edit Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="192"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="195"/>
         <source>Clone Button</source>
         <oldsource>Copy Button</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="193"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="196"/>
         <source>Move Button Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="194"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="197"/>
         <source>Move Button Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="195"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="198"/>
         <source>Delete Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="213"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="216"/>
         <source>Rename Buttons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="214"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="217"/>
         <source>Delete Buttons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="215"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="218"/>
         <source>Save Current Buttons...</source>
         <oldsource>Save Current Buttons</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="217"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="220"/>
         <source>Load Buttons...</source>
         <oldsource>Load Buttons ...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="218"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="221"/>
         <source>Save Buttons...</source>
         <oldsource>Save Buttons ...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dock/buttonsdockwidget.cpp" line="292"/>
+        <location filename="dock/buttonsdockwidget.cpp" line="314"/>
         <source>Are you sure you want to delete current button?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -584,6 +584,11 @@
     <message>
         <location filename="dialog/fileprogressdialog.ui" line="135"/>
         <source>Bytes transferred:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog/fileprogressdialog.cpp" line="85"/>
+        <source>%1(Auto closed after %2 seconds)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1093,8 +1098,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="core/commandmanager.cpp" line="101"/>
-        <location filename="core/commandmanager.cpp" line="283"/>
+        <location filename="core/commandmanager.cpp" line="115"/>
+        <location filename="core/commandmanager.cpp" line="297"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1107,90 +1112,90 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="207"/>
+        <location filename="child/sshwidget.cpp" line="208"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="294"/>
+        <location filename="child/sshwidget.cpp" line="295"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="295"/>
+        <location filename="child/sshwidget.cpp" line="296"/>
         <source>All files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="314"/>
+        <location filename="child/sshwidget.cpp" line="315"/>
         <source>FileName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="318"/>
+        <location filename="child/sshwidget.cpp" line="319"/>
         <source>Select Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="430"/>
+        <location filename="child/sshwidget.cpp" line="437"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="431"/>
+        <location filename="child/sshwidget.cpp" line="438"/>
         <source>Copy All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="432"/>
+        <location filename="child/sshwidget.cpp" line="439"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="434"/>
+        <location filename="child/sshwidget.cpp" line="441"/>
         <source>Increase Font Size</source>
         <oldsource>Increase font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="435"/>
+        <location filename="child/sshwidget.cpp" line="442"/>
         <source>Decrease Font Size</source>
         <oldsource>Decrease font size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="437"/>
+        <location filename="child/sshwidget.cpp" line="444"/>
         <source>Upload...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="438"/>
+        <location filename="child/sshwidget.cpp" line="445"/>
         <source>Download...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="440"/>
+        <location filename="child/sshwidget.cpp" line="447"/>
         <source>Syntax Highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="442"/>
+        <location filename="child/sshwidget.cpp" line="449"/>
         <source>Save To File...</source>
         <oldsource>Save to file...</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="443"/>
+        <location filename="child/sshwidget.cpp" line="450"/>
         <source>Clear Scrollback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="577"/>
+        <location filename="child/sshwidget.cpp" line="585"/>
         <source>Sftp Upload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="child/sshwidget.cpp" line="579"/>
+        <location filename="child/sshwidget.cpp" line="587"/>
         <source>Sftp Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1414,12 +1419,30 @@
 <context>
     <name>SftpTransferInner</name>
     <message>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="128"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="102"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="160"/>
+        <source>Open srcFile is failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="111"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="167"/>
+        <source>Open dstFile is failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="141"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="196"/>
+        <source>Upload is canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="147"/>
         <source>Upload is failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="transfer/sftp/sftptransfer.cpp" line="171"/>
+        <location filename="transfer/sftp/sftptransfer.cpp" line="202"/>
         <source>Donwload is failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1427,7 +1450,7 @@
 <context>
     <name>SshConsole</name>
     <message>
-        <location filename="console/sshconsole.cpp" line="694"/>
+        <location filename="console/sshconsole.cpp" line="695"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
