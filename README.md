@@ -1,7 +1,7 @@
 # FlyTerm
 
 #### 介绍
-一个终端软件，支持SSH/Telnet/Serial协议。
+一个终端软件，支持SSH/Telnet/Serial/WSL/Cmd/Windows PowerShell协议。
 
 #### 软件架构
 软件架构说明
