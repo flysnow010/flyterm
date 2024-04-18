@@ -13,13 +13,13 @@ XYModemRecvFile::XYModemRecvFile(QSerialPort *serial, QObject *parent)
 void XYModemRecvFile::startYModem(QString const& fileName)
 {
     Q_UNUSED(fileName)
-    if(!waitStart())
+    uint8_t code = wait_start();
+    if(code == MAX)
     {
         emit finished();
         serial_->moveToThread(QApplication::instance()->thread());
         return;
     }
-    uint8_t code = get_code();
     uint32_t size = 0;
     if(code == SOH){
         qDebug() << "read_size:" << DATA_SIZE1;
@@ -38,13 +38,13 @@ void XYModemRecvFile::startYModem(QString const& fileName)
 void XYModemRecvFile::startXModem(QString const& fileName)
 {
     Q_UNUSED(fileName)
-    if(!waitStart())
+    uint8_t code = wait_start();
+    if(code == MAX)
     {
         emit finished();
         serial_->moveToThread(QApplication::instance()->thread());
         return;
     }
-    uint8_t code = get_code();
     uint32_t size = 0;
     if(code == SOH)
     {
@@ -63,22 +63,6 @@ void XYModemRecvFile::stop() { doSignal(); }
 void XYModemRecvFile::cancel()
 {
     ;
-}
-
-bool XYModemRecvFile::waitStart()
-{
-    for(int i = 0; i < START_COUNT; i++)
-    {
-        putc(C);
-        if(serial_->waitForReadyRead(10))
-            return true;
-    }
-    return false;
-}
-
-void XYModemRecvFile::putc(uint8_t c)
-{
-    write(&c, sizeof(c));
 }
 
 uint32_t XYModemRecvFile::write(uint8_t const *data, uint32_t size)

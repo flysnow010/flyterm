@@ -32,8 +32,6 @@ protected:
     uint32_t read(uint8_t *data, uint32_t size) override;
     uint8_t get_code() override;
 private:
-    bool waitStart();
-    void putc(uint8_t c);
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
 private:
