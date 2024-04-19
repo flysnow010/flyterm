@@ -54,7 +54,7 @@ uint8_t XModem::wait_start(int max_count)
     for(int i = 0; i < max_count; i++)
     {
         do_c();
-        uint8_t code = get_code();
+        uint8_t code = get_code(false);
         if(code != MAX)
             return code;
     }

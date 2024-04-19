@@ -5,6 +5,7 @@
 #include <QThread>
 
 class QSerialPort;
+class XYModemRecvFile;
 class XYModemFileRecver : public QObject
 {
     Q_OBJECT
@@ -28,6 +29,7 @@ public:
     void cancel();
 private:
    QThread workerThread;
+   XYModemRecvFile* worker;
 };
 
 #endif // XYMODEMFILERECVER_H

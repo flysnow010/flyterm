@@ -164,7 +164,7 @@ uint32_t XYModemSendFile::read(uint8_t *data, uint32_t size)
     return serial_->read((char *)data, size);
 }
 
-uint8_t XYModemSendFile::get_code()
+uint8_t XYModemSendFile::get_code(bool isWait)
 {
     while(!singled())
     {
@@ -174,6 +174,8 @@ uint8_t XYModemSendFile::get_code()
             read(data, sizeof(data));
             return data[0];
         }
+        if(!isWait)
+            break;
     }
     return MAX;
 }

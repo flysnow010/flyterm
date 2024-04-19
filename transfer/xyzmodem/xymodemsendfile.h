@@ -25,7 +25,7 @@ signals:
 protected:
     uint32_t write(uint8_t const *data, uint32_t size) override;
     uint32_t read(uint8_t *data, uint32_t size) override;
-    uint8_t get_code() override;
+    uint8_t get_code(bool isWait = true) override;
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };

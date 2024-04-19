@@ -11,11 +11,6 @@ class XYModemRecvFile : public QObject, public YModem
 public:
     explicit XYModemRecvFile(QSerialPort *serial, QObject *parent = nullptr);
 
-    enum {
-        START_COUNT = 10,
-        TRY_COUNT = 5,
-        TIME_OUT_MS = 2000
-    };
 public slots:
     void startYModem(QString const& fileName);
     void startXModem(QString const& fileName);
@@ -23,17 +18,21 @@ public slots:
     void cancel();
 signals:
     void gotFileSize(quint64 filesize);
-    void progressInfo(quint32 blockNumber, quint64 bytesOfSend);
+    void progressInfo(quint32 blockNumber, quint64 bytesOfRecv);
     void error(QString const& e);
     void finished();
 
 protected:
     uint32_t write(uint8_t const *data, uint32_t size) override;
     uint32_t read(uint8_t *data, uint32_t size) override;
-    uint8_t get_code() override;
+    uint8_t get_code(bool isWait = true) override;
+    uint32_t do_recv(uint8_t code);
 private:
     bool singled() { return signal_; }
     void doSignal() { signal_ = true; };
+    void doError(QString const& text);
+    const char* data() { return reinterpret_cast<const char*>(data_ + ID); }
+    uint64_t get_filesize(const char* data, uint32_t size);
 private:
      QSerialPort* serial_;
      volatile bool signal_;

@@ -29,11 +29,11 @@ public:
         FRAME_HEAD  = CODE + ID, //1 + 2
         FRAME_SIZE1 = FRAME_HEAD + SIZE1 + CRC16,// 3 + 128 + 2 = 133
         FRAME_SIZE2 = FRAME_HEAD + SIZE2 + CRC16, // 3 + 1024 + 2 = 1029
-        DATA_SIZE1 = FRAME_SIZE1 -1,
-        DATA_SIZE2 = FRAME_SIZE2 -1
+        DATA_SIZE1 = FRAME_SIZE1 - CODE,
+        DATA_SIZE2 = FRAME_SIZE2 - CODE
     };
 protected:
-    virtual uint8_t get_code() = 0;
+    virtual uint8_t get_code(bool isWait = true) = 0;
 
     bool tx_send(uint8_t *data, uint32_t size, int max_count = 5);
     bool tx_eot();

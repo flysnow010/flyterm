@@ -5,7 +5,7 @@
 XYModemFileRecver::XYModemFileRecver(QSerialPort *serial, bool isYModem, QObject *parent)
     : QObject(parent)
 {
-    XYModemRecvFile* worker = new XYModemRecvFile(serial);
+    worker = new XYModemRecvFile(serial);
     serial->moveToThread(&workerThread);
     worker->moveToThread(&workerThread);
     connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
@@ -38,10 +38,10 @@ void XYModemFileRecver::start(QString const& fileName)
 
 void XYModemFileRecver::stop()
 {
-    emit stop_recv();
+    worker->stop();
 }
 
 void XYModemFileRecver::cancel()
 {
-    emit cancel_recv();
+    worker->cancel();
 }
