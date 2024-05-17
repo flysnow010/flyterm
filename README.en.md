@@ -7,6 +7,7 @@ Function List:
 - Support SSH/SSH2 protocol 
   - Support uploading files to the current directory through the right-click menu 
   - Support downloading selected files locally through the right-click menu. 
+- Supports Telnet protocol
 - Supports serial protocol 
   - Support Kermit protocol for uploading files 
   - Support XModem protocol for uploading files 
