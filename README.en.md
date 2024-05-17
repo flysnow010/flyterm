@@ -1,36 +1,36 @@
 # FlyTerm
-
+A terminal software that supports the SSH/Telnet/Serial/WSL/Cmd/Windows PowerShell protocol.
+![UI](./image/flyterm.png)
 #### Description
-一个终端软件，支持SSH/Telnet/Serial协议。
-
-#### Software Architecture
-Software architecture description
-
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+Function List:
+- Supports multiple windows and tab pages.
+- Support SSH/SSH2 protocol 
+  - Support uploading files to the current directory through the right-click menu 
+  - Support downloading selected files locally through the right-click menu. 
+- Supports serial protocol 
+  - Support Kermit protocol for uploading files 
+  - Support XModem protocol for uploading files 
+  - Support YModem protocol for uploading files 
+  - Supports displaying a list of serial ports 
+- Support WSL (Linux subsystem under Windows) 
+- Windows supported cmd 
+- Supports Windows PowerShell 
+- Support custom command button scripts. 
+  - Support sleep function 
+  - Support saving logs to files 
+  - Support command sequence execution one by one 
+  - Support custom button grouping 
+- Support separate editing of commands 
+- Support import and export command buttons 
+- Support displaying command history 
+- Support saving history window 
+- Integrate TFTP Server functionality. 
+- Support the software to automatically open the last closed window on the next startup 
+- Interface supports both Chinese and English 
+- Support custom terminal color palettes 
+- Support customized foreground background debugging board 
+- Support custom fonts 
+- Supports multi style interfaces 
+  - Windows Vista 
+  - Windows 
+  - Fusion
