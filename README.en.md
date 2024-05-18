@@ -35,3 +35,8 @@ Function List:
   - Windows Vista 
   - Windows 
   - Fusion
+
+#### Installation
+
+1.  Run setup/release/FlyTerm1.0-win-x64_202xxxxx.exe to setup.
+2.  After installation, click on the FlyTerm shortcut on the desktop to run it。

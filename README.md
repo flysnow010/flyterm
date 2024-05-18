@@ -35,3 +35,6 @@
   - WindowsVista
   - Windows
   - Fusion
+#### 安装教程
+1.  运行setup/release/FlyTerm1.0-win-x64_202xxxxx.exe安装
+2.  安装完毕在桌面上点击FlyTerm快捷方式运行。
